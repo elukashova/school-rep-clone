@@ -329,10 +329,10 @@ nav {
     padding-top: 0;
 }
 
-.bkstg-text .text1 {
-    line-height: 50%;
-    padding-bottom: 0px;
-    margin-bottom: 0px;
+.bkstg-text .text1 h2 {
+    line-height: 120%;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
 }
 
 .bkstg-text #body-reg1 {
@@ -343,8 +343,8 @@ nav {
 }
 
 .bkstg-text .subtitle {
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 30px;
+    padding-bottom: 9px;
 }
 
 .bkstg-text #body-reg2 {

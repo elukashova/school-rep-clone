@@ -1082,8 +1082,49 @@ footer {
 .social-icon {
     width: 26px;
     height: 26px;
-    padding-bottom: 5px;
-    padding-top: 5px;
+    background-color: rgba(196, 196, 196, 0.5);
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.social-icon #fb {
+    width: 8px;
+    height: 16px;
+    left: 9px;
+    top: 5px;
+    position: absolute;
+}
+
+.social-icon #tw {
+    width: 16px;
+    height: 14px;
+    left: 5px;
+    top: 42px;
+    position: absolute; 
+}
+
+#ig {
+    width: 16px;
+    height: 16px;
+    left: 5px;
+    top: 77px;
+    position: absolute; 
+}
+
+.social-icon #yt {
+    width: 18px;
+    height: 13px;
+    left: 4px;
+    top: 114px;
+    position: absolute; 
+}
+
+.social-icon:hover {
+    background-color: #4B9200; 
+}
+
+.social-name {
+    padding-bottom: 6px;
 }
 
 .social-name span {
@@ -1094,20 +1135,14 @@ footer {
     line-height: 140%;
     padding-left: 12px;
 }
+
 .social-name span a {
     text-decoration: none;
     color: var(--white);
 }
 
-.social-icon img {
-    background-color: transparent;
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-}
-
-.social-icon img:hover {
-    background-color: #4B9200; 
+.social-name a:hover {
+    color: rgba(75, 146, 0, 1);
 }
 
 .ft-links .about {

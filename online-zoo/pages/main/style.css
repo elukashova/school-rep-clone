@@ -1099,8 +1099,15 @@ footer {
     color: var(--white);
 }
 
-.social-name a:hover {
-    color: rgba(75, 146, 0, 1);
+.social-icon img {
+    background-color: transparent;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+}
+
+.social-icon img:hover {
+    background-color: #4B9200; 
 }
 
 .ft-links .about {

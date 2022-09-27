@@ -733,8 +733,15 @@ footer {
     padding-top: 5px;
 }
 
-.social-icon a:hover {
-    fill: #4B9200;
+.social-icon img {
+    background-color: transparent;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+}
+
+.social-icon img:hover {
+    background-color: #4B9200; 
 }
 
 .social-name span {

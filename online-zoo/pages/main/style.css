@@ -1099,6 +1099,10 @@ footer {
     color: var(--white);
 }
 
+.social-name a:hover {
+    color: rgba(75, 146, 0, 1);
+}
+
 .ft-links .about {
     position: absolute;
     width: 43px;
@@ -1107,6 +1111,10 @@ footer {
     top: 371px;
     color: var(--orange);
   }
+
+.ft-links a:hover {
+    color: var(--orange);
+}
 
 .ft-links .map {
     position: absolute;
@@ -1202,6 +1210,12 @@ input[placeholder="Enter your email"] {
     line-height: 140%;
     color: var(--green);
     cursor: pointer;
+}
+
+.sbm-btn:hover {
+    background-color: #F1F3F2;
+    border: 1px solid rgba(211, 20, 20, 1);
+    color: rgba(211, 20, 20, 1);
 }
 
 .btn_1:hover {

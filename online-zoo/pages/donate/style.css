@@ -733,6 +733,10 @@ footer {
     padding-top: 5px;
 }
 
+.social-icon a:hover {
+    fill: #4B9200;
+}
+
 .social-name span {
     font-family: var(--font-family-roboto);
     font-style: normal;
@@ -746,6 +750,10 @@ footer {
     color: var(--white);
 }
 
+.social-name a:hover {
+    color: rgba(75, 146, 0, 1);
+}
+
 .ft-links .about {
     position: absolute;
     width: 43px;
@@ -753,6 +761,10 @@ footer {
     left: 400px;
     top: 371px;
   }
+
+  .ft-links a:hover {
+    color: var(--orange);
+}
 
 .ft-links .map {
     position: absolute;
@@ -850,9 +862,11 @@ input[placeholder="Enter your email"] {
     cursor: pointer;
 }
 
-/* .sbm-btn:hover {
-    background: #E47209;
-} */
+.sbm-btn:hover {
+    background-color: #F1F3F2;
+    border: 1px solid rgba(211, 20, 20, 1);
+    color: rgba(211, 20, 20, 1);
+}
 
 .copyright-text p {
     font-family: var(--font-family-roboto);

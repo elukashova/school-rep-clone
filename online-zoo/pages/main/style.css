@@ -1300,3 +1300,19 @@ input[placeholder="Enter your email"] {
     margin: 0;
     padding: 0;
 }
+
+@media screen and (max-width: 1599px) {
+    
+}
+
+@media screen and (max-width: 1000px) {
+    
+}
+
+@media screen and (max-width: 640px) {
+    
+}
+
+@media screen and (max-width: 320px) {
+    
+}

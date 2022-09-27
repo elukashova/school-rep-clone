@@ -280,6 +280,10 @@ nav {
     background: #E47209;
 }
 
+.btn_1:active {
+    background: #4B9200;
+}
+
 .backstage {
     height: 683;
     position: absolute;

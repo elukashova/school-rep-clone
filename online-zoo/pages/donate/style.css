@@ -397,6 +397,7 @@ nav {
     left: 26px;
     top: 8px;
     z-index: 3;
+    border-radius: 50%;
 }
 
 .y-btn2 {
@@ -460,6 +461,13 @@ nav {
     position: absolute;
     z-index: 4;
 }
+.orange-btn1:hover {
+border-color: var(--green);
+}
+
+.orange-btn2:hover {
+border-color: var(--green);
+}
 
 .orange-btn2 {
     width: 40px;
@@ -470,7 +478,7 @@ nav {
     left: 362px;
     top: 532px;
     position: absolute;
-    z-index: 4;
+    z-index: 3;
     cursor: pointer;
 }
 

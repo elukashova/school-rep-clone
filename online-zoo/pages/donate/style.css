@@ -602,8 +602,7 @@ input[type=radio] {
 }
 
 input[type="radio"]:checked {
-    background: rgba(75, 146, 0, 1);
-    border: 1px solid rgba(75, 146, 0, 1);
+    background: #FE9013;
 }
 
 input::-webkit-inner-spin-button {

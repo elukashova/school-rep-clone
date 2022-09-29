@@ -461,11 +461,12 @@ nav {
     position: absolute;
     z-index: 4;
 }
-.orange-btn1:hover {
+
+.orange-btns:hover .orange-btn1 {
 border-color: var(--green);
 }
 
-.orange-btn2:hover {
+.orange-btns:hover .orange-btn2 {
 border-color: var(--green);
 }
 

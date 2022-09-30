@@ -1279,14 +1279,14 @@ input[placeholder="Enter your email"] {
     height: 44px;
     margin-left: 5px;
     background-color: #F1F3F2;
-    border: 1px solid #4B9200;
+    border: 1px solid #333B41;
     border-radius: 5px;
     font-family: var(--font-family-roboto);
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
     line-height: 140%;
-    color: var(--green);
+    color: var(--black);
     cursor: pointer;
 }
 
@@ -1577,7 +1577,7 @@ input[placeholder="Enter your email"] {
     }
 
     .flower2 {
-        background-image: url(../../assets/images/palm_foto_1000.jpg);
+        background-image: url(../../assets/images/palm_foto_1000.png);
         width: 386px;
         height: 202px;
         left: -194px;
@@ -1589,7 +1589,7 @@ input[placeholder="Enter your email"] {
     }
 
     .flower3 {
-        background-image: url(../../assets/images/strelitzia_1000.jpg);
+        background-image: url(../../assets/images/strelitzia_1000.png);
         width: 241px;
         height: 180px;
         left: 759px;
@@ -1724,13 +1724,22 @@ input[placeholder="Enter your email"] {
     }
 
     .box-text p {
-        margin-block-start: 10px;
+        margin-block-start: 9px;
+    }
+
+    .user-info p {
+        margin-block-start: 0px;
     }
 
     .scroll {
         width: 390px;
         left: 299px;
-        top: 487px;
+        top: 485px;
+    }
+
+    .feedback-btn {
+        left: 30px;
+        top: 547px;
     }
 
     input[type=range] {
@@ -1741,18 +1750,87 @@ input[placeholder="Enter your email"] {
         width: 75px;
     }
 
+    .flower4 img {
+        display: none;
+    }
+
+    .flower4 {
+        background-image: url(../../assets/images/leav_foto_1000.png);
+        width: 235px;
+        height: 240px;
+        left: 804px;
+        top: 2608px;
+    }
+
+    footer {
+        top: 4046px;
+    }
+
+    .footer .logo {
+        left: 44px;
+    }
+
+    .donate-btn {
+        left: 44px;
+        top: 162px;
+    }    
+
+    .social-ft-container {
+        left: 44px;
+        top: 259px;
+    }
+
+    .ft-links .about {
+        left: 334px;
+        top: 372px;
+      }
+
+    .ft-links .map {
+        left: 425px;
+        top: 372px;
+    }
+
+    .ft-links .zoos {
+        left: 505px;
+        top: 372px;
+    }
+
+    .ft-links .contact {
+        left: 589px;
+        top: 372px;
+    }
+
     .sbscrb-container {
         left: 584px;
+        top: 42px;
+    }
+
+    input[type=email] {
+        width: 215px;
+    }
+
+    input[placeholder="Enter your email"] {
+        padding-left: 10px;
+    }
+
+    .sbscrb-title {
+        margin-bottom: 2px;
+    }
+
+    .sbm-btn {
+        margin-left: 9px;
+        height: 43px;
     }
 
     .copyright-text {
-        left: 700px;
+        left: 754px;
+        top: 333px;
     }
 
-    .feedback-btn {
-        left: 30px;
-        top: 548px;
+    .line1 {
+        padding-bottom: 10px;
     }
+
 
 }
 @media screen and (max-width: 640px) {

@@ -508,6 +508,9 @@ border-color: var(--green);
     position: absolute;
     left: 352px;
     top: 579px;
+}
+
+#price-or {
     color: #FE9013;
 }
 
@@ -924,14 +927,14 @@ input[placeholder="Enter your email"] {
     height: 44px;
     margin-left: 10px;
     background-color: #F1F3F2;
-    border: 1px solid #4B9200;
+    border: 1px solid #333B41;
     border-radius: 5px;
     font-family: var(--font-family-roboto);
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
     line-height: 140%;
-    color: var(--green);
+    color: var(--black);
     cursor: pointer;
 }
 
@@ -972,4 +975,311 @@ input[placeholder="Enter your email"] {
     height: 21px;
     margin: 0;
     padding: 0;
+}
+
+@media screen and (max-width: 1599px) {
+
+}
+
+@media screen and (max-width: 1000px) {
+    body {
+        width: 1000px;
+    }
+
+    .navbar, .pick-box, .footer {
+        width: 1000px;
+    }
+
+    .navbar {
+        z-index: 4;
+    }
+    .logo {
+        left: 30px;
+        top: 14px;
+        position: absolute;
+    }
+
+    .links .about {
+        left: 175px;
+    }
+
+    .map {
+        left: 266px;
+    }
+
+    .zoos {
+        left: 346px;
+    }
+
+    .donate {
+        left: 430px;
+    }
+
+    .contact {
+        left: 529px;
+    }
+
+    .copyright {
+        left: 865px;
+    }
+    
+    .img-background {
+        background-image: url("../../assets/images/panda_bg_1000.jpg");
+        top: 80px;
+        width: 1000px;
+        height: 390px;
+    }
+
+    .reopening {
+        top: 470px;
+    }
+
+    .reopen-title {
+        left: 30px;
+        width: 788px;
+    }
+
+    .reopen-text {
+        left: 30px;
+        top: 149px;
+        width: 930px;
+    }
+
+    .donation-info {
+        left: 30px;
+        top: 298px;
+    }
+
+    .pick-feed-block {
+        width: 940px;
+        height: 918px;
+        top: 385px;
+        left: 30px;
+        position: absolute;
+    }
+
+    .pick-feed-title {
+        top: 20px;
+        left: 231px;
+    }
+
+    .pick-feed-text {
+        top: 67px;
+        left: 47px;
+    }
+
+    .panda-diet span {
+        top: 284px;
+        left: 254px;
+    }
+
+    .panda-diet p {
+        left: 196px;
+        top: 334px;
+    }
+
+    .x {
+        left: 366px;
+        top: 307px;
+    }
+
+    .donate-panda-pic {
+        left: 444px;
+        top: 177px;
+    }
+
+    .donation-line {
+        width: 810px;
+        left: 65px;
+        top: 510px;
+    }
+
+    .donation-line-box p {
+        left: 65px;
+        top: 456px;
+    }
+
+    .middle-line {
+        width: 785px;
+        left: 16px;
+    }  
+
+    .y-btn1 {
+        left: 11px;
+    }
+
+    .y-btn2 {
+        left: 141px;
+    }
+
+    .y-btn3 {
+        left: 271px;
+    }
+
+    .y-btn4 {
+        left: 401px;
+    }
+
+    .y-btn5 {
+        left: 531px;
+    }
+
+    .y-btn6 {
+        left: 661px;
+    }
+
+    .y-btn7 {
+        left: 791px;
+    }
+
+    .orange-btn1 {
+        left: 200px;
+        top: 512px;
+        width: 21px;
+        height: 21px;
+    }
+
+    .orange-btn2 {
+        left: 191px;
+        top: 503px;
+        width: 38px;
+        height: 38px;
+    }
+
+    .y-btn8 {
+        display: none;
+    }
+
+    .price1 {
+        display: none;
+    }
+
+    .price2 {
+        left: 65px;
+        top: 549px;
+    }
+
+    .price3 {
+        left: 195px;
+        top: 549px;
+    }
+
+    .price4 {
+        left: 325px;
+        top: 549px;
+    }
+
+    .price5 {
+        left: 455px;
+        top: 549px;
+    }
+
+    .price6 {
+        left: 585px;
+        top: 549px;
+    }
+
+    .price7 {
+        left: 715px;
+        top: 549px;
+    }
+
+    .price8 {
+        left: 845px;
+        top: 549px;
+    }
+
+    .amount-field {
+        left: 336px;
+        top: 635px;
+    }
+
+    .subscription-choice {
+        margin-top: 24px;
+        margin-left: 23px;
+    }
+
+    .btn1 {
+        top: 765px;
+        left: 322px;
+    }
+
+    .share-text {
+        left: 320px;
+        top: 850px;
+    }
+
+    footer {
+        top: 1803px;
+    }
+
+    .footer .logo {
+        left: 30px;
+    }
+
+    .donate-btn {
+        left: 30px;
+        top: 162px;
+    }  
+
+    .social-ft-container {
+        left: 30px;
+        top: 259px;
+    }
+
+    .ft-links .about {
+        left: 334px;
+        top: 372px;
+      }
+
+    .ft-links .map {
+        left: 425px;
+        top: 372px;
+    }
+
+    .ft-links .zoos {
+        left: 505px;
+        top: 372px;
+    }
+
+    .ft-links .contact {
+        left: 589px;
+        top: 372px;
+    }
+
+    .sbscrb-container {
+        left: 570px;
+        top: 42px;
+    }
+
+    input[type=email] {
+        width: 215px;
+    }
+
+    input[placeholder="Enter your email"] {
+        padding-left: 10px;
+    }
+
+    .sbscrb-title {
+        margin-bottom: 2px;
+    }
+
+    .sbm-btn {
+        margin-left: 9px;
+        height: 43px;
+    }
+
+    .copyright-text {
+        left: 740px;
+        top: 333px;
+    }
+
+    .line1 {
+        padding-bottom: 10px;
+    }
+
+
+
+
+
 }

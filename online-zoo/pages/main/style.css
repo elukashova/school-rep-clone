@@ -1384,7 +1384,6 @@ input[placeholder="Enter your email"] {
     }
 
     .pandapic {
-        height: 504px;
         height: 584px;
         background-image: url("../../assets/images/panda-1000.jpg");
     }

@@ -146,7 +146,13 @@ nav {
     color: var(--orange);
   }
 
- .about {
+  header .links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+ #about {
     position: absolute;
     width: 43px;
     height: 22px;
@@ -154,7 +160,7 @@ nav {
     top: 29px;
   }
 
-  .map {
+  #map {
     position: absolute;
     width: 32px;
     height: 22px;
@@ -162,7 +168,7 @@ nav {
     top: 29px;  
   }
 
-  .zoos {
+  #zoos {
     position: absolute;
     width: 36px;
     height: 22px;
@@ -170,7 +176,7 @@ nav {
     top: 29px;
   }
 
-  .links .donate {
+#donate {
     position: absolute;
     width: 51px;
     height: 22px;
@@ -179,7 +185,7 @@ nav {
     color: var(--orange);
   }
 
-  .contact {
+  #contact {
     position: absolute;
     width: 78px;
     height: 22px;
@@ -187,13 +193,29 @@ nav {
     top: 29px;
   }
 
-  .copyright {
+  #copyright {
     position: absolute;
     width: 105px;
     height: 22px;
     left: 1055px;
     top: 29px;
   }
+
+  .hamburger {
+    display: none;
+    cursor: pointer;
+}
+
+.bar {
+    display: block;
+    width: 18px;
+    height: 2px;
+    background-color: var(--white);
+    border-radius: 2px;
+    margin: 2px auto;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+} 
 
   .img-background {
     position: absolute;
@@ -1276,9 +1298,356 @@ input[placeholder="Enter your email"] {
     .line1 {
         padding-bottom: 10px;
     }
+}
 
+@media screen and (max-width: 640px) {
+    body {
+        width: 640px;
+    }
 
+    .navbar, .testimonials-block, .pick-box, .footer, .pandapic {
+        width: 640px;
+    }
 
+    header {
+        position: fixed;
+        z-index: 10;
+        left: 0;
+        top: 0;
+        margin: 0;
+        padding: 0;
+    }
 
+    .navbar {
+        height: 34px;
+        margin: 0;
+    }
 
+    .logo {
+        left: 2px;
+        top: 2px;
+        width: 46.8px;
+        height: 29px;
+    }
+
+    h1 a {
+        font-size: 12px;
+        border: none;
+    }
+
+    .logo .bamboo {
+        width: 4.5px;
+        height: 13.5px;
+        top: 14px;
+        left: 23px;
+    }
+
+    .hamburger {
+        display: block;
+        top: 10px;
+        left: 602px;
+        position: absolute;
+    }
+
+    .links {
+        position: fixed;
+        left: -100%;
+        display: flex;
+        top: -100%;
+        flex-direction: column;
+        background-color: var(--white);
+        width: 640px;
+        height: 329px;
+        text-align: left;
+        transition: 0.3s;
+    } 
+
+    #copyright {
+        display: none;
+    }
+
+    .img-background {
+        background-image: url("../../assets/images/panda_bg_640.jpg");
+        top: 34px;
+        width: 640px;
+        height: 335px;
+    }
+
+    .reopening {
+        top: 369px;
+    }
+
+    .reopening-box {
+        width: 640px;
+        height: 1333px;
+    }
+
+    .reopen-title {
+        left: 20px;
+        width: 600px;
+        font-size:24px;
+        line-height: 120%;
+        top: 30px;
+    }
+
+    .reopen-text {
+        left: 20px;
+        top: 95px;
+        width: 600px;
+    }
+
+    .donation-info {
+        left: 20px;
+        top: 292px;
+    }
+ 
+    .pick-feed-block {
+        width: 600px;
+        height: 918px;
+        top: 369px;
+        left: 20px;
+    }
+
+    .pick-feed-title {
+        top: 30px;
+        left: 69px;
+        width: 465px;
+    }
+
+    .pick-feed-text {
+        top: 87px;
+        left: 0px;
+        width: 600px;
+        text-align: center;
+    }
+
+    .panda-diet span {
+        top: 321px;
+        left: 86px;
+    }
+
+    .panda-diet p {
+        top: 375px;
+        left: 27px;
+    }
+
+    .x {
+        left: 197px;
+        top: 346px;
+    }
+
+    .donate-panda-pic {
+        left: 275px;
+        top: 216px;
+    }
+
+    .donation-line {
+        width: 600px;
+        left: 0px;
+        top: 532px;
+    }
+
+    .donation-line-box p {
+        left: 10px;
+        top: 488px;
+    }
+
+    .middle-line {
+        width: 524px;
+        left: 41px;
+    }  
+
+    .y-btn1 {
+        left: 35px;
+    }
+
+    .y-btn2 {
+        left: 165px;
+    }
+
+    .y-btn3 {
+        left: 295px;
+    }
+
+    .y-btn4 {
+        left: 425px;
+    }
+
+    .y-btn5 {
+        left: 555px;
+    }
+
+    .y-btn6 {
+        display: none;
+    }
+
+    .y-btn7 {
+        display: none;
+    }
+
+    .orange-btn1 {
+        left: 288.5px;
+        top: 533.5px;
+    }
+
+    .orange-btn2 {
+        left: 280px;
+        top: 525px;
+    }
+
+    .price1, .price2, .price3 {
+        display: none;
+    }
+
+    .price4 {
+        left: 16.5px;
+        top: 571px;
+    }
+
+    .price5 {
+        left: 147px;
+        top: 571px;
+    }
+
+    .price6 {
+        left: 277px;
+        top: 571px;
+    }
+
+    #price-or2 {
+        color: var(--orange);
+    }
+
+    .price7 {
+        left: 407px;
+        top: 571px;
+    }
+
+    .price8 {
+        left: 537px;
+        top: 571px;
+    }
+
+    .amount-field {
+        width: 250px;
+        top: 657px;
+        height: 100px;
+        left: 175px;
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        justify-content: center;
+    }
+
+    input[type=number] {
+        width: 167px;
+        height: 42px;
+        align-self: center;
+        margin-bottom: 5px;
+    }
+
+    input[placeholder] {
+        padding-left: 6px;
+    }
+
+    .payment-options {
+        margin: 0 0 0 0;
+    }
+
+    .subscription-choice {
+        margin-left: 0px;
+        justify-content: flex-start;
+        padding-left: 12px;
+        gap: 50px; 
+    }
+
+    #option1 {
+        left: 8px;
+    }
+
+    .btn1 {
+        top: 781px;
+        left: 152px;
+    }
+
+    .share-text {
+        left: 150px;
+        top: 866px;
+    }
+
+    footer {
+        top: 1702px;
+    }
+
+    .footer {
+        height: 282px;
+    }
+
+    .footer .logo {
+        left: 20px;
+        top: 12px;
+    } 
+
+    .donate-btn {
+        left: 20px;
+        top: 97px;
+    }    
+
+    .donate-btn .text-btn3 {
+        width: 298px;
+    }
+
+    .social-name {
+        display: none;
+    }
+
+    .social-ft-container {
+        top: 12px;
+        left: 594px;
+    }
+
+    .social-icon {
+        margin-bottom: 20px;
+    }
+
+    .social-icon #tw {
+        top: 52px;
+    }
+
+    .social-icon #ig {
+        top: 97px;
+    }
+
+    .social-icon #yt {
+        top: 144px;
+    }
+
+    .sbscrb-container {
+        display: none;
+    }
+
+    .ft-links .about {
+        left: 20px;
+        top: 248px;
+      }
+
+    .ft-links .map {
+        left: 101px;
+        top: 248px;
+    }
+
+    .ft-links .zoos {
+        left: 169px;
+        top: 248px;
+    }
+
+    .ft-links .contact {
+        left: 242px;
+        top: 248px;
+    } 
+
+    .copyright-text {
+        left: 390px;
+        top: 210px;
+    } 
 }

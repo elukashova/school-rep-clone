@@ -142,11 +142,21 @@ nav {
     text-decoration: none;
   }
 
+  header .links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* .menu {
+    transition: all 0.3s ease-out;
+  } */
+
   .links a:hover {
     color: var(--orange);
   }
 
-  .links .about {
+  #about {
     position: absolute;
     width: 43px;
     height: 22px;
@@ -155,7 +165,7 @@ nav {
     color: var(--orange);
   }
 
-  .map {
+  #map {
     position: absolute;
     width: 32px;
     height: 22px;
@@ -163,7 +173,7 @@ nav {
     top: 29px;  
   }
 
-  .zoos {
+  #zoos {
     position: absolute;
     width: 36px;
     height: 22px;
@@ -171,7 +181,7 @@ nav {
     top: 29px;
   }
 
-  .donate {
+  #donate {
     position: absolute;
     width: 51px;
     height: 22px;
@@ -179,7 +189,7 @@ nav {
     top: 29px;
   }
 
-  .contact {
+  #contact {
     position: absolute;
     width: 78px;
     height: 22px;
@@ -187,13 +197,29 @@ nav {
     top: 29px;
   }
 
-  .copyright {
+  #copyright {
     position: absolute;
     width: 105px;
     height: 22px;
     left: 1055px;
     top: 29px;
   }
+
+.hamburger {
+    display: none;
+    cursor: pointer;
+}
+
+.bar {
+    display: block;
+    width: 18px;
+    height: 2px;
+    background-color: var(--white);
+    border-radius: 2px;
+    margin: 2px auto;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+} 
 
 .watch-animal {
     position: absolute;
@@ -303,6 +329,10 @@ nav {
     text-align: right;
 }
 
+.flower1-640 {
+    display: none;
+}
+
 .bkstg-wrapper {
     width: 1160px;
     height: 403px;
@@ -382,6 +412,10 @@ nav {
     border: 0;
     right: 0px;
     top: 871px;
+}
+
+.flower3-640 {
+    display: none;
 }
 
 .rnd-btn1 {
@@ -514,7 +548,7 @@ nav {
     top: 0px;
 }
 
-.card-descr {
+.card-descr, .card-descr-hidden {
 	font-family: var(--font-family-roboto);
 	font-size: 15px;
     font-style: normal;
@@ -806,6 +840,10 @@ nav {
     top: 66px;
 }
 
+.green-arrow1, .green-arrow2 {
+    display: none;
+}
+
 .testimonials {
     width: 100%;
     height: 919px;
@@ -823,6 +861,10 @@ nav {
     border: 0;
     right: 0px;
     top: 2614px;
+}
+
+.flower4-640 {
+    display: none;
 }
 
 .testimonials-block {
@@ -1359,6 +1401,7 @@ input[placeholder="Enter your email"] {
         left: 175px;
     }
 
+
     .map {
         left: 266px;
     }
@@ -1536,6 +1579,10 @@ input[placeholder="Enter your email"] {
         -ms-flex-order: 5;
         -webkit-order: 5;
         align-self: flex-end;
+    }
+
+    .card-descr-hidden {
+        display: none;
     }
 
     #card5 {
@@ -1833,7 +1880,549 @@ input[placeholder="Enter your email"] {
 
 }
 @media screen and (max-width: 640px) {
+    body {
+        width: 640px;
+    }
+
+    .navbar, .testimonials-block, .pick-box, .footer, .pandapic {
+        width: 640px;
+    }
+
+    header {
+        position: fixed;
+        z-index: 10;
+        left: 0;
+        top: 0;
+        margin: 0;
+        padding: 0;
+    }
+
+    .navbar {
+        height: 34px;
+        margin: 0;
+    }
+
+    .logo {
+        left: 2px;
+        top: 2px;
+        width: 46.8px;
+        height: 29px;
+    }
+
+    h1 a {
+        font-size: 12px;
+        border: none;
+    }
+
+    .logo .bamboo {
+        width: 4.5px;
+        height: 13.5px;
+        top: 14px;
+        left: 23px;
+    }
+
+    .hamburger {
+        display: block;
+        top: 10px;
+        left: 602px;
+        position: absolute;
+    }
+
+    /* .hamburger.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+
+    .hamburger.active .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+
+    .hamburger.active .bar:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    } */
+
+    .links {
+        position: fixed;
+        left: -100%;
+        display: flex;
+        top: -100%;
+        flex-direction: column;
+        background-color: var(--white);
+        width: 640px;
+        height: 329px;
+        text-align: left;
+        transition: 0.3s;
+    } 
+
+    #copyright {
+        display: none;
+    }
+
+    /* .links a, #about {
+        color: var(--font-black);
+    }
+
+    .link-item {
+        margin: 15px 0;
+    }
+
+    .logo.active {
+        left: 0;
+    } */
+
+    .watch-animal {
+        height: 373px;
+    }
+
+    .pandapic {
+        height: 373px;
+        background-image: url("../../assets/images/panda-640.jpg");
+    }
+
+    .ellipse {
+        width: 237px;
+        height: 237px;
+        left: calc(50% - 237.6px/2 + 130.44px);
+        top: 44.2px;
+    }
+
+    .cta-text {
+        font-size: 54px;
+        top: 83px;
+        left: 368px;
+        width: 255.6px;
+        height: 204px;
+    }
+
+    .btn_1 {
+        top: 279px;
+        left: 20px;
+    } 
+
+    .flower1-640  {
+        display: block;
+        left: 508px;
+        top: -65px;
+        width: 231px;
+        height: 476px;
+        position: absolute;
+    }
+
+    .flower1 img {
+       display: none;
+    }
+
+    .backstage {
+        top: 433px;
+        height: 0px;
+    }
+
+    .bkstg-wrapper {
+        height: 0px;
+        width: 640px;
+    }
+
+    .bkstg-content {
+        top: 0px;
+        height: 367px;
+        width: 495px;
+    }
+
+    .bkstg-pic {
+        display: none;   
+    }
+
+    .bkstg-text {
+        display: block;
+        height: 367px;
+        width: 495px;
+        padding-left: 20px;
+    }
+
+    .bkstg-text .text1 h2 {
+        line-height: 120%;
+        padding-bottom: 5px;
+        margin-bottom: 17px;
+        padding-left: 5px;
+    }
+
+    .bkstg-text .subtitle {
+        padding-top: 10px;
+        padding-bottom: 0px;
+        padding-left: 5px;
+    }
+
+
+
+    .bkstg-text p {
+        margin-block-start: 0;
+    }
+
+    .pets {
+        height: 0px;
+        top: 880px;
+        padding-top: 0px;
+    }
+
+    .animals-cards {
+        width: 600px;
+        height: 756px;
+    }
     
+    .scroll-animals {
+        width: 600px;
+        height: 756px;
+        top: 0px;
+    }
+
+    .foto-card-container {
+        width: 283px;
+        height: 330px;
+    }
+
+    .img-card {
+        width: 285px;
+        height: 285px;
+    }
+
+    #card3 {
+        order: 3;
+        -webkit-box-ordinal-group: 3;
+        -moz-box-ordinal-group: 3;
+        -ms-flex-order: 3;
+        -webkit-order: 3;
+        align-self: flex-end;       
+    } 
+
+    #card5-hid {
+        display: block;
+        order: 4;
+        -webkit-box-ordinal-group: 4;
+        -moz-box-ordinal-group: 4;
+        -ms-flex-order: 4;
+        -webkit-order: 4;
+        align-self: flex-end;
+    }
+
+    #card5-hid .card-descr {
+        display: none;
+    }
+
+    #card5-hid .card-descr-hidden {
+        display: block;
+    }
+
+    #card5, #card6 {
+        display: none;
+    }
+
+    .box-bottom {
+        height: 47px;
+    }
+
+    .cards-text {
+        align-self: flex-start;
+        padding-left: 12.5px;
+    }
+
+    .card-title {
+        font-size: 12.5px;  
+    }
+
+    .card-descr, .card-descr-hidden {
+        font-size: 11.7px;  
+    }
+
+    .icon-card1 img {
+        width: 25.7px;
+        height: 28.8px;
+    }
+
+    .icon-card1 {
+        padding-right: 0px;
+        padding-top: 7.8px;
+    }
+
+    .icon-card2 img {
+        width: 37.4px;
+        height: 29.6px;
+        padding-left: 5px;
+    }
+
+    .icon-card2 {
+        padding-right: 0px;
+        padding-top: 5px;
+    }
+
+    .rnd-btn1 {
+        left: 243px;
+        top: 343px;
+    }
+
+    .rnd-btn2 {
+        left: 335px;
+        top: 343px;
+    }
+
+    .btn_2 {
+        left: 151px;
+        top: 816px;
+    }
+
+    .flower2 {
+        width: 385px;
+        height: 202px;
+        left: -253px;
+        top: 769px;
+    }
+
+    .flower3 {
+        display: none;
+    }
+
+    .flower3-640 {
+        display: block;
+        width: 175px;
+        height: 131px;
+        left: 465px;
+        top: 840px;
+        position: absolute;
+    }
+
+    .pick-and-feed {
+        top: 1850px;
+        height: 781px;
+    }
+
+    .pick-box {
+        width: 640px;
+        height: 741px;
+        top: 20px;
+    }
+
+    .pick-title1 {
+        width: 405px;
+        left: 118px;
+        top: 10px;
+        font-size: 42px;
+    }
+
+    .pick-text1 {
+        width: 600px;
+        left: 20px;
+        top: 80px;
+        font-size: 22px;
+    }
+
+    .pick-phrase-1 {
+        width: 600px;
+        left: 20px;
+        top: 136px;
+    }
+
+    .pick-phrase-2 {
+        width: 600px;
+        left: 20px;
+        top: 188px;
+    }
+
+    .pick-title2 {
+        left: 216px;
+        top: 276px;
+    }
+
+    .rectangles {
+        top: 343px;
+        left: 20px;
+        width: 600px;
+    }
+
+    .big-arrow1, .big-arrow2 {
+        display: none;
+    }
+
+    .small-rectangle2 {
+        left: 210px;
+    }
+
+    .small-rectangle3 {
+        left: 420px;
+    }
+
+    .green-arrow1 {
+        display: block;
+        position: absolute;
+        left: 157px;
+        top: 327px;
+        z-index: 5;
+    }
+
+    .green-arrow2 {
+        display: block;
+        position: absolute;
+        left: 365px;
+        top: 327px;
+        z-index: 5;
+    }
+
+    .feed-btn {
+        left: 151px;
+        top: 284px;
+    }
+
+    .link-feed {
+        font-size: 16px;
+    }
+
+    .testimonials {
+        top: 585px;
+    }
+
+    .testimonials-cont {
+        width: 600px;
+    }
+
+    .testimonials-title {
+        left: 215px;
+    } 
+
+    .reviews-container {
+        width: 600px;
+        height: 357px;
+        top: 76px;
+        left: 20px;
+        flex-direction: column;
+    }
+
+    .review-box {
+        width: 594px;
+        height: 105px;
+    }
+
+    .user-img {
+        margin-left: 9px;
+        margin-top: 11px;
+    }
+
+    .user-name {
+        align-self: flex-start;
+    } 
+
+    .comment {
+        width: 565px;
+        height: 36px;
+    }
+
+    .scroll {
+        display: none;
+    } 
+
+    .feedback-btn {
+        left: 200px;
+        top: 475px;
+        width: 240px;
+    }
+
+    .text-btn3 {
+        width: 240px;
+    }
+
+    .flower4 {
+        display: none;
+    }
+
+    .flower4-640 {
+        display: block;
+        width: 147.1px;
+        height: 149.8px;
+        left: 522.5px;
+        top: 2579px;
+        position: absolute;
+        z-index: 5;
+    }
+
+    footer {
+        top: 3299px;
+    }
+
+    .footer {
+        height: 282px;
+    }
+
+    .footer .logo {
+        left: 20px;
+        top: 12px;
+    } 
+
+    .donate-btn {
+        left: 20px;
+        top: 97px;
+    }    
+
+    .donate-btn .text-btn3 {
+        width: 298px;
+    }
+
+    .social-name {
+        display: none;
+    }
+
+    .social-ft-container {
+        top: 12px;
+        left: 594px;
+    }
+
+    .social-icon {
+        margin-bottom: 20px;
+    }
+
+    .social-icon #tw {
+        top: 52px;
+    }
+
+    .social-icon #ig {
+        top: 97px;
+    }
+
+    .social-icon #yt {
+        top: 144px;
+    }
+
+
+    .sbscrb-container {
+        display: none;
+    }
+
+    .ft-links .about {
+        left: 20px;
+        top: 248px;
+      }
+
+    .ft-links .map {
+        left: 101px;
+        top: 248px;
+    }
+
+    .ft-links .zoos {
+        left: 169px;
+        top: 248px;
+    }
+
+    .ft-links .contact {
+        left: 242px;
+        top: 248px;
+    } 
+
+    .copyright-text {
+        left: 390px;
+        top: 210px;
+    } 
+
+    /* .line1 {
+        padding-bottom: 10px;
+    } */
+
+
+
 }
 
 @media screen and (max-width: 320px) {

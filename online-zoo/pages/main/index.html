@@ -17,13 +17,24 @@
                                 <img class="bamboo" src="../../assets/icons/bamboo.svg" />
                                 <h1><a href="../../pages/main/index.html">PetStory online</a></h1>
                             </div>
-                            <div class="links">
-                                <a class="about">About</a>
-                                <a class="map" href="#map">Map</a>
-                                <a class="zoos" href="#zoos">Zoos</a>
-                                <a class="donate" href="../../pages/donate/index.html">Donate</a>
-                                <a class="contact" href="#contact">Contact us</a>
-                                <a class="copyright" href="https://www.figma.com/file/jfEFwkXVj1WRq7sUHDr8os/PetStory-online">Designed by ©</a>
+                            <!--hamburger-->
+                            <!-- <input class="hamburger" type="checkbox" id="side-menu"/>
+                            <label class="burger" for="hamburger"><span class="bar"></span></label>     -->
+                            <!-- menu-->
+                            <!-- <div class="menu"> -->
+                                <ul class="links">
+                                    <li><a class="link-item" id="about">About</a></li>
+                                    <li><a class="link-item" id="map" href="#map">Map</a></li>
+                                    <li><a class="link-item" id="zoos" href="#zoos">Zoos</a></li>
+                                    <li><a class="link-item" id="donate" href="../../pages/donate/index.html">Donate</a></li>
+                                    <li><a class="link-item" id="contact" href="#contact">Contact us</a></li>
+                                    <li><a class="link-item" id="copyright" href="https://www.figma.com/file/jfEFwkXVj1WRq7sUHDr8os/PetStory-online">Designed by ©</a></li>
+                                </ul>
+                            <!-- </div> -->
+                            <div class="hamburger">
+                                <span class="bar"></span>
+                                <span class="bar"></span>
+                                <span class="bar"></span>
                             </div>
                         </div>
                     </nav>
@@ -39,6 +50,9 @@
         <section class="backstage">
             <div class="flower1">
                 <img src="../../assets/images/flower_foto1.jpg">
+            </div>
+            <div class="flower1-640">
+                <img src="../../assets/images/flower_foto_640.png">
             </div>
             <div class="bkstg-wrapper">
                 <div class="bkstg-content">
@@ -123,15 +137,16 @@
                     </div>
                     <!--5 hidden card-->
                     <div class="foto-card-container" id="card5-hid">
-                        <img class="img-card" src="../../assets/images/alligator.jpg">
-                    <div class="box-bottom">
-                        <div class="cards-text">
-                            <p class="card-title">ALLIGATORS</p>
-                            <p class="card-descr">Native to Southeastern U. S.</p>
-                        </div>
-                        <div class="icon-card2">
-                        <img src="../../assets/icons/meet-fish_icon.svg">
-                        </div>
+                            <img class="img-card" src="../../assets/images/alligator.jpg">
+                        <div class="box-bottom">
+                            <div class="cards-text">
+                                <p class="card-title">ALLIGATORS</p>
+                                <p class="card-descr">Native to Southeastern U. S.</p>
+                                <p class="card-descr-hidden">Native to Southeastern United States</p>
+                            </div>
+                            <div class="icon-card2">
+                            <img src="../../assets/icons/meet-fish_icon.svg">
+                            </div>
                     </div>
                     </div>
                     <!--6 card-->
@@ -156,6 +171,9 @@
             <div class="flower3">
                 <img src="../../assets/images/strelitzia 1.png">
             </div>
+            <div class="flower3-640">
+                <img src="../../assets/images/strelitzia-640.png">
+            </div>
             <div class="rnd-btn1">
                 <img class="btn1-icon" src="../../assets/icons/arrow_left.svg" />
             </div>
@@ -171,6 +189,8 @@
                 <p class="pick-phrase-2 body-reg">Even though the zoo has reopened, we need you now more than ever to help us deal with these problems. Please consider a gift to our <a class="
                     pick-link" href="../../pages/donate/index.html">Emergency Support Fund</a>.</p>
                 <div class="pick-title2">How it works</div>
+                <img class="green-arrow1" src="../../assets/images/arrow-green.png">
+                <img class="green-arrow2" src="../../assets/images/arrow-green.png">
                 <div class="rectangles">
                     <div class="small-rectangle1">
                         <img class="icon-pay" src="../../assets/icons/pay.svg">
@@ -193,6 +213,9 @@
         <section class="testimonials">
             <div class="flower4">
                 <img src="../../assets/images/leav_foto.png">
+            </div>
+            <div class="flower4-640">
+                <img src="../../assets/images/leav_640.png">
             </div>
             <div class="testimonials-block">
                 <div class="testimonials-cont">
@@ -360,5 +383,6 @@
                 <p class="line2">©RSSchool & ©Yem Digital 2021</p>
             </div>
     </footer>
+    <script src="script.js"></script>
 </body>
 </html>

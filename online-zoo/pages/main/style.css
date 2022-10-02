@@ -2468,7 +2468,7 @@ input[placeholder="Enter your email"] {
     .btn_1 {
         top: 207px;
         left: 11px;
-    }  */
+    } 
 
     .flower1-640, .flower1, .flower_foto_640 {
         display: none;
@@ -2478,7 +2478,6 @@ input[placeholder="Enter your email"] {
         display: block;
         left: 285px;
         top: -32px;
-        width: 105px;
         height: 217px;
         position: absolute;
     }
@@ -2545,14 +2544,18 @@ input[placeholder="Enter your email"] {
     .animals-cards {
         width: 320px;
         height: 1388px;
-        margin-left: 10px;
     }
     
     .scroll-animals {
+        margin-left: 10px;
         width: 285.3px;
         height: 1388px;
         top: 0px;
         flex-direction: column;
+    }
+
+    .testimonials-block {
+        height: 0px;
     }
 
     .rnd-btn1, .rnd-btn2 {
@@ -2578,7 +2581,6 @@ input[placeholder="Enter your email"] {
 
     .flower3-320 {
         display: block;
-        width: 85px;
         height: 71px;
         left: 252px;
         top: 1455px;
@@ -2746,7 +2748,6 @@ input[placeholder="Enter your email"] {
 
     .flower4-320 {
         display: block;
-        width:75.8px;
         height: 77.2px;
         left: 269px;
         top: 2593px;

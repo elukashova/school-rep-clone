@@ -1651,3 +1651,391 @@ input[placeholder="Enter your email"] {
         top: 210px;
     } 
 }
+
+@media screen and (max-width: 320px) {
+    body {
+        width: 320px;
+    }
+
+    .navbar, .footer {
+        width: 320px;
+    }
+
+    header {
+        position: fixed;
+        z-index: 10;
+        left: 0;
+        top: 0;
+        margin: 0;
+        padding: 0;
+    }
+
+    .navbar {
+        height: 34px;
+        margin: 0;
+    }
+
+    .logo {
+        left: -6px;
+        top: 1px;
+    } 
+
+    .hamburger {
+        left: 292px;
+    }
+
+    .links {
+        display: none;
+    } 
+
+    #copyright {
+        display: none;
+    }
+
+
+    .img-background {
+        background-image: url("../../assets/images/panda_donate_320.jpg");
+        top: 34px;
+        width: 320px;
+        height: 187px;
+    }
+
+    .reopening {
+        top: 221px;
+        width: 320px;
+    }
+
+    .reopening-box {
+        width: 320px;
+        height: 1145px;
+    }
+
+    .reopen-title {
+        left: 10px;
+        width: 300px;
+        font-size: 24px;
+        line-height: 120%;
+        top: 30px;
+        height: 87px;
+    }
+
+    .reopen-text {
+        left: 10px;
+        top: 122px;
+        width: 300px;
+        height: 308px;
+    }
+
+    .donation-info {
+        left: 10px;
+        top: 475px;
+        font-size: 24px;
+    } 
+ 
+    .pick-feed-block {
+        width: 300px;
+        height: 591px;
+        top: 534px;
+        left: 10px;
+    }
+
+    .pick-feed-title {
+        top: 22px;
+        left: 34px;
+        width: 232px;
+        height: 29px;
+        font-size: 24px;
+    }
+
+    .pick-feed-text {
+        top: 45px;
+        left: 0px;
+        width: 300px;
+        height: 44px;
+        text-align: center;
+        font-size: 16px;
+        line-height: 140%;
+    }
+
+    .panda-diet span {
+        top: 174px;
+        left: 21.4px;
+        font-size: 40.6px;
+        width: 46.2px;
+    }
+
+    .panda-diet p {
+        top: 205px;
+        left: -34px;
+        font-size: 9px;
+    }
+
+    .x {
+        left: 95.8px;
+        top: 186.6px;
+        height: 7.9px;
+        width: 7.9px;
+    }
+
+    .donate-panda-pic {
+        left: 139.9px;
+        top: 114px;
+        width: 160px;
+        height: 138.7px;
+    }
+
+    .donation-line {
+        width: 300px;
+        left: 0px;
+        top: 288px;
+        height: 13.5px;
+    }
+
+    .donation-line-box p {
+        left: 0px;
+        top: 241px;
+        font-size: 16px;
+    }
+
+    .middle-line {
+        width: 262px;
+        left: 20.5px;
+        top: 6px;
+    }  
+
+    .yellow-btn {
+        width: 5px;
+        height: 5px;
+    }
+
+     .y-btn1 {
+        left: 17.5px;
+        top: 4px;
+    }
+
+    .y-btn2 {
+        left: 82.5px;
+        top: 4px;
+    }
+
+    .y-btn3 {
+        left: 147.5px;
+        top: 4px;
+    }
+
+    .y-btn4 {
+        left: 212.5px;
+        top: 4px;
+    }
+
+    .y-btn5 {
+        left: 277.5px;
+        top: 4px;
+    }
+
+    .orange-btn1 {
+        left: 144px;
+        top: 288px;
+        width: 11.4px;
+        height: 11.4px;
+    }
+
+    .orange-btn2 {
+        left: 140px;
+        top: 284px;
+        width: 19px;
+        height: 19px;
+    }
+
+    .price-line span {
+        font-size: 13px;
+    }
+
+    .price4 {
+        left: 8.5px;
+        top: 308px;
+    }
+
+    .price5 {
+        left: 73.5px;
+        top: 308px;
+    }
+
+    .price6 {
+        left: 138.5px;
+        top: 308px;
+    }
+
+    #price-or2 {
+        color: var(--orange);
+    }
+
+    .price7 {
+        left: 203.5px;
+        top: 308px;
+    }
+
+    .price8 {
+        left: 268.5px;
+        top: 308px;
+    } 
+ 
+    .amount-field {
+        width: 222px;
+        top: 349px;
+        height: 100px;
+        left: 37px;
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        justify-content: center;
+    }
+
+    input[type=number] {
+        width: 167px;
+        height: 45px;
+        align-self: center;
+        margin-bottom: 0px;
+        margin-left: 5px;
+    }
+
+    input[placeholder] {
+        padding-left: 6px;
+    }
+
+    .payment-options {
+        margin: 0 0 0 0;
+    }
+
+    .subscription-choice {
+        margin-left: 0px;
+        padding-left: 0px;
+        gap: 50px; 
+        width: 218px;
+    }
+
+    .dol {
+        left: 183px;
+        top: 11px;
+    }
+    
+    #option1 {
+        padding-right: 0px;
+    }
+
+    .payment-options label {
+        margin-bottom: 8px;
+    }
+
+    .btn1 {
+        top: 465px;
+        left: 1px;
+    }
+
+    .share-text {
+        left: 0px;
+        top: 550px;
+    }
+
+    footer {
+        top: 1367px;
+    }
+
+    .footer {
+        height: 334px;
+    } 
+
+    .footer .logo {
+        width: 128px;
+        height: 23px;
+        left: 93px;
+        top: 19px;
+    } 
+
+    .footer .logo span a {
+        width: 128px;
+        height: 23px;  
+        border: none;      
+        text-align: unset;
+    }
+
+    .footer .logo .bamboo {
+        left: 75px;
+        top: 0px;
+    }
+
+    .donate-btn {
+        left: 9px;
+        top: 130px;
+    }    
+
+    .donate-btn .text-btn3 {
+        width: 298px;
+    }
+
+    .social-name {
+        display: none;
+    }
+
+    .social-ft-container {
+        top: 73px;
+        left: 63px;
+        flex-direction: row;
+        width: 194px;
+        justify-content: space-between;
+    }
+
+    .social-name span {
+        display: none;
+    }
+
+    .social-icon {
+        margin-bottom: 20px;
+    }
+
+    .social-icon #tw {
+        top: 6px;
+        left: 61px;
+    }
+
+    .social-icon #ig {
+        left: 117px;
+        top: 5px;
+    }
+
+    .social-icon #yt {
+        top: 6px;
+        left: 172px;
+    } 
+
+    .ft-links .about {
+        left: 21px;
+        top: 292px;
+      }
+
+    .ft-links .map {
+        left: 94px;
+        top: 292px;
+    }
+
+    .ft-links .zoos {
+        left: 156px;
+        top: 292px;
+    }
+
+    .ft-links .contact {
+        left: 222px;
+        top: 292px;
+    } 
+
+    .copyright-text p {
+        font-size: 15px;
+    }
+
+    .copyright-text {
+        left: 96px;
+        top: 205px;
+    }
+
+
+}

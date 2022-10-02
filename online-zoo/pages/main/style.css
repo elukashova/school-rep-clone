@@ -329,7 +329,11 @@ nav {
     text-align: right;
 }
 
-.flower1-640 {
+.flower1-640, .flower1-320, .flower2-320 {
+    display: none;
+}
+
+.flower1-640 img {
     display: none;
 }
 
@@ -414,7 +418,7 @@ nav {
     top: 871px;
 }
 
-.flower3-640 {
+.flower3-640, .flower3-320 {
     display: none;
 }
 
@@ -840,7 +844,7 @@ nav {
     top: 66px;
 }
 
-.green-arrow1, .green-arrow2 {
+.green-arrow1, .green-arrow2, .green-arrow-rot1, .green-arrow-rot2 {
     display: none;
 }
 
@@ -863,7 +867,7 @@ nav {
     top: 2614px;
 }
 
-.flower4-640 {
+.flower4-640, .flower4-320 {
     display: none;
 }
 
@@ -1928,18 +1932,6 @@ input[placeholder="Enter your email"] {
         position: absolute;
     }
 
-    /* .hamburger.active .bar:nth-child(2) {
-        opacity: 0;
-    }
-
-    .hamburger.active .bar:nth-child(1) {
-        transform: translateY(8px) rotate(45deg);
-    }
-
-    .hamburger.active .bar:nth-child(3) {
-        transform: translateY(-8px) rotate(-45deg);
-    } */
-
     .links {
         position: fixed;
         left: -100%;
@@ -1956,18 +1948,6 @@ input[placeholder="Enter your email"] {
     #copyright {
         display: none;
     }
-
-    /* .links a, #about {
-        color: var(--font-black);
-    }
-
-    .link-item {
-        margin: 15px 0;
-    }
-
-    .logo.active {
-        left: 0;
-    } */
 
     .watch-animal {
         height: 373px;
@@ -2322,7 +2302,7 @@ input[placeholder="Enter your email"] {
         width: 240px;
     }
 
-    .text-btn3 {
+    .feedback-btn .text-btn3 {
         width: 240px;
     }
 
@@ -2421,5 +2401,454 @@ input[placeholder="Enter your email"] {
 }
 
 @media screen and (max-width: 320px) {
+    body {
+        width: 320px;
+    }
+
+    .navbar, .testimonials-block, .pick-box, .footer, .pandapic {
+        width: 320px;
+    }
+
+    header {
+        position: fixed;
+        z-index: 10;
+        left: 0;
+        top: 0;
+        margin: 0;
+        padding: 0;
+    }
+
+    .navbar {
+        height: 34px;
+        margin: 0;
+    }
+
+    .logo {
+        left: -6px;
+        top: 2px;
+    } 
+
+    .hamburger {
+        left: 292px;
+    }
+
+    .links {
+        display: none;
+    } 
+
+    #copyright {
+        display: none;
+    }
+
+    .watch-animal {
+        height: 187px;
+    }
+
+    .pandapic {
+        height: 187px;
+        top: 34px;
+        background-image: url("../../assets/images/panda_bg_320.jpg");
+    }
+
+    .ellipse {
+        width: 119px;
+        height: 119px;
+        left: calc(50% - 119.09px/2 + 62.45px);
+        top: 22.2px;
+    }
+
+    .cta-text {
+        font-size: 28px;
+        top: 41.1px;
+        left: calc(50% - 128.13px/2 + 85.67px);
+        width: 128.1px;
+        height: 102.4px;
+    }
+
+    .btn_1 {
+        top: 207px;
+        left: 11px;
+    }  */
+
+    .flower1-640, .flower1, .flower_foto_640 {
+        display: none;
+    }
+
+    .flower1-320  {
+        display: block;
+        left: 285px;
+        top: -32px;
+        width: 105px;
+        height: 217px;
+        position: absolute;
+    }
+
+    .backstage {
+        top: 291px;
+        height: 0px;
+    }
+
+    .bkstg-wrapper {
+        height: 0px;
+        width: 320px;
+    }
+
+    .bkstg-content {
+        top: 33px;
+        height: 388px;
+        width: 300px;
+    }
+
+    .bkstg-text {
+        display: block;
+        height: 388px;
+        width: 300px;
+        padding-left: 5px;
+    }
+
+    .bkstg-text .text1 h2 {
+        line-height: 120%;
+        padding-bottom: 0px;
+        margin-bottom: 12px;
+        padding-left: 5px;
+        font-size: 24px;
+        height: 58px;
+    }
+
+    .bkstg-text #body-reg1 {
+        padding-left: 8px;
+        width: 297px;
+        height: 63px;
+    }
+
+    .bkstg-text .subtitle {
+        padding-top: 2px;
+        padding-bottom: 0px;
+        margin-bottom: 10px;
+        padding-left: 8px;
+        width: 213px;
+        height: 29px;
+    }
+
+    .bkstg-text #body-reg2 {
+        height: 198px;
+        padding-left: 6px;
+    }
+
+    .pets {
+        height: 0px;
+        top: 753px;
+        padding-top: 0px;
+        margin-left: 0px;
+    }
+
+    .animals-cards {
+        width: 320px;
+        height: 1388px;
+        margin-left: 10px;
+    }
     
+    .scroll-animals {
+        width: 285.3px;
+        height: 1388px;
+        top: 0px;
+        flex-direction: column;
+    }
+
+    .rnd-btn1, .rnd-btn2 {
+        display: none;
+    }
+
+    .flower2 {
+        display: none;
+    }
+
+    .flower3, .flower3-640 {
+        display: none;
+    }
+
+    .flower2-320 {
+        display: block;
+        width: 138px;
+        height: 72px;
+        left: 0px;
+        top: 1450px;
+        position: absolute;
+    }
+
+    .flower3-320 {
+        display: block;
+        width: 85px;
+        height: 71px;
+        left: 252px;
+        top: 1455px;
+        position: absolute;
+    } 
+
+    .btn_2 {
+        top: 1409px;
+        left: 0px;
+    }
+
+    .pick-and-feed {
+        top: 2275px;
+        height: 1082px;
+    }
+
+    .pick-box {
+        width: 300px;
+        height: 1042px;
+        top: 20px;
+    }
+
+    .pick-title1 {
+        width: 232px;
+        height: 29px;
+        left: 34px;
+        top: 20px;
+        font-size: 24px;
+    }
+
+    .pick-text1 {
+        width: 297px;
+        left: 0px;
+        top: 59px;
+        font-size: 18px;
+        text-align: center;
+    }
+
+    .pick-phrase-1, .pick-phrase-2 {
+        display: none;
+    }
+
+    .pick-title2 {
+        width: 139px;
+        height: 29px;
+        left: 81px;
+        top: 145px;
+        font-size: 24px;
+    }
+
+    .rectangles {
+        top: 194px;
+        left: 66px;
+        width: 168px;
+        height: 724px;
+    }
+
+    .big-arrow1, .big-arrow2 {
+        display: none;
+    }
+
+    .small-rectangle1 {
+        top: 0px;
+        left: 0px;
+    }
+
+    .small-rectangle2 {
+        left: 0px;
+        top: 242px;
+    }
+
+    .small-rectangle3 {
+        left: 0px;
+        top: 493px;
+    }
+
+    .green-arrow1, .green-arrow2 {
+        display: none;
+    }
+
+    .green-arrow-rot1 {
+        display: block;
+        position: absolute;
+        left: 239px;
+        top: 356px;
+        z-index: 5;
+    }
+
+    .green-arrow-rot2 {
+        display: block;
+        position: absolute;
+        left: 239px;
+        top: 604.8px;
+        z-index: 5;
+    }
+
+    .sr1-text, .sr2-text, .sr3-text {
+        top: 178px;
+    }
+
+    .feed-btn {
+        left: -65px;
+        top: 754px;
+    }
+
+    .feed-btn .text-btn3 {
+        width: 298px;
+    }
+
+    .testimonials {
+        top: 1281px;
+    }
+
+    .testimonials-cont {
+        width: 299px;
+    }
+
+    .testimonials-title {
+        left: 91px;
+        width: 138px;
+        height: 29px;
+        font-size: 24px;
+    } 
+
+    .reviews-container {
+        width: 299px;
+        height: 358px;
+        top: 49px;
+        left: 11px;
+    }
+
+    .review-box {
+        width: 295px;
+        height: 105px;
+    }
+
+    .user-img {
+        margin-left: 9px;
+        margin-top: 5px;
+        margin-right: 8px;
+    }
+
+    .user-info {
+        margin-top: 10px;
+    }
+
+    .user-name {
+        align-self: flex-start;
+    } 
+
+    .comment {
+        width: 252px;
+        height: 38px;
+        margin-block-start: 10px;
+    } 
+
+    .feedback-btn {
+        left: 40px;
+        top: 437px;
+    }
+
+    .flower4-640 {
+        display: none;
+    }
+
+    .flower4-320 {
+        display: block;
+        width:75.8px;
+        height: 77.2px;
+        left: 269px;
+        top: 2593px;
+        position: absolute;  
+    }
+
+    footer {
+        top: 3939px;
+    }
+
+    .footer {
+        height: 334px;
+    }
+
+    .footer .logo {
+        width: 128px;
+        height: 23px;
+        left: 93px;
+        top: 19px;
+    } 
+
+    .footer .logo span a {
+        width: 128px;
+        height: 23px;  
+        border: none;      
+        text-align: unset;
+    }
+
+    .footer .logo .bamboo {
+        left: 75px;
+        top: 0px;
+    }
+
+    .donate-btn {
+        left: 9px;
+        top: 129px;
+    }    
+
+    .donate-btn .text-btn3 {
+        width: 298px;
+    }
+
+    .social-name {
+        display: none;
+    }
+
+    .social-ft-container {
+        top: 73px;
+        left: 63px;
+        flex-direction: row;
+        width: 194px;
+        height: 26px;
+        justify-content: space-between;
+    }
+
+    .social-icon {
+        margin-bottom: 20px;
+    }
+
+    .social-icon #tw {
+        top: 6px;
+        left: 61px;
+    }
+
+    .social-icon #ig {
+        left: 117px;
+        top: 5px;
+    }
+
+    .social-icon #yt {
+        top: 6px;
+        left: 172px;
+    } 
+
+    .ft-links .about {
+        left: 21px;
+        top: 292px;
+      }
+
+    .ft-links .map {
+        left: 94px;
+        top: 292px;
+    }
+
+    .ft-links .zoos {
+        left: 156px;
+        top: 292px;
+    }
+
+    .ft-links .contact {
+        left: 222px;
+        top: 292px;
+    } 
+
+    .copyright-text p {
+        font-size: 15px;
+    }
+
+    .copyright-text {
+        left: 96px;
+        top: 205px;
+    } 
+
+
 }

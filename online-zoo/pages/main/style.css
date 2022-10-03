@@ -333,9 +333,9 @@ nav {
     display: none;
 }
 
-.flower1-640 img {
+/* .flower1-640 img {
     display: none;
-}
+} */
 
 .bkstg-wrapper {
     width: 1160px;
@@ -429,7 +429,7 @@ nav {
     border-radius: 50%;
     width: 62px;
     height: 62px;
-    left: 138px;
+    left: -81px;
     top: 443px;
     cursor: pointer;
 }
@@ -453,7 +453,7 @@ nav {
     border-radius: 50%;
     width: 62px;
     height: 62px;
-    right: 140px;
+    left: 1179px;
     top: 443px;
     cursor: pointer;
 }
@@ -854,6 +854,11 @@ nav {
     position: absolute;
     left: 0;
     top: 1645px;
+}
+
+.comment {
+    overflow: hidden;
+    height: 309px;
 }
 
 .flower4 {
@@ -1384,6 +1389,15 @@ input[placeholder="Enter your email"] {
 }
 
 @media screen and (max-width: 1000px) {
+
+    /* * {
+        outline: 1px solid #f00 !important;
+    } */
+
+    /* .link-item {
+        display: none;
+    } */
+
     body {
         width: 1000px;
     }
@@ -1394,35 +1408,36 @@ input[placeholder="Enter your email"] {
 
     .navbar {
         z-index: 4;
+        height: 80px;
     }
+
     .logo {
         left: 30px;
         top: 14px;
         position: absolute;
     }
 
-    .links .about {
+    #about {
         left: 175px;
     }
 
-
-    .map {
+    #map {
         left: 266px;
     }
 
-    .zoos {
+    #zoos {
         left: 346px;
     }
 
-    .donate {
+    #donate {
         left: 430px;
     }
 
-    .contact {
+    #contact {
         left: 529px;
     }
 
-    .copyright {
+    #copyright {
         left: 865px;
     }
 
@@ -1608,12 +1623,12 @@ input[placeholder="Enter your email"] {
     }
 
     .rnd-btn1 {
-        left: 353px;
+        left: 323px;
         top: 369px;
     }
 
     .rnd-btn2 {
-        left: 586px;
+        left: 555px;
         top: 369px;
     }
 
@@ -1806,10 +1821,11 @@ input[placeholder="Enter your email"] {
 
     .flower4 {
         background-image: url(../../assets/images/leav_foto_1000.png);
-        width: 235px;
         height: 240px;
         left: 804px;
+        width: 196px;
         top: 2608px;
+        background-repeat: no-repeat;
     }
 
     footer {
@@ -1933,7 +1949,8 @@ input[placeholder="Enter your email"] {
     }
 
     .links {
-        position: fixed;
+        display: none;
+        /* position: fixed;
         left: -100%;
         display: flex;
         top: -100%;
@@ -1942,7 +1959,7 @@ input[placeholder="Enter your email"] {
         width: 640px;
         height: 329px;
         text-align: left;
-        transition: 0.3s;
+        transition: 0.3s; */
     } 
 
     #copyright {
@@ -1978,17 +1995,21 @@ input[placeholder="Enter your email"] {
         left: 20px;
     } 
 
-    .flower1-640  {
+    .flower1-640 {
         display: block;
         left: 508px;
         top: -65px;
-        width: 231px;
         height: 476px;
         position: absolute;
-    }
+        z-index: 5;
+    } 
 
     .flower1 img {
        display: none;
+    }
+
+    .flower1 {
+        display: none;
     }
 
     .backstage {
@@ -2134,12 +2155,12 @@ input[placeholder="Enter your email"] {
     }
 
     .rnd-btn1 {
-        left: 243px;
+        left: 223px;
         top: 343px;
     }
 
     .rnd-btn2 {
-        left: 335px;
+        left: 315px;
         top: 343px;
     }
 
@@ -2287,6 +2308,14 @@ input[placeholder="Enter your email"] {
         align-self: flex-start;
     } 
 
+    #review-5-user {
+        margin-top: 9px;
+    }
+
+    #review-5-foto {
+        margin-right: 8px;
+    }
+
     .comment {
         width: 565px;
         height: 36px;
@@ -2312,9 +2341,8 @@ input[placeholder="Enter your email"] {
 
     .flower4-640 {
         display: block;
-        width: 147.1px;
         height: 149.8px;
-        left: 522.5px;
+        left: 523.5px;
         top: 2579px;
         position: absolute;
         z-index: 5;
@@ -2431,10 +2459,6 @@ input[placeholder="Enter your email"] {
     .hamburger {
         left: 292px;
     }
-
-    .links {
-        display: none;
-    } 
 
     #copyright {
         display: none;
@@ -2849,7 +2873,15 @@ input[placeholder="Enter your email"] {
     .copyright-text {
         left: 96px;
         top: 205px;
+        width: 222px;
     } 
 
+    .line1 {
+        width: 220px;
+    }
+
+    .line2 {
+        width: 220px;
+    }
 
 }

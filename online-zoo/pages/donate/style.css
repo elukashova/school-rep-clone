@@ -1003,11 +1003,19 @@ input[placeholder="Enter your email"] {
 }
 
 @media screen and (max-width: 1000px) {
+    /* * {
+        outline: 1px solid #f00 !important;
+    } */
+
+    /* .link-item {
+        display: none;
+    } */
+    
     body {
         width: 1000px;
     }
 
-    .navbar, .pick-box, .footer {
+    .navbar, .pick-box, .footer, .reopening-box {
         width: 1000px;
     }
 
@@ -1020,27 +1028,27 @@ input[placeholder="Enter your email"] {
         position: absolute;
     }
 
-    .links .about {
+    #about {
         left: 175px;
     }
 
-    .map {
+    #map {
         left: 266px;
     }
 
-    .zoos {
+    #zoos {
         left: 346px;
     }
 
-    .donate {
+    #donate {
         left: 430px;
     }
 
-    .contact {
+    #contact {
         left: 529px;
     }
 
-    .copyright {
+    #copyright {
         left: 865px;
     }
     
@@ -1392,7 +1400,7 @@ input[placeholder="Enter your email"] {
 
     .reopen-text {
         left: 20px;
-        top: 95px;
+        top: 94px;
         width: 600px;
     }
 
@@ -1415,7 +1423,7 @@ input[placeholder="Enter your email"] {
     }
 
     .pick-feed-text {
-        top: 87px;
+        top: 86px;
         left: 0px;
         width: 600px;
         text-align: center;
@@ -1544,6 +1552,11 @@ input[placeholder="Enter your email"] {
         height: 42px;
         align-self: center;
         margin-bottom: 5px;
+    }
+
+    .dol {
+        left: 195px;
+        top: 11px;
     }
 
     input[placeholder] {
@@ -1692,7 +1705,6 @@ input[placeholder="Enter your email"] {
         display: none;
     }
 
-
     .img-background {
         background-image: url("../../assets/images/panda_donate_320.jpg");
         top: 34px;
@@ -1730,6 +1742,7 @@ input[placeholder="Enter your email"] {
         left: 10px;
         top: 475px;
         font-size: 24px;
+        width: 250px;
     } 
  
     .pick-feed-block {
@@ -1748,7 +1761,7 @@ input[placeholder="Enter your email"] {
     }
 
     .pick-feed-text {
-        top: 45px;
+        top: 44px;
         left: 0px;
         width: 300px;
         height: 44px;
@@ -1765,7 +1778,7 @@ input[placeholder="Enter your email"] {
     }
 
     .panda-diet p {
-        top: 205px;
+        top: 204px;
         left: -34px;
         font-size: 9px;
     }
@@ -1924,7 +1937,7 @@ input[placeholder="Enter your email"] {
     }
 
     .payment-options label {
-        margin-bottom: 8px;
+        margin-bottom: 9px;
     }
 
     .btn1 {
@@ -2035,6 +2048,15 @@ input[placeholder="Enter your email"] {
     .copyright-text {
         left: 96px;
         top: 205px;
+        width: 222px;
+    } 
+
+    .line1 {
+        width: 220px;
+    }
+
+    .line2 {
+        width: 220px;
     }
 
 

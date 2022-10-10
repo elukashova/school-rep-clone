@@ -511,13 +511,13 @@ nav {
 
 .price7 {
     position: absolute;
-    left: 872px;
+    left: 882px;
     top: 579px;
 }
 
 .price8 {
     position: absolute;
-    left: 1002px;
+    left: 1010px;
     top: 579px;
 }
 
@@ -1099,7 +1099,7 @@ input[type=email] {
 
     .donation-line {
         width: 810px;
-        left: 65px;
+        left: 35px;
         top: 510px;
     }
 
@@ -1107,6 +1107,14 @@ input[type=email] {
         left: 65px;
         top: 456px;
     }
+
+    .donation-line::after {
+        width: 810px;
+    }
+
+    .radio-hidden  {
+        display: none;
+    } 
 
     .middle-line {
         width: 785px;
@@ -1550,54 +1558,28 @@ input[type=email] {
         width: 600px;
         left: 0px;
         top: 532px;
+        margin: 0;
+        padding: 0;
+    }
+
+    .donation-line::after {
+        width: 600px;
+        margin: 0;
+        left: 0;
+    }
+
+    #rd8 {
+        margin-right: 10px;
+        padding-right: 10px;
+    }
+
+    .radio-hidden2 {
+        display: none;
     }
 
     .donation-line-box p {
         left: 10px;
         top: 488px;
-    }
-
-    .middle-line {
-        width: 524px;
-        left: 41px;
-    }  
-
-    .y-btn1 {
-        left: 35px;
-    }
-
-    .y-btn2 {
-        left: 165px;
-    }
-
-    .y-btn3 {
-        left: 295px;
-    }
-
-    .y-btn4 {
-        left: 425px;
-    }
-
-    .y-btn5 {
-        left: 555px;
-    }
-
-    .y-btn6 {
-        display: none;
-    }
-
-    .y-btn7 {
-        display: none;
-    }
-
-    .orange-btn1 {
-        left: 288.5px;
-        top: 533.5px;
-    }
-
-    .orange-btn2 {
-        left: 280px;
-        top: 525px;
     }
 
     .price1, .price2, .price3 {

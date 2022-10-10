@@ -518,20 +518,22 @@ nav {
     position: relative;
     height: 872px;
     top: 0px;
-    left: -1187px;
+    left: 0px;
     box-sizing: border-box;
     row-gap: 20px;
     column-gap: 30px;
     transition: transform 0.3s;
 }
 
-#left-items, #right-items, #central-items {
+.items {
     height: 872px;
     width: 1160px;
     display: flex;
     justify-content: space-between;
     flex-direction: column;
 	flex-wrap: wrap;
+    row-gap: 20px;
+    column-gap: 30px;
     flex-shrink: 0;
     position: relative;
     box-sizing: border-box;
@@ -667,13 +669,14 @@ nav {
 }
 
 @keyframes move-right {
-    from {left: -1187px;}
-    to {left: -2374px;}
+    from {left: 0px;}
+    to {left: -1187px;}
 }
 
 .transition-right {
     animation-name: move-right;
     animation-duration: 1s;
+    animation-fill-mode: forwards;
 }
 
 @keyframes move-left {

@@ -33,6 +33,24 @@ preview.oninput = function () {
     if (this.value.length > 4) {
         this.value = this.value.slice(0,4); 
     }
+
+    if (this.value == 25) {
+        btn25.checked = true;
+    } else if (this.value == 50) {
+        btn50.checked = true;
+    } else if (this.value == 100) {
+        btn100.checked == true;
+    } else if (this.value == 250) {
+        btn250.checked = true;
+    } else if (this.value == 500) {
+        btn500.checked = true;
+    } else if (this.value == 1000) {
+        btn1000.checked = true;
+    } else if (this.value == 2000) {
+        btn2000.checked = true;
+    } else if (this.value == 5000) {
+        btn5000.checked = true;
+    }
 }
 
 preview.addEventListener('change',function() {
@@ -58,34 +76,42 @@ preview.addEventListener('change',function() {
 
 btn25.addEventListener('change',function() {
     preview.setAttribute('value', this.value);
+    preview.setAttribute('placeholder', this.value);
 })
 
 btn50.addEventListener('change',function() {
     preview.setAttribute('value', this.value);
+    preview.setAttribute('placeholder', this.value);
 })
 
 btn100.addEventListener('change',function() {
     preview.setAttribute('value', this.value);
+    preview.setAttribute('placeholder', this.value);
 })
 
 btn250.addEventListener('change',function() {
     preview.setAttribute('value', this.value);
+    preview.setAttribute('placeholder', this.value);
 })
 
 btn500.addEventListener('change',function() {
     preview.setAttribute('value', this.value);
+    preview.setAttribute('placeholder', this.value);
 })
 
 btn1000.addEventListener('change',function() {
     preview.setAttribute('value', this.value);
+    preview.setAttribute('placeholder', this.value);
 })
 
 btn2000.addEventListener('change',function() {
     preview.setAttribute('value', this.value);
+    preview.setAttribute('placeholder', this.value);
 })
 
 btn5000.addEventListener('change',function() {
     preview.setAttribute('value', this.value);
+    preview.setAttribute('placeholder', this.value);
 })
 
 // checkedBtn.addEventListener('change',function() {

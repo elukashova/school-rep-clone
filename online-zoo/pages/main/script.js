@@ -1,7 +1,7 @@
-hamburger
-const hamburger = document.getElementById("hamburger");
-const mainMenu = document.getElementById ("links");
-const backgr = document.getElementById("open-menu");
+//HAMBURGER
+const hamburger = document.querySelector("#hamburger");
+const mainMenu = document.querySelector("#links");
+const backgr = document.querySelector("#open-menu");
 
 hamburger.onclick = function() {
     hamburger.classList.toggle("active");
@@ -9,19 +9,210 @@ hamburger.onclick = function() {
     backgr.classList.toggle("active");
 }
 
-backgr.onclick = function() {
-    hamburger.classList.remove("active");
-    mainMenu.classList.remove("active");
-    backgr.classList.remove("active");
-}
+//CAROUSEL PETS
+const SOURCE_DATA = [
+    {
+      name: "giant-panda",
+      title: "GIANT PANDAS",
+      description: "Native to Southwest China",
+      type: "grass"
+    },
+    {
+      name: "sloth",
+      title: "TWO-TOED SLOTH",
+      description: "Mesoamerica, South America",
+      type: "grass"
+    },
+    {
+      name: "eagles",
+      title: "EAGLES",
+      description: "Native to South America",
+      type: "meat"
+    },
+    {
+      name: "cheet",
+      title: "CHEETAHS",
+      description: "Native to Africa",
+      type: "meat"
+    },
+    {
+      name: "gorilla",
+      title: "GORILLAS",
+      description: "Native to Congo",
+      type: "grass"
+    },
+    {
+      name: "alligator",
+      title: "ALLIGATORS",
+      description: "Native to Southeastern U. S.",
+      type: "meat"
+    },
+    {
+      name: "koala",
+      title: "KOALA",
+      description: "Native to Australia",
+      type: "grass"
+    },
+    {
+      name: "elephant",
+      title: "ELEPHANT",
+      description: "Native to Africa",
+      type: "grass"
+    },
+    {
+      name: "zubr",
+      title: "ZUBR",
+      description: "Native to Belarus",
+      type: "grass"
+    },
+    {
+      name: "giraffe",
+      title: "GIRAFFE",
+      description: "Native to Africa",
+      type: "grass"
+    },
+    {
+      name: "pantera",
+      title: "PANTERA",
+      description: "Native to Asia",
+      type: "meat"
+    },
+    {
+      name: "lion",
+      title: "LION",
+      description: "Native to Africa",
+      type: "meat"
+    },
+    {
+      name: "seal",
+      title: "SEAL",
+      description: "Native to the Arctic",
+      type: "meat"
+    },
+    {
+      name: "alpaca",
+      title: "ALPACA",
+      description: "Native to Peru",
+      type: "grass"
+    },
+    {
+      name: "brown-bear",
+      title: "BROWN BEAR",
+      description: "Native to Eurasia",
+      type: "meat"
+    },
+    {
+      name: "lemur",
+      title: "LEMUR",
+      description: "Native to Madagaskar",
+      type: "grass"
+    },
+    {
+      name: "rhinos",
+      title: "RHINOS",
+      description: "Native to Africa",
+      type: "grass"
+    }
+  ];
+  
+  const animalIcon = {
+    meat: "meet-fish_icon",
+    grass: "banana-bamboo_icon"
+  };
+  
+  const MAX_CARDS_SET = 6;
+  const UNIQUE_CARDS = [];
+  
+  const uniqueIndex = () => {
+    return Math.floor(Math.random() * SOURCE_DATA.length);
+  };
+  
+  while (UNIQUE_CARDS.length < MAX_CARDS_SET) {
+    const INDEX = uniqueIndex();
+    if (!UNIQUE_CARDS.includes(INDEX)) {
+      UNIQUE_CARDS.push(INDEX);
+    }
+  }
+  
+  const createCard = (animalData) => {
+    return `<div class="foto-card-container">
+  <img class="img-card" src="../../assets/images/${animalData.name}.jpg">
+  <div class="box-bottom">
+  <div class="cards-text">
+  <p class="card-title">${animalData.title}</p>
+  <p class="card-descr">${animalData.description}</p>
+  </div>
+  <div class="icon-card" id="icon-card2">
+  <img src="../../assets/icons/${animalIcon[animalData.type]}.svg">
+  </div>
+  </div>
+  </div>`;
+  };
+  
+  const rightBtn = document.querySelector("#next");
+  const leftBtn = document.querySelector("#prev");
+  const root = document.querySelector(".scroll-animals");
+  const current = document.querySelector(".current-items");
+  
+  const createCards = (elem) => {
+    const FINAL = [];
+    for (let i = 0; i < UNIQUE_CARDS.length; i++) {
+      let index = UNIQUE_CARDS[i];
+      const CARD = createCard(SOURCE_DATA[index]);
+      FINAL.push(CARD);
+    }
+    return elem.insertAdjacentHTML("afterbegin", FINAL.join(""));
+  };
+  
+  function generateNewItems(side) {
+    const wrapper = document.createElement("div");
+    wrapper.setAttribute("class", side === "right" ? "js-next items" : "js-prev items");
+    createCards(wrapper);
+    side === "right" ? root.append(wrapper) : root.insertBefore(wrapper, current);
+  }
 
-// //carousel pets
+  const jsPrev = document.querySelector(".js-prev");
+  
+  rightBtn.addEventListener("click", () => {
+    generateNewItems("right");
+    const jsNext = document.querySelector(".js-next");
+    jsNext.classList.add("transition-right");
+    jsNext.classList.remove("transition-right");
+    root.removeChild(document.querySelector(".current-items"));
+    const nextElem = document.querySelector(".js-next");
+    nextElem.classList.remove("js-next");
+    nextElem.classList.add("current-items");
+    setTimeout(() => {
+    }, 1100);
+  });
 
-// const NEXT_RIGHT = document.querySelector("#next");
-// const PREV_LEFT = document.querySelector("#prev");
+
+
+  leftBtn.addEventListener("click", () => {
+    generateNewItems("left");
+  });
+
+
+// const moveRight = () => {
+//     jsNext.classList.add("transition-right");
+    // leftBtn.removeEventListener("click", moveLeft);
+    // rightBtn.removeEventListener("click", moveRight);
+
+// const moveLeft = () => {
+//     jsPrev.classList.add("transition-left");
+    // leftBtn.removeEventListener("click", moveLeft);
+    // rightBtn.removeEventListener("click", moveRight);
+
+
+// leftBtn.addEventListener("click", moveLeft);
+// rightBtn.addEventListener("click", moveRight);
+
+
+
+
+//_ _ _ _ _
+
 // const CAROUSEL = document.querySelector("#scroll-animals");
-// const ITEM_LEFT = document.querySelector("#left-items");
-// const ITEM_RIGHT = document.querySelector("#right-items");
 
 // const createCardTemplate = () => {
 //     const card = document.createElement("div");
@@ -44,68 +235,11 @@ backgr.onclick = function() {
 // PREV_LEFT.addEventListener("click", moveLeft);
 // NEXT_RIGHT.addEventListener("click", moveRight);
 
-// CAROUSEL.addEventListener("animationend", (animationEvent) => {
-//     let itemNew;
-//     if (animationEvent.animationName === "move-left") {
-//         CAROUSEL.classList.remove("transition-left");
-//         itemNew = ITEM_LEFT;
-//         document.querySelector("#central-items").innerHTML = ITEM_LEFT.innerHTML;
-//     } else {
-//         CAROUSEL.classList.remove("transition-right");
-//         itemNew = ITEM_RIGHT;
-//         document.querySelector("#central-items").innerHTML = ITEM_RIGHT.innerHTML;
-//     };
-
-//     PREV_LEFT.addEventListener("click", moveLeft);
-//     NEXT_RIGHT.addEventListener("click", moveRight);
-
 // });
 
-// const SOURCE_DATA = [
-//     {
-//       name: "giant-panda",
-//       title: "GIANT PANDAS",
-//       description: "Native to Southwest China",
-//       type: "grass",
-//     },
-//     {
-//       name: "sloth",
-//       title: "TWO-TOED SLOTH",
-//       description: "Mesoamerica, South America",
-//       type: "grass",
-//     },
-//     {
-//       name: "eagles",
-//       title: "EAGLES",
-//       description: "Native to South America",
-//       type: "meat",
-//     },
-//     {
-//       name: "cheet",
-//       title: "CHEETAHS",
-//       description: "Native to Africa",
-//       type: "meat",
-//     },
-//     {
-//       name: "gorilla",
-//       title: "GORILLAS",
-//       description: "Native to Congo",
-//       type: "grass",
-//     },
-//     {
-//       name: "alligator",
-//       title: "ALLIGATORS",
-//       description: "Native to Southeastern U. S.",
-//       type: "meat",
-//     }
-//   ];
+
+//   ____________________________________
   
-//   const uniqueIndex = () => {
-//       return Math.floor(Math.random()*SOURCE_DATA.length);
-//   }
-  
-//   const UNIQUE_CARDS = [];
-//   const MAX_CARDS_SET = 6;
   
 //   while (UNIQUE_CARDS.length <= MAX_CARDS_SET) {
 //       const INDEX = uniqueIndex();
@@ -339,43 +473,44 @@ const review3 = document.querySelector("#review-3");
 const closePopup1 = document.querySelector("#x-icon1");
 const closePopup2 = document.querySelector("#x-icon2");
 const closePopup3 = document.querySelector("#x-icon3");
-const backgr2 = document.getElementById("open-menu");
 
 review1.onclick = function() {
     popup1.classList.toggle("active");
-    backgr2.classList.toggle("active");
+    backgr.classList.toggle("active");
 }
 
 review2.onclick = function() {
     popup2.classList.toggle("active");
-    backgr2.classList.toggle("active");
+    backgr.classList.toggle("active");
 }
 
 review3.onclick = function() {
     popup3.classList.toggle("active");
-    backgr2.classList.toggle("active");
+    backgr.classList.toggle("active");
 }
 
 closePopup1.onclick = function() {
     popup1.classList.remove("active");
-    backgr2.classList.remove("active");
+    backgr.classList.remove("active");
 }
 
 closePopup2.onclick = function() {
     popup2.classList.remove("active");
-    backgr2.classList.remove("active");
+    backgr.classList.remove("active");
 }
 
 closePopup3.onclick = function() {
     popup3.classList.remove("active");
-    backgr2.classList.remove("active");
+    backgr.classList.remove("active");
 }
 
-backgr2.onclick = function() {
+backgr.onclick = function() {
     popup1.classList.remove("active");
     popup2.classList.remove("active");
     popup3.classList.remove("active");
-    backgr2.classList.remove("active");
+    hamburger.classList.remove("active");
+    mainMenu.classList.remove("active");
+    backgr.classList.remove("active");
 }
 
 

@@ -684,8 +684,8 @@ nav {
 }
 
 @keyframes move-right {
-    from {left: 0px;}
-    to {left: -1160px;}
+    from {left: 1187px;}
+    to {left: 0;}
 }
 
 .transition-right {
@@ -694,12 +694,12 @@ nav {
     animation-duration: 1s;
     animation-fill-mode: forwards;
     animation-timing-function: linear;
-    position: relative;
+    position: absolute;
     z-index: 2;
 }
 
 @keyframes move-left {
-    from {left: -1160px;}
+    from {left: -1187px;}
     to {left: 0;}
 }
 
@@ -709,7 +709,7 @@ nav {
     animation-duration: 1s;
     animation-fill-mode: forwards;
     animation-timing-function: linear;
-    position: relative;
+    position: absolute;
     z-index: 2;
 }
 

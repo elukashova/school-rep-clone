@@ -10,34 +10,34 @@
     <link rel="stylesheet" href="../../pages/main/style.css">
 </head>
 <body>
+    <div id="open-menu"></div>
         <header>
-                    <nav>
-                        <div class="navbar">
-                            <div class="logo">
-                                <img class="bamboo" src="../../assets/icons/bamboo.svg" />
-                                <h1><a href="../../pages/main/index.html">PetStory online</a></h1>
-                            </div>
-                            <!--hamburger-->
-                            <!-- <input class="hamburger" type="checkbox" id="side-menu"/>
-                            <label class="burger" for="hamburger"><span class="bar"></span></label>     -->
-                            <!-- menu-->
-                            <!-- <div class="menu"> -->
-                                <ul class="links">
-                                    <li><a class="link-item" id="about">About</a></li>
-                                    <li><a class="link-item" id="map" href="#map">Map</a></li>
-                                    <li><a class="link-item" id="zoos" href="#zoos">Zoos</a></li>
-                                    <li><a class="link-item" id="donate" href="../../pages/donate/index.html">Donate</a></li>
-                                    <li><a class="link-item" id="contact" href="#contact">Contact us</a></li>
-                                    <li><a class="link-item" id="copyright" href="https://www.figma.com/file/jfEFwkXVj1WRq7sUHDr8os/PetStory-online">Designed by ©</a></li>
-                                </ul>
-                            <!-- </div> -->
-                            <div class="hamburger">
-                                <span class="bar"></span>
-                                <span class="bar"></span>
-                                <span class="bar"></span>
-                            </div>
+                <nav>
+                    <div class="navbar">
+                        <div class="logo">
+                            <img class="bamboo" src="../../assets/icons/bamboo.svg" />
+                            <h1><a href="../../pages/main/index.html">PetStory online</a></h1>
                         </div>
-                    </nav>
+                        <ul id="links">
+                            <div class="logo-ham">
+                                <img class="bamboo" src="../../assets/icons/bamboo-orange.svg" />
+                                <span><a href="../../pages/main/index.html">PetStory online</a></span>
+                            </div>
+                            <li class="nav-links"><a class="link-item" id="about" href="../../pages/main/index.html">About</a></li>
+                            <li class="nav-links"><a class="link-item" id="map" href="#map">Map</a></li>
+                            <li class="nav-links"><a class="link-item" id="zoos" href="#zoos">Zoos</a></li>
+                            <li class="nav-links"><a class="link-item" id="donate" href="../../pages/donate/index.html">Donate</a></li>
+                            <li class="nav-links"><a class="link-item" id="contact" href="#contact">Contact us</a></li>
+                            <li class="nav-links"><a class="link-item" id="copyright" href="https://www.figma.com/file/jfEFwkXVj1WRq7sUHDr8os/PetStory-online">Designed by ©</a></li>
+                        </ul>
+                        <!-- </div> -->
+                        <div id="hamburger">
+                            <span class="bar"></span>
+                            <span class="bar"></span>
+                            <span class="bar"></span>
+                        </div>
+                    </div>
+                </nav>
         </header>
     <main>
         <section class="watch-animal">
@@ -72,107 +72,275 @@
         </section>
         <section class="pets">
             <div class="animals-cards">
-                <div class="rnd-btn1">
-                    <img class="btn1-icon" src="../../assets/icons/arrow_left.svg" />
+                <div class="pets-wrap">
+                    <div class="scroll-animals" id="scroll-animals">
+                        <!--1 card-->
+                        <div id="left-items">
+                            <div class="foto-card-container" id="card1">
+                                <img class="img-card" src="../../assets/images/giant-panda.jpg">
+                                <div class="box-bottom">
+                                    <div class="cards-text">
+                                        <p class="card-title">GIANT PANDAS</p>
+                                        <p class="card-descr">Native to Southwest China</p>
+                                    </div>
+                                    <div class="icon-card1">
+                                        <img src="../../assets/icons/banana-bamboo_icon.svg">
+                                    </div>
+                                </div>
+                            </div>
+                                <!--2 card-->
+                                <div class="foto-card-container" id="card2">
+                                    <img class="img-card" src="../../assets/images/sloth.jpg">
+                                    <div class="box-bottom">
+                                        <div class="cards-text">
+                                            <p class="card-title">TWO-TOED SLOTH</p>
+                                            <p class="card-descr">Mesoamerica, South America</p>
+                                        </div>
+                                        <div class="icon-card1">
+                                            <img src="../../assets/icons/banana-bamboo_icon.svg">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--3 card-->
+                                <div class="foto-card-container" id="card3">
+                                    <img class="img-card" src="../../assets/images/eagles.jpg">
+                                    <div class="box-bottom">
+                                        <div class="cards-text">
+                                            <p class="card-title">EAGLES</p>
+                                            <p class="card-descr">Native to South America</p>
+                                        </div>
+                                        <div class="icon-card2">
+                                            <img src="../../assets/icons/meet-fish_icon.svg">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--4 card-->
+                                <div class="foto-card-container" id="card4">
+                                    <img class="img-card" src="../../assets/images/cheet.jpg">
+                                    <div class="box-bottom">
+                                        <div class="cards-text">
+                                            <p class="card-title">CHEETAHS</p>
+                                            <p class="card-descr">Native to Africa</p>
+                                        </div>
+                                        <div class="icon-card2">
+                                        <img src="../../assets/icons/meet-fish_icon.svg">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--5 card-->
+                                <div class="foto-card-container" id="card5">
+                                    <img class="img-card" id="card3-1000" src="../../assets/images/gorilla.jpg">
+                                    <div class="box-bottom">
+                                        <div class="cards-text">
+                                            <p class="card-title">GORILLAS</p>
+                                            <p class="card-descr">Native to Congo</p>
+                                        </div>
+                                        <div class="icon-card" id="icon-card1">
+                                        <img src="../../assets/icons/banana-bamboo_icon.svg">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--5 hidden card-->
+                                <div class="foto-card-container" id="card5-hid">
+                                        <img class="img-card" src="../../assets/images/alligator.jpg">
+                                    <div class="box-bottom">
+                                        <div class="cards-text">
+                                            <p class="card-title">ALLIGATORS</p>
+                                            <p class="card-descr">Native to Southeastern U. S.</p>
+                                            <p class="card-descr-hidden">Native to Southeastern United States</p>
+                                        </div>
+                                        <div class="icon-card" id="icon-card2">
+                                        <img src="../../assets/icons/meet-fish_icon.svg">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--6 card-->
+                                <div class="foto-card-container">
+                                    <img class="img-card" src="../../assets/images/alligator.jpg">
+                                    <div class="box-bottom">
+                                        <div class="cards-text">
+                                            <p class="card-title">ALLIGATORS</p>
+                                            <p class="card-descr">Native to Southeastern U. S.</p>
+                                        </div>
+                                        <div class="icon-card" id="icon-card2">
+                                        <img src="../../assets/icons/meet-fish_icon.svg">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <!-- extras-->
+                        <!--1 card central-->
+                        <div id="central-items">
+                            <div class="foto-card-container" id="card1">
+                                <img class="img-card" src="../../assets/images/giant-panda.jpg">
+                                <div class="box-bottom">
+                                    <div class="cards-text">
+                                        <p class="card-title">GIANT PANDAS</p>
+                                        <p class="card-descr">Native to Southwest China</p>
+                                    </div>
+                                    <div class="icon-card" id="icon-card2">
+                                        <img src="../../assets/icons/banana-bamboo_icon.svg">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--2 card central-->
+                            <div class="foto-card-container">
+                                <img class="img-card" src="../../assets/images/sloth.jpg">
+                                <div class="box-bottom">
+                                    <div class="cards-text">
+                                        <p class="card-title">TWO-TOED SLOTH</p>
+                                        <p class="card-descr">Mesoamerica, South America</p>
+                                    </div>
+                                    <div class="icon-card" id="icon-card2">
+                                        <img src="../../assets/icons/banana-bamboo_icon.svg">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--3 card central-->
+                            <div class="foto-card-container">
+                                <img class="img-card" src="../../assets/images/eagles.jpg">
+                                <div class="box-bottom">
+                                    <div class="cards-text">
+                                        <p class="card-title">EAGLES</p>
+                                        <p class="card-descr">Native to South America</p>
+                                    </div>
+                                    <div class="icon-card" id="icon-card2">
+                                        <img src="../../assets/icons/meet-fish_icon.svg">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--4 card central-->
+                            <div class="foto-card-container">
+                                <img class="img-card" src="../../assets/images/cheet.jpg">
+                                <div class="box-bottom">
+                                    <div class="cards-text">
+                                        <p class="card-title">CHEETAHS</p>
+                                        <p class="card-descr">Native to Africa</p>
+                                    </div>
+                                    <div class="icon-card" id="icon-card2">
+                                    <img src="../../assets/icons/meet-fish_icon.svg">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--5 card central-->
+                            <div class="foto-card-container">
+                                <img class="img-card" id="card3-1000" src="../../assets/images/gorilla.jpg">
+                                <div class="box-bottom">
+                                    <div class="cards-text">
+                                        <p class="card-title">GORILLAS</p>
+                                        <p class="card-descr">Native to Congo</p>
+                                    </div>
+                                    <div class="icon-card" id="icon-card1">
+                                    <img src="../../assets/icons/banana-bamboo_icon.svg">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--6 central-->
+                            <div class="foto-card-container" id="card6">
+                                <img class="img-card" src="../../assets/images/penguin.jpg">
+                                <div class="box-bottom">
+                                    <div class="cards-text">
+                                        <p class="card-title">PENGUINS</p>
+                                        <p class="card-descr">Native to Antarctica</p>
+                                    </div>
+                                    <div class="icon-card" id="icon-card2">
+                                        <img src="../../assets/icons/meet-fish_icon.svg">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- left-->
+                        <!--1 right-->
+                        <div id="right-items">
+                            <div class="foto-card-container">
+                                <img class="img-card" src="../../assets/images/giant-panda.jpg">
+                                <div class="box-bottom">
+                                    <div class="cards-text">
+                                        <p class="card-title">GIANT PANDAS</p>
+                                        <p class="card-descr">Native to Southwest China</p>
+                                    </div>
+                                    <div class="icon-card" id="icon-card1">
+                                        <img src="../../assets/icons/banana-bamboo_icon.svg">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--2 right-->
+                            <div class="foto-card-container">
+                                <img class="img-card" src="../../assets/images/sloth.jpg">
+                                <div class="box-bottom">
+                                    <div class="cards-text">
+                                        <p class="card-title">TWO-TOED SLOTH</p>
+                                        <p class="card-descr">Mesoamerica, South America</p>
+                                    </div>
+                                    <div class="icon-card" id="icon-card1">
+                                        <img src="../../assets/icons/banana-bamboo_icon.svg">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--3 right-->
+                            <div class="foto-card-container">
+                                <img class="img-card" src="../../assets/images/eagles.jpg">
+                                <div class="box-bottom">
+                                    <div class="cards-text">
+                                        <p class="card-title">EAGLES</p>
+                                        <p class="card-descr">Native to South America</p>
+                                    </div>
+                                    <div class="icon-card" id="icon-card2">
+                                        <img src="../../assets/icons/meet-fish_icon.svg">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--4 right-->
+                            <div class="foto-card-container">
+                                <img class="img-card" src="../../assets/images/cheet.jpg">
+                                <div class="box-bottom">
+                                    <div class="cards-text">
+                                        <p class="card-title">CHEETAHS</p>
+                                        <p class="card-descr">Native to Africa</p>
+                                    </div>
+                                    <div class="icon-card" id="icon-card2">
+                                    <img src="../../assets/icons/meet-fish_icon.svg">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--5 right-->
+                            <div class="foto-card-container">
+                                <img class="img-card" id="card3-1000" src="../../assets/images/gorilla.jpg">
+                                <div class="box-bottom">
+                                    <div class="cards-text">
+                                        <p class="card-title">GORILLAS</p>
+                                        <p class="card-descr">Native to Congo</p>
+                                    </div>
+                                    <div class="icon-card" id="icon-card1">
+                                    <img src="../../assets/icons/banana-bamboo_icon.svg">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--6 right-->
+                            <div class="foto-card-container">
+                                <img class="img-card" src="../../assets/images/penguin.jpg">
+                                <div class="box-bottom">
+                                    <div class="cards-text">
+                                        <p class="card-title">PENGUINS</p>
+                                        <p class="card-descr">Native to Antarctica</p>
+                                    </div>
+                                    <div class="icon-card" id="icon-card1">
+                                        <img src="../../assets/icons/meet-fish_icon.svg">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="rnd-btn2">
-                    <img class="btn2-icon" src="../../assets/icons/arrow_right.svg" />
+                <div class="rnd-btns"></div>
+                    <button id="prev" class="rnd-btn1">
+                        <img class="btn1-icon" src="../../assets/icons/arrow_left.svg" />
+                    </button>
+                    <button id="next" class="rnd-btn2">
+                        <img class="btn2-icon" src="../../assets/icons/arrow_right.svg" />
+                    </button>
                 </div>
-                <div class="scroll-animals">
-                    <!--1 card-->
-                    <div class="foto-card-container" id="card1">
-                            <img class="img-card" src="../../assets/images/giant-panda.jpg">
-                        <div class="box-bottom">
-                            <div class="cards-text">
-                                <p class="card-title">GIANT PANDAS</p>
-                                <p class="card-descr">Native to Southwest China</p>
-                            </div>
-                            <div class="icon-card1">
-                                <img src="../../assets/icons/banana-bamboo_icon.svg">
-                            </div>
-                        </div>
-                    </div>
-                    <!--2 card-->
-                    <div class="foto-card-container" id="card2">
-                             <img class="img-card" src="../../assets/images/eagles.jpg">
-                        <div class="box-bottom">
-                            <div class="cards-text">
-                                <p class="card-title">EAGLES</p>
-                                <p class="card-descr">Native to South America</p>
-                            </div>
-                            <div class="icon-card2">
-                                <img src="../../assets/icons/meet-fish_icon.svg">
-                            </div>
-                        </div>
-                    </div>
-                    <!--3 card-->
-                    <div class="foto-card-container" id="card3">
-                            <img class="img-card" id="card3-1000" src="../../assets/images/gorilla.jpg">
-                        <div class="box-bottom">
-                            <div class="cards-text">
-                                <p class="card-title">GORILLAS</p>
-                                <p class="card-descr">Native to Congo</p>
-                            </div>
-                            <div class="icon-card1">
-                            <img src="../../assets/icons/banana-bamboo_icon.svg">
-                            </div>
-                        </div>
-                    </div>
-                    <!--4 card-->
-                    <div class="foto-card-container" id="card4">
-                            <img class="img-card" src="../../assets/images/sloth.jpg">
-                        <div class="box-bottom">
-                            <div class="cards-text">
-                                <p class="card-title">TWO-TOED SLOTH</p>
-                                <p class="card-descr">Mesoamerica, South America</p>
-                            </div>
-                            <div class="icon-card1">
-                                <img src="../../assets/icons/banana-bamboo_icon.svg">
-                            </div>
-                        </div>
-                    </div>
-                    <!--5 card-->
-                    <div class="foto-card-container" id="card5">
-                            <img class="img-card" src="../../assets/images/cheet.jpg">
-                        <div class="box-bottom">
-                            <div class="cards-text">
-                                <p class="card-title">CHEETAHS</p>
-                                <p class="card-descr">Native to Africa</p>
-                            </div>
-                            <div class="icon-card2">
-                            <img src="../../assets/icons/meet-fish_icon.svg">
-                            </div>
-                        </div>
-                    </div>
-                    <!--5 hidden card-->
-                    <div class="foto-card-container" id="card5-hid">
-                            <img class="img-card" src="../../assets/images/alligator.jpg">
-                        <div class="box-bottom">
-                            <div class="cards-text">
-                                <p class="card-title">ALLIGATORS</p>
-                                <p class="card-descr">Native to Southeastern U. S.</p>
-                                <p class="card-descr-hidden">Native to Southeastern United States</p>
-                            </div>
-                            <div class="icon-card2">
-                            <img src="../../assets/icons/meet-fish_icon.svg">
-                            </div>
-                    </div>
-                    </div>
-                    <!--6 card-->
-                    <div class="foto-card-container" id="card6">
-                            <img class="img-card" src="../../assets/images/penguin.jpg">
-                        <div class="box-bottom">
-                            <div class="cards-text">
-                                <p class="card-title">PENGUINS</p>
-                                <p class="card-descr">Native to Antarctica</p>
-                            </div>
-                            <div class="icon-card2">
-                                <img src="../../assets/icons/meet-fish_icon.svg">
-                            </div>
-                        </div>
-                    </div>
-                    <a href="#map" class="btn_2"><div class="text-btn2">CHOOSE YOUR FAVORITE</div></a>
-                </div>
+                <a href="#map" class="btn_2"><div class="text-btn2">CHOOSE YOUR FAVORITE</div></a>
             </div>
             <div class="flower2">
                 <img src="../../assets/images/palm_foto.png">
@@ -234,7 +402,8 @@
             <div class="testimonials-block">
                 <div class="testimonials-cont">
                     <div class="testimonials-title">Testimonials</div>
-                    <div class="reviews-container">
+                    <div class="reviews-container" id="reviews-container">
+                        <!-- first -->
                         <div class="review-box" id="review-1">
                             <div class="box-top">
                                 <div class="user-img">
@@ -300,6 +469,139 @@
                                 </div>
                             </div>
                             <div class="box-text">
+                                <p class="comment">My son delighted very much ljves to watch gouillas. My son delighted very much ljves to watch gouillas. Online zoo is one jf the ways to instill a love for animals.The best online zoo I’ve met. My son delighted very much ljves to watch gouillas. Online zoo is one jf the ways to instill a love for animals.The best online zoo I’ve met. My son delighted very much ljves to watch gouillas. Online zoo is one jf the ways to instill a love for animals.The best online zoo I’ve met. My son delighted very much ljves to watch gouillas.<br>
+                                    The best online zoo I’ve met. My son delighted very much ljves to watch gouillas. Online zoo is one jf
+                                </p>
+                            </div>
+                        </div>
+                        <!-- fifth slider -->
+                        <div class="review-box" id="review-5-true">
+                            <div class="box-top">
+                                <div class="user-profile">
+                                    <div class="user-img" id="review-5-foto">
+                                        <img src="../../assets/images/jordan-5.png">
+                                    </div>
+                                    <div class="user-info" id="review-5-user">
+                                        <p class="user-name">Michael Jordan</p>
+                                        <p class="other-info">Florida • Today</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box-text">
+                                <p class="comment">Online zoo is one jf the ways to instill a love for animals.The best online zoo I’ve met. My son delighted very much ljves to watch gouillas. Online zoo is one jf the ways to instill a love for animals.The best online zoo I’ve met. My son delighted very much ljves to watch gouillas. Online zoo is one jf the ways to instill a love for animals.The best online zoo I’ve met. My son delighted very much ljves to watch gouillas.<br>
+                                    The best online zoo I’ve met. My son delighted very much ljves to watch gouillas. My son delighted very much ljves to watch gouillas. Online zoo is one jf
+                                </p>
+                            </div>
+                        </div>                        
+                        <!-- sixth slider -->
+                        <div class="review-box" id="review-6">
+                            <div class="box-top">
+                                <div class="user-profile">
+                                    <div class="user-img" id="review-5-foto">
+                                        <img src="../../assets/images/dalai-6.png">
+                                    </div>
+                                    <div class="user-info" id="review-5-user">
+                                        <p class="user-name">Dalai Lama</p>
+                                        <p class="other-info">Tibet • Today</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box-text">
+                                <p class="comment">My son delighted very much ljves to watch gouillas. Online zoo is one jf the ways to instill a love for animals.The best online zoo I’ve met. My son delighted very much ljves to watch gouillas. Online zoo is one jf the ways to instill a love for animals.The best online zoo I’ve met. My son delighted very much ljves to watch gouillas. Online zoo is one jf the ways to instill a love for animals.The best online zoo I’ve met. My son delighted very much ljves to watch gouillas.<br>
+                                    The best online zoo I’ve met. My son delighted very much ljves to watch gouillas. Online zoo is one jf
+                                </p>
+                            </div>
+                        </div>                        
+                        <!-- seventh slider -->
+                        <div class="review-box" id="review-7">
+                            <div class="box-top">
+                                <div class="user-profile">
+                                    <div class="user-img" id="review-5-foto">
+                                        <img src="../../assets/images/arnold-7.png">
+                                    </div>
+                                    <div class="user-info" id="review-5-user">
+                                        <p class="user-name">Arnold Schwarznegger</p>
+                                        <p class="other-info">California • Today</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box-text">
+                                <p class="comment">Online zoo is one jf the ways to instill a love for animals.The best online zoo I’ve met. My son delighted very much ljves to watch gouillas. Online zoo is one jf the ways to instill a love for animals.The best online zoo I’ve met. My son delighted very much ljves to watch gouillas. Online zoo is one jf the ways to instill a love for animals.The best online zoo I’ve met. My son delighted very much ljves to watch gouillas.<br>
+                                    The best online zoo I’ve met. My son delighted very much ljves to watch gouillas. My son delighted very much ljves to watch gouillas. Online zoo is one jf
+                                </p>
+                            </div>
+                        </div>
+                        <!-- eigth slider -->
+                        <div class="review-box" id="review-8">
+                            <div class="box-top">
+                                <div class="user-profile">
+                                    <div class="user-img" id="review-5-foto">
+                                        <img src="../../assets/images/dave-7.png">
+                                    </div>
+                                    <div class="user-info" id="review-5-user">
+                                        <p class="user-name">Dave Grohl</p>
+                                        <p class="other-info">Virginia • Today</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box-text">
+                                <p class="comment">My son delighted very much ljves to watch gouillas. Online zoo is one jf the ways to instill a love for animals.The best online zoo I’ve met. My son delighted very much ljves to watch gouillas. Online zoo is one jf the ways to instill a love for animals.The best online zoo I’ve met. My son delighted very much ljves to watch gouillas. Online zoo is one jf the ways to instill a love for animals.The best online zoo I’ve met. My son delighted very much ljves to watch gouillas.<br>
+                                    The best online zoo I’ve met. My son delighted very much ljves to watch gouillas. Online zoo is one jf
+                                </p>
+                            </div>
+                        </div>
+                        <!-- ninth slider -->
+                        <div class="review-box" id="review-9">
+                            <div class="box-top">
+                                <div class="user-profile">
+                                    <div class="user-img" id="review-5-foto">
+                                        <img src="../../assets/images/adriano-9.png">
+                                    </div>
+                                    <div class="user-info" id="review-5-user">
+                                        <p class="user-name">Adriano Celentano</p>
+                                        <p class="other-info">Italy • Today</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box-text">
+                                <p class="comment">The best online zoo I’ve met. My son delighted very much ljves to watch gouillas. Online zoo is one jf the ways to instill a love for animals.The best online zoo I’ve met. My son delighted very much ljves to watch gouillas. Online zoo is one jf the ways to instill a love for animals.The best online zoo I’ve met. My son delighted very much ljves to watch gouillas.<br>
+                                    The best online zoo I’ve met. Online zoo is one jf the ways to instill a love for animals. My son delighted very much ljves to watch gouillas. My son delighted very much ljves to watch gouillas. Online zoo is one jf
+                                </p>
+                            </div>
+                        </div>
+                        <!-- tenth slider -->
+                        <div class="review-box" id="review-10">
+                            <div class="box-top">
+                                <div class="user-profile">
+                                    <div class="user-img" id="review-5-foto">
+                                        <img src="../../assets/images/cher-10.png">
+                                    </div>
+                                    <div class="user-info" id="review-5-user">
+                                        <p class="user-name">Cher</p>
+                                        <p class="other-info">Malibu • Today</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box-text">
+                                <p class="comment">Online zoo is one jf the ways to instill a love for animals.The best online zoo I’ve met. My son delighted very much ljves to watch gouillas. Online zoo is one jf the ways to instill a love for animals.The best online zoo I’ve met. My son delighted very much ljves to watch gouillas. Online zoo is one jf the ways to instill a love for animals.The best online zoo I’ve met. My son delighted very much ljves to watch gouillas.<br>
+                                    The best online zoo I’ve met. My son delighted very much ljves to watch gouillas. My son delighted very much ljves to watch gouillas. Online zoo is one jf
+                                </p>
+                            </div>
+                        </div>
+                        <!-- eleventh slider -->
+                        <div class="review-box" id="review-11">
+                            <div class="box-top">
+                                <div class="user-profile">
+                                    <div class="user-img" id="review-5-foto">
+                                        <img src="../../assets/images/shakira-11.png">
+                                    </div>
+                                    <div class="user-info" id="review-5-user">
+                                        <p class="user-name">Shakira</p>
+                                        <p class="other-info">Barcelona • Today</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box-text">
                                 <p class="comment">My son delighted very much ljves to watch gouillas. Online zoo is one jf the ways to instill a love for animals.The best online zoo I’ve met. My son delighted very much ljves to watch gouillas. Online zoo is one jf the ways to instill a love for animals.The best online zoo I’ve met. My son delighted very much ljves to watch gouillas. Online zoo is one jf the ways to instill a love for animals.The best online zoo I’ve met. My son delighted very much ljves to watch gouillas.<br>
                                     The best online zoo I’ve met. My son delighted very much ljves to watch gouillas. Online zoo is one jf
                                 </p>
@@ -325,10 +627,78 @@
                             </div>
                         </div>
                     </div>
+                    <!--POPUP 1-->
+                    <div class="popup" id="popup-1">
+                        <div class="x-icon" id="x-icon1">
+                            <img src="../../assets/icons/x_icon_orange.svg">
+                        </div>
+                        <div class="review-box" id="review-1-popup">
+                            <div class="box-top">
+                                <div class="user-img">
+                                    <img src="../../assets/icons/user_icon.svg">
+                                </div>
+                                <div class="user-info">
+                                    <p class="user-name">Michael John</p>
+                                    <p class="other-info">Local Austria • Today</p>
+                                </div>
+                            </div>
+                            <div class="box-text">
+                                <p class="comment">The best online zoo I’ve met. My son delighted very much ljves to watch gouillas. Online zoo is one jf the ways to instill a love for animals.The best online zoo I’ve met. My son delighted very much ljves to watch gouillas. Online zoo is one jf the ways to instill a love for animals.<br>
+                                    The best online zoo I’ve met. My son delighted very much ljves to watch gouillas. Online zoo is one jf the ways to instill a love for animals.The best online zoo I’ve met. My son delighted very much ljves to watch gouillas. Online zoo is one jf the ways to instill a love for animals. The best online zoo I’ve met. My son delighted very much
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--POPUP 2-->
+                    <div class="popup" id="popup-2">
+                        <div class="x-icon" id="x-icon2">
+                            <img src="../../assets/icons/x_icon_orange.svg">
+                        </div>
+                        <div class="review-box" id="review-1-popup">
+                            <div class="box-top">
+                                <div class="user-img">
+                                    <img src="../../assets/images/user2.png">
+                                </div>
+                                <div class="user-info">
+                                    <p class="user-name">Oskar Samborsky</p>
+                                    <p class="other-info">Local Austria • Yesterday</p>
+                                </div>
+                            </div>
+                            <div class="box-text">
+                                <p class="comment">Online zoo is one jf the ways to instill a love for animals.The best online zoo I’ve met. My son delighted very much ljves to watch gouillas. Online zoo is one jf the ways to instill a love for animals.The best online zoo I’ve met. My son delighted very much ljves to watch gouillas.<br> 
+                                    The best online zoo I’ve met. My son delighted very much ljves to watch gouillas. Online zoo is one jf the ways to instill a love for animals.The best online zoo I’ve met. My son delighted very much ljves to watch gouillas. Online zoo is one jf the ways to instill a love for animals. The best online zoo I’ve met.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--POPUP 3-->
+                    <div class="popup" id="popup-3">
+                        <div class="x-icon"  id="x-icon3">
+                            <img src="../../assets/icons/x_icon_orange.svg">
+                        </div>
+                        <div class="review-box" id="review-3-popup">
+                            <div class="box-top">
+                                <div class="user-img">
+                                    <img src="../../assets/images/user3.png">
+                                </div>
+                                <div class="user-info">
+                                    <p class="user-name">Fredericka Michelin</p>
+                                    <p class="other-info">Local Austria • Yesterday</p>
+                                </div>
+                            </div>
+                            <div class="box-text">
+                                <p class="comment">The best online zoo I’ve met. My son delighted very much ljves to watch gouillas. Online zoo is one jf the ways to instill a love for animals.The best online zoo I’ve met. My son delighted very much ljves to watch gouillas. Online zoo is one jf the ways to instill a love for animals.<br>
+                                    The best online zoo I’ve met. My son delighted very much ljves to watch gouillas. Online zoo is one jf the ways to instill a love for animals.The best online zoo I’ve met. <br>
+                                    The best online zoo I’ve met. My son delighted very much ljves to watch gouillas. Online
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                     <div class="scroll">
-                        <input type="range" class="scrollbar" min="0" max="10" value="0">
+                        <input type="range" class="scrollbar" id="scrollbar" min="0" max="7" value="0" step="1">
                     </div>
                     <div class="feedback-btn"><div class="text-btn3">LEAVE FEEDBACK</div></div>
+                </div>
             </div>
         </section>
     </main>
@@ -397,6 +767,6 @@
                 <p class="line2">©RSSchool & ©Yem Digital 2021</p>
             </div>
     </footer>
-    <script src="script.js"></script>
+    <script src="../../pages/main/script.js"></script>
 </body>
 </html>

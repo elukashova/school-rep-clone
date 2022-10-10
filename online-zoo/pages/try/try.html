@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../../pages/donate/style.css">
+    <link rel="stylesheet" href="../../pages/try/try.css">
 </head>
 <body>
     <div id="open-menu"></div>
@@ -70,7 +70,7 @@
                                 <label class="label" for="rd3"></label>
                                 <input type="radio" class="radio-button-area" id="rd4" name="amount" value="500">
                                 <label class="label" for="rd4"></label>
-                                <input type="radio" class="radio-button-area" id="rd5" name="amount" value="250">
+                                <input type="radio" class="radio-button-area" id="rd5" name="amount" value="2500">
                                 <label class="label" for="rd5"></label>
                                 <input type="radio" class="radio-button-area" id="rd6" name="amount" value="100" checked>
                                 <label class="label" for="rd6"></label>
@@ -82,16 +82,16 @@
                             <div class="price-line">
                                 <span class="price1">$5000</span>
                                 <span class="price2">$2000</span>
-                                <span class="price3">$1000</span>
+                                <span class="price3" id="price-or">$1000</span>
                                 <span class="price4">$500</span>
                                 <span class="price5">$250</span>
-                                <span class="price6">$100</span>
+                                <span class="price6" id="price-or2">$100</span>
                                 <span class="price7">$50</span>
                                 <span class="price8">$25</span>
                             </div>
                         </div>
                         <div class="amount-field">
-                            <input class="choice" type="number" placeholder="100" min="-9999" max="9999" name="choice">
+                                <input class="choice" type="number" placeholder="100" maxlength="4" min="-999" max="9999">
                             <div class="dol">
                                 <img src="../../assets/icons/dollar.svg">
                             </div>
@@ -184,4 +184,3 @@
     <script src="../../pages/donate/script.js"></script>
 </body>
 </html>
-

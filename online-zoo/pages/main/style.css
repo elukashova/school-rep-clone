@@ -70,9 +70,19 @@ h3 {
 }
 
 body {
-    background-color: var(--white);
     width: 1600px;
+    height: 100%;
 }
+
+#open-menu{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 0;
+    width: 0;
+    z-index: -1;
+  }
 
 nav {
     width: 100%; 
@@ -132,7 +142,7 @@ nav {
     padding-right: 4.75px;
 }
 
-  .links a {
+  #links a {
     font-family: var(--font-family-roboto);
     font-style: normal;
     font-weight: 500;
@@ -142,7 +152,7 @@ nav {
     text-decoration: none;
   }
 
-  header .links {
+  header #links {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -152,17 +162,18 @@ nav {
     transition: all 0.3s ease-out;
   } */
 
-  .links a:hover {
+  #links a:hover {
     color: var(--orange);
   }
 
-  #about {
+  #links #about {
     position: absolute;
     width: 43px;
     height: 22px;
     left: 145px;
     top: 29px;
     color: var(--orange);
+    pointer-events: none;
   }
 
   #map {
@@ -205,7 +216,11 @@ nav {
     top: 29px;
   }
 
-.hamburger {
+.logo-ham {
+    display: none;
+}
+
+#hamburger {
     display: none;
     cursor: pointer;
 }
@@ -395,7 +410,7 @@ nav {
     position: absolute;
     width: 100%;
     left: 0;
-    top: 1463px;
+    top: 1503px;
     height: 1146px;
 }
 
@@ -422,16 +437,26 @@ nav {
     display: none;
 }
 
-.rnd-btn1 {
+.rnd-btn1, .rnd-btn2 {
     position: absolute;
-    z-index: 1;
-    background: linear-gradient(113.96deg, #F9804B 1.49%, #FE9013 101.44%);;
+    background: linear-gradient(113.96deg, #F9804B 1.49%, #FE9013 101.44%);
     border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    outline: none;
     width: 62px;
     height: 62px;
-    left: -81px;
-    top: 443px;
-    cursor: pointer;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+}
+
+#prev {
+    left: -82px;
+} 
+
+#next {
+    right: -82px;
 }
 
 .btn1-icon {
@@ -442,11 +467,11 @@ nav {
     z-index: 2;
 }
 
-.rnd-btn1:hover {
+.rnd-btn1:hover, .rnd-btn2:hover {
     background: #E47209;
 }
 
-.rnd-btn2 {
+/* .rnd-btn2 {
     position: absolute;
     z-index: 1;
     background: linear-gradient(113.96deg, #F9804B 1.49%, #FE9013 101.44%);
@@ -456,7 +481,9 @@ nav {
     left: 1179px;
     top: 443px;
     cursor: pointer;
-}
+    border: none;
+    outline: none;
+} */
 
 .btn2-icon {
     position: absolute;
@@ -466,27 +493,52 @@ nav {
     z-index: 2;
 }
 
-.rnd-btn2:hover {
+/* .rnd-btn2:hover {
     background: #E47209;
+} */
+
+#card5-hid {
+    display: none;
 }
 
 .animals-cards {
     width: 1160px;
     height: 872px;
-    position: relative;
     margin-left: auto;
     margin-right: auto;
+    position: relative;
 }
 
 .scroll-animals {
     display: flex;
     justify-content: space-between;
+    flex-direction: column;
 	flex-wrap: wrap;
+    flex-shrink: 0;
     position: relative;
-    width: 1158px;
     height: 872px;
-    top: 39px;
-    left: 0px;
+    top: 0px;
+    left: -1187px;
+    box-sizing: border-box;
+    row-gap: 20px;
+    column-gap: 30px;
+    transition: transform 0.3s;
+}
+
+#left-items, #right-items, #central-items {
+    height: 872px;
+    width: 1160px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+	flex-wrap: wrap;
+    flex-shrink: 0;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.pets-wrap {
+    overflow: hidden;
 }
 
 .foto-card-container {
@@ -499,6 +551,9 @@ nav {
     overflow: hidden;
     cursor: pointer;
     z-index: 5;
+    gap: 20px;
+    animation: 0.5s ease;
+    box-sizing: border-box;
 }
 
 .foto-card-container:hover  .img-card {
@@ -506,7 +561,7 @@ nav {
     scale: 1.05;
 }
 
-.foto-card-container:hover  .box-bottom {
+.foto-card-container:hover .box-bottom {
     transition: 0.5s;
     transform: translateY(-45px);
     background-color: rgba(0, 0, 0, 0.3);
@@ -563,7 +618,7 @@ nav {
     margin: 0;
 }
 
-.icon-card1 {
+#icon-card1 {
     width: 33px;
     height: 37px;
     padding-right: 12px;
@@ -571,15 +626,11 @@ nav {
 }
 
 
-.icon-card2 {
+#icon-card2 {
 	width: 48px;
 	height: 38px;
     padding-right: 8px;
     padding-top: 8px;
-}
-
-#card5-hid {
-    display: none;
 }
 
 .btn_2 {
@@ -615,7 +666,29 @@ nav {
     background: #E47209;
 }
 
+@keyframes move-right {
+    from {left: -1187px;}
+    to {left: -2374px;}
+}
+
+.transition-right {
+    animation-name: move-right;
+    animation-duration: 1s;
+}
+
+@keyframes move-left {
+    from {left: -1187px;}
+    to {left: 0px;}
+}
+
+.transition-left {
+    animation-name: move-left;
+    animation-duration: 1s;
+}
+
 .pick-and-feed {
+    box-sizing: border-box;
+    display: block;
     width: 100%; 
     position: absolute;
     top: 2609px;
@@ -850,7 +923,7 @@ nav {
 
 .testimonials {
     width: 100%;
-    height: 919px;
+    height: 0px;
     position: absolute;
     left: 0;
     top: 1645px;
@@ -885,7 +958,7 @@ nav {
 }
 
 .testimonials-cont {
-    position: absolute;
+    position: relative;
     height: 485;
     width: 1160;
     top: 2106px;
@@ -909,11 +982,17 @@ nav {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    flex-direction: column;
+    flex-wrap: wrap;
     position: absolute;
     width: 1160px;
     height: 395px;
     top: 97px;
     left: 0;
+    transition: transform 0.3s;
+    box-sizing: border-box;
+    column-gap: 27px;
+    overflow: hidden;
 }
 
 .review-box {
@@ -926,6 +1005,38 @@ nav {
     border: 3px solid transparent;
     border-radius: 20px;
     overflow: hidden;
+    animation: 1s ease;
+    pointer-events: none;
+}
+
+.popup {
+    display: none;
+    width: 320px;
+    height: 428px;
+    position: relative;
+    left: 160px;
+    right: 160px;
+    background: #F5F7F6;
+    transition: 0.1s ease-out;
+    z-index: 100;
+}
+
+.popup .review-box {
+    width: 267px;
+    height: 391px;
+    position: absolute;
+    top: 20px;
+    left: 17px;
+}
+
+.popup .x-icon {
+    position: absolute;
+    left: 92.5%;
+    right: 3.12%;
+    top: 2.8%;
+    bottom: 93.93%;
+    cursor: pointer;
+    z-index: 101;
 }
 
 .box-top {
@@ -1015,6 +1126,7 @@ input[type=range] {
     border: 0.5px solid transparent;
     border-radius: 5px;
     cursor: pointer;
+    animation: 1s ease;
 }
 
 input[type=range]:focus {
@@ -1022,7 +1134,7 @@ input[type=range]:focus {
 }
 
 input[type=range]::-webkit-slider-thumb {
-    width: 115.19px;
+    width: 75px;
     height: 6px;
     background: #FE9013;
     border-radius: 5px;
@@ -1384,13 +1496,11 @@ input[placeholder="Enter your email"] {
     padding: 0;
 }
 
-@media screen and (max-width: 1599px) {
 
-}
 
 @media screen and (max-width: 1000px) {
 
-    /* * {
+     /* * {
         outline: 1px solid #f00 !important;
     } */
 
@@ -1398,9 +1508,9 @@ input[placeholder="Enter your email"] {
         display: none;
     } */
 
-    body {
+    /* body {
         width: 1000px;
-    }
+    } */
 
     .navbar, .testimonials-block, .pick-box, .footer, .pandapic {
         width: 1000px;
@@ -1670,6 +1780,8 @@ input[placeholder="Enter your email"] {
         width: 940px;
         height: 796px;
         top: 30px;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .pick-title1 {
@@ -1738,7 +1850,28 @@ input[placeholder="Enter your email"] {
     .testimonials-title {
         left: 397px;
     }
-    #review-1 {
+
+    /* @keyframes to-right {
+        from {left: 0px;}
+        to {left: -288px;}
+    }
+    
+    .trans-right {
+        animation-name: to-right;
+        animation-duration: 1s;
+    }
+    
+    @keyframes to-left {
+        from {left: -288px;}
+        to {left: 0px;}
+    } */
+    
+    /* .trans-left {
+        animation-name: to-left;
+        animation-duration: 1s;
+    } */
+
+    /* #review-1 {
         order: 1;
         -webkit-box-ordinal-group: 1;
         -moz-box-ordinal-group: 1;
@@ -1765,7 +1898,7 @@ input[placeholder="Enter your email"] {
         -moz-box-ordinal-group: 2;
         -ms-flex-order: 2;
         -webkit-order: 2;
-    }
+    } */
     .user-profile {
         align-items: center;
     }
@@ -1812,7 +1945,7 @@ input[placeholder="Enter your email"] {
     }
 
     input[type=range]::-webkit-slider-thumb {
-        width: 75px;
+        width: 48px;
     }
 
     .flower4 img {
@@ -1904,7 +2037,11 @@ input[placeholder="Enter your email"] {
         width: 640px;
     }
 
-    .navbar, .testimonials-block, .pick-box, .footer, .pandapic {
+    .navbar, .footer {
+        width: 640px;
+    }
+
+    .testimonials-block, .pick-box {
         width: 640px;
     }
 
@@ -1915,6 +2052,7 @@ input[placeholder="Enter your email"] {
         top: 0;
         margin: 0;
         padding: 0;
+        z-index: 20;
     }
 
     .navbar {
@@ -1941,29 +2079,144 @@ input[placeholder="Enter your email"] {
         left: 23px;
     }
 
-    .hamburger {
+    #hamburger {
         display: block;
         top: 10px;
         left: 602px;
         position: absolute;
     }
 
-    .links {
-        display: none;
-        /* position: fixed;
-        left: -100%;
+    #hamburger.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+
+    #hamburger.active .bar:nth-child(1) {
+        transform: translateY(4px) rotate(45deg);
+        background-color: var(--black);
+    }
+
+    #hamburger.active .bar:nth-child(3) {
+        transform: translateY(-4px) rotate(-45deg);
+        background-color: var(--black);
+    }
+
+    #open-menu {
+        display: block;
+        height: 100%;
+        width: 100%;
+        transition: 0.1s;
+        background-color: transparent;
+    }
+
+    #open-menu.active {
+        background-color: rgba(0,0,0,0.7);
+        z-index: 20;
+    }
+
+    #links {
+        position: absolute;
+        right: -100%;
         display: flex;
-        top: -100%;
+        top: 0px;
         flex-direction: column;
         background-color: var(--white);
-        width: 640px;
+        width: 100%;
         height: 329px;
         text-align: left;
-        transition: 0.3s; */
+        transition: 0.1s;
     } 
 
+    #links.active {
+        right: 0;
+    }
+
+    #links .logo-ham {
+        display: block;
+        position: absolute;
+        width: 65px;
+        height: 41px;
+        left: 10px;
+        top: 10px;
+      }
+    
+      #links .logo-ham .bamboo {
+        height: 16px;
+        left: 9px;
+        position: absolute;
+        top: 18px;
+        width: 6px;
+    }
+    
+    #links .logo-ham span a {
+        font-size: 15px;
+        font-weight: 400;
+        line-height: 120%;
+        letter-spacing: 0;
+        font-family: var(--font-family-roboto);
+        text-decoration: none;
+        font-style: normal;
+        color: #FE9013;
+        left: 0px;
+        position: absolute;
+        text-align: center;
+        width: 55px;
+        top: 0px;
+        border: 1px solid;
+        border-color: #FE9013;
+        border-radius: 2px;
+        padding-top: 2px;
+        padding-left: 4px;
+        padding-bottom: 2px;
+        padding-right: 4.75px;
+    }
+
+    #links a {
+        color: var(--font-black);
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 140%;
+    } 
+
+    #links a:hover {
+        color: var(--orange);
+      }
+
+    #links #about:hover {
+        color: var(--orange);
+    }
+
+    #links #about {
+        top: 82px;
+        left: 10px;
+        color: var(--black);
+        pointer-events: all;
+    }
+
+    #map {
+        top: 119px;
+        left: 10px;
+    }
+
+    #zoos {
+        top: 156px;
+        left: 10px;
+    }
+
+    #donate {
+        top: 193px;
+        left: 10px;
+    }
+
+    #contact {
+        top: 230px;
+        left: 10px;
+    }
+
     #copyright {
-        display: none;
+        top: 267px;
+        right: 0px;
+        left: 10px;
     }
 
     .watch-animal {
@@ -1971,6 +2224,7 @@ input[placeholder="Enter your email"] {
     }
 
     .pandapic {
+        width: 640px;
         height: 373px;
         background-image: url("../../assets/images/panda-640.jpg");
     }
@@ -2065,7 +2319,7 @@ input[placeholder="Enter your email"] {
     }
 
     .animals-cards {
-        width: 600px;
+        width: 640px;
         height: 756px;
     }
     
@@ -2073,6 +2327,7 @@ input[placeholder="Enter your email"] {
         width: 600px;
         height: 756px;
         top: 0px;
+        margin-left: 20px;
     }
 
     .foto-card-container {
@@ -2155,12 +2410,12 @@ input[placeholder="Enter your email"] {
     }
 
     .rnd-btn1 {
-        left: 223px;
+        left: 243px;
         top: 343px;
     }
 
     .rnd-btn2 {
-        left: 315px;
+        left: 335px;
         top: 343px;
     }
 
@@ -2192,6 +2447,7 @@ input[placeholder="Enter your email"] {
     .pick-and-feed {
         top: 1850px;
         height: 781px;
+        min-width: 321px;
     }
 
     .pick-box {
@@ -2297,6 +2553,37 @@ input[placeholder="Enter your email"] {
     .review-box {
         width: 594px;
         height: 105px;
+        pointer-events: all;
+        cursor: pointer;
+    }
+
+    #popup-1.active, #popup-2.active, #popup-3.active {
+        display: block;
+    }
+
+    .popup .review-box {
+        height: 385px;
+        width: 262px;
+    }
+
+    #review-3-popup .box-text {
+        width: 237px;
+        height: 310px;
+    }
+
+    #review-3-popup .comment {
+        width: 237px;
+        height: 310px;
+    }
+
+    .popup .review-box .box-text {
+        width: 237px;
+        height: 310px;
+    }
+
+    .popup .review-box .comment {
+        width: 237px;
+        height: 309px;
     }
 
     .user-img {
@@ -2439,7 +2726,6 @@ input[placeholder="Enter your email"] {
 
     header {
         position: fixed;
-        z-index: 10;
         left: 0;
         top: 0;
         margin: 0;
@@ -2456,12 +2742,8 @@ input[placeholder="Enter your email"] {
         top: 2px;
     } 
 
-    .hamburger {
+    #hamburger {
         left: 292px;
-    }
-
-    #copyright {
-        display: none;
     }
 
     .watch-animal {
@@ -2722,6 +3004,11 @@ input[placeholder="Enter your email"] {
         width: 299px;
     }
 
+    .popup {
+        left: 0px;
+        right: 0px;
+    }
+
     .testimonials-title {
         left: 91px;
         width: 138px;
@@ -2737,7 +3024,7 @@ input[placeholder="Enter your email"] {
     }
 
     .review-box {
-        width: 295px;
+        width: 292px;
         height: 105px;
     }
 

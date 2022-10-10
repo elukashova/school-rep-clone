@@ -232,7 +232,7 @@ nav {
     transition: all 0.3s ease-in-out;
 } 
 
-.img-background {
+#img-background {
     position: absolute;
     background-image: url("../../assets/images/panda_bg.jpg");
     background-size: cover;
@@ -491,6 +491,10 @@ nav {
     top: 579px;
 }
 
+#price-or {
+    color: #FE9013;
+}
+
 .price4 {
     position: absolute;
     left: 482px;
@@ -521,47 +525,13 @@ nav {
     top: 579px;
 }
 
-input::-webkit-inner-spin-button, 
-input::-webkit-outer-spin-button { 
-      -webkit-appearance: none; 
-      margin: 0; 
-}
-
-/* Chrome, Safari, Edge, Opera */
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-      -webkit-appearance: none; 
-      margin: 0; 
-}
-
-input[type=number]:hover::-webkit-inner-spin-button, 
-input[type=number]:hover::-webkit-outer-spin-button { 
-      -webkit-appearance: none; 
-      margin: 0; 
-}
-
 input[type=number] {
     width: 255px;
     height: 50px;
     border: 1px solid #929699;
-    -moz-appearance: textfield;
-    -webkit-appearance: none;
 }
 
-.choice {
-    font-family: var(--font-family-roboto);
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 140%;
-    margin: 0;
-    color: #929699;
-    background: transparent;
-    padding-left: 9px;
-    border-radius: 2px;
-}
-
-.choice {
+input[placeholder] {
     font-family: var(--font-family-roboto);
     font-style: normal;
     font-weight: 400;
@@ -619,6 +589,16 @@ input[type=number] {
 .payment-options input[type="radio"]:checked {
     background: rgba(75, 146, 0, 1);
     border: 1px solid rgba(75, 146, 0, 1);
+}
+
+
+.payment-options input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.payment-options input[type=number] {
+    -moz-appearance: textfield;
 }
 
 .dol {
@@ -913,7 +893,7 @@ input[type=email] {
     border: 0.7px solid var(--orange);
 }
 
-.email-sbscrb input[placeholder] {
+input[placeholder="Enter your email"] {
     font-family: var(--font-family-roboto);
     font-style: normal;
     font-weight: 400;
@@ -1361,7 +1341,7 @@ input[type=email] {
     }
 
     #open-menu.active {
-        background-color: rgba(0,0,0,0.7);
+        background-color: rgba(0,0,0,0.4);
         z-index: 20;
     }
 
@@ -1619,6 +1599,10 @@ input[type=email] {
         top: 571px;
     }
 
+    #price-or2 {
+        color: var(--orange);
+    }
+
     .price7 {
         left: 407px;
         top: 571px;
@@ -1866,6 +1850,7 @@ input[type=email] {
         left: -34px;
         font-size: 9px;
     }
+
     .x {
         left: 95.8px;
         top: 186.6px;
@@ -1960,6 +1945,10 @@ input[type=email] {
     .price6 {
         left: 138.5px;
         top: 308px;
+    }
+
+    #price-or2 {
+        color: var(--orange);
     }
 
     .price7 {

@@ -1,0 +1,56 @@
+*{
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+ font-family: Verdana;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    background: #EFF4F3;
+}
+
+.game-field {
+    height: 100%;
+    width: 50%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    position: relative;
+}
+
+.game-board {
+    margin: auto;
+    padding-top: 6px;
+    align-self: center;
+    height: 400px;
+    width: 400px;
+    background-color: #69C4B2;
+    position: absolute;
+    border: 2px solid #427067;
+    border-radius: 3%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.puzzle-piece {
+    padding: 0;
+    margin: 0;
+    height: 90px;
+    width: 90px;
+    position: relative;
+    cursor: pointer;
+    z-index: 2;
+    background-color: #A6ECDE;
+    color: #427067;
+    border: 2px solid #427067;
+    border-radius: 5%;
+}

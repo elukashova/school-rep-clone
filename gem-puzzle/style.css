@@ -20,10 +20,77 @@ body {
     width: 50%;
     margin: auto;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     justify-content: center;
+    row-gap: 5px;
     align-content: center;
     position: relative;
+}
+
+.buttons-container {
+    top: 16%;
+    align-self: center;
+    width: 400px;
+    height: 60px;
+    position: absolute;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+    justify-content: space-between;
+}
+
+button {
+    background-color: #554640;
+    outline: none;
+    border: 1px solid #707078;
+    border-radius: 5%;
+    text-transform: uppercase;
+    color: #CDE6F5;
+}
+
+.shuffle-button {
+    width: 35%;
+    height: 80%;
+}
+
+.stop-button {
+    width: 15%;
+    height: 80%;
+}
+
+.save-button {
+    width: 15%;
+    height: 80%;
+}
+
+.results-button {
+    width: 20%;
+    height: 80%;
+}
+
+.stats-container {
+    top: 21%;
+    align-self: center;
+    width: 250px;
+    height: 60px;
+    position: absolute;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+    justify-content: space-between;
+}
+
+span {
+    color: #554640;
+}
+
+.time-counter {
+    color: #87919E;
 }
 
 .game-board {
@@ -32,9 +99,9 @@ body {
     align-self: center;
     height: 400px;
     width: 400px;
-    background-color: #69C4B2;
+    background-color: #8DA7BE;
     position: absolute;
-    border: 2px solid #427067;
+    border: 2px solid #554640;
     border-radius: 3%;
     display: flex;
     justify-content: space-evenly;
@@ -42,15 +109,21 @@ body {
 }
 
 .puzzle-piece {
-    padding: 0;
-    margin: 0;
     height: 90px;
     width: 90px;
     position: relative;
     cursor: pointer;
     z-index: 2;
-    background-color: #A6ECDE;
-    color: #427067;
-    border: 2px solid #427067;
+    background-color: #CDE6F5;
+    color: #554640;
+    border: 2px solid #707078;
     border-radius: 5%;
+    box-shadow: 1px 1px 2px #707078;
+    visibility: visible;
+    font-size: 2em;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    text-align: center;
 }

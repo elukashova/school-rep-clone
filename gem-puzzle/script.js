@@ -1,13 +1,14 @@
 class Game {
     constructor() {
-        //1. containers
+        //general
+        this.frameSize = 4;
+        //containers
         this.gameContainer = null;
         this.topContainer = null;
         this.statsContainer = null;
         this.bottomContainer = null;
-        //2. board
+        //board
         this.gamingBoard = null;
-        this.pzlPieces = [];
         this.timer = null;
         this.time = {
             h: 0,
@@ -15,19 +16,20 @@ class Game {
             s: 0
         };
         this.moves = 0;
-        // this.frame = 4;
-        // this.frameSize = "4x4";
-        this.winningSet = [];
+        this.pzlPieces = [];
+        this.shuffled = [];
+        this.solvable = false;
+        this.inversions = null; 
 
-        //3. buttons
+        //buttons
         this.shuffleBtn = null;
         this.stopBtn = null;
         this.saveBtn = null;
         this.resultsBtn = null;
         this.soundBtn = null;
-
     }
 
+    //ALL NECESSARY ELEMENTS 
     go() {
         //1. containers
         let gameContainer = document.createElement("div");
@@ -101,30 +103,117 @@ class Game {
         this.play()
     }
 
+    //STARTING METHODS SETS
     play() {
         this.createPieces();
         this.countUp();
     }
 
+    //CREATE
+
     createPieces() {
-        let unshuffled = [];
-        for (let i = 15; i > 0; i--) {
-            unshuffled.push(i);
-        }
-        let shuffled = unshuffled.sort((a, b) => 0.5 - Math.random());
-        shuffled.push(0);
-        for (let i = 0; i < shuffled.length; i++) {
+        this.isSolvable();
+
+        for (let i = 0; i < this.shuffled.length; i++) {
             let pzlPiece = document.createElement("div");
             this.gamingBoard.append(pzlPiece);
             pzlPiece.classList.add("puzzle-piece");
-            pzlPiece.innerText = shuffled[i];
+            pzlPiece.innerText = this.shuffled[i];
             this.pzlPieces.push(pzlPiece);
-            if(shuffled[i] === 0) {
-                pzlPiece.style.order = "16";
+            if(this.shuffled[i] === 0) {
+                //pzlPiece.style.order = "16";
                 pzlPiece.style.visibility = "hidden";
+                pzlPiece.classList.add("empty");
             }
         }
     }
+
+    shuffle () {
+        let unshuffled = [];
+        let n = this.frameSize ** 2;
+        for (let i = n-1; i >= 0; i--) {
+            unshuffled.push(i);
+        }
+        this.shuffled = unshuffled.sort((a, b) => 0.5 - Math.random());
+    }
+
+    isSolvable () {
+        while (this.solvable == false) {
+            this.shuffle();
+            let counter = 0;
+            let row = 0;
+            let zeroRow;
+            for (let i = 0; i < this.shuffled.length; i++) {
+                if (i % this.frameSize == 0) {
+                    row++; // next row starts
+                }
+                if(this.shuffled[i] == 0) { //find the empty piece
+                    zeroRow = row;
+                    continue;
+                }
+                for (let j = i +1; j < this.shuffled.length; j++) {
+                    if (this.shuffled[i] > this.shuffled[j] && this.shuffled[j] !=0) {
+                        counter++;
+                    }
+                }
+            }
+
+            if (this.frameSize % 2 == 0) { //even frame
+                if (zeroRow % 2 == 0 && counter % 2 == 0) { //check if odd row from bottom + even inversions
+                    this.isSolvable = true;
+                    return this.shuffled;
+                } else if (zeroRow % 2 !== 0 && counter % 2 != 0) {  //check if even row from bottom + odd inversions
+                    this.isSolvable = true;
+                    return this.shuffled;
+                } 
+            } else { //odd frame
+                if (counter % 2 == 0) {
+                    this.isSolvable = true;
+                    return this.shuffled;
+                } 
+            }
+        }
+    }
+
+    //MOVE PUZZLE PIECES
+    // movePieces() {
+    // let emptyPlace = document.querySelector(".empty");
+        
+    // }
+
+    // createPieces() {
+    //     let shuffled = new CreateGamingSet(this.frame);
+    //     //append final gaming sel
+    //     for (let i = 0; i < shuffled.length; i++) {
+    //         let pzlPiece = document.createElement("div");
+    //         this.gamingBoard.append(pzlPiece);
+    //         pzlPiece.classList.add("puzzle-piece");
+    //         pzlPiece.innerText = shuffled[i];
+    //         this.pzlPieces.push(pzlPiece);
+    //         if(shuffled[i] === 0) {
+    //             // pzlPiece.style.order = "16";
+    //             pzlPiece.style.visibility = "hidden";
+    //             pzlPiece.classList.add("empty");
+    //         }
+    //     }
+    // }
+
+    // findEmpty() {
+    //     let a = this.shuffledSet;
+    //     let row;
+    //         for (let i = 0; i < a.length; i++) {
+    //             let ind = a.indexOf(0);
+    //             if (ind >= 0 && ind <= 3) {
+    //                 row = true;
+    //             } else if (ind >= 8 && ind <= 11) {
+    //                 row = true;
+    //             } else {
+    //                 row = false;
+    //             } 
+    //         }
+    //         return row;
+    //     }
+
 
     //TIMER
     countUp() {

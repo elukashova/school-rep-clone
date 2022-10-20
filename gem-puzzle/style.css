@@ -126,4 +126,26 @@ span {
     align-content: center;
     flex-direction: column;
     text-align: center;
+    transition: 0.15s ease-in-out;
+    /* animation-name: moveRight;
+    animation-name: moveLeft;
+    animation-name: moveUp;
+    animation-name: moveDown;
+    animation-duration: 1 sec; */
 }
+
+/* @keyframes moveRight {
+    
+}
+
+@keyframes moveLeft {
+    
+}
+
+@keyframes moveUp {
+    
+}
+
+@keyframes moveDown {
+    
+} */

@@ -20,6 +20,11 @@ class Game {
         this.shuffled = [];
         this.solvable = false;
         this.inversions = null; 
+        this.coords = [];
+        this.neighbors = [];
+        //this.movablePieces = [];
+
+        //
 
         //buttons
         this.shuffleBtn = null;
@@ -109,25 +114,47 @@ class Game {
         this.countUp();
     }
 
-    //CREATE
-
+    //CREATE SOLVABLE PUZZLE
     createPieces() {
-        this.isSolvable();
+        this.isSolvable(); //take a solvable shuffled array
 
         for (let i = 0; i < this.shuffled.length; i++) {
             let pzlPiece = document.createElement("div");
             this.gamingBoard.append(pzlPiece);
             pzlPiece.classList.add("puzzle-piece");
+            //pzlPiece.classList.add("i-"+i);
+            //pzlPiece.style.order = i;
             pzlPiece.innerText = this.shuffled[i];
             this.pzlPieces.push(pzlPiece);
-            if(this.shuffled[i] === 0) {
+
+            //add coordinates as class
+            this.getCoordinates();
+            let xy = this.coords[i];
+            pzlPiece.setAttribute('id', xy);
+            
+            //get zero space
+            if(this.shuffled[i] === 0) { 
                 //pzlPiece.style.order = "16";
+                //this.getZeroCoordinates();
                 pzlPiece.style.visibility = "hidden";
                 pzlPiece.classList.add("empty");
+                //pzlPiece.classList.remove("puzzle-piece");
+                //pzlPiece.classList.add(this.zeroXY)
             }
         }
+
+        //add movement
+        this.gamingBoard.addEventListener("click", (piece) => {
+            //piece.addEventListener("click", (piece) => {
+                let target = piece.target;
+                this.movePieces(target);
+            //});
+        });
+
     }
 
+
+    //create shuffled array to check for solvability
     shuffle () {
         let unshuffled = [];
         let n = this.frameSize ** 2;
@@ -137,6 +164,7 @@ class Game {
         this.shuffled = unshuffled.sort((a, b) => 0.5 - Math.random());
     }
 
+    //check for solvability
     isSolvable () {
         while (this.solvable == false) {
             this.shuffle();
@@ -146,17 +174,17 @@ class Game {
             for (let i = 0; i < this.shuffled.length; i++) {
                 if (i % this.frameSize == 0) {
                     row++; // next row starts
-                }
+                } 
                 if(this.shuffled[i] == 0) { //find the empty piece
                     zeroRow = row;
                     continue;
                 }
-                for (let j = i +1; j < this.shuffled.length; j++) {
+                for (let j = i +1; j < this.shuffled.length; j++) { //count inversions
                     if (this.shuffled[i] > this.shuffled[j] && this.shuffled[j] !=0) {
                         counter++;
                     }
                 }
-            }
+            }  
 
             if (this.frameSize % 2 == 0) { //even frame
                 if (zeroRow % 2 == 0 && counter % 2 == 0) { //check if odd row from bottom + even inversions
@@ -175,11 +203,101 @@ class Game {
         }
     }
 
-    //MOVE PUZZLE PIECES
-    // movePieces() {
-    // let emptyPlace = document.querySelector(".empty");
+    getCoordinates() {
+        let rows = this.frameSize;
+        let cols = this.frameSize;
         
+        for (let i = 0; i<rows; i++) {
+            for (let j = 0; j < cols; j++) {
+                let xy = [i,j];
+                this.coords.push(xy);
+            }
+        }
+        return this.coords;
+    }
+
+    findPiecebyID(row, col) {
+        return document.getElementById(`${row},${col}`);
+    }
+
+    // findEmptyPiece(row, col) {
+    //     return document.querySelector(".empty")
     // }
+
+    //find zero in the shuffled array
+    // getZeroCoordinates() { 
+    //     this.getCoordinates();
+    //     for (let i = 0; i < this.shuffled.length; i++) {  
+    //         if(this.shuffled[i] === 0) {
+    //             let xy = this.coords[i];
+    //             this.zeroXY.push(xy[0]);
+    //             this.zeroXY.push(xy[1]); 
+    //         }
+    //     }
+    //     return this.zeroXY;
+    // }
+
+    //find interchangeable pieces
+    getNeighbors (piece) { 
+        let coords = piece.id.replace(",", "").split("");
+        let r = Number(coords[0]);
+        let c = Number(coords[1]);
+        let neighbors = [];
+
+        let n = this.frameSize;
+
+        if(r < n-1){
+            neighbors.push(this.findPiecebyID(r+1, c));
+        }			
+		if(r > 0){
+            neighbors.push(this.findPiecebyID(r-1, c));
+        }
+		if(c < n-1){
+            neighbors.push(this.findPiecebyID(r, c+1));
+        }
+		if(c > 0){
+            neighbors.push(this.findPiecebyID(r, c-1));
+        }
+
+        console.log(neighbors);
+
+        this.neighbors = neighbors;
+        return this.neighbors;
+    }
+
+    getEmptyNeighbor (piece) {
+        let neighbor = this.getNeighbors(piece);
+        //console.log(neighbor);
+        for(let i = 0; i < neighbor.length; i++){
+			if(neighbor[i].classList.contains("empty")) {
+            console.log(neighbor[i]);
+            return neighbor[i];
+            }
+		}
+        return false
+    }
+
+    //MOVE PUZZLE PIECES
+    movePieces(piece) {
+        if(!piece.classList.contains("empty")) {
+            let empty = this.getEmptyNeighbor(piece);
+            if(empty) {
+                let tempText = piece.innerText; 
+                //let tempID = piece.id;
+                piece.classList.add("empty");
+                piece.classList.add("move");
+                piece.style.visibility = "hidden";
+                piece.innerText = "0";
+                //piece.id = empty.id;
+                empty.classList.remove("empty");
+                empty.innerText = tempText;
+                // empty.id = tempID;
+                empty.style.visibility = "visible";
+            }
+        }
+    }
+
+
 
     // createPieces() {
     //     let shuffled = new CreateGamingSet(this.frame);

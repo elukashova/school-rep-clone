@@ -16,20 +16,19 @@ body {
 }
 
 .game-field {
-    height: 100%;
+    height: 600px;
     width: 50%;
     margin: auto;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
     justify-content: center;
-    row-gap: 5px;
     align-content: center;
     position: relative;
 }
 
 .buttons-container {
-    top: 16%;
+    top: 0px;
     align-self: center;
     width: 400px;
     height: 60px;
@@ -49,6 +48,7 @@ button {
     border-radius: 5%;
     text-transform: uppercase;
     color: #CDE6F5;
+    font-size: 0.8em;
 }
 
 .shuffle-button {
@@ -72,7 +72,7 @@ button {
 }
 
 .stats-container {
-    top: 21%;
+    top: 45px;
     align-self: center;
     width: 250px;
     height: 60px;
@@ -94,6 +94,8 @@ span {
 }
 
 .game-board {
+    top: 50%;
+    bottom: 50%;
     margin: auto;
     padding-top: 6px;
     align-self: center;
@@ -108,11 +110,10 @@ span {
     flex-wrap: wrap;
 }
 
-.puzzle-piece {
+.puzzle-piece, .empty {
     height: 90px;
     width: 90px;
     position: relative;
-    cursor: pointer;
     z-index: 2;
     background-color: #CDE6F5;
     color: #554640;
@@ -127,6 +128,7 @@ span {
     flex-direction: column;
     text-align: center;
     transition: 0.15s ease-in-out;
+    cursor: pointer;
     /* animation-name: moveRight;
     animation-name: moveLeft;
     animation-name: moveUp;
@@ -134,18 +136,90 @@ span {
     animation-duration: 1 sec; */
 }
 
-/* @keyframes moveRight {
-    
+.puzzle-piece.move {
+    transition: 3s left, 3s top;
 }
 
-@keyframes moveLeft {
-    
+@media screen and (max-width: 1280px) {
+    .game-field {
+        height: 500px;
+    }
+
+    .buttons-container {
+        width: 350px;
+        height: 50px;
+    }
+
+    .stats-container {
+        top: 32px;
+        width: 240px;
+        height: 55px;
+    }
+
+    .game-board {
+        top: 250px;
+        height: 350px;
+        width: 350px;
+    }
+
+    .puzzle-piece, .empty {
+        height: 80px;
+        width: 80px;
+    }
 }
 
-@keyframes moveUp {
-    
+@media screen and (max-width: 768px) {
+    .game-field {
+        height: 400px;
+    }
+
+    .buttons-container {
+        width: 350px;
+        height: 50px;
+    }
+
+    .stats-container {
+        top: 32px;
+        width: 240px;
+        height: 55px;
+    }
+
+    .game-board {
+        top: 250px;
+        height: 350px;
+        width: 350px;
+    }
+
+    .puzzle-piece, .empty {
+        height: 80px;
+        width: 80px;
+    }
 }
 
-@keyframes moveDown {
-    
-} */
+@media screen and (max-width: 320px) {
+    .game-field {
+        height: 360px;
+    }
+
+    .buttons-container {
+        width: 300px;
+        height: 40px;
+    }
+
+    .stats-container {
+        top: 32px;
+        width: 200px;
+        height: 45px;
+    }
+
+    .game-board {
+        top: 220px;
+        height: 300px;
+        width: 300px;
+    }
+
+    .puzzle-piece, .empty {
+        height: 70px;
+        width: 70px;
+    }
+}

@@ -2,6 +2,8 @@ class Game {
     constructor() {
         //general
         this.frameSize = 4;
+        this.isSaved = null;
+
         //containers
         this.gameContainer = null;
         this.topContainer = null;
@@ -34,7 +36,6 @@ class Game {
         this.inversions = null; 
         this.coords = [];
         this.neighbors = [];
-        //this.movablePieces = [];
         this.sound = true;
 
         //buttons
@@ -85,6 +86,7 @@ class Game {
         saveBtn.classList.add("save-button");
         saveBtn.innerText = "save";
         this.saveBtn = saveBtn;
+        this.saveGame();
 
         let resultsBtn = document.createElement("button");
         resultsBtn.classList.add("results-button");
@@ -158,7 +160,7 @@ class Game {
         this.gameContainer.append(statsContainer);
         this.statsContainer.append(moves);
         this.statsContainer.append(timer);
-        this.gameContainer.append(this.gamingBoard);
+        this.gameContainer.append(gamingBoard);
         this.gameContainer.append(bottomContainer);
         this.bottomContainer.append(soundBtn);
         this.bottomContainer.append(sizeContainer);
@@ -189,8 +191,6 @@ class Game {
             let pzlPiece = document.createElement("div");
             this.gamingBoard.append(pzlPiece);
             pzlPiece.classList.add("puzzle-piece");
-            //pzlPiece.classList.add("i-"+i);
-            //pzlPiece.style.order = i;
             pzlPiece.innerText = this.shuffled[i];
             this.pzlPieces.push(pzlPiece);
 
@@ -212,10 +212,8 @@ class Game {
 
         //add pieces movement
         this.gamingBoard.addEventListener("click", (piece) => {
-            //piece.addEventListener("click", (piece) => {
                 let target = piece.target;
                 this.movePieces(target);
-            //});
         });
     }
 
@@ -359,6 +357,65 @@ class Game {
         this.resetStats();
     }
 
+    //save the current game 
+    saveGameData() {
+        //delete previously saved game
+        localStorage.clear();
+        //saved the current game
+        let currentPieces = [];
+        let currentSet = document.querySelector(".game-board");
+        let piecesOrder = currentSet.childNodes;
+        piecesOrder.forEach(piece => {
+            currentPieces.push(Number(piece.innerHTML));
+        })
+        let savedGame = {
+            frame: this.frameSize,
+            order: piecesOrder,
+            moves: this.moves,
+            time: this.time,
+        }
+        let saveProgressString = JSON.stringify(savedGame);
+        localStorage.setItem("gemGameProgress", saveProgressString);
+    }
+
+    //saving game by clicking on stop
+    saveGame() {
+        this.saveBtn.addEventListener("click", () => {
+            console.log("he");
+            this.saveGameData();
+            this.savedPopup();
+            this.isSaved = true;
+        })
+    }
+
+    //confirmation the game has been saved
+    savedPopup () {
+        let savedPopup = document.createElement("div");
+        savedPopup.classList.add("saved-popup");
+        savedPopup.style.display = "flex";
+        this.gameContainer.append(savedPopup);
+        let notice = document.createElement("span");
+        notice.innerText = "You game has been saved!"
+        savedPopup.append(notice);
+        let okButton = document.createElement("button");
+        okButton.classList.add("ok-button");
+        okButton.innerText = "Ok";
+        savedPopup.append(okButton);
+        okButton.addEventListener("click", () => {
+            savedPopup.style.display = "none";
+        })
+        return savedPopup;
+    }
+
+    //close popup
+    // closePopop () {
+    //     let okButton = document.querySelector(".ok-button");
+    //     okButton.addEventListener("click", () => {
+    //         document.querySelector(".saved-popup").style.display = "none";
+    //     })
+    // }
+
+
     //control sound
     soundOnOff() {
         this.soundBtn.addEventListener("click", () => {
@@ -467,13 +524,11 @@ class Game {
         }
 
         this.neighbors = neighbors;
-        console.log(this.neighbors);
         return this.neighbors;
     }
 
     getEmptyNeighbor (piece) {
         let neighbor = this.getNeighbors(piece);
-        console.log(neighbor);
         for(let i = 0; i < neighbor.length; i++){
 			if(neighbor[i].classList.contains("empty")) {
             return neighbor[i];

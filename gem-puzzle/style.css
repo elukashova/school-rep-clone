@@ -190,6 +190,7 @@ p {
     color: #554640;
     font-size: 0.8em;  
     text-transform: uppercase;
+    font-weight: bold;
 }
 
 .bottom-container a {
@@ -201,6 +202,35 @@ p {
 
 .bottom-container a:hover {
     color: #554640;
+}
+
+.saved-popup {
+    width: 250px;
+    height: 100px;
+    position: relative;
+    border: 5px solid #EFF4F3;
+    box-shadow: #87919E;
+    background-color: #554640;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.saved-popup span {
+    color: #EFF4F3;
+    line-height: 50px;
+}
+
+.ok-button {
+    background-color: #CDE6F5;
+    outline: none;
+    border: 1px solid #707078;
+    border-radius: 5%;
+    text-transform: uppercase;
+    color: #554640;
+    font-size: 1em;
+    cursor: pointer;
 }
 
 @media screen and (max-width: 1280px) {

@@ -15,6 +15,7 @@ class Game {
             m: 0,
             s: 0
         };
+        this.mover = null;
         this.movesCounter = null;
         this.moves = 0;
         this.pzlPieces = [];
@@ -24,8 +25,7 @@ class Game {
         this.coords = [];
         this.neighbors = [];
         //this.movablePieces = [];
-
-        //
+        this.sound = true;
 
         //buttons
         this.shuffleBtn = null;
@@ -114,6 +114,7 @@ class Game {
     play() {
         this.createPieces();
         this.countUp();
+        this.countMoves();
     }
 
     //CREATE SOLVABLE PUZZLE
@@ -151,6 +152,11 @@ class Game {
             //piece.addEventListener("click", (piece) => {
                 let target = piece.target;
                 this.movePieces(target);
+
+                if(this.sound = true) {
+                    let sound = new Audio("./assets/move-sound.mp3");
+                    sound.play();
+                }
             //});
         });
 
@@ -177,8 +183,11 @@ class Game {
             this.gamingBoard.innerHTML = "";
             this.timeCounter.innerText = "";
             this.timeCounter.innerHTML = "";
+            // this.movesCounter.innerText = "";
+            // this.movesCounter.innerHTML = "";
+            this.mover.remove();
             this.resetStats();
-            this.movesCounter.innerHTML = "Moves: " + this.moves;
+            //document.querySelector(".move-counter").innerText = this.moves;
             this.play();
         })
     }
@@ -310,7 +319,8 @@ class Game {
                 // empty.id = tempID;
                 empty.style.visibility = "visible";
                 this.moves++;
-                this.movesCounter.innerHTML = "Moves: " + this.moves;
+                document.querySelector(".move-counter").innerHTML = this.moves;
+                //this.movesCounter.innerHTML = "Moves: " + this.moves;
             }
         }
     }
@@ -381,9 +391,13 @@ class Game {
         this.timeCounter = timeCounter;
     }
 
-    // countMoves() {
-    //     this.moves++;
-    // }
+    countMoves() {
+        let moveNum = document.createElement("span");
+        moveNum.classList.add("move-counter");
+        this.movesCounter.append(moveNum);
+        moveNum.innerHTML = "0";
+        this.mover = moveNum;
+    }
 
     returnMoves() {
         return this.moves;

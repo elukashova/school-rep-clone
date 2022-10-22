@@ -52,6 +52,10 @@ button {
     cursor: pointer;
 }
 
+button:hover {
+    background-color: #707078;
+}
+
 .shuffle-button {
     width: 35%;
     height: 80%;
@@ -94,6 +98,10 @@ span {
     color: #87919E;
 }
 
+.move-counter {
+    color: #87919E;
+}
+
 .game-board {
     top: 50%;
     bottom: 50%;
@@ -129,7 +137,7 @@ span {
     flex-direction: column;
     text-align: center;
     transition: 0.15s ease-in-out;
-    cursor: pointer;
+    cursor: default;
     /* animation-name: moveRight;
     animation-name: moveLeft;
     animation-name: moveUp;

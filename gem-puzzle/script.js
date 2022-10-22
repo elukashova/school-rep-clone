@@ -15,6 +15,7 @@ class Game {
             m: 0,
             s: 0
         };
+        this.movesCounter = null;
         this.moves = 0;
         this.pzlPieces = [];
         this.shuffled = [];
@@ -86,8 +87,8 @@ class Game {
         //4. stats
         let moves = document.createElement("span");
         moves.classList.add("moves");
-        moves.innerText = "Moves: " + this.moves;
-        this.moves = moves;
+        moves.innerText = "Moves: ";
+        this.movesCounter = moves;
 
         let timer = document.createElement("span");
         timer.classList.add("timer");
@@ -176,8 +177,8 @@ class Game {
             this.gamingBoard.innerHTML = "";
             this.timeCounter.innerText = "";
             this.timeCounter.innerHTML = "";
-            console.log(this.timeCounter);
             this.resetStats();
+            this.movesCounter.innerHTML = "Moves: " + this.moves;
             this.play();
         })
     }
@@ -308,6 +309,8 @@ class Game {
                 empty.innerText = tempText;
                 // empty.id = tempID;
                 empty.style.visibility = "visible";
+                this.moves++;
+                this.movesCounter.innerHTML = "Moves: " + this.moves;
             }
         }
     }
@@ -363,15 +366,13 @@ class Game {
             counter++;
             s = counter >= 10 ? counter : "0" + counter;
             this.time.s = s;
-            if(s >59) {
+            if(s > 59) {
                 counter = 0;
                 this.time.m ++;
+                s = counter >= 10 ? counter : "0" + counter;
             }
 
             m = this.time.m >= 10 ? this.time.m : "0" + this.time.m;
-            if(m >59) {
-                this.time.h ++;
-            }
 
             timeCounter.innerHTML = m + " : " + s;
 
@@ -380,9 +381,22 @@ class Game {
         this.timeCounter = timeCounter;
     }
 
+    // countMoves() {
+    //     this.moves++;
+    // }
+
+    returnMoves() {
+        return this.moves;
+    }
+
+    // updateMoves() {
+    //     this.moves.innerText = "Moves: " + this.moves;
+    // }
+
     resetStats() {
         this.time.m = 0;
         this.time.s = 0;
+        this.moves = 0;
     }
 
 }

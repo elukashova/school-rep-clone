@@ -50,9 +50,9 @@ class Game {
         statsContainer.classList.add("stats-container");
         this.statsContainer = statsContainer;
 
-        // let bottomContainer = document.createElement("div");
-        // bottomContainer.classList.add("frames-container");
-        // this.bottomContainer = bottomContainer;
+        let bottomContainer = document.createElement("div");
+        bottomContainer.classList.add("bottom-container");
+        this.bottomContainer = bottomContainer;
 
         //2. board
         let gamingBoard = document.createElement("div");
@@ -81,8 +81,11 @@ class Game {
         resultsBtn.innerText = "results";
         this.resultsBtn = resultsBtn;
         
-        let soundBtn = document.createElement("button");  
+        let soundBtn = document.createElement("button");
+        soundBtn.classList.add("sound-button");
+        soundBtn.style.backgroundImage = "url(./assets/sound-on.svg)";
         this.soundBtn = soundBtn;
+        this.soundOnOff();
 
         //4. stats
         let moves = document.createElement("span");
@@ -105,6 +108,8 @@ class Game {
         this.statsContainer.append(moves);
         this.statsContainer.append(timer);
         this.gameContainer.append(this.gamingBoard);
+        this.gameContainer.append(bottomContainer);
+        this.bottomContainer.append(soundBtn);
         // this.gameContainer.append(bottomContainer);
         
         this.play()
@@ -152,16 +157,10 @@ class Game {
             //piece.addEventListener("click", (piece) => {
                 let target = piece.target;
                 this.movePieces(target);
-
-                if(this.sound = true) {
-                    let sound = new Audio("./assets/move-sound.mp3");
-                    sound.play();
-                }
             //});
         });
 
     }
-
 
     //create shuffled array to check for solvability
     shuffle () {
@@ -190,6 +189,17 @@ class Game {
             //document.querySelector(".move-counter").innerText = this.moves;
             this.play();
         })
+    }
+
+    soundOnOff() {
+        this.soundBtn.addEventListener("click", () => {
+            this.sound = !this.sound;
+            if(this.sound == false) {
+                this.soundBtn.style.backgroundImage = "url(./assets/sound-off.svg)";
+            } else {
+                this.soundBtn.style.backgroundImage = "url(./assets/sound-on.svg)";
+            }
+        });
     }
 
     //check for solvability
@@ -321,6 +331,10 @@ class Game {
                 this.moves++;
                 document.querySelector(".move-counter").innerHTML = this.moves;
                 //this.movesCounter.innerHTML = "Moves: " + this.moves;
+                if(this.sound == true) {
+                    let sound = new Audio("./assets/move-sound.mp3");
+                    sound.play();
+                }
             }
         }
     }

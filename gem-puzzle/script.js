@@ -7,6 +7,16 @@ class Game {
         this.topContainer = null;
         this.statsContainer = null;
         this.bottomContainer = null;
+
+        //sizes
+        this.sizeContainer = null;
+        this.size3 = null;
+        this.size4 = null;
+        this.size5 = null;
+        this.size6 = null;
+        this.size7 = null;
+        this.size8 = null;
+
         //board
         this.gamingBoard = null;
         this.timer = null;
@@ -98,6 +108,47 @@ class Game {
         timer.innerText = "Time: ";
         this.timer = timer;
 
+        //5. frame sizes links
+        let sizeContainer = document.createElement("div");
+        sizeContainer.classList.add("size-container");
+        this.sizeContainer = sizeContainer;
+
+        let sizeText = document.createElement("p");
+        sizeText.classList.add("size-text");
+        sizeText.innerText = "Frame size:";
+
+        let size3 = document.createElement("a");
+        size3.setAttribute("id", "frame-size3");
+        size3.innerText = "3x3";
+        this.size3 = size3;
+
+        let size4 = document.createElement("a");
+        size4.setAttribute("id", "frame-size4");
+        size4.innerText = "4x4";
+        this.size4 = size4;
+
+        let size5 = document.createElement("a");
+        size5.setAttribute("id", "frame-size5");
+        size5.innerText = "5x5";
+        this.size5 = size5;
+
+        let size6 = document.createElement("a");
+        size6.setAttribute("id", "frame-size6");
+        size6.innerText = "6x6";
+        this.size6 = size6;
+
+        let size7 = document.createElement("a");
+        size7.setAttribute("id", "frame-size7");
+        size7.innerText = "7x7";
+        this.size7 = size7;
+
+        let size8 = document.createElement("a");
+        size8.setAttribute("id", "frame-size8");
+        size8.innerText = "8x8";
+        this.size8 = size8;
+        this.chooseSize();
+
+        //append everything
         document.body.append(this.gameContainer);
         this.gameContainer.append(topContainer);
         this.topContainer.append(shuffleBtn);
@@ -110,22 +161,29 @@ class Game {
         this.gameContainer.append(this.gamingBoard);
         this.gameContainer.append(bottomContainer);
         this.bottomContainer.append(soundBtn);
-        // this.gameContainer.append(bottomContainer);
+        this.bottomContainer.append(sizeContainer);
+        this.sizeContainer.append(sizeText);
+        this.sizeContainer.append(size3);
+        this.sizeContainer.append(size4);
+        this.sizeContainer.append(size5);
+        this.sizeContainer.append(size6);
+        this.sizeContainer.append(size7);
+        this.sizeContainer.append(size8);
         
         this.play()
     }
 
     //STARTING METHODS SETS
     play() {
-        this.createPieces();
+        this.createPieces(this.frameSize);
         this.countUp();
         this.countMoves();
     }
 
-    //CREATE SOLVABLE PUZZLE
-    createPieces() {
+    //CREATE PUZZLE
+    createPieces(fieldSize) {
         //this.isSolvable(); //take a solvable shuffled array
-        this.shuffle();
+        this.shuffle(fieldSize);
 
         for (let i = 0; i < this.shuffled.length; i++) {
             let pzlPiece = document.createElement("div");
@@ -137,7 +195,7 @@ class Game {
             this.pzlPieces.push(pzlPiece);
 
             //add coordinates as class
-            this.getCoordinates();
+            this.getCoordinates(fieldSize);
             let xy = this.coords[i];
             pzlPiece.setAttribute('id', xy);
             
@@ -152,45 +210,156 @@ class Game {
             }
         }
 
-        //add movement
+        //add pieces movement
         this.gamingBoard.addEventListener("click", (piece) => {
             //piece.addEventListener("click", (piece) => {
                 let target = piece.target;
                 this.movePieces(target);
             //});
         });
-
     }
 
     //create shuffled array to check for solvability
-    shuffle () {
+    shuffle (fieldSize) {
         let unshuffled = [];
-        let n = this.frameSize ** 2;
+        let n = fieldSize ** 2;
         for (let i = n-1; i >= 0; i--) {
             unshuffled.push(i);
         }
         this.shuffled = unshuffled.sort((a, b) => 0.5 - Math.random());
     }
 
+    //create frame sizes
+    chooseSize() {
+        this.size3.addEventListener("click", () => {
+            this.frameSize = 3;
+            this.gamingBoard.innerHTML = "";
+            this.coords = [];
+            this.gamingBoard.style.padding = "50px";
+            this.updateField();
+            this.play(this.frameSize);
+        });
+
+        this.size4.addEventListener("click", () => {
+            this.frameSize = 4;
+            this.gamingBoard.innerHTML = "";
+            this.coords = [];
+            this.gamingBoard.style.padding = "0px";
+            this.gamingBoard.style.paddingTop = "6px";
+            this.updateField();
+            this.play(this.frameSize);
+        });
+
+        this.size5.addEventListener("click", () => {
+            this.frameSize = 5;
+            this.gamingBoard.innerHTML = "";
+            this.coords = [];
+            this.gamingBoard.style.padding = "0px";
+            this.gamingBoard.style.paddingTop = "4px";
+            this.updateField();
+            this.play(this.frameSize);
+            this.pzlPieces.forEach(element => {
+                element.style.width = "75px";
+                element.style.height = "75px";
+
+            })
+        });
+
+        this.size6.addEventListener("click", () => {
+            this.frameSize = 6;
+            this.gamingBoard.innerHTML = "";
+            this.coords = [];
+            this.gamingBoard.style.padding = "0px";
+            this.gamingBoard.style.paddingTop = "5px";
+            this.updateField();
+            this.play(this.frameSize);
+            this.pzlPieces.forEach(element => {
+                element.style.width = "60px";
+                element.style.height = "60px";
+                element.style.fontSize = "1.5em";
+            })
+        });
+
+        this.size7.addEventListener("click", () => {
+            this.frameSize = 7;
+            this.gamingBoard.innerHTML = "";
+            this.coords = [];
+            this.gamingBoard.style.padding = "0px";
+            this.gamingBoard.style.paddingTop = "3px";
+            this.updateField();
+            this.play(this.frameSize);
+            this.pzlPieces.forEach(element => {
+                element.style.width = "52px";
+                element.style.height = "52px";
+                element.style.fontSize = "1.5em";
+            })
+        });
+
+        this.size8.addEventListener("click", () => {
+            this.frameSize = 8;
+            this.gamingBoard.innerHTML = "";
+            this.coords = [];
+            this.gamingBoard.style.padding = "0px";
+            this.gamingBoard.style.paddingTop = "3px";
+            this.updateField();
+            this.play(this.frameSize);
+            this.pzlPieces.forEach(element => {
+                element.style.width = "45px";
+                element.style.height = "45px";
+                element.style.fontSize = "1.2em";
+            })
+        });
+    }
+
     //restart the game and shuffle
     startOver() {
         this.shuffleBtn.addEventListener("click", () => {
-            //this.shuffled = [];
-            //this.neighbors = [];
-            //this.pzlPieces = [];
-            this.timeCounter.remove();
-            this.gamingBoard.innerHTML = "";
-            this.timeCounter.innerText = "";
-            this.timeCounter.innerHTML = "";
-            // this.movesCounter.innerText = "";
-            // this.movesCounter.innerHTML = "";
-            this.mover.remove();
-            this.resetStats();
-            //document.querySelector(".move-counter").innerText = this.moves;
+            this.updateField();
             this.play();
+
+            if(this.frameSize == 5) {
+                this.pzlPieces.forEach(element => {
+                    element.style.width = "75px";
+                    element.style.height = "75px";
+                })
+            }
+
+            if(this.frameSize == 6) {
+                this.pzlPieces.forEach(element => {
+                    element.style.width = "60px";
+                    element.style.height = "60px";
+                    element.style.fontSize = "1.5em";
+                })
+            }
+
+            if(this.frameSize == 7) {
+                this.pzlPieces.forEach(element => {
+                    element.style.width = "52px";
+                    element.style.height = "52px";
+                    element.style.fontSize = "1.5em";
+                })
+            }
+
+            if(this.frameSize == 8) {
+                this.pzlPieces.forEach(element => {
+                    element.style.width = "45px";
+                    element.style.height = "45px";
+                    element.style.fontSize = "1.2em";
+                })
+            }
         })
     }
 
+    updateField() {
+        this.timeCounter.remove();
+        this.gamingBoard.innerHTML = "";
+        this.timeCounter.innerText = "";
+        this.timeCounter.innerHTML = "";
+        this.mover.remove();
+        this.resetStats();
+    }
+
+    //control sound
     soundOnOff() {
         this.soundBtn.addEventListener("click", () => {
             this.sound = !this.sound;
@@ -241,9 +410,9 @@ class Game {
     //     }
     // }
 
-    getCoordinates() {
-        let rows = this.frameSize;
-        let cols = this.frameSize;
+    getCoordinates(frameSize) {
+        let rows = frameSize;
+        let cols = frameSize;
         
         for (let i = 0; i<rows; i++) {
             for (let j = 0; j < cols; j++) {
@@ -298,12 +467,13 @@ class Game {
         }
 
         this.neighbors = neighbors;
+        console.log(this.neighbors);
         return this.neighbors;
     }
 
     getEmptyNeighbor (piece) {
         let neighbor = this.getNeighbors(piece);
-        //console.log(neighbor);
+        console.log(neighbor);
         for(let i = 0; i < neighbor.length; i++){
 			if(neighbor[i].classList.contains("empty")) {
             return neighbor[i];

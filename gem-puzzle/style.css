@@ -155,10 +155,12 @@ span {
     height: 30px;
     width: 400px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    flex-wrap: wrap;
     position: absolute;
     top: 510px;
     align-self: center;
+    justify-content: space-between;
 }
 
 .sound-button {
@@ -171,6 +173,34 @@ span {
     cursor: pointer;
     position: absolute;
     background-size: contain;
+}
+
+.size-container {
+    width: 300px;
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-self: flex-end;
+    height: 30px;
+    align-items: center;
+}
+
+p {
+    color: #554640;
+    font-size: 0.8em;  
+    text-transform: uppercase;
+}
+
+.bottom-container a {
+    color: #707078;
+    font-size: 0.8em;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.bottom-container a:hover {
+    color: #554640;
 }
 
 @media screen and (max-width: 1280px) {

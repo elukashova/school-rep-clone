@@ -49,6 +49,7 @@ button {
     text-transform: uppercase;
     color: #CDE6F5;
     font-size: 0.8em;
+    cursor: pointer;
 }
 
 .shuffle-button {

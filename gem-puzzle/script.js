@@ -10,8 +10,8 @@ class Game {
         //board
         this.gamingBoard = null;
         this.timer = null;
+        this.timeCounter = null;
         this.time = {
-            h: 0,
             m: 0,
             s: 0
         };
@@ -63,6 +63,7 @@ class Game {
         shuffleBtn.classList.add("shuffle-button");
         shuffleBtn.innerText = "shuffle & start";
         this.shuffleBtn = shuffleBtn;
+        this.startOver();
 
         let stopBtn = document.createElement("button");
         stopBtn.classList.add("stop-button");
@@ -116,7 +117,8 @@ class Game {
 
     //CREATE SOLVABLE PUZZLE
     createPieces() {
-        this.isSolvable(); //take a solvable shuffled array
+        //this.isSolvable(); //take a solvable shuffled array
+        this.shuffle();
 
         for (let i = 0; i < this.shuffled.length; i++) {
             let pzlPiece = document.createElement("div");
@@ -164,44 +166,60 @@ class Game {
         this.shuffled = unshuffled.sort((a, b) => 0.5 - Math.random());
     }
 
-    //check for solvability
-    isSolvable () {
-        while (this.solvable == false) {
-            this.shuffle();
-            let counter = 0;
-            let row = 0;
-            let zeroRow;
-            for (let i = 0; i < this.shuffled.length; i++) {
-                if (i % this.frameSize == 0) {
-                    row++; // next row starts
-                } 
-                if(this.shuffled[i] == 0) { //find the empty piece
-                    zeroRow = row;
-                    continue;
-                }
-                for (let j = i +1; j < this.shuffled.length; j++) { //count inversions
-                    if (this.shuffled[i] > this.shuffled[j] && this.shuffled[j] !=0) {
-                        counter++;
-                    }
-                }
-            }  
-
-            if (this.frameSize % 2 == 0) { //even frame
-                if (zeroRow % 2 == 0 && counter % 2 == 0) { //check if odd row from bottom + even inversions
-                    this.isSolvable = true;
-                    return this.shuffled;
-                } else if (zeroRow % 2 !== 0 && counter % 2 != 0) {  //check if even row from bottom + odd inversions
-                    this.isSolvable = true;
-                    return this.shuffled;
-                } 
-            } else { //odd frame
-                if (counter % 2 == 0) {
-                    this.isSolvable = true;
-                    return this.shuffled;
-                } 
-            }
-        }
+    //restart the game and shuffle
+    startOver() {
+        this.shuffleBtn.addEventListener("click", () => {
+            //this.shuffled = [];
+            //this.neighbors = [];
+            //this.pzlPieces = [];
+            this.timeCounter.remove();
+            this.gamingBoard.innerHTML = "";
+            this.timeCounter.innerText = "";
+            this.timeCounter.innerHTML = "";
+            console.log(this.timeCounter);
+            this.resetStats();
+            this.play();
+        })
     }
+
+    //check for solvability
+    // isSolvable () {
+    //     while (this.solvable == false) {
+    //         this.shuffle();
+    //         let counter = 0;
+    //         let row = 0;
+    //         let zeroRow;
+    //         for (let i = 0; i < this.shuffled.length; i++) {
+    //             if (i % this.frameSize == 0) {
+    //                 row++; // next row starts
+    //             } 
+    //             if(this.shuffled[i] == 0) { //find the empty piece
+    //                 zeroRow = row;
+    //                 continue;
+    //             }
+    //             for (let j = i +1; j < this.shuffled.length; j++) { //count inversions
+    //                 if (this.shuffled[i] > this.shuffled[j] && this.shuffled[j] !=0) {
+    //                     counter++;
+    //                 }
+    //             }
+    //         }  
+
+    //         if (this.frameSize % 2 == 0) { //even frame
+    //             if (zeroRow % 2 == 0 && counter % 2 == 0) { //check if odd row from bottom + even inversions
+    //                 this.isSolvable = true;
+    //                 return this.shuffled;
+    //             } else if (zeroRow % 2 !== 0 && counter % 2 != 0) {  //check if even row from bottom + odd inversions
+    //                 this.isSolvable = true;
+    //                 return this.shuffled;
+    //             } 
+    //         } else { //odd frame
+    //             if (counter % 2 == 0) {
+    //                 this.isSolvable = true;
+    //                 return this.shuffled;
+    //             } 
+    //         }
+    //     }
+    // }
 
     getCoordinates() {
         let rows = this.frameSize;
@@ -259,8 +277,6 @@ class Game {
             neighbors.push(this.findPiecebyID(r, c-1));
         }
 
-        console.log(neighbors);
-
         this.neighbors = neighbors;
         return this.neighbors;
     }
@@ -270,7 +286,6 @@ class Game {
         //console.log(neighbor);
         for(let i = 0; i < neighbor.length; i++){
 			if(neighbor[i].classList.contains("empty")) {
-            console.log(neighbor[i]);
             return neighbor[i];
             }
 		}
@@ -338,35 +353,36 @@ class Game {
         let timeCounter = document.createElement("span");
         timeCounter.classList.add("time-counter");
         this.timer.append(timeCounter);
+        timeCounter.innerHTML = "00 : 00";
+
         let counter = this.time.s || 0;
-        let h = this.time.h || 0;
         let m = this.time.m || 0;
         let s = this.time.s || 0;
-
 
         setInterval(() => {
             counter++;
             s = counter >= 10 ? counter : "0" + counter;
             this.time.s = s;
-            if(s >=60) {
+            if(s >59) {
                 counter = 0;
                 this.time.m ++;
             }
 
             m = this.time.m >= 10 ? this.time.m : "0" + this.time.m;
-            if(m >=60) {
+            if(m >59) {
                 this.time.h ++;
             }
 
-            h = this.time.h >= 10 ? this.time.h : "0" + this.time.h;
-
-            if (h < 1) {
-                timeCounter.innerHTML = m + " : " + s;
-            } else {
-                timeCounter.innerHTML = h + " : " + m + " : " + s;
-            }
+            timeCounter.innerHTML = m + " : " + s;
 
         }, 1000);
+
+        this.timeCounter = timeCounter;
+    }
+
+    resetStats() {
+        this.time.m = 0;
+        this.time.s = 0;
     }
 
 }

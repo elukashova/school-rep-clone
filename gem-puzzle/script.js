@@ -2,7 +2,10 @@ class Game {
     constructor() {
         //general
         this.frameSize = 4;
+
+        //saving
         this.isSaved = null;
+        this.savedGame = {};
 
         //containers
         this.gameContainer = null;
@@ -172,7 +175,8 @@ class Game {
         this.sizeContainer.append(size7);
         this.sizeContainer.append(size8);
         
-        this.play()
+        this.loadSavedGame();
+        this.play();
     }
 
     //STARTING METHODS SETS
@@ -185,14 +189,66 @@ class Game {
     //CREATE PUZZLE
     createPieces(fieldSize) {
         //this.isSolvable(); //take a solvable shuffled array
-        this.shuffle(fieldSize);
+        let piecesOrder = [];
 
-        for (let i = 0; i < this.shuffled.length; i++) {
+        if (this.isSaved == true) {
+            fieldSize = this.savedGame.frame;
+            piecesOrder = this.savedGame.order;
+            console.log(piecesOrder);
+        } else {
+            this.shuffle(fieldSize);
+            piecesOrder = this.shuffled;
+        }
+
+        for (let i = 0; i < piecesOrder.length; i++) {
             let pzlPiece = document.createElement("div");
             this.gamingBoard.append(pzlPiece);
             pzlPiece.classList.add("puzzle-piece");
-            pzlPiece.innerText = this.shuffled[i];
+            pzlPiece.innerText = piecesOrder[i];
             this.pzlPieces.push(pzlPiece);
+
+            //add styles according to the frame size
+            if(fieldSize == 3) {
+                this.gamingBoard.style.padding = "50px";
+            }
+
+            if(fieldSize == 4) {
+                this.gamingBoard.style.padding = "0px";
+                this.gamingBoard.style.paddingTop = "6px";
+            }
+
+            if(fieldSize == 5) {
+                pzlPiece.style.width = "75px";
+                pzlPiece.style.height = "75px";
+                this.gamingBoard.style.padding = "0px";
+                this.gamingBoard.style.paddingTop = "4px";
+            }
+
+            if(fieldSize == 6) {
+                pzlPiece.style.width = "60px";
+                pzlPiece.style.height = "60px";
+                pzlPiece.style.fontSize = "1.5em";
+                this.gamingBoard.style.padding = "0px";
+                this.gamingBoard.style.paddingTop = "5px";
+            }
+
+            if(fieldSize == 7) {
+                pzlPiece.style.width = "52px";
+                pzlPiece.style.height = "52px";
+                pzlPiece.style.fontSize = "1.5em";
+                this.gamingBoard.style.padding = "0px";
+                this.gamingBoard.style.paddingTop = "3px";
+            }
+
+            if(fieldSize == 8) {
+                pzlPiece.style.width = "45px";
+                pzlPiece.style.height = "45px";
+                pzlPiece.style.fontSize = "1.2em";
+                this.gamingBoard.style.padding = "0px";
+                this.gamingBoard.style.paddingTop = "3px";
+            }
+
+            this.frameSize = fieldSize;
 
             //add coordinates as class
             this.getCoordinates(fieldSize);
@@ -200,13 +256,9 @@ class Game {
             pzlPiece.setAttribute('id', xy);
             
             //get zero space
-            if(this.shuffled[i] === 0) { 
-                //pzlPiece.style.order = "16";
-                //this.getZeroCoordinates();
+            if(piecesOrder[i] === 0) { 
                 pzlPiece.style.visibility = "hidden";
                 pzlPiece.classList.add("empty");
-                //pzlPiece.classList.remove("puzzle-piece");
-                //pzlPiece.classList.add(this.zeroXY)
             }
         }
 
@@ -233,7 +285,7 @@ class Game {
             this.frameSize = 3;
             this.gamingBoard.innerHTML = "";
             this.coords = [];
-            this.gamingBoard.style.padding = "50px";
+            //this.gamingBoard.style.padding = "50px";
             this.updateField();
             this.play(this.frameSize);
         });
@@ -242,8 +294,8 @@ class Game {
             this.frameSize = 4;
             this.gamingBoard.innerHTML = "";
             this.coords = [];
-            this.gamingBoard.style.padding = "0px";
-            this.gamingBoard.style.paddingTop = "6px";
+            // this.gamingBoard.style.padding = "0px";
+            // this.gamingBoard.style.paddingTop = "6px";
             this.updateField();
             this.play(this.frameSize);
         });
@@ -252,60 +304,60 @@ class Game {
             this.frameSize = 5;
             this.gamingBoard.innerHTML = "";
             this.coords = [];
-            this.gamingBoard.style.padding = "0px";
-            this.gamingBoard.style.paddingTop = "4px";
+            // this.gamingBoard.style.padding = "0px";
+            // this.gamingBoard.style.paddingTop = "4px";
             this.updateField();
             this.play(this.frameSize);
-            this.pzlPieces.forEach(element => {
-                element.style.width = "75px";
-                element.style.height = "75px";
+            // this.pzlPieces.forEach(element => {
+            //     element.style.width = "75px";
+            //     element.style.height = "75px";
 
-            })
+            // })
         });
 
         this.size6.addEventListener("click", () => {
             this.frameSize = 6;
             this.gamingBoard.innerHTML = "";
             this.coords = [];
-            this.gamingBoard.style.padding = "0px";
-            this.gamingBoard.style.paddingTop = "5px";
+            // this.gamingBoard.style.padding = "0px";
+            // this.gamingBoard.style.paddingTop = "5px";
             this.updateField();
             this.play(this.frameSize);
-            this.pzlPieces.forEach(element => {
-                element.style.width = "60px";
-                element.style.height = "60px";
-                element.style.fontSize = "1.5em";
-            })
+            // this.pzlPieces.forEach(element => {
+            //     element.style.width = "60px";
+            //     element.style.height = "60px";
+            //     element.style.fontSize = "1.5em";
+            // })
         });
 
         this.size7.addEventListener("click", () => {
             this.frameSize = 7;
             this.gamingBoard.innerHTML = "";
             this.coords = [];
-            this.gamingBoard.style.padding = "0px";
-            this.gamingBoard.style.paddingTop = "3px";
+            // this.gamingBoard.style.padding = "0px";
+            // this.gamingBoard.style.paddingTop = "3px";
             this.updateField();
             this.play(this.frameSize);
-            this.pzlPieces.forEach(element => {
-                element.style.width = "52px";
-                element.style.height = "52px";
-                element.style.fontSize = "1.5em";
-            })
+            // this.pzlPieces.forEach(element => {
+            //     element.style.width = "52px";
+            //     element.style.height = "52px";
+            //     element.style.fontSize = "1.5em";
+            // })
         });
 
         this.size8.addEventListener("click", () => {
             this.frameSize = 8;
             this.gamingBoard.innerHTML = "";
             this.coords = [];
-            this.gamingBoard.style.padding = "0px";
-            this.gamingBoard.style.paddingTop = "3px";
+            // this.gamingBoard.style.padding = "0px";
+            // this.gamingBoard.style.paddingTop = "3px";
             this.updateField();
             this.play(this.frameSize);
-            this.pzlPieces.forEach(element => {
-                element.style.width = "45px";
-                element.style.height = "45px";
-                element.style.fontSize = "1.2em";
-            })
+            // this.pzlPieces.forEach(element => {
+            //     element.style.width = "45px";
+            //     element.style.height = "45px";
+            //     element.style.fontSize = "1.2em";
+            // })
         });
     }
 
@@ -314,37 +366,6 @@ class Game {
         this.shuffleBtn.addEventListener("click", () => {
             this.updateField();
             this.play();
-
-            if(this.frameSize == 5) {
-                this.pzlPieces.forEach(element => {
-                    element.style.width = "75px";
-                    element.style.height = "75px";
-                })
-            }
-
-            if(this.frameSize == 6) {
-                this.pzlPieces.forEach(element => {
-                    element.style.width = "60px";
-                    element.style.height = "60px";
-                    element.style.fontSize = "1.5em";
-                })
-            }
-
-            if(this.frameSize == 7) {
-                this.pzlPieces.forEach(element => {
-                    element.style.width = "52px";
-                    element.style.height = "52px";
-                    element.style.fontSize = "1.5em";
-                })
-            }
-
-            if(this.frameSize == 8) {
-                this.pzlPieces.forEach(element => {
-                    element.style.width = "45px";
-                    element.style.height = "45px";
-                    element.style.fontSize = "1.2em";
-                })
-            }
         })
     }
 
@@ -355,6 +376,7 @@ class Game {
         this.timeCounter.innerHTML = "";
         this.mover.remove();
         this.resetStats();
+        this.isSaved = false;
     }
 
     //save the current game 
@@ -366,11 +388,11 @@ class Game {
         let currentSet = document.querySelector(".game-board");
         let piecesOrder = currentSet.childNodes;
         piecesOrder.forEach(piece => {
-            currentPieces.push(Number(piece.innerHTML));
+            currentPieces.push(Number(piece.innerText));
         })
         let savedGame = {
             frame: this.frameSize,
-            order: piecesOrder,
+            order: currentPieces,
             moves: this.moves,
             time: this.time,
         }
@@ -381,10 +403,8 @@ class Game {
     //saving game by clicking on stop
     saveGame() {
         this.saveBtn.addEventListener("click", () => {
-            console.log("he");
             this.saveGameData();
             this.savedPopup();
-            this.isSaved = true;
         })
     }
 
@@ -406,6 +426,23 @@ class Game {
         })
         return savedPopup;
     }
+
+    loadSavedGame() {
+        //console.log(localStorage);
+        //console.log("hey");
+        if(localStorage.getItem("gemGameProgress") !== null) {
+            this.savedGame = JSON.parse(localStorage.getItem("gemGameProgress"));
+            //console.log(this.savedGame);
+            this.isSaved = true;
+            return this.savedGame;
+        } else {
+            return false
+        }
+    }
+
+    // restoreSavedData() {
+
+    // }
 
     //close popup
     // closePopop () {
@@ -607,6 +644,13 @@ class Game {
         this.timer.append(timeCounter);
         timeCounter.innerHTML = "00 : 00";
 
+        if (this.isSaved == true) {
+            let m = this.savedGame.time.m >= 10 ? this.savedGame.time.m : "0" + this.savedGame.time.m;
+            timeCounter.innerHTML = m + " : " + this.savedGame.time.s;
+            this.time.m = this.savedGame.time.m;
+            this.time.s = this.savedGame.time.s;
+        }
+
         let counter = this.time.s || 0;
         let m = this.time.m || 0;
         let s = this.time.s || 0;
@@ -634,13 +678,18 @@ class Game {
         let moveNum = document.createElement("span");
         moveNum.classList.add("move-counter");
         this.movesCounter.append(moveNum);
-        moveNum.innerHTML = "0";
+        if (this.isSaved == true) {
+            moveNum.innerHTML = this.savedGame.moves;
+            this.moves = this.savedGame.moves;
+        } else {
+            moveNum.innerHTML = "0";
+        }
         this.mover = moveNum;
     }
 
-    returnMoves() {
-        return this.moves;
-    }
+    // returnMoves() {
+    //     return this.moves;
+    // }
 
     // updateMoves() {
     //     this.moves.innerText = "Moves: " + this.moves;

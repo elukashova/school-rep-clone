@@ -3,23 +3,12 @@ class Game {
         //general
         this.frameSize = 4;
         this.isWin = false;
+        //this.solvable == false;
 
         //saving
         this.isSaved = false;
         this.savedGame = {};
         this.results = []; // array of objects with highest scoress
-        // this.results = [
-        //     { field: "3x3", time: "00:43", moves: "14" },
-        //     { field: "4x4", time: "00:45", moves: "16" },
-        //     { field: "3x3", time: "00:43", moves: "14" },
-        //     { field: "4x4", time: "00:45", moves: "16" },
-        //     { field: "3x3", time: "00:43", moves: "14" },
-        //     { field: "4x4", time: "00:45", moves: "16" },
-        //     { field: "3x3", time: "00:43", moves: "14" },
-        //     { field: "4x4", time: "00:45", moves: "16" },
-        //     { field: "3x3", time: "00:43", moves: "14" },
-        //     { field: "4x4", time: "00:45", moves: "16" },
-        // ];
 
         //containers
         this.gameContainer = null;
@@ -49,7 +38,6 @@ class Game {
         this.moves = 0;
         this.pzlPieces = [];
         this.shuffled = [];
-        this.solvable = false;
         this.inversions = null; 
         this.coords = [];
         this.neighbors = [];
@@ -63,7 +51,7 @@ class Game {
         this.soundBtn = null;
     }
 
-    //ALL NECESSARY ELEMENTS 
+    //CREATE ALL NECESSARY ELEMENTS 
     go() {
         //1. containers
         let gameContainer = document.createElement("div");
@@ -193,7 +181,7 @@ class Game {
         this.play();
     }
 
-    //STARTING METHODS SETS
+    //STARTING METHODS SET
     play() {
         this.createPieces(this.frameSize);
         this.countUp();
@@ -287,7 +275,7 @@ class Game {
         })
     }
 
-    //create shuffled array to check for solvability
+    //create shuffled array
     shuffle (fieldSize) {
         let unshuffled = [];
         let n = fieldSize ** 2;
@@ -295,6 +283,51 @@ class Game {
             unshuffled.push(i);
         }
         this.shuffled = unshuffled.sort((a, b) => 0.5 - Math.random());
+
+        this.solvable = this.isSolvable(this.shuffled);
+        //console.log(this.solvable);
+        if (this.solvable === false) {
+            this.shuffle(fieldSize);
+            //console.log(this.solvable);
+        } else {
+            return this.shuffled;
+        }
+    }
+
+    //check for solvability
+    isSolvable (arr) {
+        //if (this.solvable == false) {
+            let counter = 0;
+            let row = 0;
+            let zeroRow;
+            for (let i = 0; i < arr.length; i++) {
+                if (i % this.frameSize == 0) {
+                    row++; // next row starts
+                } 
+                if(arr[i] == 0) { //find the empty piece
+                    zeroRow = row;
+                    continue;
+                }
+                for (let j = i +1; j < arr.length; j++) { //count inversions
+                    if (arr[i] > arr[j] && arr[j] !=0) {
+                        counter++;
+                        //console.log(counter);
+                    }
+                };
+            } 
+
+            if (this.frameSize % 2 == 0) { //even frame
+                if (zeroRow % 2 == 0) { //check if odd row from bottom + even inversions
+                    //console.log("odd row");
+                    return counter % 2 == 0;
+                } else if (zeroRow % 2 !== 0) {  //check if even row from bottom + odd inversions
+                    //console.log("even row");
+                    return counter % 2 != 0;
+                } //console.log("hey");
+            } else { //odd frame
+                return counter % 2 == 0;
+            } 
+        //this.solvable = this.isSolvable();
     }
 
     //create frame sizes
@@ -354,7 +387,6 @@ class Game {
             //localStorage.clear();
             this.updateField();
             this.play(this.frameSize);
-            console.log(this.isSaved);
         })
     }
 
@@ -366,6 +398,7 @@ class Game {
         this.mover.remove();
         this.resetStats();
         this.isSaved = false;
+        this.solvable = false;
     }
 
     //SAVE THE CURRENT GAME
@@ -379,7 +412,6 @@ class Game {
         piecesOrder.forEach(piece => {
             currentPieces.push(Number(piece.innerText));
         })
-        console.log(currentPieces);
         let savedGame = {
             frame: this.frameSize,
             order: currentPieces,
@@ -517,7 +549,6 @@ class Game {
                     let wPopup = this.winPopup();
                     this.gameContainer.append(wPopup);
                     this.checkHighScore(this.moves);
-                    console.log(this.results);
                 }
             }
         }

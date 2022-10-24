@@ -496,6 +496,12 @@ td {
     }
 }
 
+@media screen and (max-width: 390px) {
+    .game-field {
+        top: 50px;
+    }
+}
+
 @media screen and (max-width: 320px) {
     .game-field {
         height: 400px;

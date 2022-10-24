@@ -3,7 +3,15 @@ class Game {
         //general
         this.frameSize = 4;
         this.isWin = false;
-        //this.solvable == false;
+        this.solvable == false;
+
+        //media queries
+        this.screen = {
+            large: window.matchMedia('(max-width: 1280px)'),
+            medium: window.matchMedia('(max-width: 768px)'),
+            small: window.matchMedia('(max-width: 320px)'),
+        }
+        this.screenSize = null;
 
         //saving
         this.isSaved = false;
@@ -176,8 +184,18 @@ class Game {
         this.sizeContainer.append(size6);
         this.sizeContainer.append(size7);
         this.sizeContainer.append(size8);
-        
+
+        //mediaqueries
+        for (let [scr, mq] of Object.entries(this.screen)) {
+            if (mq) {
+                mq.addEventListener('change', this.mqChangeHandler());
+            }
+        }
+
+        //initial methods
         this.loadSavedGame();
+        this.loadSavedResults();
+        this.mqChangeHandler();
         this.play();
     }
 
@@ -186,6 +204,15 @@ class Game {
         this.createPieces(this.frameSize);
         this.countUp();
         this.countMoves();
+    }
+
+    //MEDIA QUERIES
+    mqChangeHandler() {
+        for (let [scr, mq] of Object.entries(this.screen)) {
+            if (!mq || mq.matches) {
+                this.screenSize = scr;
+            }
+        }
     }
 
     //CREATE PUZZLE
@@ -205,18 +232,57 @@ class Game {
             let pzlPiece = document.createElement("div");
             this.gamingBoard.append(pzlPiece);
             pzlPiece.classList.add("puzzle-piece");
+            //pzlPiece.classList.add("dragging");
             pzlPiece.setAttribute("draggable", 'true');
             pzlPiece.innerText = piecesOrder[i];
             this.pzlPieces.push(pzlPiece);
 
             //add styles according to the frame size
             if(fieldSize == 3) {
-                this.gamingBoard.style.padding = "50px";
+                pzlPiece.style.width = "125px";
+                pzlPiece.style.height = "125px";
+                this.gamingBoard.style.paddingTop = "6px";
+                //this.gamingBoard.style.padding = "50px";
+                if (this.screenSize === "large") {
+                    pzlPiece.style.width = "110px";
+                    pzlPiece.style.height = "110px";
+                }
+
+                if (this.screenSize === "medium") {
+                    pzlPiece.style.width = "107px";
+                    pzlPiece.style.height = "107px";
+                    this.gamingBoard.style.paddingTop = "4px";
+                }
+
+                if (this.screenSize === "small") {
+                    pzlPiece.style.width = "95px";
+                    pzlPiece.style.height = "95px";
+                    this.gamingBoard.style.paddingTop = "2px";
+                    //pzlPiece.style.fontSize = "1.5em";
+                }
             }
 
             if(fieldSize == 4) {
+                pzlPiece.style.width = "95px";
+                pzlPiece.style.height = "95px";
                 this.gamingBoard.style.padding = "0px";
-                this.gamingBoard.style.paddingTop = "6px";
+                this.gamingBoard.style.paddingTop = "4px";
+                if (this.screenSize === "large") {
+                    pzlPiece.style.width = "90px";
+                    pzlPiece.style.height = "90px";
+                }
+                if (this.screenSize === "medium") {
+                    pzlPiece.style.width = "80px";
+                    pzlPiece.style.height = "80px";
+                    this.gamingBoard.style.paddingTop = "3px";
+                }
+
+                if (this.screenSize === "small") {
+                    pzlPiece.style.width = "70px";
+                    pzlPiece.style.height = "70px";
+                    this.gamingBoard.style.paddingTop = "2px";
+                    //pzlPiece.style.fontSize = "1.5em";
+                }
             }
 
             if(fieldSize == 5) {
@@ -224,30 +290,94 @@ class Game {
                 pzlPiece.style.height = "75px";
                 this.gamingBoard.style.padding = "0px";
                 this.gamingBoard.style.paddingTop = "4px";
+                if (this.screenSize === "large") {
+                    pzlPiece.style.width = "67px";
+                    pzlPiece.style.height = "67px";
+                    this.gamingBoard.style.paddingTop = "3px";
+                }
+                if (this.screenSize === "medium") {
+                    pzlPiece.style.width = "64px";
+                    pzlPiece.style.height = "64px";
+                    this.gamingBoard.style.paddingTop = "3px";
+                }
+
+                if (this.screenSize === "small") {
+                    pzlPiece.style.width = "56px";
+                    pzlPiece.style.height = "56px";
+                    this.gamingBoard.style.paddingTop = "2px";
+                    pzlPiece.style.fontSize = "1.5em";
+                }
             }
 
             if(fieldSize == 6) {
-                pzlPiece.style.width = "60px";
-                pzlPiece.style.height = "60px";
+                pzlPiece.style.width = "62px";
+                pzlPiece.style.height = "62px";
                 pzlPiece.style.fontSize = "1.5em";
                 this.gamingBoard.style.padding = "0px";
                 this.gamingBoard.style.paddingTop = "5px";
+                if (this.screenSize === "large") {
+                    pzlPiece.style.width = "56px";
+                    pzlPiece.style.height = "56px";
+                    this.gamingBoard.style.paddingTop = "2px";
+                }
+                if (this.screenSize === "medium") {
+                    pzlPiece.style.width = "53px";
+                    pzlPiece.style.height = "53px";
+                    this.gamingBoard.style.paddingTop = "3px";
+                }
+                if (this.screenSize === "small") {
+                    pzlPiece.style.width = "47px";
+                    pzlPiece.style.height = "47px";
+                    this.gamingBoard.style.paddingTop = "2px";
+                }
             }
 
             if(fieldSize == 7) {
-                pzlPiece.style.width = "52px";
-                pzlPiece.style.height = "52px";
+                pzlPiece.style.width = "53px";
+                pzlPiece.style.height = "53px";
                 pzlPiece.style.fontSize = "1.5em";
                 this.gamingBoard.style.padding = "0px";
                 this.gamingBoard.style.paddingTop = "3px";
+                if (this.screenSize === "large") {
+                    pzlPiece.style.width = "47px";
+                    pzlPiece.style.height = "47px";
+                    this.gamingBoard.style.paddingTop = "2px";
+                }
+                if (this.screenSize === "medium") {
+                    pzlPiece.style.width = "45px";
+                    pzlPiece.style.height = "45px";
+                    this.gamingBoard.style.paddingTop = "2px";
+                }
+                if (this.screenSize === "small") {
+                    pzlPiece.style.width = "40px";
+                    pzlPiece.style.height = "40px";
+                    this.gamingBoard.style.paddingTop = "2px";
+                    pzlPiece.style.fontSize = "1.2em";
+                }
             }
 
             if(fieldSize == 8) {
-                pzlPiece.style.width = "45px";
-                pzlPiece.style.height = "45px";
+                pzlPiece.style.width = "46px";
+                pzlPiece.style.height = "46px";
                 pzlPiece.style.fontSize = "1.2em";
                 this.gamingBoard.style.padding = "0px";
                 this.gamingBoard.style.paddingTop = "3px";
+                if (this.screenSize === "large") {
+                    pzlPiece.style.width = "41px";
+                    pzlPiece.style.height = "41px";
+                    pzlPiece.style.fontSize = "1.2em";
+                    this.gamingBoard.style.paddingTop = "2px";
+                }
+                if (this.screenSize === "medium") {
+                    pzlPiece.style.width = "40px";
+                    pzlPiece.style.height = "40px";
+                    this.gamingBoard.style.paddingTop = "2px";
+                }
+                if (this.screenSize === "small") {
+                    pzlPiece.style.width = "35px";
+                    pzlPiece.style.height = "35px";
+                    this.gamingBoard.style.paddingTop = "2px";
+                }
             }
 
             this.frameSize = fieldSize;
@@ -261,6 +391,8 @@ class Game {
             if(piecesOrder[i] === 0) { 
                 pzlPiece.style.visibility = "hidden";
                 pzlPiece.classList.add("empty");
+                //pzlPiece.classList.remove("dragging");
+                //pzlPiece.setAttribute("draggable", "false");
             }
         }
 
@@ -271,8 +403,27 @@ class Game {
         });
 
         this.resultsBtn.addEventListener("click", () => {
-            this.showResults(this.results);
+            let popup = this.showResults(this.results);
+            popup.classList.toggle("active");
         })
+
+        // this.gamingBoard.addEventListener("dragstart", (e) => {
+        //     e.dataTransfer.clearData();
+        //     e.dataTransfer.setData("text/pain", e.target.id);
+        // })
+
+        // this.gamingBoard.addEventListener("dragend", (e) => {
+        //     e.target.classList.remove("dragging");
+        //     e.preventDefault();
+        // })
+
+        // this.gamingBoard.addEventListener("drop", (e) => {
+        //     e.preventDefault();
+        //     let data = e.dataTransfer.getData("text");
+        //     let source = document.getElementById(data);
+        //     e.target.appendChild(source);
+        // })
+
     }
 
     //create shuffled array
@@ -426,7 +577,8 @@ class Game {
     saveGame() {
         this.saveBtn.addEventListener("click", () => {
             this.saveGameData();
-            this.savedPopup();
+            let popup = this.savedPopup();
+            popup.classList.toggle("active");
         })
     }
 
@@ -434,17 +586,18 @@ class Game {
     savedPopup () {
         let savedPopup = document.createElement("div");
         savedPopup.classList.add("popup");
-        savedPopup.style.display = "flex";
         this.gameContainer.append(savedPopup);
+
         let notice = document.createElement("span");
         notice.innerText = "You game has been saved!"
         savedPopup.append(notice);
+
         let okButton = document.createElement("button");
         okButton.classList.add("ok-button");
         okButton.innerText = "Ok";
         savedPopup.append(okButton);
         okButton.addEventListener("click", () => {
-            savedPopup.style.display = "none";
+            savedPopup.classList.remove("active");
         })
         return savedPopup;
     }
@@ -533,11 +686,15 @@ class Game {
                 let tempText = piece.innerText; 
                 piece.classList.add("empty");
                 piece.classList.add("move");
+                //piece.classList.remove("dragging");
                 piece.style.visibility = "hidden";
                 piece.innerText = "0";
+                //piece.setAttribute("draggable", "false");
                 empty.classList.remove("empty");
+                //empty.classList.add("dragging");
                 empty.innerText = tempText;
                 empty.style.visibility = "visible";
+                //empty.setAttribute("draggable", "true");
                 this.moves++;
                 document.querySelector(".move-counter").innerHTML = this.moves;
                 if(this.sound == true) {
@@ -547,13 +704,52 @@ class Game {
                 this.checkIfSolved();
                 if (this.isWin == true) {
                     let wPopup = this.winPopup();
-                    this.gameContainer.append(wPopup);
+                    wPopup.classList.toggle("active");
                     this.checkHighScore(this.moves);
                 }
             }
         }
     }
 
+    // drag(piece) {
+    //     piece.classList.add("empty");
+    //     piece.classList.add("move");
+    //     piece.style.visibility = "hidden";
+    //     piece.innerText = "0";
+    // }
+
+    //DRAG AND DROP
+    // dragAndDrop(piece) {
+    //     let empty = this.getEmptyNeighbor(piece);
+    //     let tempText = piece.innerText; 
+
+    //         piece.addEventListener("dragend", () => {
+    //             piece.classList.add("empty");
+    //             piece.classList.add("move");
+    //             piece.style.visibility = "hidden";
+    //             piece.innerText = "0";
+    //         })
+
+    //         empty.addEventListener("drop", () => {
+    //             empty.classList.remove("empty");
+    //             empty.innerText = tempText;
+    //             empty.style.visibility = "visible";
+    //             this.moves++;
+    //             document.querySelector(".move-counter").innerHTML = this.moves;
+    //         })
+            
+    //         if(this.sound == true) {
+    //             let sound = new Audio("./assets/move-sound.mp3");
+    //             sound.play();
+    //         }
+    //         this.checkIfSolved();
+    //         if (this.isWin == true) {
+    //             let wPopup = this.winPopup();
+    //             wPopup.classList.toggle("active");
+    //             this.checkHighScore(this.moves);
+    //         }
+        
+    // }
     //ANIMATE THE MOVE
     //runAnimation (piece) {
     //     let dimensions = {
@@ -591,36 +787,6 @@ class Game {
         
     //}
 
-    //DRAG AND DROP
-    // dragAndDrop (piece) {
-    //     if(!piece.classList.contains("empty")) {
-    //         let empty = this.getEmptyNeighbor(piece);
-    //         if(empty) {
-    //             piece.addEventListener("dragend", ()=>{
-    //                 let tempText = piece.innerText; 
-    //                 piece.classList.add("empty");
-    //                 piece.classList.add("move");
-    //                 piece.style.visibility = "hidden";
-    //                 piece.innerText = "0";
-    //                 empty.classList.remove("empty");
-    //                 empty.innerText = tempText;
-    //                 empty.style.visibility = "visible";
-    //                 this.moves++;
-    //                 document.querySelector(".move-counter").innerHTML = this.moves;
-    //                 if(this.sound == true) {
-    //                     let sound = new Audio("./assets/move-sound.mp3");
-    //                     sound.play();
-    //                 }
-    //                 this.checkIfSolved();
-    //                 if (this.isWin == true) {
-    //                     let wPopup = this.winPopup();
-    //                     this.gameContainer.append(wPopup);
-    //                 }
-    //             });
-    //         }
-    //     }
-    // }
-
     //CHECK IF THE PUZZLE IS SOLVED SUCCESSFULLY
     checkIfSolved() {
         let currentPieces = [];
@@ -641,14 +807,9 @@ class Game {
     winPopup() {
         let wPopup = document.createElement("div");
         wPopup.classList.add("win-popup");
-        wPopup.style.width = "300px";
-        wPopup.style.height = "120px";
+        this.gameContainer.append(wPopup);
 
         let notice = document.createElement("span");
-        notice.style.lineHeight = "25px";
-        notice.style.marginTop = "10px";
-        notice.style.paddingLeft = "5px";
-        notice.style.paddingRight = "5px";
         let minutes = this.time.m >= 10 ? this.time.m : "0" + this.time.m;
         notice.innerText = `Hooray! You solved the puzzle in ${minutes} : ${this.time.s} and ${this.moves} moves!`
         wPopup.append(notice);
@@ -659,7 +820,7 @@ class Game {
         okButton.innerText = "Nice!";
         wPopup.append(okButton);
         okButton.addEventListener("click", () => {
-            wPopup.style.display = "none";
+            wPopup.classList.remove("active");
         })
         return wPopup;
     }
@@ -668,56 +829,74 @@ class Game {
     //check if the highest
     checkHighScore(moves) {
         let maxNum = 10;
-        this.results = JSON.parse(localStorage.getItem('highScores')) ?? [];
+        this.results = JSON.parse(localStorage.getItem("highScores")) ?? [];
         let lowScore = this.results[maxNum - 1]?.moves ?? 0;
         
         if (moves > lowScore) {
-          this.saveHighScore(this.frameSize, this.time, moves, this.results);
+          this.saveHighScore(this.frameSize, moves, this.time, this.results);
         }
     }
 
-    saveHighScore(difficulty, time, moves, allResults) {
+    saveHighScore(difficulty, moves, time, allResults) {
         let level = `${difficulty}x${difficulty}`;
         let mins = time.m >= 10 ? time.m : "0" + time.m;
         let timing = `${mins} : ${time.s}`;
-        let newScore = { level, timing, moves };
+        let newScore = { level, moves, timing };
         allResults.push(newScore);
         // sort the list
         allResults.sort((a, b) => a.moves - b.moves);
         // select new list
         allResults.splice(10);
         // save to local storage
-        localStorage.setItem('highScores', JSON.stringify(allResults));
+        localStorage.setItem("highScores", JSON.stringify(allResults));
     };
 
     //results popup
     showResults(results) {
         let resultsPopup = document.createElement("div");
         resultsPopup.classList.add("results-popup");
-        resultsPopup.style.width = "300px";
-        resultsPopup.style.height = "500px";
-        resultsPopup.style.flexDirection = "row";
-        resultsPopup.style.justifyContent = "center";
         this.gameContainer.append(resultsPopup);
+
+        let resultsTitle = document.createElement("span");
+        resultsTitle.classList.add("results-title");
+        resultsTitle.innerText = "top 10 results";
+        resultsPopup.append(resultsTitle);
 
         let resultsSumup = document.createElement("table");
         resultsSumup.classList.add("results-table");
-        resultsPopup.append(resultsSumup);
+        resultsPopup.appendChild(resultsSumup);
 
         let thead = resultsSumup.createTHead();
         let tr = thead.insertRow();
-
-        for (let key in results[0]) {
+        
+        let headings = ["field", "moves", "time"];
+        for (let i = 0; i < headings.length; i++) {
             let th = document.createElement("th");
-            let text = document.createTextNode(key);
+            let text = document.createTextNode(headings[i]);
             th.appendChild(text);
             tr.appendChild(th);
         }
 
+        let okbtn = document.createElement("button");
+        okbtn.classList.add("ok-button");
+        okbtn.innerText = "Ok";
+        resultsPopup.append(okbtn);
+        okbtn.addEventListener("click", () => {
+            resultsPopup.classList.remove("active");
+        })
+
         this.createTable(resultsSumup, this.results);
-        this.gameContainer.append(resultsSumup);
 
         return resultsPopup;
+    }
+
+    loadSavedResults() {
+        if(localStorage.getItem("highScores") !== null) {
+            this.results = JSON.parse(localStorage.getItem("highScores"));
+            return this.results;
+        } else {
+            return false
+        }
     }
 
     //create table with highest scores

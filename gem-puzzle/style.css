@@ -149,6 +149,7 @@ span {
 
 .puzzle-piece.move {
     transition: 3s left, 3s top;
+    -webkit-transition: 3s left, 3s top;
 }
 
 .bottom-container {
@@ -204,7 +205,7 @@ p {
     color: #554640;
 }
 
-.saved-popup {
+.popup, .win-popup, .results-popup {
     width: 250px;
     height: 100px;
     position: relative;
@@ -217,9 +218,11 @@ p {
     align-items: center;
 }
 
-.saved-popup span {
+.popup span, .win-popup span {
     color: #EFF4F3;
     line-height: 50px;
+    align-self: center;
+    text-align: center;
 }
 
 .ok-button {
@@ -231,6 +234,41 @@ p {
     color: #554640;
     font-size: 1em;
     cursor: pointer;
+    padding: 2px;
+}
+
+table {
+    table-layout: fixed;
+    width: 280px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    height: 460px;
+    border-collapse: collapse;
+    border: 1px solid #8DA7BE;
+    position: absolute;
+    align-self: center;
+    z-index: 2;
+    text-align: center;
+    font-family: Verdana;
+}
+
+th {
+    color: #8DA7BE;
+    border: none;
+    font-style: normal;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.8em;
+}
+
+tr, th, td {
+    border: 1px solid #CDE6F5;
+}
+
+tr {
+    color: #EFF4F3;
+    font-size: 0.9em;
 }
 
 @media screen and (max-width: 1280px) {

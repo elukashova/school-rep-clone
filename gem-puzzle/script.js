@@ -2,10 +2,24 @@ class Game {
     constructor() {
         //general
         this.frameSize = 4;
+        this.isWin = false;
 
         //saving
-        this.isSaved = null;
+        this.isSaved = false;
         this.savedGame = {};
+        this.results = []; // array of objects with highest scoress
+        // this.results = [
+        //     { field: "3x3", time: "00:43", moves: "14" },
+        //     { field: "4x4", time: "00:45", moves: "16" },
+        //     { field: "3x3", time: "00:43", moves: "14" },
+        //     { field: "4x4", time: "00:45", moves: "16" },
+        //     { field: "3x3", time: "00:43", moves: "14" },
+        //     { field: "4x4", time: "00:45", moves: "16" },
+        //     { field: "3x3", time: "00:43", moves: "14" },
+        //     { field: "4x4", time: "00:45", moves: "16" },
+        //     { field: "3x3", time: "00:43", moves: "14" },
+        //     { field: "4x4", time: "00:45", moves: "16" },
+        // ];
 
         //containers
         this.gameContainer = null;
@@ -194,7 +208,6 @@ class Game {
         if (this.isSaved == true) {
             fieldSize = this.savedGame.frame;
             piecesOrder = this.savedGame.order;
-            console.log(piecesOrder);
         } else {
             this.shuffle(fieldSize);
             piecesOrder = this.shuffled;
@@ -204,6 +217,7 @@ class Game {
             let pzlPiece = document.createElement("div");
             this.gamingBoard.append(pzlPiece);
             pzlPiece.classList.add("puzzle-piece");
+            pzlPiece.setAttribute("draggable", 'true');
             pzlPiece.innerText = piecesOrder[i];
             this.pzlPieces.push(pzlPiece);
 
@@ -264,9 +278,13 @@ class Game {
 
         //add pieces movement
         this.gamingBoard.addEventListener("click", (piece) => {
-                let target = piece.target;
-                this.movePieces(target);
+            let target = piece.target;
+            this.movePieces(target);
         });
+
+        this.resultsBtn.addEventListener("click", () => {
+            this.showResults(this.results);
+        })
     }
 
     //create shuffled array to check for solvability
@@ -285,87 +303,58 @@ class Game {
             this.frameSize = 3;
             this.gamingBoard.innerHTML = "";
             this.coords = [];
-            //this.gamingBoard.style.padding = "50px";
             this.updateField();
-            this.play(this.frameSize);
+            this.play();
         });
 
         this.size4.addEventListener("click", () => {
             this.frameSize = 4;
             this.gamingBoard.innerHTML = "";
             this.coords = [];
-            // this.gamingBoard.style.padding = "0px";
-            // this.gamingBoard.style.paddingTop = "6px";
             this.updateField();
-            this.play(this.frameSize);
+            this.play();
         });
 
         this.size5.addEventListener("click", () => {
             this.frameSize = 5;
             this.gamingBoard.innerHTML = "";
             this.coords = [];
-            // this.gamingBoard.style.padding = "0px";
-            // this.gamingBoard.style.paddingTop = "4px";
             this.updateField();
-            this.play(this.frameSize);
-            // this.pzlPieces.forEach(element => {
-            //     element.style.width = "75px";
-            //     element.style.height = "75px";
-
-            // })
+            this.play();
         });
 
         this.size6.addEventListener("click", () => {
             this.frameSize = 6;
             this.gamingBoard.innerHTML = "";
             this.coords = [];
-            // this.gamingBoard.style.padding = "0px";
-            // this.gamingBoard.style.paddingTop = "5px";
             this.updateField();
-            this.play(this.frameSize);
-            // this.pzlPieces.forEach(element => {
-            //     element.style.width = "60px";
-            //     element.style.height = "60px";
-            //     element.style.fontSize = "1.5em";
-            // })
+            this.play();
         });
 
         this.size7.addEventListener("click", () => {
             this.frameSize = 7;
             this.gamingBoard.innerHTML = "";
             this.coords = [];
-            // this.gamingBoard.style.padding = "0px";
-            // this.gamingBoard.style.paddingTop = "3px";
             this.updateField();
-            this.play(this.frameSize);
-            // this.pzlPieces.forEach(element => {
-            //     element.style.width = "52px";
-            //     element.style.height = "52px";
-            //     element.style.fontSize = "1.5em";
-            // })
+            this.play();
         });
 
         this.size8.addEventListener("click", () => {
             this.frameSize = 8;
             this.gamingBoard.innerHTML = "";
             this.coords = [];
-            // this.gamingBoard.style.padding = "0px";
-            // this.gamingBoard.style.paddingTop = "3px";
             this.updateField();
-            this.play(this.frameSize);
-            // this.pzlPieces.forEach(element => {
-            //     element.style.width = "45px";
-            //     element.style.height = "45px";
-            //     element.style.fontSize = "1.2em";
-            // })
+            this.play();
         });
     }
 
     //restart the game and shuffle
     startOver() {
         this.shuffleBtn.addEventListener("click", () => {
+            //localStorage.clear();
             this.updateField();
-            this.play();
+            this.play(this.frameSize);
+            console.log(this.isSaved);
         })
     }
 
@@ -379,10 +368,10 @@ class Game {
         this.isSaved = false;
     }
 
-    //save the current game 
+    //SAVE THE CURRENT GAME
     saveGameData() {
         //delete previously saved game
-        localStorage.clear();
+        localStorage.removeItem("gemGameProgress");
         //saved the current game
         let currentPieces = [];
         let currentSet = document.querySelector(".game-board");
@@ -390,6 +379,7 @@ class Game {
         piecesOrder.forEach(piece => {
             currentPieces.push(Number(piece.innerText));
         })
+        console.log(currentPieces);
         let savedGame = {
             frame: this.frameSize,
             order: currentPieces,
@@ -411,7 +401,7 @@ class Game {
     //confirmation the game has been saved
     savedPopup () {
         let savedPopup = document.createElement("div");
-        savedPopup.classList.add("saved-popup");
+        savedPopup.classList.add("popup");
         savedPopup.style.display = "flex";
         this.gameContainer.append(savedPopup);
         let notice = document.createElement("span");
@@ -428,30 +418,14 @@ class Game {
     }
 
     loadSavedGame() {
-        //console.log(localStorage);
-        //console.log("hey");
         if(localStorage.getItem("gemGameProgress") !== null) {
             this.savedGame = JSON.parse(localStorage.getItem("gemGameProgress"));
-            //console.log(this.savedGame);
             this.isSaved = true;
             return this.savedGame;
         } else {
             return false
         }
     }
-
-    // restoreSavedData() {
-
-    // }
-
-    //close popup
-    // closePopop () {
-    //     let okButton = document.querySelector(".ok-button");
-    //     okButton.addEventListener("click", () => {
-    //         document.querySelector(".saved-popup").style.display = "none";
-    //     })
-    // }
-
 
     //control sound
     soundOnOff() {
@@ -464,45 +438,6 @@ class Game {
             }
         });
     }
-
-    //check for solvability
-    // isSolvable () {
-    //     while (this.solvable == false) {
-    //         this.shuffle();
-    //         let counter = 0;
-    //         let row = 0;
-    //         let zeroRow;
-    //         for (let i = 0; i < this.shuffled.length; i++) {
-    //             if (i % this.frameSize == 0) {
-    //                 row++; // next row starts
-    //             } 
-    //             if(this.shuffled[i] == 0) { //find the empty piece
-    //                 zeroRow = row;
-    //                 continue;
-    //             }
-    //             for (let j = i +1; j < this.shuffled.length; j++) { //count inversions
-    //                 if (this.shuffled[i] > this.shuffled[j] && this.shuffled[j] !=0) {
-    //                     counter++;
-    //                 }
-    //             }
-    //         }  
-
-    //         if (this.frameSize % 2 == 0) { //even frame
-    //             if (zeroRow % 2 == 0 && counter % 2 == 0) { //check if odd row from bottom + even inversions
-    //                 this.isSolvable = true;
-    //                 return this.shuffled;
-    //             } else if (zeroRow % 2 !== 0 && counter % 2 != 0) {  //check if even row from bottom + odd inversions
-    //                 this.isSolvable = true;
-    //                 return this.shuffled;
-    //             } 
-    //         } else { //odd frame
-    //             if (counter % 2 == 0) {
-    //                 this.isSolvable = true;
-    //                 return this.shuffled;
-    //             } 
-    //         }
-    //     }
-    // }
 
     getCoordinates(frameSize) {
         let rows = frameSize;
@@ -520,23 +455,6 @@ class Game {
     findPiecebyID(row, col) {
         return document.getElementById(`${row},${col}`);
     }
-
-    // findEmptyPiece(row, col) {
-    //     return document.querySelector(".empty")
-    // }
-
-    //find zero in the shuffled array
-    // getZeroCoordinates() { 
-    //     this.getCoordinates();
-    //     for (let i = 0; i < this.shuffled.length; i++) {  
-    //         if(this.shuffled[i] === 0) {
-    //             let xy = this.coords[i];
-    //             this.zeroXY.push(xy[0]);
-    //             this.zeroXY.push(xy[1]); 
-    //         }
-    //     }
-    //     return this.zeroXY;
-    // }
 
     //find interchangeable pieces
     getNeighbors (piece) { 
@@ -579,74 +497,220 @@ class Game {
         if(!piece.classList.contains("empty")) {
             let empty = this.getEmptyNeighbor(piece);
             if(empty) {
+                //this.runAnimation(piece);
                 let tempText = piece.innerText; 
-                //let tempID = piece.id;
                 piece.classList.add("empty");
                 piece.classList.add("move");
                 piece.style.visibility = "hidden";
                 piece.innerText = "0";
-                //piece.id = empty.id;
                 empty.classList.remove("empty");
                 empty.innerText = tempText;
-                // empty.id = tempID;
                 empty.style.visibility = "visible";
                 this.moves++;
                 document.querySelector(".move-counter").innerHTML = this.moves;
-                //this.movesCounter.innerHTML = "Moves: " + this.moves;
                 if(this.sound == true) {
                     let sound = new Audio("./assets/move-sound.mp3");
                     sound.play();
+                }
+                this.checkIfSolved();
+                if (this.isWin == true) {
+                    let wPopup = this.winPopup();
+                    this.gameContainer.append(wPopup);
+                    this.checkHighScore(this.moves);
+                    console.log(this.results);
                 }
             }
         }
     }
 
+    //ANIMATE THE MOVE
+    //runAnimation (piece) {
+    //     let dimensions = {
+    //         width: document.querySelector(".game-board").width,
+    //         height: document.querySelector(".game-board").height,
+    //     }
 
+    //     let animationRequest;
+    //     let posX = dimensions.width / 2;
+    //     let posY = dimensions.height / 2;
+    //     let moveX = 5;
+    //     let moveY = 5;
 
-    // createPieces() {
-    //     let shuffled = new CreateGamingSet(this.frame);
-    //     //append final gaming sel
-    //     for (let i = 0; i < shuffled.length; i++) {
-    //         let pzlPiece = document.createElement("div");
-    //         this.gamingBoard.append(pzlPiece);
-    //         pzlPiece.classList.add("puzzle-piece");
-    //         pzlPiece.innerText = shuffled[i];
-    //         this.pzlPieces.push(pzlPiece);
-    //         if(shuffled[i] === 0) {
-    //             // pzlPiece.style.order = "16";
-    //             pzlPiece.style.visibility = "hidden";
-    //             pzlPiece.classList.add("empty");
+    //     animationRequest = window.requestAnimationFrame(runAnimation);
+
+    //     posY += moveY;
+    //     posX += moveX;
+
+    //     if (posY < 0 || posY >= dimensions.height - piece.offsetHeight) {
+    //         moveY = -moveY;
+    //     }
+        
+    //     if (posX <= 0 || posX >= dimensions.width - piece.clientWidth) {
+    //         moveX = -moveX;
+    //     }
+    
+    //     piece.style.top = posY + 'px';
+    //     piece.style.left = posX + 'px';
+
+    //     window.requestAnimationFrame(runAnimation);
+        
+    //     setTimeout(() => {
+    //       window.cancelAnimationFrame(animationRequest)
+    //     }, 5000);
+        
+    //}
+
+    //DRAG AND DROP
+    // dragAndDrop (piece) {
+    //     if(!piece.classList.contains("empty")) {
+    //         let empty = this.getEmptyNeighbor(piece);
+    //         if(empty) {
+    //             piece.addEventListener("dragend", ()=>{
+    //                 let tempText = piece.innerText; 
+    //                 piece.classList.add("empty");
+    //                 piece.classList.add("move");
+    //                 piece.style.visibility = "hidden";
+    //                 piece.innerText = "0";
+    //                 empty.classList.remove("empty");
+    //                 empty.innerText = tempText;
+    //                 empty.style.visibility = "visible";
+    //                 this.moves++;
+    //                 document.querySelector(".move-counter").innerHTML = this.moves;
+    //                 if(this.sound == true) {
+    //                     let sound = new Audio("./assets/move-sound.mp3");
+    //                     sound.play();
+    //                 }
+    //                 this.checkIfSolved();
+    //                 if (this.isWin == true) {
+    //                     let wPopup = this.winPopup();
+    //                     this.gameContainer.append(wPopup);
+    //                 }
+    //             });
     //         }
     //     }
     // }
 
-    // findEmpty() {
-    //     let a = this.shuffledSet;
-    //     let row;
-    //         for (let i = 0; i < a.length; i++) {
-    //             let ind = a.indexOf(0);
-    //             if (ind >= 0 && ind <= 3) {
-    //                 row = true;
-    //             } else if (ind >= 8 && ind <= 11) {
-    //                 row = true;
-    //             } else {
-    //                 row = false;
-    //             } 
-    //         }
-    //         return row;
-    //     }
+    //CHECK IF THE PUZZLE IS SOLVED SUCCESSFULLY
+    checkIfSolved() {
+        let currentPieces = [];
+        let currentSet = document.querySelector(".game-board");
+        let currentOrder = currentSet.childNodes;
+        currentOrder.forEach(piece => {
+            currentPieces.push(Number(piece.innerText));
+        })
+        let winningOrder = new Array(...currentPieces).sort((a,b) => a > b ? 1 : -1).filter(el => el != 0);
+        winningOrder.push(0);
+        if (currentPieces.join("") == winningOrder.join("")) {
+            this.isWin = true;
+        } else {
+            this.isWin = false;
+        }
+    }
 
+    winPopup() {
+        let wPopup = document.createElement("div");
+        wPopup.classList.add("win-popup");
+        wPopup.style.width = "300px";
+        wPopup.style.height = "120px";
+
+        let notice = document.createElement("span");
+        notice.style.lineHeight = "25px";
+        notice.style.marginTop = "10px";
+        notice.style.paddingLeft = "5px";
+        notice.style.paddingRight = "5px";
+        let minutes = this.time.m >= 10 ? this.time.m : "0" + this.time.m;
+        notice.innerText = `Hooray! You solved the puzzle in ${minutes} : ${this.time.s} and ${this.moves} moves!`
+        wPopup.append(notice);
+
+        let okButton = document.createElement("button");
+        okButton.classList.add("ok-button");
+        okButton.style.marginTop = "10px";
+        okButton.innerText = "Nice!";
+        wPopup.append(okButton);
+        okButton.addEventListener("click", () => {
+            wPopup.style.display = "none";
+        })
+        return wPopup;
+    }
+
+    //SAVING HIGHEST SCORES
+    //check if the highest
+    checkHighScore(moves) {
+        let maxNum = 10;
+        this.results = JSON.parse(localStorage.getItem('highScores')) ?? [];
+        let lowScore = this.results[maxNum - 1]?.moves ?? 0;
+        
+        if (moves > lowScore) {
+          this.saveHighScore(this.frameSize, this.time, moves, this.results);
+        }
+    }
+
+    saveHighScore(difficulty, time, moves, allResults) {
+        let level = `${difficulty}x${difficulty}`;
+        let mins = time.m >= 10 ? time.m : "0" + time.m;
+        let timing = `${mins} : ${time.s}`;
+        let newScore = { level, timing, moves };
+        allResults.push(newScore);
+        // sort the list
+        allResults.sort((a, b) => a.moves - b.moves);
+        // select new list
+        allResults.splice(10);
+        // save to local storage
+        localStorage.setItem('highScores', JSON.stringify(allResults));
+    };
+
+    //results popup
+    showResults(results) {
+        let resultsPopup = document.createElement("div");
+        resultsPopup.classList.add("results-popup");
+        resultsPopup.style.width = "300px";
+        resultsPopup.style.height = "500px";
+        resultsPopup.style.flexDirection = "row";
+        resultsPopup.style.justifyContent = "center";
+        this.gameContainer.append(resultsPopup);
+
+        let resultsSumup = document.createElement("table");
+        resultsSumup.classList.add("results-table");
+        resultsPopup.append(resultsSumup);
+
+        let thead = resultsSumup.createTHead();
+        let tr = thead.insertRow();
+
+        for (let key in results[0]) {
+            let th = document.createElement("th");
+            let text = document.createTextNode(key);
+            th.appendChild(text);
+            tr.appendChild(th);
+        }
+
+        this.createTable(resultsSumup, this.results);
+        this.gameContainer.append(resultsSumup);
+
+        return resultsPopup;
+    }
+
+    //create table with highest scores
+    createTable(table, data) {
+        for (let element of data) {
+            let row = table.insertRow();
+            for (let key in element) {
+              let cell = row.insertCell();
+              let text = document.createTextNode(element[key]);
+              cell.appendChild(text);
+            }
+        }
+    }
 
     //TIMER
     countUp() {
         let timeCounter = document.createElement("span");
         timeCounter.classList.add("time-counter");
         this.timer.append(timeCounter);
-        timeCounter.innerHTML = "00 : 00";
+        timeCounter.innerText = "00 : 00";
 
         if (this.isSaved == true) {
             let m = this.savedGame.time.m >= 10 ? this.savedGame.time.m : "0" + this.savedGame.time.m;
-            timeCounter.innerHTML = m + " : " + this.savedGame.time.s;
+            timeCounter.innerText = m + " : " + this.savedGame.time.s;
             this.time.m = this.savedGame.time.m;
             this.time.s = this.savedGame.time.s;
         }
@@ -662,12 +726,15 @@ class Game {
             if(s > 59) {
                 counter = 0;
                 this.time.m ++;
-                s = counter >= 10 ? counter : "0" + counter;
+            }
+
+            if (s == 60) {
+                s = "00";
             }
 
             m = this.time.m >= 10 ? this.time.m : "0" + this.time.m;
 
-            timeCounter.innerHTML = m + " : " + s;
+            timeCounter.innerText= m + " : " + s;
 
         }, 1000);
 
@@ -686,14 +753,6 @@ class Game {
         }
         this.mover = moveNum;
     }
-
-    // returnMoves() {
-    //     return this.moves;
-    // }
-
-    // updateMoves() {
-    //     this.moves.innerText = "Moves: " + this.moves;
-    // }
 
     resetStats() {
         this.time.m = 0;

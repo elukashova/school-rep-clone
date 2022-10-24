@@ -275,6 +275,10 @@ class Game {
             this.movePieces(target);
         });
 
+        // this.gamingBoard.addEventListener("mouseenter", (piece) => {
+        //     this.dra
+        // })
+
         this.resultsBtn.addEventListener("click", () => {
             let popup = this.showResults(this.results);
             popup.classList.toggle("active");

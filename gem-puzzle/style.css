@@ -26,7 +26,7 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     align-content: center;
-    position: relative;
+    position: absolute;
 }
 
 .buttons-container {
@@ -326,6 +326,39 @@ td {
     height: 30px;
 }
 
+.size-3 {
+    width: 125px;
+    height: 125px;
+}
+
+.size-4 {
+    width: 94px;
+    height: 94px;
+}
+
+.size-5 {
+    width: 75px;
+    height: 75px;
+}
+
+.size-6 {
+    width: 62px;
+    height: 62px;
+    font-size: 1.5em;
+}
+
+.size-7 {
+    width: 53px;
+    height: 53px;
+    font-size: 1.5em;
+}
+
+.size-8 {
+    width: 46px;
+    height: 46px;
+    font-size: 1.2em;
+}
+
 @media screen and (max-width: 1280px) {
     .game-field {
         height: 500px;
@@ -369,6 +402,36 @@ td {
     .size-container {
         width: 290px;
     }
+
+    .size-3 {
+        width: 110px;
+        height: 110px;
+    }
+
+    .size-4 {
+        width: 85px;
+        height: 85px;
+    }
+
+    .size-5 {
+        width: 67px;
+        height: 67px;
+    }
+
+    .size-6 {
+        width: 56px;
+        height: 56px;
+    }
+
+    .size-7 {
+        width: 47px;
+        height: 47px;
+    }
+
+    .size-8 {
+        width: 41px;
+        height: 41px;
+    }
 }
 
 @media screen and (max-width: 768px) {
@@ -397,6 +460,35 @@ td {
         width: 340px;
     }
 
+    .size-3 {
+        width: 107px;
+        height: 107px;
+    }
+
+    .size-4 {
+        width: 80px;
+        height: 80px;
+    }
+
+    .size-5 {
+        width: 64px;
+        height: 64px;
+    }
+
+    .size-6 {
+        width: 53px;
+        height: 53px;
+    }
+
+    .size-7 {
+        width: 45px;
+        height: 45px;
+    }
+
+    .size-8 {
+        width: 40px;
+        height: 40px;
+    }
 }
 
 @media screen and (max-width: 320px) {
@@ -443,5 +535,37 @@ td {
 
     .size-container {
         width: 300px;
+    }
+
+    .size-3 {
+        width: 95px;
+        height: 95px;
+    }
+
+    .size-4 {
+        width: 70px;
+        height: 70px;
+    }
+
+    .size-5 {
+        width: 56px;
+        height: 56px;
+        font-size: 1.5em;
+    }
+
+    .size-6 {
+        width: 47px;
+        height: 47px;
+    }
+
+    .size-7 {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2em;
+    }
+
+    .size-8 {
+        width: 35px;
+        height: 35px;
     }
 }

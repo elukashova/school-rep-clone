@@ -191,12 +191,14 @@ class Game {
                 mq.addEventListener('change', this.mqChangeHandler());
             }
         }
+        window.addEventListener('resize', this.resizeHandler());
 
         //initial methods
         this.loadSavedGame();
         this.loadSavedResults();
         this.mqChangeHandler();
         this.play();
+        this.resizeHandler();
     }
 
     //STARTING METHODS SET
@@ -204,6 +206,8 @@ class Game {
         this.createPieces(this.frameSize);
         this.countUp();
         this.countMoves();
+        this.mqChangeHandler();
+        this.resizeHandler();
     }
 
     //MEDIA QUERIES
@@ -212,6 +216,15 @@ class Game {
             if (!mq || mq.matches) {
                 this.screenSize = scr;
             }
+        }
+    }
+
+    resizeHandler() {
+        let iw = window.innerWidth;
+        for (let [scr, mq] of Object.entries(this.screen)) {
+            if (iw >= mq)  {
+                this.screenSize = mq;
+          }
         }
     }
 
@@ -235,150 +248,10 @@ class Game {
             //pzlPiece.classList.add("dragging");
             pzlPiece.setAttribute("draggable", 'true');
             pzlPiece.innerText = piecesOrder[i];
+            this.stylePieces(pzlPiece, fieldSize);
             this.pzlPieces.push(pzlPiece);
 
             //add styles according to the frame size
-            if(fieldSize == 3) {
-                pzlPiece.style.width = "125px";
-                pzlPiece.style.height = "125px";
-                this.gamingBoard.style.paddingTop = "6px";
-                //this.gamingBoard.style.padding = "50px";
-                if (this.screenSize === "large") {
-                    pzlPiece.style.width = "110px";
-                    pzlPiece.style.height = "110px";
-                }
-
-                if (this.screenSize === "medium") {
-                    pzlPiece.style.width = "107px";
-                    pzlPiece.style.height = "107px";
-                    this.gamingBoard.style.paddingTop = "4px";
-                }
-
-                if (this.screenSize === "small") {
-                    pzlPiece.style.width = "95px";
-                    pzlPiece.style.height = "95px";
-                    this.gamingBoard.style.paddingTop = "2px";
-                    //pzlPiece.style.fontSize = "1.5em";
-                }
-            }
-
-            if(fieldSize == 4) {
-                pzlPiece.style.width = "95px";
-                pzlPiece.style.height = "95px";
-                this.gamingBoard.style.padding = "0px";
-                this.gamingBoard.style.paddingTop = "4px";
-                if (this.screenSize === "large") {
-                    pzlPiece.style.width = "90px";
-                    pzlPiece.style.height = "90px";
-                }
-                if (this.screenSize === "medium") {
-                    pzlPiece.style.width = "80px";
-                    pzlPiece.style.height = "80px";
-                    this.gamingBoard.style.paddingTop = "3px";
-                }
-
-                if (this.screenSize === "small") {
-                    pzlPiece.style.width = "70px";
-                    pzlPiece.style.height = "70px";
-                    this.gamingBoard.style.paddingTop = "2px";
-                    //pzlPiece.style.fontSize = "1.5em";
-                }
-            }
-
-            if(fieldSize == 5) {
-                pzlPiece.style.width = "75px";
-                pzlPiece.style.height = "75px";
-                this.gamingBoard.style.padding = "0px";
-                this.gamingBoard.style.paddingTop = "4px";
-                if (this.screenSize === "large") {
-                    pzlPiece.style.width = "67px";
-                    pzlPiece.style.height = "67px";
-                    this.gamingBoard.style.paddingTop = "3px";
-                }
-                if (this.screenSize === "medium") {
-                    pzlPiece.style.width = "64px";
-                    pzlPiece.style.height = "64px";
-                    this.gamingBoard.style.paddingTop = "3px";
-                }
-
-                if (this.screenSize === "small") {
-                    pzlPiece.style.width = "56px";
-                    pzlPiece.style.height = "56px";
-                    this.gamingBoard.style.paddingTop = "2px";
-                    pzlPiece.style.fontSize = "1.5em";
-                }
-            }
-
-            if(fieldSize == 6) {
-                pzlPiece.style.width = "62px";
-                pzlPiece.style.height = "62px";
-                pzlPiece.style.fontSize = "1.5em";
-                this.gamingBoard.style.padding = "0px";
-                this.gamingBoard.style.paddingTop = "5px";
-                if (this.screenSize === "large") {
-                    pzlPiece.style.width = "56px";
-                    pzlPiece.style.height = "56px";
-                    this.gamingBoard.style.paddingTop = "2px";
-                }
-                if (this.screenSize === "medium") {
-                    pzlPiece.style.width = "53px";
-                    pzlPiece.style.height = "53px";
-                    this.gamingBoard.style.paddingTop = "3px";
-                }
-                if (this.screenSize === "small") {
-                    pzlPiece.style.width = "47px";
-                    pzlPiece.style.height = "47px";
-                    this.gamingBoard.style.paddingTop = "2px";
-                }
-            }
-
-            if(fieldSize == 7) {
-                pzlPiece.style.width = "53px";
-                pzlPiece.style.height = "53px";
-                pzlPiece.style.fontSize = "1.5em";
-                this.gamingBoard.style.padding = "0px";
-                this.gamingBoard.style.paddingTop = "3px";
-                if (this.screenSize === "large") {
-                    pzlPiece.style.width = "47px";
-                    pzlPiece.style.height = "47px";
-                    this.gamingBoard.style.paddingTop = "2px";
-                }
-                if (this.screenSize === "medium") {
-                    pzlPiece.style.width = "45px";
-                    pzlPiece.style.height = "45px";
-                    this.gamingBoard.style.paddingTop = "2px";
-                }
-                if (this.screenSize === "small") {
-                    pzlPiece.style.width = "40px";
-                    pzlPiece.style.height = "40px";
-                    this.gamingBoard.style.paddingTop = "2px";
-                    pzlPiece.style.fontSize = "1.2em";
-                }
-            }
-
-            if(fieldSize == 8) {
-                pzlPiece.style.width = "46px";
-                pzlPiece.style.height = "46px";
-                pzlPiece.style.fontSize = "1.2em";
-                this.gamingBoard.style.padding = "0px";
-                this.gamingBoard.style.paddingTop = "3px";
-                if (this.screenSize === "large") {
-                    pzlPiece.style.width = "41px";
-                    pzlPiece.style.height = "41px";
-                    pzlPiece.style.fontSize = "1.2em";
-                    this.gamingBoard.style.paddingTop = "2px";
-                }
-                if (this.screenSize === "medium") {
-                    pzlPiece.style.width = "40px";
-                    pzlPiece.style.height = "40px";
-                    this.gamingBoard.style.paddingTop = "2px";
-                }
-                if (this.screenSize === "small") {
-                    pzlPiece.style.width = "35px";
-                    pzlPiece.style.height = "35px";
-                    this.gamingBoard.style.paddingTop = "2px";
-                }
-            }
 
             this.frameSize = fieldSize;
 
@@ -424,6 +297,96 @@ class Game {
         //     e.target.appendChild(source);
         // })
 
+    }
+
+    stylePieces (pzlPiece, fieldSize) {
+        if(fieldSize == 3) {
+            this.gamingBoard.style.paddingTop = "6px";
+            pzlPiece.classList.add("size-3");
+            if (this.screenSize === "large") {
+            }
+            if (this.screenSize === "medium") {
+                this.gamingBoard.style.paddingTop = "4px";
+            }
+            if (this.screenSize === "small") {
+                this.gamingBoard.style.paddingTop = "2px";
+            }
+        }
+
+        if(fieldSize == 4) {
+            pzlPiece.classList.add("size-4");
+            this.gamingBoard.style.padding = "0px";
+            this.gamingBoard.style.paddingTop = "4px";
+            if (this.screenSize === "medium") {
+                this.gamingBoard.style.paddingTop = "3px";
+            }
+            if (this.screenSize === "small") {
+                this.gamingBoard.style.paddingTop = "2px";
+            }
+        }
+
+        if(fieldSize == 5) {
+            pzlPiece.classList.add("size-5");
+            this.gamingBoard.style.padding = "0px";
+            this.gamingBoard.style.paddingTop = "4px";
+            if (this.screenSize === "large") {
+                this.gamingBoard.style.paddingTop = "3px";
+            }
+            if (this.screenSize === "medium") {
+                this.gamingBoard.style.paddingTop = "3px";
+            }
+
+            if (this.screenSize === "small") {
+                this.gamingBoard.style.paddingTop = "2px";
+            }
+        }
+
+        if(fieldSize == 6) {
+            pzlPiece.classList.add("size-6");
+            this.gamingBoard.style.padding = "0px";
+            this.gamingBoard.style.paddingTop = "5px";
+            if (this.screenSize === "large") {
+                this.gamingBoard.style.paddingTop = "2px";
+            }
+            if (this.screenSize === "medium") {
+                this.gamingBoard.style.paddingTop = "3px";
+            }
+            if (this.screenSize === "small") {
+                this.gamingBoard.style.paddingTop = "2px";
+            }
+        }
+
+        if(fieldSize == 7) {
+            pzlPiece.classList.add("size-7");
+            this.gamingBoard.style.padding = "0px";
+            this.gamingBoard.style.paddingTop = "3px";
+            if (this.screenSize === "large") {
+                this.gamingBoard.style.paddingTop = "2px";
+            }
+            if (this.screenSize === "medium") {
+                this.gamingBoard.style.paddingTop = "2px";
+            }
+            if (this.screenSize === "small") {
+                this.gamingBoard.style.paddingTop = "2px";
+            }
+        }
+
+        if(fieldSize == 8) {
+            pzlPiece.classList.add("size-8");
+            this.gamingBoard.style.padding = "0px";
+            this.gamingBoard.style.paddingTop = "3px";
+            if (this.screenSize === "large") {
+                this.gamingBoard.style.paddingTop = "2px";
+            }
+            if (this.screenSize === "medium") {
+                this.gamingBoard.style.paddingTop = "2px";
+            }
+            if (this.screenSize === "small") {
+                this.gamingBoard.style.paddingTop = "2px";
+            }
+        }
+
+        return pzlPiece;
     }
 
     //create shuffled array

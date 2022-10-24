@@ -376,7 +376,6 @@ td {
 
     .stats-container {
         top: 32px;
-        width: 240px;
         height: 55px;
     }
 
@@ -450,7 +449,6 @@ td {
 
     .stats-container {
         top: 32px;
-        width: 240px;
         height: 55px;
     }
 
@@ -506,7 +504,6 @@ td {
 @media screen and (max-width: 320px) {
     .game-field {
         height: 450px;
-        top: 100px;
     }
 
     .buttons-container {
@@ -515,8 +512,7 @@ td {
     }
 
     .stats-container {
-        top: 52px;
-        width: 200px;
+        top: 32px;
         height: 45px;
     }
 

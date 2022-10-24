@@ -7,7 +7,7 @@
 
 body {
     width: 100%;
-    height: 100vh;
+    height: 100%;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -23,8 +23,8 @@ body {
 .game-field {
     height: 600px;
     width: 100%;
-    top: auto;
-    bottom: auto;
+    margin-top: auto;
+    margin-bottom: auto;
     margin: auto;
     display: flex;
     flex-direction: column;
@@ -392,7 +392,6 @@ td {
     }
 
     .bottom-container {
-        height: 60px;
         width: 350px;
         top: 440px;
     }
@@ -441,7 +440,7 @@ td {
 
 @media screen and (max-width: 768px) {
     .game-field {
-        height: 400px;
+        height: 470px;
     }
 
     .buttons-container {
@@ -463,6 +462,7 @@ td {
 
     .bottom-container {
         width: 340px;
+        height: 60px;
     }
 
     .size-3 {
@@ -498,13 +498,15 @@ td {
 
 @media screen and (max-width: 390px) {
     .game-field {
-        top: 50px;
+        height: 450px;
+        top: 100px;
     }
 }
 
 @media screen and (max-width: 320px) {
     .game-field {
-        height: 400px;
+        height: 450px;
+        top: 100px;
     }
 
     .buttons-container {
@@ -537,6 +539,7 @@ td {
         width: 300px;
         flex-direction: row;
         top: 380px;
+        height: 60px;
     }
 
     .sound-button {

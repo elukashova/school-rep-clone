@@ -267,6 +267,14 @@ class Game {
                 //pzlPiece.classList.remove("dragging");
                 //pzlPiece.setAttribute("draggable", "false");
             }
+
+            //create drag and drop listeners
+            // pzlPiece.addEventListener("dragstart", this.dragStart());
+            // pzlPiece.addEventListener("dragover", this.dragOver());
+            // pzlPiece.addEventListener("dragenter", this.dragEnter());
+            // pzlPiece.addEventListener("dragleave", this.dragLeave());
+            // pzlPiece.addEventListener("drop", this.dragDrop());
+            // pzlPiece.addEventListener("dragend", this.dragEnd());
         }
 
         //add pieces movement

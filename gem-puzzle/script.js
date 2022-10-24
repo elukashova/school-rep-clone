@@ -698,7 +698,7 @@ class Game {
                 this.moves++;
                 document.querySelector(".move-counter").innerHTML = this.moves;
                 if(this.sound == true) {
-                    let sound = new Audio("../../gem-puzzle/assets/move-sound.mp3"); 
+                    let sound = new Audio("../assets/move-sound.mp3"); 
                     sound.play();
                 }
                 this.checkIfSolved();

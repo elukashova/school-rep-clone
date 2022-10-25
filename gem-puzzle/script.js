@@ -564,7 +564,7 @@ class Game {
         this.gameContainer.append(savedPopup);
 
         let notice = document.createElement("span");
-        notice.innerText = "You game has been saved!"
+        notice.innerText = "You game has been saved! Refresh the page to see it."
         savedPopup.append(notice);
 
         let okButton = document.createElement("button");

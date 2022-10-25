@@ -277,7 +277,8 @@ p {
 
 .popup span {
     color: #EFF4F3;
-    line-height: 50px;
+    line-height: 25px;
+    padding-bottom: 2px;
     align-self: center;
     text-align: center;
 }

@@ -68,7 +68,7 @@ button:hover {
     height: 80%;
 }
 
-.stop-button {
+.load-button {
     width: 15%;
     height: 80%;
 }
@@ -209,8 +209,6 @@ p {
 }
 
 .popup, .win-popup {
-    width: 250px;
-    height: 100px;
     position: relative;
     border: 5px solid #EFF4F3;
     box-shadow: #87919E;
@@ -221,6 +219,13 @@ p {
     align-items: center;
 }
 
+.popup {
+    width: 300px;
+    height: 150px;
+    padding-top: 8px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
 .win-popup {
     width: 300px;
     height: 120px;
@@ -278,7 +283,7 @@ p {
 .popup span {
     color: #EFF4F3;
     line-height: 25px;
-    padding-bottom: 2px;
+    padding-bottom: 10px;
     align-self: center;
     text-align: center;
 }

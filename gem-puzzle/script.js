@@ -53,7 +53,7 @@ class Game {
 
         //buttons
         this.shuffleBtn = null;
-        this.stopBtn = null;
+        this.loadBtn = null;
         this.saveBtn = null;
         this.resultsBtn = null;
         this.soundBtn = null;
@@ -90,10 +90,10 @@ class Game {
         this.shuffleBtn = shuffleBtn;
         this.startOver();
 
-        let stopBtn = document.createElement("button");
-        stopBtn.classList.add("stop-button");
-        stopBtn.innerText = "stop";
-        this.stopBtn = stopBtn;
+        let loadBtn = document.createElement("button");
+        loadBtn.classList.add("load-button");
+        loadBtn.innerText = "load";
+        this.loadBtn = loadBtn;
 
         let saveBtn = document.createElement("button");
         saveBtn.classList.add("save-button");
@@ -167,7 +167,7 @@ class Game {
         document.body.append(this.gameContainer);
         this.gameContainer.append(topContainer);
         this.topContainer.append(shuffleBtn);
-        this.topContainer.append(stopBtn);
+        this.topContainer.append(loadBtn);
         this.topContainer.append(saveBtn);
         this.topContainer.append(resultsBtn);
         this.gameContainer.append(statsContainer);
@@ -199,6 +199,18 @@ class Game {
         this.mqChangeHandler();
         this.play();
         this.resizeHandler();
+
+        this.loadBtn.addEventListener("click", () => {
+            let saved = this.loadSavedGame();
+            this.timeCounter.remove();
+            this.gamingBoard.innerHTML = "";
+            this.timeCounter.innerText = "";
+            this.mover.remove();
+            this.resetStats();
+            this.createPieces(saved.frame);
+            this.countUp();
+            this.countMoves();
+        })
     }
 
     //STARTING METHODS SET
@@ -564,7 +576,7 @@ class Game {
         this.gameContainer.append(savedPopup);
 
         let notice = document.createElement("span");
-        notice.innerText = "You game has been saved! Refresh the page to see it."
+        notice.innerText = "You game has been saved! Refresh the page to see it or click on 'LOAD'."
         savedPopup.append(notice);
 
         let okButton = document.createElement("button");

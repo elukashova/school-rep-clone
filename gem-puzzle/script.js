@@ -257,7 +257,6 @@ class Game {
             let pzlPiece = document.createElement("div");
             this.gamingBoard.append(pzlPiece);
             pzlPiece.classList.add("puzzle-piece");
-            //pzlPiece.classList.add("dragging");
             pzlPiece.setAttribute("draggable", 'true');
             pzlPiece.innerText = piecesOrder[i];
             this.stylePieces(pzlPiece, fieldSize);
@@ -276,17 +275,8 @@ class Game {
             if(piecesOrder[i] === 0) { 
                 pzlPiece.style.visibility = "hidden";
                 pzlPiece.classList.add("empty");
-                //pzlPiece.classList.remove("dragging");
                 //pzlPiece.setAttribute("draggable", "false");
             }
-
-            //create drag and drop listeners
-            // pzlPiece.addEventListener("dragstart", this.dragStart());
-            // pzlPiece.addEventListener("dragover", this.dragOver());
-            // pzlPiece.addEventListener("dragenter", this.dragEnter());
-            // pzlPiece.addEventListener("dragleave", this.dragLeave());
-            // pzlPiece.addEventListener("drop", this.dragDrop());
-            // pzlPiece.addEventListener("dragend", this.dragEnd());
         }
 
         //add pieces movement
@@ -295,31 +285,10 @@ class Game {
             this.movePieces(target);
         });
 
-        // this.gamingBoard.addEventListener("mouseenter", (piece) => {
-        //     this.dra
-        // })
-
         this.resultsBtn.addEventListener("click", () => {
             let popup = this.showResults(this.results);
             popup.classList.toggle("active");
         })
-
-        // this.gamingBoard.addEventListener("dragstart", (e) => {
-        //     e.dataTransfer.clearData();
-        //     e.dataTransfer.setData("text/pain", e.target.id);
-        // })
-
-        // this.gamingBoard.addEventListener("dragend", (e) => {
-        //     e.target.classList.remove("dragging");
-        //     e.preventDefault();
-        // })
-
-        // this.gamingBoard.addEventListener("drop", (e) => {
-        //     e.preventDefault();
-        //     let data = e.dataTransfer.getData("text");
-        //     let source = document.getElementById(data);
-        //     e.target.appendChild(source);
-        // })
 
     }
 
@@ -697,82 +666,6 @@ class Game {
             }
         }
     }
-
-    // drag(piece) {
-    //     piece.classList.add("empty");
-    //     piece.classList.add("move");
-    //     piece.style.visibility = "hidden";
-    //     piece.innerText = "0";
-    // }
-
-    //DRAG AND DROP
-    // dragAndDrop(piece) {
-    //     let empty = this.getEmptyNeighbor(piece);
-    //     let tempText = piece.innerText; 
-
-    //         piece.addEventListener("dragend", () => {
-    //             piece.classList.add("empty");
-    //             piece.classList.add("move");
-    //             piece.style.visibility = "hidden";
-    //             piece.innerText = "0";
-    //         })
-
-    //         empty.addEventListener("drop", () => {
-    //             empty.classList.remove("empty");
-    //             empty.innerText = tempText;
-    //             empty.style.visibility = "visible";
-    //             this.moves++;
-    //             document.querySelector(".move-counter").innerHTML = this.moves;
-    //         })
-            
-    //         if(this.sound == true) {
-    //             let sound = new Audio("./assets/move-sound.mp3");
-    //             sound.play();
-    //         }
-    //         this.checkIfSolved();
-    //         if (this.isWin == true) {
-    //             let wPopup = this.winPopup();
-    //             wPopup.classList.toggle("active");
-    //             this.checkHighScore(this.moves);
-    //         }
-        
-    // }
-    //ANIMATE THE MOVE
-    //runAnimation (piece) {
-    //     let dimensions = {
-    //         width: document.querySelector(".game-board").width,
-    //         height: document.querySelector(".game-board").height,
-    //     }
-
-    //     let animationRequest;
-    //     let posX = dimensions.width / 2;
-    //     let posY = dimensions.height / 2;
-    //     let moveX = 5;
-    //     let moveY = 5;
-
-    //     animationRequest = window.requestAnimationFrame(runAnimation);
-
-    //     posY += moveY;
-    //     posX += moveX;
-
-    //     if (posY < 0 || posY >= dimensions.height - piece.offsetHeight) {
-    //         moveY = -moveY;
-    //     }
-        
-    //     if (posX <= 0 || posX >= dimensions.width - piece.clientWidth) {
-    //         moveX = -moveX;
-    //     }
-    
-    //     piece.style.top = posY + 'px';
-    //     piece.style.left = posX + 'px';
-
-    //     window.requestAnimationFrame(runAnimation);
-        
-    //     setTimeout(() => {
-    //       window.cancelAnimationFrame(animationRequest)
-    //     }, 5000);
-        
-    //}
 
     //CHECK IF THE PUZZLE IS SOLVED SUCCESSFULLY
     checkIfSolved() {

@@ -141,7 +141,7 @@ span {
     align-content: center;
     flex-direction: column;
     text-align: center;
-    transition: 0.15s ease-in-out;
+    /*transition: all 1s ease;*/
     cursor: default;
     /* animation-name: moveRight;
     animation-name: moveLeft;
@@ -151,8 +151,8 @@ span {
 }
 
 .puzzle-piece.move {
-    transition: 3s left, 3s top;
-    -webkit-transition: 3s left, 3s top;
+    transition: 5s left, 5s top;
+    -webkit-transition: 5s left, 5s top;
 }
 
 .bottom-container {

@@ -286,8 +286,8 @@ class Game {
         });
 
         this.resultsBtn.addEventListener("click", () => {
-            let popup = this.showResults(this.results);
-            popup.classList.toggle("active");
+            let resPopup = this.showResults();
+            console.log(this.resultsBtn);
         })
 
     }
@@ -732,9 +732,10 @@ class Game {
     };
 
     //results popup
-    showResults(results) {
+    showResults() {
         let resultsPopup = document.createElement("div");
         resultsPopup.classList.add("results-popup");
+        resultsPopup.classList.toggle("active");
         this.gameContainer.append(resultsPopup);
 
         let resultsTitle = document.createElement("span");
@@ -757,6 +758,15 @@ class Game {
             tr.appendChild(th);
         }
 
+        for (let element of this.results) {
+            let row = resultsSumup.insertRow();
+            for (let key in element) {
+                let cell = row.insertCell();
+                let text = document.createTextNode(element[key]);
+                cell.appendChild(text);
+            }
+        }
+
         let okbtn = document.createElement("button");
         okbtn.classList.add("ok-button");
         okbtn.innerText = "Ok";
@@ -765,7 +775,7 @@ class Game {
             resultsPopup.classList.remove("active");
         })
 
-        this.createTable(resultsSumup, this.results);
+        //this.createTable(resultsSumup, this.results);
 
         return resultsPopup;
     }
@@ -780,16 +790,16 @@ class Game {
     }
 
     //create table with highest scores
-    createTable(table, data) {
-        for (let element of data) {
-            let row = table.insertRow();
-            for (let key in element) {
-              let cell = row.insertCell();
-              let text = document.createTextNode(element[key]);
-              cell.appendChild(text);
-            }
-        }
-    }
+    // createTable(table, data) {
+    //     for (let element of data) {
+    //         let row = table.insertRow();
+    //         for (let key in element) {
+    //           let cell = row.insertCell();
+    //           let text = document.createTextNode(element[key]);
+    //           cell.appendChild(text);
+    //         }
+    //     }
+    // }
 
     //TIMER
     countUp() {

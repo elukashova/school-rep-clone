@@ -1,10 +1,8 @@
 const path = require('path');
-//const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-//const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const devServer = (isDev) => !isDev ? {} : {
   devServer: {
@@ -18,17 +16,34 @@ const devServer = (isDev) => !isDev ? {} : {
 module.exports = ({develop}) => ({
   mode: develop ? "development" : "production",
   devtool: develop ? "inline-source-map" : "hidden-source-map",
-  entry: './src/index.js',
+  entry: {
+    main: [
+      './src/index.js'
+    ]
+  },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'js/[name].bundle.js',
+    filename: 'main.js',
     assetModuleFilename: 'assets/[name][ext]' //or hash instead of name
   },
-  optimization: {
-    minimize: false
-  },
+  // optimization: {
+  //   minimize: false
+  // },
   module: {
     rules: [
+      {
+        test: /\.html$/,
+        loader: "html-loader",
+        options: {minimize: true}
+      },
+      {
+        test: /\.js$/,
+        exclude: /(node_modules)/,
+        loader: 'babel-loader',
+        options: {
+          presets: ['@babel/preset-env']
+        }
+    },
       {
         test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
         type: 'asset/resource',
@@ -42,17 +57,39 @@ module.exports = ({develop}) => ({
         type: 'asset/inline',
       },
       {
-        test: /\.css$/,
+        test: /\.(css)$/i,
         use: [
           MiniCssExtractPlugin.loader,
-          'style-loader',
-          {
-          loader: 'css-loader',
-              options:{
-                  url: false
-              }
-          }
-      ],
+          'css-loader',
+          //'style-loader'
+        ],
+      },
+      {
+        test: /\.(s[ac]ss)$/i,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          //'style-loader',
+          'sass-loader'
+          //{
+            //loader: 'sass-resources-loader',
+            // options: {
+            //   resources: [
+            //     '.src/styles/style.scss'
+            //   ]
+            //   },
+          //},
+          //{
+            //loader: 'sass-loader',
+            // options: {
+            //   implementation: require('sass'),
+            //   webpackImporter: false,
+            //   sassOptions: {
+            //     includePaths: ['./node_modules']
+            //   },
+            // },
+          //},
+        ]
       }
     ],
   },
@@ -62,10 +99,11 @@ module.exports = ({develop}) => ({
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',
-      minify: false
+      filename: './index.html'
+      //minify: false
     }),
     new MiniCssExtractPlugin({
-      filename: '[name][contenthash].css'
+      filename: '[name].css'
     }),
     new CopyPlugin({
       patterns: [

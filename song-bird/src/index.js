@@ -1,8 +1,10 @@
 import './index.scss';
-import Header from './header/index';
+import Header from './components/header/index';
+import upperSection from './pages/game-page/section-01/index';
+import gameSection from './pages/game-page/section-02/index';
 
 const body = document.getElementById('body');
 
 body.append(Header);
-
-console.log(Header);
+body.append(upperSection);
+body.append(gameSection);

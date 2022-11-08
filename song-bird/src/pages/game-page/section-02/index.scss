@@ -1,12 +1,83 @@
 .field__wrapper {
   width: 1160px;
-  height: 500px;
+  height: 520px;
   margin-left: auto;
   margin-right: auto;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: black;
-  top: 120px;
+  align-items: center;
+  top: 110px;
+}
+
+.game__qstn {
+  width: 1160px;
+  height: 185px;
+  background-color: #437B9C;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.game__qstn_img {
+  height: 165px;
+  margin-left: 10px;
+  border-radius: 10px;
+}
+
+.game__qstn_content {
+  width: 960px;
+  display: flex;
+  flex-direction: column;
+  height: 130px;
+}
+
+.game__qstn_name {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #FFC700;
+}
+
+.game__qstn_line {
+  width: 935px;
+  height: 1px;
+  background-color: white;
+}
+
+.game__answers {
+  width: 1160px;
+  height: 250px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.answers__variants, 
+.answers__description {
+  width: 565px;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  background-color: #437B9C;
+  border-radius: 10px;
+}
+
+.game__qstn-next {
+  background-color: #FFC700;
+  outline: none;
+  border: none;
+  height: 50px;
+  width: 220px;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  text-transform: uppercase;
 }

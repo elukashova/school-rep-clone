@@ -81,3 +81,13 @@
   font-family: 'Montserrat', sans-serif;
   text-transform: uppercase;
 }
+
+.game__qstn-next:hover {
+  background-color: #cca104;
+  color: white;
+}
+
+.game__qstn-next:active {
+  background-color: #E63946;
+  color: white;
+}

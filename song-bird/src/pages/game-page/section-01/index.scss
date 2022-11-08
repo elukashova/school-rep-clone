@@ -26,14 +26,14 @@
 }
 
 .questions__category_current {
-  background-color:#A6DADC;
-  border: 1px solid #A6DADC;
-  color: #1D3555;
+  background-color:#E83945;
+  border: 1px solid #E83945;
+  color: white;
   font-weight: 600;
 }
 
 .questions__result {
-  background-color: #E83945;
+  background-color: #A6DADC;
   height: 50px;
   width: 50px;
   display: flex;
@@ -41,7 +41,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  border: 1px solid #E83945;
+  border: 1px solid #A6DADC;
 }
 
 .result__counter,
@@ -49,15 +49,18 @@
   text-transform: uppercase;
   font-family: 'Montserrat', sans-serif;
   font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  color: white;
   padding-bottom: 0px;
   cursor: default;
 }
 
 .result__counter {
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 700;
   color: #1D3555;
+}
+
+.result__title {
+  font-weight: 500;
+  font-size: 14px;
+  color:#567B94;
 }

@@ -5,13 +5,77 @@
       <div class="game__qstn_content">
         <span class="game__qstn_name">*****</span>
         <span class="game__qstn_line"></span>
-        <div class="game__qstn_player">
+        <div class="game__qstn_audio audio">
+          <div class="audio__wrapper">
+            <img class="audio__btn btn-play" id="qstn-btn-play" src="../../../assets/icons/play-btn.svg">
+            <div class="audio__line">
+              <audio class="audio__player" src="https://www.xeno-canto.org/sounds/uploaded/XIQVMQVUPP/XC518684-Grands%20corbeaux%2009012020%20Suzon.mp3"></audio>
+              <input class="audio__range" type="range" max="100" value="0">
+            </div>
+          </div>
+          <div class="volume__wrapper">
+            <img class="audio__volume volume-up" src="../../../assets/icons/volume-up.svg">
+            <div class="volume__wrapper_range">
+              <input class="audio__volume_range" type="range" step="0.1" min="0" max="1" value="1">
+            </div>
+          </div>
         </div>
       </div>
     </div>
     <div class="game__answers answers">
-      <div class="answers__variants"></div>
-      <div class="answers__description"></div>
+      <div class="answers__variants">
+        <form class="answers__list">
+          <div class="answers__item">
+            <input class="answers__item_input" id="0" type="checkbox" name="bird" value="Boрон">
+            <label class="answers__item_label" for="0" id="bird-0">Boрон</label>
+          </div>
+          <div class="answers__item">
+            <input class="answers__item_input" id="1" type="checkbox" name="bird" value="Boрон">
+            <label class="answers__item_label" for="1" id="bird-1">Boрон</label>
+          </div>
+          <div class="answers__item">
+            <input class="answers__item_input" id="2" type="checkbox" name="bird" value="Boрон">
+            <label class="answers__item_label" for="2" id="bird-2">Boрон</label>
+          </div>
+          <div class="answers__item">
+            <input class="answers__item_input" id="3" type="checkbox" name="bird" value="Boрон">
+            <label class="answers__item_label" for="3" id="bird-3">Boрон</label>
+          </div>
+          <div class="answers__item">
+            <input class="answers__item_input" id="4" type="checkbox" name="bird" value="Boрон">
+            <label class="answers__item_label" for="4" id="bird-4">Boрон</label>
+          </div>
+          <div class="answers__item answers__item_last">
+            <input class="answers__item_input" id="5" type="checkbox" name="bird" value="Boрон">
+            <label class="answers__item_label" for="5" id="bird-5">Boрон</label>
+          </div>
+        </form>
+      </div>
+      <div class="answers__description bird">
+        <div class="bird__info">
+          <img class="bird__img" src="../../../assets/img/corvus.jpg">
+          <div class="bird__info_wrapper">
+            <h3 class="bird__title">Ворон</h3>
+            <span class="bird__latin-name">Corvus corvus</span>
+            <div class="bird__audio">
+              <div class="bird__audio_wrapper">
+                <img class="bird__audio__btn bird__btn-play" src="../../../assets/icons/play-btn.svg">
+                <div class="bird__audio_line">
+                  <audio class="bird__audio_player" src="https://www.xeno-canto.org/sounds/uploaded/XIQVMQVUPP/XC518684-Grands%20corbeaux%2009012020%20Suzon.mp3"></audio>
+                  <input class="bird__audio_range" type="range" max="100" value="0">
+                </div>
+              </div>
+              <div class="bird__volume">
+                <img class="bird__volume_img bird__volume-up" src="../../../assets/icons/volume-up.svg">
+                <div class="bird__volume_wrapper">
+                  <input class="bird__volume_range" type="range" step="0.1" min="0" max="1" value="1">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="bird__text">blablabla</p>
+      </div>
     </div>
     <button class="game__qstn-next">Следующий уровень</button>
   </div>

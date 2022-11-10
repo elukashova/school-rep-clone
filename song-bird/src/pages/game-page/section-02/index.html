@@ -5,18 +5,22 @@
       <div class="game__qstn_content">
         <span class="game__qstn_name">*****</span>
         <span class="game__qstn_line"></span>
-        <div class="game__qstn_audio audio">
-          <div class="audio__wrapper">
-            <img class="audio__btn btn-play" id="qstn-btn-play" src="../../../assets/icons/play-btn.svg">
-            <div class="audio__line">
-              <audio class="audio__player" src="https://www.xeno-canto.org/sounds/uploaded/XIQVMQVUPP/XC518684-Grands%20corbeaux%2009012020%20Suzon.mp3"></audio>
-              <input class="audio__range" type="range" max="100" value="0">
+        <div class="game__qstn_audio">
+          <div class="player__wrapper">
+            <img class="player__btn btn-play" id="btn-play" src="../../../assets/icons/play-btn.svg">
+            <div class="audio__wrapper  audio">
+              <audio  class="audio__sound" id="qstn-audio" preload="metadata"
+                            src="https://www.xeno-canto.org/sounds/uploaded/XIQVMQVUPP/XC518684-Grands%20corbeaux%2009012020%20Suzon.mp3">
+              </audio>
+              <span class="audio__time" id="audio-time">0:00</span>
+              <input class="audio__range" id="qstn-audio-range" type="range" max="10" value="0">
+              <span class="audio__duration" id="audio-total">0:00</span>
             </div>
           </div>
           <div class="volume__wrapper">
-            <img class="audio__volume volume-up" src="../../../assets/icons/volume-up.svg">
+            <img class="audio__volume volume-up" id="qstn-btn-volume" src="../../../assets/icons/volume-up.svg">
             <div class="volume__wrapper_range">
-              <input class="audio__volume_range" type="range" step="0.1" min="0" max="1" value="1">
+              <input class="audio__volume_range" id="qstn-volume-range" type="range" step="0.1" min="0" max="1" value="1">
             </div>
           </div>
         </div>
@@ -59,16 +63,20 @@
             <span class="bird__latin-name">Corvus corvus</span>
             <div class="bird__audio">
               <div class="bird__audio_wrapper">
-                <img class="bird__audio__btn bird__btn-play" src="../../../assets/icons/play-btn.svg">
+                <img class="bird__audio__btn bird__btn-play" id="bird-btn-play" src="../../../assets/icons/play-btn.svg">
                 <div class="bird__audio_line">
-                  <audio class="bird__audio_player" src="https://www.xeno-canto.org/sounds/uploaded/XIQVMQVUPP/XC518684-Grands%20corbeaux%2009012020%20Suzon.mp3"></audio>
-                  <input class="bird__audio_range" type="range" max="100" value="0">
+                  <audio class="bird__audio_player" id="bird-audio" src="https://www.xeno-canto.org/sounds/uploaded/XIQVMQVUPP/XC518684-Grands%20corbeaux%2009012020%20Suzon.mp3"></audio>
+                  <input class="audio__range bird__audio_range" id="bird-audio-range" type="range" max="100" value="0">
+                  <div class = "bird__audio_timer">
+                    <span class="bird__audio_time" id="bird-audio-time">0:00</span>
+                    <span class="bird__audio_duration" id="bird-audio-total">0:00</span>
+                  </div>
                 </div>
               </div>
               <div class="bird__volume">
-                <img class="bird__volume_img bird__volume-up" src="../../../assets/icons/volume-up.svg">
+                <img class="bird__volume_img bird__volume-up" id="bird-btn-volume" src="../../../assets/icons/volume-up.svg">
                 <div class="bird__volume_wrapper">
-                  <input class="bird__volume_range" type="range" step="0.1" min="0" max="1" value="1">
+                  <input class="audio__volume_range bird__volume_range" id="bird-volume-range" type="range" step="0.1" min="0" max="1" value="1">
                 </div>
               </div>
             </div>

@@ -40,6 +40,8 @@ PlayAudio(playIconB, audioRangeB, audioPlayedB, audioTotalB, volumeRangeB, audio
 const checkbox = document.getElementsByClassName("answers__item_input");
 
 //bird card
+const hiddenInfo = document.getElementById("bird-info");
+const initialTxt = document.getElementById("bird-text-initial");
 const currBirdImg = document.getElementById("bird-img");
 const currBirdName = document.getElementById("bird-name");
 const currBirdLatin = document.getElementById("bird-name-latin");
@@ -135,6 +137,9 @@ class Quiz {
     }
   
       createDescription (id) {
+        currBirdText.classList.remove("hidden");
+        hiddenInfo.classList.remove("hidden");
+        initialTxt.classList.add("hidden");
         let cat = this.category;
         let bird = BirdsData[cat][id];
         currBirdImg.src = bird.image;

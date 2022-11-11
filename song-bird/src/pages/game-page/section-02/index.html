@@ -56,16 +56,16 @@
         </form>
       </div>
       <div class="answers__description bird">
-        <div class="bird__info">
-          <img class="bird__img" id = "bird-img" src="../../../assets/img/corvus.jpg">
+        <div class="bird__info hidden" id="bird-info">
+          <img class="bird__img" id = "bird-img" src="#">
           <div class="bird__info_wrapper">
-            <h3 class="bird__title" id = "bird-name">Ворон</h3>
-            <span class="bird__latin-name" id = "bird-name-latin">Corvus corvus</span>
+            <h3 class="bird__title" id = "bird-name"></h3>
+            <span class="bird__latin-name" id = "bird-name-latin"></span>
             <div class="bird__audio">
               <div class="bird__audio_wrapper">
                 <img class="bird__audio__btn bird__btn-play" id="bird-btn-play" src="../../../assets/icons/play-btn.svg">
                 <div class="bird__audio_line">
-                  <audio class="bird__audio_player" id="bird-audio" src="https://www.xeno-canto.org/sounds/uploaded/XIQVMQVUPP/XC518684-Grands%20corbeaux%2009012020%20Suzon.mp3"></audio>
+                  <audio class="bird__audio_player" id="bird-audio" src="#"></audio>
                   <input class="audio__range bird__audio_range" id="bird-audio-range" type="range" max="100" value="0">
                   <div class = "bird__audio_timer">
                     <span class="bird__audio_time" id="bird-audio-time">0:00</span>
@@ -82,7 +82,8 @@
             </div>
           </div>
         </div>
-        <p class="bird__text" id ="bird-text">blablabla</p>
+        <p class="bird__text hidden" id ="bird-text"></p>
+        <span class="bird__text-initial" id="bird-text-initial"><em>Прослушайте песню </br> и попробуйте угадать птицу, выбрав её имя из списка!</em></span>
       </div>
     </div>
     <button class="game__qstn-next">Следующий уровень</button>

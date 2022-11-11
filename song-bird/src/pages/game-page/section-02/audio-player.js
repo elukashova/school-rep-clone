@@ -81,7 +81,7 @@ vRange.addEventListener("input", () => {
 })
 
 const aIcon = (input) => {
-  if(input.value > 0.1 && input.value <= 0.4) {
+  if(input.value > 0 && input.value <= 0.4) {
     volBtn.src = "../../../assets/icons/volume-low.svg"
   } else if(input.value > 0.4 && input.value <= 0.9) {
     volBtn.src = "../../../assets/icons/volume-mid.svg"
@@ -93,8 +93,8 @@ const aIcon = (input) => {
 }
 
 let soundOn = true;
+let temp;
 volBtn.addEventListener("click", () => {
-  let temp;
   if (vRange.value > 0) {
     temp = vRange.value;
   }

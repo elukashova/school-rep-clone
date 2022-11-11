@@ -51,7 +51,7 @@ const currBirdLatin = document.getElementById("bird-name-latin");
 const currBirdAudio = document.getElementById("bird-audio");
 const currBirdText = document.getElementById("bird-text");
 //count score
-const score = document.getElementById("result-counter");
+const quizScore = document.getElementById("result-counter");
 
 
 
@@ -120,9 +120,12 @@ class Quiz {
 
     //check user's input
     checkAnswer () {
+      let currScore = this.score;
       let rightBird = this.currBird;
       for (let input of checkbox) {
         input.addEventListener("input", () => {
+          this.clicks++;
+          console.log(this.clicks);
           let answer = input.value;
           if (answer === rightBird) {
             input.classList.add("answer__correct");
@@ -132,10 +135,13 @@ class Quiz {
             audio.pause();
             this.isRight = true;
             this.pauseBoxes();
+            this.countScore(currScore);
           } else if (this.isRight === false) {
             input.classList.add("answer__wrong");
             this.createDescription(input.id);
             this.wrongSound();
+            this.isRight = false;
+            this.countScore(currScore);
           }
         });
       }
@@ -185,7 +191,22 @@ class Quiz {
         noSound.play();
       }  
     }
-  
+
+    countScore (score) {
+      let maxTries = 6; 
+      let clicks = this.clicks;
+      let totalScore = maxTries - clicks;
+      if (this.isRight === false && this.score === 0) {
+        totalScore = 0;
+      }
+
+      if (maxTries === 0) {
+        totalScore = 0;
+      }
+
+      this.score = score + totalScore;
+      quizScore.innerText = this.score;
+    }
 }
 
 let songBird = new Quiz;

@@ -52,7 +52,8 @@ const currBirdAudio = document.getElementById("bird-audio");
 const currBirdText = document.getElementById("bird-text");
 //count score
 const quizScore = document.getElementById("result-counter");
-
+//next button
+const nextBtn = document.getElementById("btn-next");
 
 
 const birdsData = BirdsData;
@@ -73,7 +74,7 @@ class Quiz {
     this.currBird = "";
     this.answersList = [];
     this.isRight = false;
-    this.count = 0;
+    this.cat = 0;
     this.clicks = 0;
     this.score = 0;
     this.finish = false;
@@ -83,6 +84,7 @@ class Quiz {
     this.createQstn();
     this.listAnswers();
     this.checkAnswer();
+    this.nextCaterogy();
   }
 
   createQstn() {
@@ -127,6 +129,7 @@ class Quiz {
           this.clicks++;
           console.log(this.clicks);
           let answer = input.value;
+
           if (answer === rightBird) {
             input.classList.add("answer__correct");
             this.createDescription(input.id);
@@ -136,6 +139,7 @@ class Quiz {
             this.isRight = true;
             this.pauseBoxes();
             this.countScore(currScore);
+            this.nextCaterogy();
           } else if (this.isRight === false) {
             input.classList.add("answer__wrong");
             this.createDescription(input.id);
@@ -206,6 +210,19 @@ class Quiz {
 
       this.score = score + totalScore;
       quizScore.innerText = this.score;
+    }
+
+    nextCaterogy() {
+      if (this.isRight === false) {
+        nextBtn.classList.add("disabled");
+        nextBtn.disabled = true;
+      } else {
+        nextBtn.classList.remove("disabled");
+        nextBtn.disabled = false;
+        nextBtn.addEventListener("click", () => {
+        console.log("all ok")
+        })
+      }
     }
 }
 

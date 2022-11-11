@@ -439,14 +439,20 @@
   cursor: pointer;
   font-family: 'Montserrat', sans-serif;
   text-transform: uppercase;
-}
 
-.game__qstn-next:hover {
-  background-color: #cca104;
-  color: white;
-}
+  &:disabled {
+    background-color: #e0e8dd;
+    color: white;
+    cursor: default;
+  }
 
-.game__qstn-next:active {
-  background-color: #E63946;
-  color: white;
+  &:not(.disabled):hover {
+    background-color: #cca104;
+    color: white;
+  }
+
+  &:not(.disabled):active {
+    background-color: #E63946;
+    color: white;
+  }
 }

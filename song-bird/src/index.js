@@ -59,24 +59,14 @@ const birdsData = BirdsData;
 class Quiz {
   constructor () {
     this.birdData = {};
-    this.id = "";
-    this.categories = {
-      first: 0,
-      second: 1,
-      third: 2,
-      fourth: 3,
-      fifth: 4,
-      sixth: 5
-    }
     this.category = 0;
     this.currBird = "";
-    this.answersList = [];
     this.isRight = false;
     this.clicks = 0;
     this.score = 0;
     this.finish = false;
-    this.tempTxt = null;
-    this.tempImg = null;
+    this.tempTxt = placeholder.innerText;
+    this.tempImg = qstnImage.src;
   }
 
   go() {
@@ -98,9 +88,7 @@ class Quiz {
       audio: currBird.audio
     }
 
-    this.birdData = currQstnData;
     this.currBird = currQstnData.name;
-    this.tempImg = null;
 
     let qstnAudio = currQstnData.audio;
     audio.src = qstnAudio;
@@ -144,7 +132,6 @@ class Quiz {
             input.classList.add("answer__wrong");
             this.createDescription(input.id);
             this.wrongSound();
-            this.isRight = false;
             this.countScore(currScore);
           }
         });
@@ -167,8 +154,6 @@ class Quiz {
     revealRightAnswer(id) {
       let cat = this.category;
       let bird = BirdsData[cat][id];
-      this.tempTxt = placeholder.innerText;
-      this.tempImg = qstnImage.src;
       placeholder.innerText = bird.name;
       qstnImage.src = bird.image;
     }
@@ -221,9 +206,10 @@ class Quiz {
       } else {
         nextBtn.classList.remove("disabled");
         nextBtn.disabled = false;
+        this.category++;
         nextBtn.addEventListener("click", () => {
-          this.category++;
           this.starterPack();
+          this.changeCategory();
         })
       }
     }

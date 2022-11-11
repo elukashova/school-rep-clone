@@ -65,7 +65,6 @@ class Quiz {
     this.category = this.categories.first;
     this.currBird = "";
     this.answersList = [];
-    //this.answerTry = "";
     this.isRight = false;
     this.count = 0;
     this.clicks = 0;
@@ -122,9 +121,11 @@ class Quiz {
         input.addEventListener("input", () => {
           let answer = input.value;
           if (answer === rightBird) {
-            this.createDescription(input.id)
+            this.createDescription(input.id);
+            this.revealRightAnswer(input.id);
             this.yesSound();
             audio.pause();
+            this.isRight = false;
           } else {
             this.createDescription(input.id)
             this.wrongSound();
@@ -141,6 +142,15 @@ class Quiz {
         currBirdLatin.innerText =bird.species;
         currBirdAudio.src = bird.audio;
         currBirdText.innerText = bird.description;
+    }
+
+    revealRightAnswer(id) {
+      let cat = this.category;
+      let bird = BirdsData[cat][id];
+      let placeholder =  document.getElementById("qstn-name");
+      let image = document.getElementById("qstn-img");
+      placeholder.innerText = bird.name;
+      image.src = bird.image;
     }
   
     yesSound() {

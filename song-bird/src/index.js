@@ -36,9 +36,12 @@ const audioB = document.getElementById("bird-audio");
 const volumeIconB = document.getElementById("bird-btn-volume");
 PlayAudio(playIconB, audioRangeB, audioPlayedB, audioTotalB, volumeRangeB, audioB, volumeIconB);
 
-//***PLAYING CONSTS***
+//***PLAYING CONSTs***
+//question
+const placeholder =  document.getElementById("qstn-name");
+const qstnImage = document.getElementById("qstn-img");
+//answers
 const checkbox = document.getElementsByClassName("answers__item_input");
-
 //bird card
 const hiddenInfo = document.getElementById("bird-info");
 const initialTxt = document.getElementById("bird-text-initial");
@@ -47,6 +50,8 @@ const currBirdName = document.getElementById("bird-name");
 const currBirdLatin = document.getElementById("bird-name-latin");
 const currBirdAudio = document.getElementById("bird-audio");
 const currBirdText = document.getElementById("bird-text");
+//count score
+const score = document.getElementById("result-counter");
 
 
 
@@ -106,10 +111,10 @@ class Quiz {
     })
     this.answersList = answers;
     for (let i = 0; i < answers.length; i++) {
-      let placeholder =  document.getElementById(`bird-${i}`);
+      let asteriscs =  document.getElementById(`bird-${i}`);
       let checkbox = document.getElementById(`${i}`);
       checkbox.value = answers[i];
-      placeholder.innerText = answers[i];
+      asteriscs.innerText = answers[i];
     }
   }
 
@@ -152,16 +157,13 @@ class Quiz {
     revealRightAnswer(id) {
       let cat = this.category;
       let bird = BirdsData[cat][id];
-      let placeholder =  document.getElementById("qstn-name");
-      let image = document.getElementById("qstn-img");
       placeholder.innerText = bird.name;
-      image.src = bird.image;
+      qstnImage.src = bird.image;
     }
 
     pauseBoxes() {
       if(this.isRight === true) {
         for (let input of checkbox) {
-          //input.checked = true;
           input.addEventListener("input", () => {
             let id = input.id;
             this.createDescription (id);

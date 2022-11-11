@@ -254,11 +254,11 @@
   width: 15px;
 }
 
-.answers__item_input:checked {
+.answer__wrong {
   background-color: red;
 }
 
-.answer__correct:checked {
+.answer__correct {
   background-color: rgb(42, 172, 42);
 }
 

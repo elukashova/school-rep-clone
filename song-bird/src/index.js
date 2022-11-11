@@ -108,9 +108,6 @@ class Quiz {
       let checkbox = document.getElementById(`${i}`);
       checkbox.value = answers[i];
       placeholder.innerText = answers[i];
-      if(answers[i] === this.birdData.name) {
-        checkbox.classList.add("answer__correct");
-      }
     }
   }
 
@@ -121,13 +118,16 @@ class Quiz {
         input.addEventListener("input", () => {
           let answer = input.value;
           if (answer === rightBird) {
+            input.classList.add("answer__correct");
             this.createDescription(input.id);
             this.revealRightAnswer(input.id);
             this.yesSound();
             audio.pause();
-            this.isRight = false;
-          } else {
-            this.createDescription(input.id)
+            this.isRight = true;
+            this.pauseBoxes();
+          } else if (this.isRight === false) {
+            input.classList.add("answer__wrong");
+            this.createDescription(input.id);
             this.wrongSound();
           }
         });
@@ -152,15 +152,31 @@ class Quiz {
       placeholder.innerText = bird.name;
       image.src = bird.image;
     }
+
+    pauseBoxes() {
+      if(this.isRight === true) {
+        for (let input of checkbox) {
+          //input.checked = true;
+          input.addEventListener("input", () => {
+            let id = input.id;
+            this.createDescription (id);
+          })
+        }
+      }
+    }
   
     yesSound() {
-      let yesSound = new Audio("./assets/sounds/correct-answer.mp3");
-      yesSound.play();
+      if (this.isRight === false) {
+        let yesSound = new Audio("./assets/sounds/correct-answer.mp3");
+        yesSound.play();
+      }
     }
   
     wrongSound() {
-      let yesSound = new Audio("./assets/sounds/wrong-answer.mp3");
-      yesSound.play();
+      if (this.isRight === false) {
+        let noSound = new Audio("./assets/sounds/wrong-answer.mp3");
+        noSound.play();
+      }  
     }
   
 }

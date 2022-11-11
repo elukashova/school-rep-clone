@@ -14,8 +14,6 @@ body.append(UpperSection);
 body.append(GameSection);
 body.append(Footer);
 
-
-
 //***REGULATE AUDIO - QUESTION***
 const playIcon = document.getElementById("btn-play");
 const audioRange = document.getElementById("qstn-audio-range");
@@ -70,14 +68,15 @@ class Quiz {
       fifth: 4,
       sixth: 5
     }
-    this.category = this.categories.first;
+    this.category = 0;
     this.currBird = "";
     this.answersList = [];
     this.isRight = false;
-    this.cat = 0;
     this.clicks = 0;
     this.score = 0;
     this.finish = false;
+    this.tempTxt = null;
+    this.tempImg = null;
   }
 
   go() {
@@ -101,6 +100,7 @@ class Quiz {
 
     this.birdData = currQstnData;
     this.currBird = currQstnData.name;
+    this.tempImg = null;
 
     let qstnAudio = currQstnData.audio;
     audio.src = qstnAudio;
@@ -167,6 +167,8 @@ class Quiz {
     revealRightAnswer(id) {
       let cat = this.category;
       let bird = BirdsData[cat][id];
+      this.tempTxt = placeholder.innerText;
+      this.tempImg = qstnImage.src;
       placeholder.innerText = bird.name;
       qstnImage.src = bird.image;
     }
@@ -220,10 +222,34 @@ class Quiz {
         nextBtn.classList.remove("disabled");
         nextBtn.disabled = false;
         nextBtn.addEventListener("click", () => {
-        console.log("all ok")
+          this.category++;
+          this.starterPack();
         })
       }
     }
+
+    starterPack() {
+      placeholder.innerText = this.tempTxt;
+      qstnImage.src =  this.tempImg;
+      currBirdText.classList.add("hidden");
+      hiddenInfo.classList.add("hidden");
+      initialTxt.classList.remove("hidden");
+      for (let input of checkbox) {
+        input.classList.remove("answer__correct");
+        input.classList.remove("answer__wrong");
+      }
+      this.isRight = false;
+      this.go();
+    }
+
+    changeCategory() {
+      let cat = this.category;
+      let prevCat = document.getElementById(`cat-${cat-1}`);
+      const currCat = document.getElementById(`cat-${cat}`);
+      prevCat.classList.remove("questions__category_current");
+      currCat.classList.add("questions__category_current");
+    }
+
 }
 
 let songBird = new Quiz;

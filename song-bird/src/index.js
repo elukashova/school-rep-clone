@@ -114,6 +114,44 @@ class Quiz {
       }
     }
   }
+
+    //check user's input
+    checkAnswer () {
+      let rightBird = this.currBird;
+      for (let input of checkbox) {
+        input.addEventListener("input", () => {
+          let answer = input.value;
+          if (answer === rightBird) {
+            this.createDescription(input.id)
+            this.yesSound();
+            audio.pause();
+          } else {
+            this.createDescription(input.id)
+            this.wrongSound();
+          }
+        });
+      }
+    }
+  
+      createDescription (id) {
+        let cat = this.category;
+        let bird = BirdsData[cat][id];
+        currBirdImg.src = bird.image;
+        currBirdName.innerText = bird.name;
+        currBirdLatin.innerText =bird.species;
+        currBirdAudio.src = bird.audio;
+        currBirdText.innerText = bird.description;
+    }
+  
+    yesSound() {
+      let yesSound = new Audio("./assets/sounds/correct-answer.mp3");
+      yesSound.play();
+    }
+  
+    wrongSound() {
+      let yesSound = new Audio("./assets/sounds/wrong-answer.mp3");
+      yesSound.play();
+    }
   
 }
 

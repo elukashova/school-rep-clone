@@ -3,6 +3,7 @@ import Header from './components/header/index';
 import UpperSection from './pages/game-page/section-01/index';
 import GameSection from './pages/game-page/section-02/index';
 import Footer from './components/footer/index';
+import ResultsPage from './pages/results-page/index';
 import PlayAudio from './pages/game-page/section-02/audio-player';
 import BirdsData from './pages/game-page/section-02/birds-data';
 
@@ -11,6 +12,7 @@ const body = document.getElementById('body');
 body.append(Header);
 body.append(UpperSection);
 body.append(GameSection);
+//body.append(ResultsPage);
 body.append(Footer);
 
 //***REGULATE AUDIO - QUESTION***
@@ -52,6 +54,13 @@ const quizScore = document.getElementById("result-counter");
 //next button
 const nextBtn = document.getElementById("btn-next");
 
+//***RESULTS PAGE***
+// const results = document.getElementById("results-score");
+// const resultsCTA = document.getElementById("results-cta");
+// const resultsMax = document.getElementById("results-max");
+// const resultsBtn = document.getElementById("results-btn");
+
+
 window.addEventListener("load", () => {
   chooseRandom(currCat);
 })
@@ -74,6 +83,7 @@ const chooseRandom = (cat) => {
     image: currBird.image,
     audio: currBird.audio
   }
+  console.log(bird.name);
   createQstn();
   listAnswers (cat);
 }
@@ -188,11 +198,12 @@ const nextCaterogy =() => {
     nextBtn.classList.remove("disabled");
     nextBtn.disabled = false;
     currCat = currCat + 1;
-    nextBtn.addEventListener("click", () => {
-    starterPack();
-    changeCategory(currCat);
-    })
 }
+
+nextBtn.addEventListener("click", () => {
+  starterPack();
+  changeCategory(currCat);
+})
 
 //start the next category
 const starterPack = () => {
@@ -210,21 +221,62 @@ const starterPack = () => {
   clicks = 0;
   nextBtn.classList.add("disabled");
   nextBtn.disabled = true;
-  chooseRandom(currCat);
 }
 
 //highlight the current category
 const changeCategory = (cat) => {
-  let previous = document.getElementById(`cat-${cat-1}`);
-  let current = document.getElementById(`cat-${cat}`);
-  previous.classList.remove("questions__category_current");
-  current.classList.add("questions__category_current");
+  if (cat === 0) {
+    let previous = document.getElementById(`cat-5`);
+    let current = document.getElementById(`cat-${cat}`);
+    previous.classList.remove("questions__category_current");
+    current.classList.add("questions__category_current");
+  } else {
+    let previous = document.getElementById(`cat-${cat-1}`);
+    let current = document.getElementById(`cat-${cat}`);
+    previous.classList.remove("questions__category_current");
+    current.classList.add("questions__category_current");
+  }
+  chooseRandom(currCat);
 }
 
 //ending the game
 const gameOver = (cat) => {
   if (rightAnswer === true && cat === 5) {
-    console.log("yeah!")
+    body.removeChild(UpperSection);
+    body.removeChild(GameSection);
+    body.removeChild(Footer);
+    body.appendChild(ResultsPage);
+    body.appendChild(Footer);
+    createResults(currScore);
   }
 }
 
+const createResults = (score) => {
+  const results = document.getElementById("results-score");
+  const resultsCTA = document.getElementById("results-cta");
+  const resultsMax = document.getElementById("results-max");
+  const resultsBtn = document.getElementById("results-btn");
+  results.innerText = `${score} баллов!`;
+  if (score === 30) {
+    resultsCTA.classList.add("hidden");
+  } else {
+    resultsMax.classList.add("hidden");
+    resultsBtn.addEventListener("click", () => {
+      body.removeChild(Footer);
+      ResultsPage.replaceWith(UpperSection);
+      body.appendChild(GameSection);
+      body.appendChild(Footer);
+      starterPack();
+      currCat = 0;
+      changeCategory(currCat);
+      updateScore();
+    })
+  }
+}
+
+const updateScore = () => {
+  if (currCat === 0) {
+    currScore = 0;
+    quizScore.innerText = currScore;
+  }
+}

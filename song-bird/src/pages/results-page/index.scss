@@ -1,0 +1,89 @@
+.results {
+    max-width: 1160px;
+    min-width: 360px;
+    height: 520px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.results__wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.results__image {
+  width: 100%;
+}
+
+.results__text-wrapper {
+  z-index: 2;
+  position: absolute;
+  left: 28%;
+  top: 22%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  column-gap: 20px;
+}
+
+.results__congrats,
+.results__text,
+.results__congrats-max,
+.results__invitation {
+  font-family: 'Montserrat', sans-serif;
+  color: #1D3555;
+  margin-bottom: 3%;
+}
+
+.results__congrats {
+  font-weight: 500;
+  font-size: 1.4em;
+}
+
+.results__congrats-max {
+  font-size: 14px;
+}
+
+.results__cta {
+  display: flex;
+  flex-direction: column;
+  margin-top: 60%;
+}
+
+.results__btn {
+  background-color: #FFC700;
+  outline: none;
+  border: none;
+  height: 50px;
+  width: 220px;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 10px;
+  margin-left: 7px;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  text-transform: uppercase;
+
+  &:disabled {
+    background-color: #e0e8dd;
+    color: white;
+    cursor: default;
+  }
+
+  &:not(.disabled):hover {
+    background-color: #cca104;
+    color: white;
+  }
+
+  &:not(.disabled):active {
+    background-color: #E63946;
+    color: white;
+  }
+}
+
+.hidden {
+  display: none;
+}

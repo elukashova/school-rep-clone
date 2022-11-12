@@ -1,5 +1,6 @@
 .field__wrapper {
-  width: 1160px;
+  max-width: 1160px;
+  min-width: 360px;
   height: 520px;
   margin-left: auto;
   margin-right: auto;
@@ -8,31 +9,31 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  top: 110px;
 }
 
 .game__qstn {
-  width: 1160px;
+  width: 100%;
   height: 185px;
   background-color: #437B9C;
   border-radius: 10px;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: left;
 }
 
 .game__qstn_img {
   height: 165px;
   margin-left: 10px;
+  margin-right: 21px;
   border-radius: 10px;
 }
 
 .game__qstn_content {
-  width: 960px;
+  width: 81%;
   display: flex;
   flex-direction: column;
-  height: 125px;
+  flex-wrap: wrap;
 }
 
 .game__qstn_name {
@@ -44,13 +45,14 @@
 }
 
 .game__qstn_line {
-  width: 935px;
+  width: 100%;
+  margin-right: 21px;
   height: 1px;
   background-color: white;
 }
 
 .game__qstn_audio {
-  width: 935px;
+  width: 100%;
   height: 100px;
   display: flex;
   flex-direction: row;
@@ -204,7 +206,7 @@
 }
 
 .game__answers {
-  width: 1160px;
+  width: 100%;
   height: 250px;
   display: flex;
   flex-direction: row;
@@ -214,7 +216,7 @@
 
 .answers__variants, 
 .answers__description {
-  width:49%;
+  width: 49%;
   height: 100%;
   display: flex;
   background-color: #437B9C;

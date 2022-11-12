@@ -1,12 +1,13 @@
 .questions__wrapper {
   margin-left: auto;
   margin-right: auto;
-  width: 1160px;
-  height: 50px;
+  max-width: 1160px;
+  min-width: 360px;
+  height: 67px;
   position: relative;
-  top: 85px;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: space-evenly;
 }
 

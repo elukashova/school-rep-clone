@@ -6,7 +6,6 @@ import Footer from './components/footer/index';
 import PlayAudio from './pages/game-page/section-02/audio-player';
 import BirdsData from './pages/game-page/section-02/birds-data';
 
-
 const body = document.getElementById('body');
 
 body.append(Header);
@@ -39,7 +38,7 @@ PlayAudio(playIconB, audioRangeB, audioPlayedB, audioTotalB, volumeRangeB, audio
 const placeholder =  document.getElementById("qstn-name");
 const qstnImage = document.getElementById("qstn-img");
 //answers
-const checkbox = document.getElementsByClassName("answers__item_input");
+const checkbox = document.querySelectorAll(".answers__item_input");
 //bird card
 const hiddenInfo = document.getElementById("bird-info");
 const initialTxt = document.getElementById("bird-text-initial");
@@ -53,191 +52,169 @@ const quizScore = document.getElementById("result-counter");
 //next button
 const nextBtn = document.getElementById("btn-next");
 
+window.addEventListener("load", () => {
+  chooseRandom(currCat);
+})
 
 const birdsData = BirdsData;
+let currCat = 0; //number of current category
+let bird = {}; //container for current bird info
+let rightAnswer = false;
+let currScore = 0;
+let clicks = 0;
 
-class Quiz {
-  constructor () {
-    this.birdData = {};
-    this.category = 0;
-    this.currBird = "";
-    this.isRight = false;
-    this.clicks = 0;
-    this.score = 0;
-    this.finish = false;
-    this.tempTxt = placeholder.innerText;
-    this.tempImg = qstnImage.src;
+//choosing a random bird to create answer
+const chooseRandom = (cat) => {
+  const num = Math.floor(Math.random() * 6);
+  const currBird = birdsData[cat][num]; //data of current question
+  bird = {
+    name: currBird.name,
+    species: currBird.species,
+    descr: currBird.description,
+    image: currBird.image,
+    audio: currBird.audio
   }
+  createQstn();
+  listAnswers (cat);
+}
 
-  go() {
-    this.createQstn();
-    this.listAnswers();
-    this.checkAnswer();
-    this.nextCaterogy();
-  }
+//create the current question
+const createQstn = () => {
+  let qstnAudio = bird.audio;
+  audio.src = qstnAudio;
+}
 
-  createQstn() {
-    let cat = this.category;
-    let randomNum = Math.floor(Math.random() * 6);
-    let currBird = birdsData[cat][randomNum];
-    let currQstnData = {
-      name: currBird.name,
-      species: currBird.species,
-      descr: currBird.description,
-      image: currBird.image,
-      audio: currBird.audio
-    }
-
-    this.currBird = currQstnData.name;
-
-    let qstnAudio = currQstnData.audio;
-    audio.src = qstnAudio;
-  }
-
-  listAnswers() {
-    let cat = this.category;
+//create the answers list
+const listAnswers = (cat) => {
     let answers = birdsData[cat].map((value) => {
       return value.name;
     })
-    this.answersList = answers;
     for (let i = 0; i < answers.length; i++) {
-      let asteriscs =  document.getElementById(`bird-${i}`);
+      let labels =  document.getElementById(`bird-${i}`);
       let checkbox = document.getElementById(`${i}`);
       checkbox.value = answers[i];
-      asteriscs.innerText = answers[i];
-    }
+      labels.innerText = answers[i];
   }
-
-    //check user's input
-    checkAnswer () {
-      let currScore = this.score;
-      let rightBird = this.currBird;
-      for (let input of checkbox) {
-        input.addEventListener("input", () => {
-          this.clicks++;
-          console.log(this.clicks);
-          let answer = input.value;
-
-          if (answer === rightBird) {
-            input.classList.add("answer__correct");
-            this.createDescription(input.id);
-            this.revealRightAnswer(input.id);
-            this.yesSound();
-            audio.pause();
-            this.isRight = true;
-            this.pauseBoxes();
-            this.countScore(currScore);
-            this.nextCaterogy();
-          } else if (this.isRight === false) {
-            input.classList.add("answer__wrong");
-            this.createDescription(input.id);
-            this.wrongSound();
-            this.countScore(currScore);
-          }
-        });
-      }
-    }
-  
-      createDescription (id) {
-        currBirdText.classList.remove("hidden");
-        hiddenInfo.classList.remove("hidden");
-        initialTxt.classList.add("hidden");
-        let cat = this.category;
-        let bird = BirdsData[cat][id];
-        currBirdImg.src = bird.image;
-        currBirdName.innerText = bird.name;
-        currBirdLatin.innerText =bird.species;
-        currBirdAudio.src = bird.audio;
-        currBirdText.innerText = bird.description;
-    }
-
-    revealRightAnswer(id) {
-      let cat = this.category;
-      let bird = BirdsData[cat][id];
-      placeholder.innerText = bird.name;
-      qstnImage.src = bird.image;
-    }
-
-    pauseBoxes() {
-      if(this.isRight === true) {
-        for (let input of checkbox) {
-          input.addEventListener("input", () => {
-            let id = input.id;
-            this.createDescription (id);
-          })
-        }
-      }
-    }
-  
-    yesSound() {
-      if (this.isRight === false) {
-        let yesSound = new Audio("./assets/sounds/correct-answer.mp3");
-        yesSound.play();
-      }
-    }
-  
-    wrongSound() {
-      if (this.isRight === false) {
-        let noSound = new Audio("./assets/sounds/wrong-answer.mp3");
-        noSound.play();
-      }  
-    }
-
-    countScore (score) {
-      let maxTries = 6; 
-      let clicks = this.clicks;
-      let totalScore = maxTries - clicks;
-      if (this.isRight === false && this.score === 0) {
-        totalScore = 0;
-      }
-
-      if (maxTries === 0) {
-        totalScore = 0;
-      }
-
-      this.score = score + totalScore;
-      quizScore.innerText = this.score;
-    }
-
-    nextCaterogy() {
-      if (this.isRight === false) {
-        nextBtn.classList.add("disabled");
-        nextBtn.disabled = true;
-      } else {
-        nextBtn.classList.remove("disabled");
-        nextBtn.disabled = false;
-        this.category++;
-        nextBtn.addEventListener("click", () => {
-          this.starterPack();
-          this.changeCategory();
-        })
-      }
-    }
-
-    starterPack() {
-      placeholder.innerText = this.tempTxt;
-      qstnImage.src =  this.tempImg;
-      currBirdText.classList.add("hidden");
-      hiddenInfo.classList.add("hidden");
-      initialTxt.classList.remove("hidden");
-      for (let input of checkbox) {
-        input.classList.remove("answer__correct");
-        input.classList.remove("answer__wrong");
-      }
-      this.isRight = false;
-      this.go();
-    }
-
-    changeCategory() {
-      let cat = this.category;
-      let prevCat = document.getElementById(`cat-${cat-1}`);
-      const currCat = document.getElementById(`cat-${cat}`);
-      prevCat.classList.remove("questions__category_current");
-      currCat.classList.add("questions__category_current");
-    }
-
 }
 
-let songBird = new Quiz;
-songBird.go()
+//chech the user's input
+const checkAnswer = (input, box) => {
+  let answer = input;
+  if (answer === bird.name && rightAnswer === false) {
+    box.classList.add("answer__correct");
+    yesSound();
+    createDescription(box.id);
+    revealRightAnswer(box.id);
+    audio.pause();
+    countScoreRight(currScore);
+    rightAnswer = true;
+    nextCaterogy();
+  } else if (answer != bird.name && rightAnswer === false) {
+    box.classList.add("answer__wrong");
+    createDescription(box.id);
+    noSound();
+    countScoreWrong(currScore);
+  } else if (rightAnswer === true) {
+    createDescription(box.id);
+  }
+}
+
+//show description on input
+const createDescription = (id) => {
+  currBirdText.classList.remove("hidden");
+  hiddenInfo.classList.remove("hidden");
+  initialTxt.classList.add("hidden");
+  let bird = birdsData[currCat][id];
+  currBirdImg.src = bird.image;
+  currBirdName.innerText = bird.name;
+  currBirdLatin.innerText = bird.species;
+  currBirdAudio.src = bird.audio;
+  currBirdText.innerText = bird.description;
+}
+
+//show the corrent answer in the quqestion box
+const revealRightAnswer = (id) => {
+  let bird = birdsData[currCat][id];
+  placeholder.innerText = bird.name;
+  qstnImage.src = bird.image;
+}
+
+//add event listener to checkboxes
+checkbox.forEach(box => {
+  box.addEventListener("input", () => {
+    if (rightAnswer === false) {
+      clicks = clicks + 1;
+    } 
+    let input = box.value;
+    checkAnswer(input, box);
+  })
+})
+
+//add ui sounds to user's input
+const yesSound = () => {
+  let yesSound = new Audio("./assets/sounds/correct-answer.mp3");
+  yesSound.play();
+}
+
+const noSound = () => {
+  let noSound = new Audio("./assets/sounds/wrong-answer.mp3");
+  noSound.play();
+}
+
+//count the score
+const countScoreRight = (actualScore) => {
+  if (rightAnswer === false) {
+    let maxTries = 6;
+    let roundScore = maxTries - clicks;
+    currScore = actualScore + roundScore;
+    quizScore.innerText = currScore;
+  }
+}
+
+const countScoreWrong = (actualScore) => {
+  if (rightAnswer === false) {
+    actualScore = actualScore - 1;
+    if (actualScore < 0) {
+      actualScore = 0;
+    }
+    currScore = actualScore;
+    quizScore.innerText = currScore;
+  }
+}
+
+//unblock the next button
+const nextCaterogy =() => {
+    nextBtn.classList.remove("disabled");
+    nextBtn.disabled = false;
+    currCat = currCat + 1;
+    nextBtn.addEventListener("click", () => {
+    starterPack();
+    changeCategory(currCat);
+    })
+}
+
+//start the next category
+const starterPack = () => {
+  placeholder.innerText = "******";
+  qstnImage.src =  "../../../assets/img/hidden-bird.jpg";
+  currBirdText.classList.add("hidden");
+  hiddenInfo.classList.add("hidden");
+  initialTxt.classList.remove("hidden");
+  for (let input of checkbox) {
+    input.classList.remove("answer__correct");
+    input.classList.remove("answer__wrong");
+  }
+  audio.src = "#";
+  rightAnswer = false;
+  clicks = 0;
+  chooseRandom(currCat);
+}
+
+//highlight the current category
+const changeCategory = (cat) => {
+  let previous = document.getElementById(`cat-${cat-1}`);
+  let current = document.getElementById(`cat-${cat}`);
+  previous.classList.remove("questions__category_current");
+  current.classList.add("questions__category_current");
+}
 

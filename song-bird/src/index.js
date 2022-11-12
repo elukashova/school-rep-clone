@@ -108,6 +108,7 @@ const checkAnswer = (input, box) => {
     audio.pause();
     countScoreRight(currScore);
     rightAnswer = true;
+    gameOver(currCat);
     nextCaterogy();
   } else if (answer != bird.name && rightAnswer === false) {
     box.classList.add("answer__wrong");
@@ -207,6 +208,8 @@ const starterPack = () => {
   audio.src = "#";
   rightAnswer = false;
   clicks = 0;
+  nextBtn.classList.add("disabled");
+  nextBtn.disabled = true;
   chooseRandom(currCat);
 }
 
@@ -216,5 +219,12 @@ const changeCategory = (cat) => {
   let current = document.getElementById(`cat-${cat}`);
   previous.classList.remove("questions__category_current");
   current.classList.add("questions__category_current");
+}
+
+//ending the game
+const gameOver = (cat) => {
+  if (rightAnswer === true && cat === 5) {
+    console.log("yeah!")
+  }
 }
 

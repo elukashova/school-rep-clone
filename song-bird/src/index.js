@@ -163,12 +163,12 @@ checkbox.forEach(box => {
 
 //add ui sounds to user's input
 const yesSound = () => {
-  let yesSound = new Audio("./assets/sounds/correct-answer.mp3");
+  let yesSound = new Audio("assets/sounds/correct-answer.mp3");
   yesSound.play();
 }
 
 const noSound = () => {
-  let noSound = new Audio("./assets/sounds/wrong-answer.mp3");
+  let noSound = new Audio("assets/sounds/wrong-answer.mp3");
   noSound.play();
 }
 
@@ -208,7 +208,7 @@ nextBtn.addEventListener("click", () => {
 //start the next category
 const starterPack = () => {
   placeholder.innerText = "******";
-  qstnImage.src =  "../../../assets/img/hidden-bird.jpg";
+  qstnImage.src =  "assets/img/hidden-bird.jpg";
   currBirdText.classList.add("hidden");
   hiddenInfo.classList.add("hidden");
   initialTxt.classList.remove("hidden");

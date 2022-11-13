@@ -10,10 +10,10 @@ playBtn.addEventListener("click", () => {
 
 //change play button
 a.addEventListener("play", () => {
-  playBtn.src = "../../../assets/icons/pause-btn.svg";
+  playBtn.src = "assets/icons/pause-btn.svg";
 })
 a.addEventListener("pause", () => {
-  playBtn.src = "../../../assets/icons/play-btn.svg";
+  playBtn.src = "assets/icons/play-btn.svg";
 })
 
 //show progress
@@ -82,13 +82,13 @@ vRange.addEventListener("input", () => {
 
 const aIcon = (input) => {
   if(input.value > 0 && input.value <= 0.4) {
-    volBtn.src = "../../../assets/icons/volume-low.svg"
+    volBtn.src = "assets/icons/volume-low.svg"
   } else if(input.value > 0.4 && input.value <= 0.9) {
-    volBtn.src = "../../../assets/icons/volume-mid.svg"
+    volBtn.src = "assets/icons/volume-mid.svg"
   }else if(input.value == 0) {
-    volBtn.src = "../../../assets/icons/volume-off.svg"
+    volBtn.src = "assets/icons/volume-off.svg"
   } else {
-    volBtn.src = "../../../assets/icons/volume-up.svg"
+    volBtn.src = "assets/icons/volume-up.svg"
   }
 }
 

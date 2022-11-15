@@ -1,21 +1,58 @@
 import './index.scss';
 import Header from './components/header/index';
-import UpperSection from './pages/game-page/section-01/index';
-import GameSection from './pages/game-page/section-02/index';
+import GameSection from './pages/game-page/index';
 import Footer from './components/footer/index';
 import ResultsPage from './pages/results-page/index';
 import StartPage from './pages/start-page/index';
-import PlayAudio from './pages/game-page/section-02/audio-player';
-import BirdsData from './pages/game-page/section-02/birds-data';
+import PlayAudio from './pages/game-page/audio-player';
+import BirdsData from './pages/game-page/birds-data';
 
 const body = document.getElementById('body');
 
 body.append(Header);
-//body.append(UpperSection);
-//body.append(GameSection);
 body.append(StartPage);
-//body.append(ResultsPage);
+body.append(GameSection);
 body.append(Footer);
+
+//***HEADER***
+const navLinks = document.querySelectorAll(".menu__item");
+const sections = document.querySelectorAll(".section");
+const start = document.querySelector(".start");
+const game = document.querySelector(".questions");
+const linkStart = document.getElementById("menu-link-start");
+const linkPlay = document.getElementById("menu-link-play");
+
+linkPlay.addEventListener ("click", () => {
+  sections.forEach(section =>
+    section.classList.add("hidden"));
+  game.classList.remove("hidden");
+  navLinks.forEach(link => 
+    link.classList.remove("menu__link_active"));
+  linkPlay.classList.add("menu__link_active");
+
+  if (currScore != 0) {
+    starterPack();
+    game.classList.remove("hidden");
+    currCat = 0;
+    changeCategory(currCat);
+    updateScore();
+  }
+
+  if (ResultsPage.parentElement === body) {
+    body.removeChild(ResultsPage);
+  }
+})
+
+
+linkStart.addEventListener ("click", () => {
+  sections.forEach(section =>
+    section.classList.add("hidden"));
+  start.classList.remove("hidden");
+  navLinks.forEach(link => 
+    link.classList.remove("menu__link_active"));
+  linkStart.classList.add("menu__link_active");
+})
+
 
 //***REGULATE AUDIO - QUESTION***
 const playIcon = document.getElementById("btn-play");
@@ -244,11 +281,9 @@ const changeCategory = (cat) => {
 //ending the game
 const gameOver = (cat) => {
   if (rightAnswer === true && cat === 5) {
-    body.removeChild(UpperSection);
-    body.removeChild(GameSection);
-    body.removeChild(Footer);
-    body.appendChild(ResultsPage);
-    body.appendChild(Footer);
+    game.classList.add("hidden");
+    body.insertBefore(ResultsPage, Footer);
+    linkPlay.classList.remove("menu__link_active");
     createResults(currScore);
   }
 }
@@ -264,11 +299,9 @@ const createResults = (score) => {
   } else {
     resultsMax.classList.add("hidden");
     resultsBtn.addEventListener("click", () => {
-      body.removeChild(Footer);
-      ResultsPage.replaceWith(UpperSection);
-      body.appendChild(GameSection);
-      body.appendChild(Footer);
+      body.removeChild(ResultsPage);
       starterPack();
+      game.classList.remove("hidden");
       currCat = 0;
       changeCategory(currCat);
       updateScore();

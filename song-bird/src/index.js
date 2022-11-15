@@ -4,14 +4,16 @@ import UpperSection from './pages/game-page/section-01/index';
 import GameSection from './pages/game-page/section-02/index';
 import Footer from './components/footer/index';
 import ResultsPage from './pages/results-page/index';
+import StartPage from './pages/start-page/index';
 import PlayAudio from './pages/game-page/section-02/audio-player';
 import BirdsData from './pages/game-page/section-02/birds-data';
 
 const body = document.getElementById('body');
 
 body.append(Header);
-body.append(UpperSection);
-body.append(GameSection);
+//body.append(UpperSection);
+//body.append(GameSection);
+body.append(StartPage);
 //body.append(ResultsPage);
 body.append(Footer);
 

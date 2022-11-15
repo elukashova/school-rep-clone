@@ -1,0 +1,154 @@
+.start {
+  overflow: visible;
+}
+
+.start__images {
+  width: 47%;
+  position: relative;
+}
+
+.start__image-tree {
+  width: 100%;
+  z-index: 0;
+}
+
+.start__music-notes {
+  width: 33%;
+  z-index: 2;
+  min-width: 300px;
+  position: absolute;
+  top: 31%;
+  height: 200px;
+  left: 50%;
+}
+
+.start__music-note1,
+.start__music-note2,
+.start__music-note3 {
+  animation: play 2s infinite linear;
+  font-size: 35px;
+  opacity: 0;
+  left: 30%;
+}
+
+.start__music-note1 {
+  top: 60px;
+  animation-delay: 0.5s;
+}
+
+.start__music-note2 {
+  top: 30px;
+  animation-delay: 1s;
+}
+
+.start__music-note3 {
+  top: 90px;
+  animation-delay: 1.5s;
+}
+
+@keyframes play {
+  0% {
+    transform: scale(1) translate(0, 0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.5) translate(50%, -50%);
+  }
+  80% {
+    opacity: 0;
+    transform: scale(1.5) translate(100%, -100%);
+  }
+  100% {
+    transform: scale(1.5) translate(100%, -100%);
+    opacity: 0;
+  }
+}
+
+.start__image-bird {
+  width: 33%;
+  transform-origin: 50% 50%;
+  animation: bird-jump .9s linear alternate infinite;
+  z-index: 2;
+  position: absolute;
+  top: 31%;
+  left: 37%;
+}
+
+@keyframes bird-jump {
+  0% {
+    transform: translateY(0); 
+  }
+  10% {
+    transform: translateY(0); 
+  }
+  30% {
+    transform: scale(.9,1.1) translateY(-50px);
+  }
+  50% {
+    transform: scale(1.05,.95) translateY(0); 
+  }
+  57%  {
+    transform: scale(1,1) translateY(-7px);
+  }
+  64% {
+    transform: scale(1,1) translateY(0);
+  }
+  100% {
+    transform: scale(1,1) translateY(0); 
+  }
+}
+
+.start__wrapper {
+  position: absolute;
+  top: 35%;
+  left: 37%;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  column-gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.start__text {
+  position: relative;
+  font-family: 'Montserrat', sans-serif;
+  color: #1D3555;
+  text-align: center;
+  font-size: 1.1em;
+  font-weight: 500;
+}
+
+.start__button {
+  position: relative;
+  background-color: #FFC700;
+  outline: none;
+  border: none;
+  height: 50px;
+  width: 220px;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  text-transform: uppercase;
+  z-index: 2;
+  top: 20px;
+
+  &:disabled {
+    background-color: #e0e8dd;
+    color: white;
+    cursor: default;
+  }
+
+  &:not(.disabled):hover {
+    background-color: #cca104;
+    color: white;
+  }
+
+  &:not(.disabled):active {
+    background-color: #E63946;
+    color: white;
+  }
+}

@@ -1,13 +1,25 @@
-<section class="field">
+<section class="questions section hidden">
+  <div class="questions__wrapper">
+    <button class="questions__category questions__category_current" id="cat-0">Разминка</button>
+    <button class="questions__category" id="cat-1">Воробьиные</button>
+    <button class="questions__category" id="cat-2">Лесные птицы</button>
+    <button class="questions__category" id="cat-3">Певчие птицы</button>
+    <button class="questions__category" id="cat-4">Хищные птицы</button>
+    <button class="questions__category" id="cat-5">Морские птицы</button>
+    <div class="questions__result result">
+      <span class="result__title">Счет:</span>
+      <span class="result__counter" id="result-counter">0</span>
+    </div>
+  </div>
   <div class="field__wrapper game">
     <div class="game__qstn">
-      <img class="game__qstn_img" id="qstn-img" src="../../../assets/img/hidden-bird.jpg" alt="Black and white cartoon bird">
+      <img class="game__qstn_img" id="qstn-img" src="../../assets/img/hidden-bird.jpg" alt="Black and white cartoon bird">
       <div class="game__qstn_content">
         <span class="game__qstn_name" id="qstn-name">******</span>
         <span class="game__qstn_line"></span>
         <div class="game__qstn_audio">
           <div class="player__wrapper">
-            <img class="player__btn btn-play" id="btn-play" src="../../../assets/icons/play-btn.svg">
+            <img class="player__btn btn-play" id="btn-play" src="../../assets/icons/play-btn.svg">
             <div class="audio__wrapper  audio">
               <audio  class="audio__sound" id="qstn-audio" preload="metadata"
                             src="https://www.xeno-canto.org/sounds/uploaded/XIQVMQVUPP/XC518684-Grands%20corbeaux%2009012020%20Suzon.mp3">
@@ -18,7 +30,7 @@
             </div>
           </div>
           <div class="volume__wrapper">
-            <img class="audio__volume volume-up" id="qstn-btn-volume" src="../../../assets/icons/volume-up.svg">
+            <img class="audio__volume volume-up" id="qstn-btn-volume" src="../../assets/icons/volume-up.svg">
             <div class="volume__wrapper_range">
               <input class="audio__volume_range" id="qstn-volume-range" type="range" step="0.1" min="0" max="1" value="1">
             </div>
@@ -63,7 +75,7 @@
             <span class="bird__latin-name" id = "bird-name-latin"></span>
             <div class="bird__audio">
               <div class="bird__audio_wrapper">
-                <img class="bird__audio__btn bird__btn-play" id="bird-btn-play" src="../../../assets/icons/play-btn.svg">
+                <img class="bird__audio__btn bird__btn-play" id="bird-btn-play" src="../../assets/icons/play-btn.svg">
                 <div class="bird__audio_line">
                   <audio class="bird__audio_player" id="bird-audio" src="#"></audio>
                   <input class="audio__range bird__audio_range" id="bird-audio-range" type="range" max="100" value="0">
@@ -74,7 +86,7 @@
                 </div>
               </div>
               <div class="bird__volume">
-                <img class="bird__volume_img bird__volume-up" id="bird-btn-volume" src="../../../assets/icons/volume-up.svg">
+                <img class="bird__volume_img bird__volume-up" id="bird-btn-volume" src="../../assets/icons/volume-up.svg">
                 <div class="bird__volume_wrapper">
                   <input class="audio__volume_range bird__volume_range" id="bird-volume-range" type="range" step="0.1" min="0" max="1" value="1">
                 </div>

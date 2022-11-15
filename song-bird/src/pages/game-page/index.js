@@ -1,4 +1,4 @@
-import htmlToElement from '../../../utils/html-to-element';
+import htmlToElement from '../../utils/html-to-element';
 import Section02 from './index.html';
 import './index.scss';
 

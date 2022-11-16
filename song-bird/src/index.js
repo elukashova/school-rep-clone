@@ -51,6 +51,10 @@ linkStart.addEventListener ("click", () => {
   navLinks.forEach(link => 
     link.classList.remove("menu__link_active"));
   linkStart.classList.add("menu__link_active");
+
+  if (ResultsPage.parentElement === body) {
+    body.removeChild(ResultsPage);
+  }
 })
 
 

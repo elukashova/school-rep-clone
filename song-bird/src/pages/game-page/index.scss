@@ -134,6 +134,15 @@
 .audio__volume {
   height: 30px;
   cursor: pointer;
+  transition: transform .2s;
+}
+
+.audio__volume:hover {
+  transform: scale(1.2);
+}
+
+.player__btn:hover {
+  transform: scale(1.2);
 }
 
 .player__wrapper {
@@ -407,6 +416,15 @@
 .bird__volume_img {
   height: 18px;
   width: 22px; 
+  transition: transform .2s;
+}
+
+.bird__audio__btn:hover {
+  transform: scale(1.2);
+}
+
+.bird__volume_img:hover {
+  transform: scale(1.2);
 }
 
 .bird__audio_wrapper {

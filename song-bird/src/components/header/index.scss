@@ -17,16 +17,18 @@ min-width: 360px;
 
 .logo__img {
   max-width: 172px;
-  max-height: 69px;
+  max-height: 65px;
   padding-top: 6px;
+  pointer-events: none;
 }
 
 .menu {
   width: 240px;
   display: flex;
-  max-height: 22px;
+  max-height: 40px;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
 }
 
 .menu__item {
@@ -52,5 +54,15 @@ min-width: 360px;
 .menu__link_active {
   color: #E63946;
   pointer-events: none;
+}
+
+.menu__lg {
+  margin-top: 4px;
+  width: 35px;
+  transition: transform .2s;
+}
+
+.menu__lg:hover {
+  transform: scale(1.3);
 }
 

@@ -14,6 +14,7 @@ const body = document.getElementById('body');
 body.append(Header);
 body.append(StartPage);
 body.append(GameSection);
+body.append(ResultsPage);
 body.append(Footer);
 
 //change language
@@ -89,6 +90,7 @@ const navLinks = document.querySelectorAll(".menu__item");
 const sections = document.querySelectorAll(".section");
 const start = document.querySelector(".start");
 const game = document.querySelector(".questions");
+const resultsPage = document.querySelector(".results");
 const linkStart = document.getElementById("menu-link-start");
 const linkPlay = document.getElementById("menu-link-play");
 const startBtn = document.getElementById("start-btn");
@@ -100,9 +102,9 @@ const cat3 = document.getElementById("cat-3");
 const cat4 = document.getElementById("cat-4");
 const cat5 = document.getElementById("cat-5");
 const resultsTitle = document.getElementById("result-title");
-const congrats = document.getElementById("results-congrats");
-const resultsText = document.getElementById("results-text");
-const invitation = document.getElementById("invitation-qstn");
+// const congrats = document.getElementById("results-congrats");
+// const resultsText = document.getElementById("results-text");
+// const invitation = document.getElementById("invitation-qstn");
 const results = document.getElementById("results-score");
 const resultsCTA = document.getElementById("results-cta");
 const resultsMax = document.getElementById("results-max");
@@ -113,6 +115,9 @@ startBtn.addEventListener("click", () => {
     sections.forEach(section =>
       section.classList.add("hidden"));
     game.classList.remove("hidden");
+    navLinks.forEach(link => 
+      link.classList.remove("menu__link_active"));
+    linkPlay.classList.add("menu__link_active");
   
     if (currScore != 0) {
       starterPack();
@@ -139,9 +144,9 @@ linkPlay.addEventListener ("click", () => {
     updateScore();
   }
 
-  if (ResultsPage.parentElement === body) {
-    body.removeChild(ResultsPage);
-  }
+  // if (ResultsPage.parentElement === body) {
+  //   body.removeChild(ResultsPage);
+  // }
 })
 
 
@@ -153,9 +158,9 @@ linkStart.addEventListener ("click", () => {
     link.classList.remove("menu__link_active"));
   linkStart.classList.add("menu__link_active");
 
-  if (ResultsPage.parentElement === body) {
-    body.removeChild(ResultsPage);
-  }
+  // if (ResultsPage.parentElement === body) {
+  //   body.removeChild(ResultsPage);
+  // }
 })
 
 
@@ -219,7 +224,7 @@ const chooseRandom = (cat) => {
     currBird = birdsData[cat][num]; //data of current question
   } else {
     currBird = birdsDataEn[cat][num]; //data of current question
-  };
+  }
 
   bird = {
     name: currBird.name,
@@ -406,7 +411,8 @@ const changeCategory = (cat) => {
 const gameOver = (cat) => {
   if (rightAnswer === true && cat === 5) {
     game.classList.add("hidden");
-    body.insertBefore(ResultsPage, Footer);
+    resultsPage.classList.remove("hidden");
+    //body.insertBefore(ResultsPage, Footer);
     linkPlay.classList.remove("menu__link_active");
     createResults(currScore);
   }
@@ -418,16 +424,17 @@ const createResults = (score) => {
     resultsCTA.classList.add("hidden");
   } else {
     resultsMax.classList.add("hidden");
-    resultsBtn.addEventListener("click", () => {
-      body.removeChild(ResultsPage);
-      starterPack();
-      game.classList.remove("hidden");
-      currCat = 0;
-      changeCategory(currCat);
-      updateScore();
-    })
   }
 }
+
+resultsBtn.addEventListener("click", () => {
+  resultsPage.classList.add("hidden");
+  starterPack();
+  game.classList.remove("hidden");
+  currCat = 0;
+  changeCategory(currCat);
+  updateScore();
+})
 
 const updateScore = () => {
   if (currCat === 0) {

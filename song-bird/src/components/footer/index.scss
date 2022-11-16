@@ -17,10 +17,11 @@
 
 .footer__rs-logo {
   width: 80px;
+  transition: transform .2s;
 }
 
 .footer__rs-logo:hover {
-  box-shadow: 0px 5px 10px 0px #1D3555;
+  transform: scale(1.2);
 }
 
 .copyright {
@@ -41,8 +42,9 @@
 
 .copyright__logo {
   margin-right: 10px;
+  transition: transform .2s;
 }
 
 .copyright__logo:hover {
-  box-shadow: 0px 5px 10px 0px #1D3555;
+  transform: scale(1.2);
 }

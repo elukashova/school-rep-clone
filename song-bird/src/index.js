@@ -47,11 +47,11 @@ const switchLg = (lg) => {
   resultsTitle.innerText = translation[lg].resultsTitle;
   initialTxt.innerHTML= translation[lg].initialTxt;
   nextBtn.innerText = translation[lg].nextBtn;
-  //congrats.innerText = translation[lg].congrats;
-  //resultsText.innerText = translation[lg].resultsText;
-  //resultsMax.innerText = translation[lg].resultsMax;
-  //invitation.innerText = translation[lg].invitation;
-  //resultsBtn.innerText = translation[lg].resultsBtn;
+  congrats.innerText = translation[lg].congrats;
+  resultsText.textContent = translation[lg].resultsText;
+  resultsMax.innerText = translation[lg].resultsMax;
+  invitation.innerText = translation[lg].invitation;
+  resultsBtn.innerText = translation[lg].resultsBtn;
 }
 
 const translateBirds = (lg) => {
@@ -102,9 +102,9 @@ const cat3 = document.getElementById("cat-3");
 const cat4 = document.getElementById("cat-4");
 const cat5 = document.getElementById("cat-5");
 const resultsTitle = document.getElementById("result-title");
-// const congrats = document.getElementById("results-congrats");
-// const resultsText = document.getElementById("results-text");
-// const invitation = document.getElementById("invitation-qstn");
+const congrats = document.getElementById("results-congrats");
+const resultsText = document.getElementById("results-text");
+const invitation = document.getElementById("invitation-qstn");
 const results = document.getElementById("results-score");
 const resultsCTA = document.getElementById("results-cta");
 const resultsMax = document.getElementById("results-max");

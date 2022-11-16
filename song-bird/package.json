@@ -23,7 +23,6 @@
   },
   "dependencies": {
     "clean-webpack-plugin": "^4.0.0",
-    "eslint": "^8.27.0",
-    "material-components-web": "^14.0.0"
+    "eslint": "^8.27.0"
   }
 }

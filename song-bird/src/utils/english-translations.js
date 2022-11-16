@@ -1,0 +1,42 @@
+export const translation = {
+  ['en']: {
+    startBtn: 'Play',
+    linkStart: 'Start',
+    linkPlay: 'Play',
+    startTxt: "Do you enjoy birdsongs at any time of the day? </br> Do you consider yourself a connoisseur of bird melodies? </br> Or are you just bored and don't know how to entertain yourself? </br> Then welcome to the fascinating world of Songbird! </br> Let's check how quickly can you guess the song :)",
+    cat0:  'Warm-up',
+    cat1:  'Passerine',
+    cat2:  'Forest birds',
+    cat3:  'Songbirds',
+    cat4:  'Birds of prey',
+    cat5:  'Sea birds',
+    resultsTitle: 'Score',
+    initialTxt: '<em>Listen to the song </br> and try to guess the bird by choosing its name from the list!</em>',
+    nextBtn: 'Next level',
+    congrats: 'Congrats!',
+    resultsText: 'Your score:',
+    resultsMax: "It's the highest score possible!",
+    invitation: 'Do you want to play again?',
+    resultsBtn: 'Play'
+  },
+  ['ru']: {
+    startBtn: 'Играть',
+    linkStart: 'Начало',
+    linkPlay: 'Играть',
+    startTxt: 'Любите пение птичек в любое время суток? </br> Считаете себя знатоком птичьих звонких рулад? </br> Просто скучаете и не знаете, как занять время? </br> Тогда добро пожаловать в увлекательный мир Songbird! </br> Давайте проверим, с какой ноты вы сможете угадать мелодию :)',
+    cat0:  'Разминка',
+    cat1:  'Воробьиные',
+    cat2:  'Лесные птицы',
+    cat3:  'Певчие птицы',
+    cat4:  'Хищные птицы',
+    cat5:  'Морские птицы',
+    resultsTitle: 'Счет',
+    initialTxt: '<em>Прослушайте песню </br> и попробуйте угадать птицу, выбрав её имя из списка!</em>',
+    nextBtn: 'Следующий уровень',
+    congrats: 'Поздравляю!',
+    resultsText: 'Ваш результат:',
+    resultsMax: 'Это максимальный балл :)',
+    invitation: 'Хотите пройти игру еще раз?',
+    resultsBtn: 'Играть'
+  }
+}

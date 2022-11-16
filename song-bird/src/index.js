@@ -6,6 +6,8 @@ import ResultsPage from './pages/results-page/index';
 import StartPage from './pages/start-page/index';
 import PlayAudio from './pages/game-page/audio-player';
 import BirdsData from './pages/game-page/birds-data';
+import BirdsDataEN from './pages/game-page/birds-data-en';
+import { translation } from './utils/english-translations';
 
 const body = document.getElementById('body');
 
@@ -14,7 +16,75 @@ body.append(StartPage);
 body.append(GameSection);
 body.append(Footer);
 
-//***HEADER***
+//change language
+const lgBtn = document.getElementById("menu-link-lg");
+
+let lang = 'ru';
+lgBtn.addEventListener("click", () => {
+  if (lang === 'ru') {
+    lang = 'en';
+  } else {
+    lang = 'ru';
+  }
+
+  switchLg(lang);
+  translateBirds(lang);
+  console.log(lang);
+})
+
+const switchLg = (lg) => {
+  startBtn.innerText = translation[lg].startBtn;
+  linkStart.innerText = translation[lg].linkStart;
+  linkPlay.innerText = translation[lg].linkPlay;
+  startTxt.innerHTML = translation[lg].startTxt;
+  cat0.innerText = translation[lg].cat0;
+  cat1.innerText = translation[lg].cat1;
+  cat2.innerText = translation[lg].cat2;
+  cat3.innerText = translation[lg].cat3;
+  cat4.innerText = translation[lg].cat4;
+  cat5.innerText = translation[lg].cat5;
+  resultsTitle.innerText = translation[lg].resultsTitle;
+  initialTxt.innerHTML= translation[lg].initialTxt;
+  nextBtn.innerText = translation[lg].nextBtn;
+  //congrats.innerText = translation[lg].congrats;
+  //resultsText.innerText = translation[lg].resultsText;
+  //resultsMax.innerText = translation[lg].resultsMax;
+  //invitation.innerText = translation[lg].invitation;
+  //resultsBtn.innerText = translation[lg].resultsBtn;
+}
+
+const translateBirds = (lg) => {
+  let ids = [0, 1, 2, 3, 4, 5];
+  for (let i = 0; i < ids.length; i++) {
+    let currentBird = document.getElementById(`bird-${i}`);
+    let checkbox = document.getElementById(`${i}`);
+    let newBird;
+    if (lg === 'en') {
+    newBird = birdsDataEn[currCat][i];
+    } else {
+    newBird = birdsData[currCat][i];
+    }
+
+    if (currBirdName.innerText === currentBird.innerText) {
+      currBirdImg.src = newBird.image;
+      currBirdName.innerText = newBird.name;
+      currBirdText.innerText = newBird.description;
+    }
+
+    if(placeholder.innerText === currentBird.innerText) {
+      placeholder.innerText = newBird.name;
+    }
+
+    if(bird.name === currentBird.innerText) {
+      bird.name = newBird.name;
+    }
+
+    currentBird.innerText = newBird.name;
+    checkbox.value = newBird.name;
+  }
+}
+
+
 const navLinks = document.querySelectorAll(".menu__item");
 const sections = document.querySelectorAll(".section");
 const start = document.querySelector(".start");
@@ -22,6 +92,22 @@ const game = document.querySelector(".questions");
 const linkStart = document.getElementById("menu-link-start");
 const linkPlay = document.getElementById("menu-link-play");
 const startBtn = document.getElementById("start-btn");
+const startTxt = document.getElementById("start-text");
+const cat0 = document.getElementById("cat-0");
+const cat1 = document.getElementById("cat-1");
+const cat2 = document.getElementById("cat-2");
+const cat3 = document.getElementById("cat-3");
+const cat4 = document.getElementById("cat-4");
+const cat5 = document.getElementById("cat-5");
+const resultsTitle = document.getElementById("result-title");
+const congrats = document.getElementById("results-congrats");
+const resultsText = document.getElementById("results-text");
+const invitation = document.getElementById("invitation-qstn");
+const results = document.getElementById("results-score");
+const resultsCTA = document.getElementById("results-cta");
+const resultsMax = document.getElementById("results-max");
+const resultsBtn = document.getElementById("results-btn");
+
 
 startBtn.addEventListener("click", () => {
     sections.forEach(section =>
@@ -112,17 +198,11 @@ const quizScore = document.getElementById("result-counter");
 //next button
 const nextBtn = document.getElementById("btn-next");
 
-//***RESULTS PAGE***
-// const results = document.getElementById("results-score");
-// const resultsCTA = document.getElementById("results-cta");
-// const resultsMax = document.getElementById("results-max");
-// const resultsBtn = document.getElementById("results-btn");
-
-
 window.addEventListener("load", () => {
   chooseRandom(currCat);
 })
 
+const birdsDataEn = BirdsDataEN;
 const birdsData = BirdsData;
 let currCat = 0; //number of current category
 let bird = {}; //container for current bird info
@@ -133,7 +213,14 @@ let clicks = 0;
 //choosing a random bird to create answer
 const chooseRandom = (cat) => {
   const num = Math.floor(Math.random() * 6);
-  const currBird = birdsData[cat][num]; //data of current question
+
+  let currBird;
+  if (lang === 'ru') {
+    currBird = birdsData[cat][num]; //data of current question
+  } else {
+    currBird = birdsDataEn[cat][num]; //data of current question
+  };
+
   bird = {
     name: currBird.name,
     species: currBird.species,
@@ -154,9 +241,17 @@ const createQstn = () => {
 
 //create the answers list
 const listAnswers = (cat) => {
-    let answers = birdsData[cat].map((value) => {
+  let dataSet;
+  if (lang === 'ru') {
+    dataSet =  birdsData;
+  } else {
+    dataSet =  birdsDataEn;
+  }
+
+    let answers = dataSet[cat].map((value) => {
       return value.name;
     })
+
     for (let i = 0; i < answers.length; i++) {
       let labels =  document.getElementById(`bird-${i}`);
       let checkbox = document.getElementById(`${i}`);
@@ -193,7 +288,12 @@ const createDescription = (id) => {
   currBirdText.classList.remove("hidden");
   hiddenInfo.classList.remove("hidden");
   initialTxt.classList.add("hidden");
-  let bird = birdsData[currCat][id];
+  let bird;
+  if (lang === 'ru') {
+    bird = birdsData[currCat][id];
+  } else {
+    bird = birdsDataEn[currCat][id];
+  }
   currBirdImg.src = bird.image;
   currBirdName.innerText = bird.name;
   currBirdLatin.innerText = bird.species;
@@ -203,7 +303,12 @@ const createDescription = (id) => {
 
 //show the corrent answer in the quqestion box
 const revealRightAnswer = (id) => {
-  let bird = birdsData[currCat][id];
+  let bird;
+  if(lang === 'ru') {
+    bird = birdsData[currCat][id];
+  } else {
+    bird = birdsDataEn[currCat][id];
+  }
   placeholder.innerText = bird.name;
   qstnImage.src = bird.image;
 }
@@ -255,10 +360,10 @@ const countScoreWrong = (actualScore) => {
 const nextCaterogy =() => {
     nextBtn.classList.remove("disabled");
     nextBtn.disabled = false;
-    currCat = currCat + 1;
 }
 
 nextBtn.addEventListener("click", () => {
+  currCat = currCat + 1;
   starterPack();
   changeCategory(currCat);
 })
@@ -308,11 +413,7 @@ const gameOver = (cat) => {
 }
 
 const createResults = (score) => {
-  const results = document.getElementById("results-score");
-  const resultsCTA = document.getElementById("results-cta");
-  const resultsMax = document.getElementById("results-max");
-  const resultsBtn = document.getElementById("results-btn");
-  results.innerText = `${score} баллов!`;
+  results.innerText = `${score}!`;
   if (score === 30) {
     resultsCTA.classList.add("hidden");
   } else {

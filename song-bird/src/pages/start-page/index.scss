@@ -152,3 +152,72 @@
     color: white;
   }
 }
+
+@media screen and (max-width: 1160px) {
+
+  .start__music-notes {
+    min-width: 200px;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+
+  .start__wrapper {
+    top: 27%;
+    width: 60%;
+  }
+
+  .start__text {
+    font-size: 1em;
+  }
+
+}
+
+@media screen and (max-width: 768px) {
+
+  .start__music-notes {
+    min-width: 100px;
+    height: 50px;
+  }
+
+  .start__music-note1,
+  .start__music-note2,
+  .start__music-note3 {
+    font-size: 25px;
+  }
+
+  .start__wrapper {
+    top: 15%;
+    left: 39%;
+  }
+
+  .start__button {
+    height: 40px;
+    width: 180px;
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 360px) {
+
+  .start__wrapper {
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    column-gap: 10px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .start__music-note1,
+  .start__music-note2,
+  .start__music-note3 {
+    font-size: 20px;
+  }
+
+  .start__images {
+    top: 85%;
+  }
+
+}

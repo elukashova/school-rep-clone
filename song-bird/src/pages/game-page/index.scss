@@ -623,6 +623,10 @@
     width: 74%;
   }
 
+  .answers__item_label {
+    margin-left: 22px;
+  }
+
   .bird__text-initial {
     width: 90%;
     font-size: 16px;
@@ -775,8 +779,12 @@
   }
 
   .answers__variants {
-    width: 23%;
+    width: 24%;
   } 
+
+  .answers__item {
+    margin-left: 3px;
+  }
 
   .answers__description {
     width: 75%;
@@ -837,12 +845,12 @@
     width: 31%;
   }
 
-  .bird__text {
-    margin-right: 0;
+  .answers__item{
+    border-bottom: none;
   }
 
-  .answers__item_label {
-    margin-left: 20px;
+  .bird__text {
+    margin-right: 0;
   }
 
   .answers__description {

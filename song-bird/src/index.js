@@ -21,6 +21,21 @@ const start = document.querySelector(".start");
 const game = document.querySelector(".questions");
 const linkStart = document.getElementById("menu-link-start");
 const linkPlay = document.getElementById("menu-link-play");
+const startBtn = document.getElementById("start-btn");
+
+startBtn.addEventListener("click", () => {
+    sections.forEach(section =>
+      section.classList.add("hidden"));
+    game.classList.remove("hidden");
+  
+    if (currScore != 0) {
+      starterPack();
+      game.classList.remove("hidden");
+      currCat = 0;
+      changeCategory(currCat);
+      updateScore();
+    }
+})
 
 linkPlay.addEventListener ("click", () => {
   sections.forEach(section =>

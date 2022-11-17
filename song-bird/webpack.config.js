@@ -26,9 +26,9 @@ module.exports = ({develop}) => ({
     filename: 'main.js',
     assetModuleFilename: 'assets/[name][ext]',
   },
-  // optimization: {
-  //   minimize: false
-  // },
+    optimization: {
+    minimize: false
+  },
   module: {
     rules: [
       {

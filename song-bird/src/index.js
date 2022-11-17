@@ -13,14 +13,13 @@ const body = document.getElementById('body');
 
 body.append(Header);
 body.append(StartPage);
-body.append(GameSection);
-body.append(ResultsPage);
 body.append(Footer);
 
-//change language
-const lgBtn = document.getElementById("menu-link-lg");
 
+//***LANGUAGE SWITCHING***//
+const lgBtn = document.getElementById("menu-link-lg");
 let lang = 'ru';
+
 lgBtn.addEventListener("click", () => {
   if (lang === 'ru') {
     lang = 'en';
@@ -29,32 +28,72 @@ lgBtn.addEventListener("click", () => {
   }
 
   switchLg(lang);
-  translateBirds(lang);
-  console.log(lang);
+
+  if (GameSection.parentElement === body) {
+    translateBirds(lang);
+  }
+
 })
 
+//translate elements
+const linkStart = document.getElementById("menu-link-start");
+const linkPlay = document.getElementById("menu-link-play");
+
 const switchLg = (lg) => {
-  startBtn.innerText = translation[lg].startBtn;
   linkStart.innerText = translation[lg].linkStart;
   linkPlay.innerText = translation[lg].linkPlay;
-  startTxt.innerHTML = translation[lg].startTxt;
-  cat0.innerText = translation[lg].cat0;
-  cat1.innerText = translation[lg].cat1;
-  cat2.innerText = translation[lg].cat2;
-  cat3.innerText = translation[lg].cat3;
-  cat4.innerText = translation[lg].cat4;
-  cat5.innerText = translation[lg].cat5;
-  resultsTitle.innerText = translation[lg].resultsTitle;
-  initialTxt.innerHTML= translation[lg].initialTxt;
-  nextBtn.innerText = translation[lg].nextBtn;
-  congrats.innerText = translation[lg].congrats;
-  resultsText.textContent = translation[lg].resultsText;
-  resultsMax.innerText = translation[lg].resultsMax;
-  invitation.innerText = translation[lg].invitation;
-  resultsBtn.innerText = translation[lg].resultsBtn;
+
+  if (StartPage.parentElement === body) {
+    const startBtn = document.getElementById("start-btn");
+    const startTxt = document.getElementById("start-text");
+
+    startBtn.innerText = translation[lg].startBtn;
+    startTxt.innerHTML = translation[lg].startTxt;
+  }
+
+  if (GameSection.parentElement === body) {
+    const cat0 = document.getElementById("cat-0");
+    const cat1 = document.getElementById("cat-1");
+    const cat2 = document.getElementById("cat-2");
+    const cat3 = document.getElementById("cat-3");
+    const cat4 = document.getElementById("cat-4");
+    const cat5 = document.getElementById("cat-5");
+    const resultsTitle = document.getElementById("result-title");
+    const initialTxt = document.getElementById("bird-text-initial");
+    const nextBtn = document.getElementById("btn-next");
+
+    cat0.innerText = translation[lg].cat0;
+    cat1.innerText = translation[lg].cat1;
+    cat2.innerText = translation[lg].cat2;
+    cat3.innerText = translation[lg].cat3;
+    cat4.innerText = translation[lg].cat4;
+    cat5.innerText = translation[lg].cat5;
+    initialTxt.innerHTML= translation[lg].initialTxt;
+    resultsTitle.innerText = translation[lg].resultsTitle;
+    nextBtn.innerText = translation[lg].nextBtn;
+  }
+
+  if (ResultsPage.parentElement === body) {
+    const congrats = document.getElementById("results-congrats");
+    const resultsText = document.getElementById("results-text");
+    const invitation = document.getElementById("invitation-qstn");
+    const resultsMax = document.getElementById("results-max");
+    const resultsBtn = document.getElementById("results-btn");
+
+    congrats.innerText = translation[lg].congrats;
+    resultsText.textContent = translation[lg].resultsText;
+    resultsMax.innerText = translation[lg].resultsMax;
+    invitation.innerText = translation[lg].invitation;
+    resultsBtn.innerText = translation[lg].resultsBtn;
+  }
 }
 
 const translateBirds = (lg) => {
+  const currBirdText = document.getElementById("bird-text");
+  const currBirdImg = document.getElementById("bird-img");
+  const currBirdName = document.getElementById("bird-name");
+  const placeholder =  document.getElementById("qstn-name");
+
   let ids = [0, 1, 2, 3, 4, 5];
   for (let i = 0; i < ids.length; i++) {
     let currentBird = document.getElementById(`bird-${i}`);
@@ -85,128 +124,101 @@ const translateBirds = (lg) => {
   }
 }
 
-
-const navLinks = document.querySelectorAll(".menu__item");
-const sections = document.querySelectorAll(".section");
-const start = document.querySelector(".start");
-const game = document.querySelector(".questions");
-const resultsPage = document.querySelector(".results");
-const linkStart = document.getElementById("menu-link-start");
-const linkPlay = document.getElementById("menu-link-play");
-const startBtn = document.getElementById("start-btn");
-const startTxt = document.getElementById("start-text");
-const cat0 = document.getElementById("cat-0");
-const cat1 = document.getElementById("cat-1");
-const cat2 = document.getElementById("cat-2");
-const cat3 = document.getElementById("cat-3");
-const cat4 = document.getElementById("cat-4");
-const cat5 = document.getElementById("cat-5");
-const resultsTitle = document.getElementById("result-title");
-const congrats = document.getElementById("results-congrats");
-const resultsText = document.getElementById("results-text");
-const invitation = document.getElementById("invitation-qstn");
-const results = document.getElementById("results-score");
-const resultsCTA = document.getElementById("results-cta");
-const resultsMax = document.getElementById("results-max");
-const resultsBtn = document.getElementById("results-btn");
-
-
-startBtn.addEventListener("click", () => {
-    sections.forEach(section =>
-      section.classList.add("hidden"));
-    game.classList.remove("hidden");
+//***NAV BAR AND START PAGE LISTENERS***//
+document.addEventListener("click", (e) => {
+  const navLinks = document.querySelectorAll(".menu__item");
+  let target = e.target;
+  if (target.id == "start-btn") {
+    body.replaceChild(GameSection, StartPage);
+    switchLg(lang);
+    createAudio();
+    createVolume();
+    chooseRandom(currCat);
     navLinks.forEach(link => 
       link.classList.remove("menu__link_active"));
     linkPlay.classList.add("menu__link_active");
   
     if (currScore != 0) {
       starterPack();
-      game.classList.remove("hidden");
       currCat = 0;
       changeCategory(currCat);
       updateScore();
     }
+  }
 })
 
-linkPlay.addEventListener ("click", () => {
-  sections.forEach(section =>
-    section.classList.add("hidden"));
-  game.classList.remove("hidden");
-  navLinks.forEach(link => 
-    link.classList.remove("menu__link_active"));
-  linkPlay.classList.add("menu__link_active");
+document.addEventListener ("click", (e) => {
+  const navLinks = document.querySelectorAll(".menu__item");
+  let target = e.target;
+  if (target.id == "menu-link-play") {
+    if (StartPage.parentElement === body) {
+      body.replaceChild(GameSection, StartPage);
+      switchLg(lang);
+    } else if (ResultsPage.parentElement === body) {
+      body.replaceChild(GameSection, ResultsPage);
+      switchLg(lang);
+    }
 
-  if (currScore != 0) {
-    starterPack();
-    game.classList.remove("hidden");
-    currCat = 0;
-    changeCategory(currCat);
-    updateScore();
+    navLinks.forEach(link => 
+      link.classList.remove("menu__link_active"));
+    target.classList.add("menu__link_active");
+
+    if (currScore != 0) {
+      starterPack();
+      currCat = 0;
+      changeCategory(currCat);
+      updateScore();
+    }
+  }
+})
+
+document.addEventListener ("click", (e) => {
+  const navLinks = document.querySelectorAll(".menu__item");
+  let target = e.target; 
+  if (target.id == "menu-link-start") {
+    if (GameSection.parentElement === body) {
+      body.replaceChild(StartPage, GameSection);
+      switchLg(lang);
+    } else if (ResultsPage.parentElement === body) {
+      body.replaceChild(StartPage, ResultsPage);
+      switchLg(lang);
+    }
+
+    navLinks.forEach(link => 
+      link.classList.remove("menu__link_active"));
+    target.classList.add("menu__link_active");
   }
 
-  // if (ResultsPage.parentElement === body) {
-  //   body.removeChild(ResultsPage);
-  // }
 })
 
 
-linkStart.addEventListener ("click", () => {
-  sections.forEach(section =>
-    section.classList.add("hidden"));
-  start.classList.remove("hidden");
-  navLinks.forEach(link => 
-    link.classList.remove("menu__link_active"));
-  linkStart.classList.add("menu__link_active");
+//***AUDIO PLAYER - QUESTION***//
+const createAudio = () => {
+  const playIcon = document.getElementById("btn-play");
+  const audioRange = document.getElementById("qstn-audio-range");
+  const audioPlayed = document.getElementById("audio-time");
+  const audioTotal = document.getElementById("audio-total");
+  const volumeRange = document.getElementById("qstn-volume-range");
+  const audio = document.getElementById("qstn-audio");
+  const volumeIcon = document.getElementById("qstn-btn-volume");
+  PlayAudio(playIcon, audioRange, audioPlayed, audioTotal, volumeRange, audio, volumeIcon);
+}
 
-  // if (ResultsPage.parentElement === body) {
-  //   body.removeChild(ResultsPage);
-  // }
-})
+
+//***AUDIO PLAYER - DESCRIPTION***//
+const createVolume = () => {
+  const playIconB = document.getElementById("bird-btn-play");
+  const audioRangeB = document.getElementById("bird-audio-range");
+  const audioPlayedB = document.getElementById("bird-audio-time");
+  const audioTotalB = document.getElementById("bird-audio-total");
+  const volumeRangeB = document.getElementById("bird-volume-range");
+  const audioB = document.getElementById("bird-audio");
+  const volumeIconB = document.getElementById("bird-btn-volume");
+  PlayAudio(playIconB, audioRangeB, audioPlayedB, audioTotalB, volumeRangeB, audioB, volumeIconB);
+}
 
 
-//***REGULATE AUDIO - QUESTION***
-const playIcon = document.getElementById("btn-play");
-const audioRange = document.getElementById("qstn-audio-range");
-const audioPlayed = document.getElementById("audio-time");
-const audioTotal = document.getElementById("audio-total");
-const volumeRange = document.getElementById("qstn-volume-range");
-const audio = document.getElementById("qstn-audio");
-const volumeIcon = document.getElementById("qstn-btn-volume");
-PlayAudio(playIcon, audioRange, audioPlayed, audioTotal, volumeRange, audio, volumeIcon);
-
-//***REGULATE AUDIO DESCRIPTION***
-const playIconB = document.getElementById("bird-btn-play");
-const audioRangeB = document.getElementById("bird-audio-range");
-const audioPlayedB = document.getElementById("bird-audio-time");
-const audioTotalB = document.getElementById("bird-audio-total");
-const volumeRangeB = document.getElementById("bird-volume-range");
-const audioB = document.getElementById("bird-audio");
-const volumeIconB = document.getElementById("bird-btn-volume");
-PlayAudio(playIconB, audioRangeB, audioPlayedB, audioTotalB, volumeRangeB, audioB, volumeIconB);
-
-//***PLAYING CONSTs***
-//question
-const placeholder =  document.getElementById("qstn-name");
-const qstnImage = document.getElementById("qstn-img");
-//answers
-const checkbox = document.querySelectorAll(".answers__item_input");
-//bird card
-const hiddenInfo = document.getElementById("bird-info");
-const initialTxt = document.getElementById("bird-text-initial");
-const currBirdImg = document.getElementById("bird-img");
-const currBirdName = document.getElementById("bird-name");
-const currBirdLatin = document.getElementById("bird-name-latin");
-const currBirdAudio = document.getElementById("bird-audio");
-const currBirdText = document.getElementById("bird-text");
-//count score
-const quizScore = document.getElementById("result-counter");
-//next button
-const nextBtn = document.getElementById("btn-next");
-
-window.addEventListener("load", () => {
-  chooseRandom(currCat);
-})
-
+//***PLAYING***//
 const birdsDataEn = BirdsDataEN;
 const birdsData = BirdsData;
 let currCat = 0; //number of current category
@@ -240,6 +252,7 @@ const chooseRandom = (cat) => {
 
 //create the current question
 const createQstn = () => {
+  const audio = document.getElementById("qstn-audio");
   let qstnAudio = bird.audio;
   audio.src = qstnAudio;
 }
@@ -259,14 +272,15 @@ const listAnswers = (cat) => {
 
     for (let i = 0; i < answers.length; i++) {
       let labels =  document.getElementById(`bird-${i}`);
-      let checkbox = document.getElementById(`${i}`);
-      checkbox.value = answers[i];
+      let check = document.getElementById(`${i}`);
+      check.value = answers[i];
       labels.innerText = answers[i];
   }
 }
 
 //chech the user's input
 const checkAnswer = (input, box) => {
+  const audio = document.getElementById("qstn-audio");
   let answer = input;
   if (answer === bird.name && rightAnswer === false) {
     box.classList.add("answer__correct");
@@ -277,7 +291,9 @@ const checkAnswer = (input, box) => {
     countScoreRight(currScore);
     rightAnswer = true;
     gameOver(currCat);
-    nextCaterogy();
+    if (currCat != 5) {
+      nextCategory();
+    }
   } else if (answer != bird.name && rightAnswer === false) {
     box.classList.add("answer__wrong");
     createDescription(box.id);
@@ -290,6 +306,13 @@ const checkAnswer = (input, box) => {
 
 //show description on input
 const createDescription = (id) => {
+  const currBirdText = document.getElementById("bird-text");
+  const hiddenInfo = document.getElementById("bird-info");
+  const initialTxt = document.getElementById("bird-text-initial");
+  const currBirdImg = document.getElementById("bird-img");
+  const currBirdName = document.getElementById("bird-name");
+  const currBirdLatin = document.getElementById("bird-name-latin");
+  const currBirdAudio = document.getElementById("bird-audio");
   currBirdText.classList.remove("hidden");
   hiddenInfo.classList.remove("hidden");
   initialTxt.classList.add("hidden");
@@ -308,6 +331,8 @@ const createDescription = (id) => {
 
 //show the corrent answer in the quqestion box
 const revealRightAnswer = (id) => {
+  const placeholder =  document.getElementById("qstn-name");
+  const qstnImage = document.getElementById("qstn-img");
   let bird;
   if(lang === 'ru') {
     bird = birdsData[currCat][id];
@@ -319,14 +344,18 @@ const revealRightAnswer = (id) => {
 }
 
 //add event listener to checkboxes
-checkbox.forEach(box => {
-  box.addEventListener("input", () => {
-    if (rightAnswer === false) {
-      clicks = clicks + 1;
-    } 
-    let input = box.value;
-    checkAnswer(input, box);
-  })
+document.addEventListener("input", (e) => {
+  let target = e.target;
+  const checkbox = document.querySelectorAll(".answers__item_input");
+  for (let box of checkbox) {
+    if (target == box) {
+        if (rightAnswer === false) {
+          clicks = clicks + 1;
+        } 
+        let input = target.value;
+        checkAnswer(input, target);
+      }
+    }
 })
 
 //add ui sounds to user's input
@@ -343,6 +372,7 @@ const noSound = () => {
 //count the score
 const countScoreRight = (actualScore) => {
   if (rightAnswer === false) {
+    const quizScore = document.getElementById("result-counter");
     let maxTries = 6;
     let roundScore = maxTries - clicks;
     currScore = actualScore + roundScore;
@@ -351,6 +381,7 @@ const countScoreRight = (actualScore) => {
 }
 
 const countScoreWrong = (actualScore) => {
+  const quizScore = document.getElementById("result-counter");
   if (rightAnswer === false) {
     actualScore = actualScore - 1;
     if (actualScore < 0) {
@@ -362,19 +393,31 @@ const countScoreWrong = (actualScore) => {
 }
 
 //unblock the next button
-const nextCaterogy =() => {
+const nextCategory =() => {
+    const nextBtn = document.getElementById("btn-next");
     nextBtn.classList.remove("disabled");
     nextBtn.disabled = false;
 }
 
-nextBtn.addEventListener("click", () => {
-  currCat = currCat + 1;
-  starterPack();
-  changeCategory(currCat);
+document.addEventListener("click", (e) => {
+  let target = e.target;
+  if (target.id == "btn-next") {
+    currCat = currCat + 1;
+    starterPack();
+    changeCategory(currCat);
+  }
 })
 
 //start the next category
 const starterPack = () => {
+  const audio = document.getElementById("qstn-audio");
+  const nextBtn = document.getElementById("btn-next");
+  const placeholder =  document.getElementById("qstn-name");
+  const qstnImage = document.getElementById("qstn-img");
+  const currBirdText = document.getElementById("bird-text");
+  const hiddenInfo = document.getElementById("bird-info");
+  const initialTxt = document.getElementById("bird-text-initial");
+  const checkbox = document.querySelectorAll(".answers__item_input");
   placeholder.innerText = "******";
   qstnImage.src =  "assets/img/hidden-bird.jpg";
   currBirdText.classList.add("hidden");
@@ -409,16 +452,20 @@ const changeCategory = (cat) => {
 
 //ending the game
 const gameOver = (cat) => {
+  const linkPlay = document.getElementById("menu-link-play");
   if (rightAnswer === true && cat === 5) {
-    game.classList.add("hidden");
-    resultsPage.classList.remove("hidden");
-    //body.insertBefore(ResultsPage, Footer);
+    body.replaceChild(ResultsPage, GameSection);
+    switchLg(lang);
     linkPlay.classList.remove("menu__link_active");
     createResults(currScore);
   }
 }
 
+//reveal results
 const createResults = (score) => {
+  const resultsCTA = document.getElementById("results-cta");
+  const resultsMax = document.getElementById("results-max");
+  const results = document.getElementById("results-score");
   results.innerText = `${score}!`;
   if (score === 30) {
     resultsCTA.classList.add("hidden");
@@ -427,16 +474,20 @@ const createResults = (score) => {
   }
 }
 
-resultsBtn.addEventListener("click", () => {
-  resultsPage.classList.add("hidden");
-  starterPack();
-  game.classList.remove("hidden");
-  currCat = 0;
-  changeCategory(currCat);
-  updateScore();
+//event listener for starting over
+document.addEventListener("click", (e) => {
+  let target = e.target;
+  if (target.id == "results-btn") {
+    body.replaceChild(GameSection, ResultsPage);
+    starterPack();
+    currCat = 0;
+    changeCategory(currCat);
+    updateScore();
+  }
 })
 
 const updateScore = () => {
+  const quizScore = document.getElementById("result-counter");
   if (currCat === 0) {
     currScore = 0;
     quizScore.innerText = currScore;

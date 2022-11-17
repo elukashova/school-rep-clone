@@ -17,8 +17,72 @@ body.append(Header);
 body.append(StartPage);
 body.append(Footer);
 
+//***NAV BAR AND START PAGE LISTENERS***//
+const linkStart = document.getElementById("menu-link-start");
+const linkPlay = document.getElementById("menu-link-play");
+const linkGallery = document.getElementById("menu-link-gallery");
+const navLinks = document.querySelectorAll(".menu__item");
 
-//***LANGUAGE SWITCHING***//
+document.addEventListener("click", (e) => {
+  let target = e.target;
+  if (target.id == "start-btn") {
+    replacePages(GamePage, StartPage, ResultsPage, GalleryPage);
+    createMainAudio();
+    createDescrAudio();
+    chooseRandom(currCat);
+    activateLink(linkPlay);
+  
+    if (currScore != 0) {
+      starterPack();
+      currCat = 0;
+      changeCategory(currCat);
+      updateScore();
+    }
+  }
+})
+
+linkPlay.addEventListener ("click", () => {
+  replacePages(GamePage, StartPage, ResultsPage, GalleryPage);
+  createMainAudio();
+  createDescrAudio();
+  chooseRandom(currCat);
+  activateLink(linkPlay);
+
+  if (currScore != 0) {
+    starterPack();
+    currCat = 0;
+    changeCategory(currCat);
+    updateScore();
+  }
+})
+
+linkStart.addEventListener ("click", () => {
+  replacePages(StartPage, GamePage, ResultsPage, GalleryPage);
+  activateLink(linkStart);
+})
+
+linkGallery.addEventListener ("click", () => {
+  replacePages(GalleryPage, StartPage, GamePage, ResultsPage);
+  createGallery(0);
+  activateLink(linkGallery);
+})
+
+  const replacePages = (newP, old1, old2, old3) => {
+    [old1, old2, old3].forEach(page => {
+      if(page.parentElement === body) {
+        body.replaceChild(newP, page);
+        switchLg(lang);
+      }
+    })
+  }
+
+  const activateLink = (l) => {
+    navLinks.forEach(link => 
+      link.classList.remove("menu__link_active"));
+    l.classList.add("menu__link_active");
+  }
+
+  //***LANGUAGE SWITCHING***//
 const lgBtn = document.getElementById("menu-link-lg");
 let lang = 'ru';
 
@@ -38,11 +102,6 @@ lgBtn.addEventListener("click", () => {
 })
 
 //translate elements
-const linkStart = document.getElementById("menu-link-start");
-const linkPlay = document.getElementById("menu-link-play");
-const linkGallery = document.getElementById("menu-link-gallery");
-const navLinks = document.querySelectorAll(".menu__item");
-
 const switchLg = (lg) => {
   linkStart.innerText = translation[lg].linkStart;
   linkPlay.innerText = translation[lg].linkPlay;
@@ -128,64 +187,8 @@ const translateBirds = (lg) => {
   }
 }
 
-//***NAV BAR AND START PAGE LISTENERS***//
-document.addEventListener("click", (e) => {
-  let target = e.target;
-  if (target.id == "start-btn") {
-    replacePages(GamePage, StartPage, ResultsPage, GalleryPage);
-    createAudio();
-    createVolume();
-    chooseRandom(currCat);
-    activateLink(linkPlay);
-  
-    if (currScore != 0) {
-      starterPack();
-      currCat = 0;
-      changeCategory(currCat);
-      updateScore();
-    }
-  }
-})
-
-linkPlay.addEventListener ("click", () => {
-  replacePages(GamePage, StartPage, ResultsPage, GalleryPage);
-  activateLink(linkPlay);
-
-  if (currScore != 0) {
-    starterPack();
-    currCat = 0;
-    changeCategory(currCat);
-    updateScore();
-  }
-})
-
-linkStart.addEventListener ("click", () => {
-  replacePages(StartPage, GamePage, ResultsPage, GalleryPage);
-  activateLink(linkStart);
-})
-
-linkGallery.addEventListener ("click", () => {
-  replacePages(GalleryPage, StartPage, GamePage, ResultsPage);
-  activateLink(linkGallery);
-})
-
-  const replacePages = (newP, old1, old2, old3) => {
-    [old1, old2, old3].forEach(page => {
-      if(page.parentElement === body) {
-        body.replaceChild(newP, page);
-        switchLg(lang);
-      }
-    })
-  }
-
-  const activateLink = (l) => {
-    navLinks.forEach(link => 
-      link.classList.remove("menu__link_active"));
-    l.classList.add("menu__link_active");
-  }
-
 //***AUDIO PLAYER - QUESTION***//
-const createAudio = () => {
+const createMainAudio = () => {
   const playIcon = document.getElementById("btn-play");
   const audioRange = document.getElementById("qstn-audio-range");
   const audioPlayed = document.getElementById("audio-time");
@@ -198,7 +201,7 @@ const createAudio = () => {
 
 
 //***AUDIO PLAYER - DESCRIPTION***//
-const createVolume = () => {
+const createDescrAudio = () => {
   const playIconB = document.getElementById("bird-btn-play");
   const audioRangeB = document.getElementById("bird-audio-range");
   const audioPlayedB = document.getElementById("bird-audio-time");
@@ -208,7 +211,6 @@ const createVolume = () => {
   const volumeIconB = document.getElementById("bird-btn-volume");
   PlayAudio(playIconB, audioRangeB, audioPlayedB, audioTotalB, volumeRangeB, audioB, volumeIconB);
 }
-
 
 //***PLAYING***//
 const birdsDataEn = BirdsDataEN;
@@ -484,4 +486,87 @@ const updateScore = () => {
     currScore = 0;
     quizScore.innerText = currScore;
   }
+}
+
+//***GALLERY***//
+let galleryCat = 0;
+
+const createGallery = (cat) => {
+  const cardText = document.querySelectorAll(".card__text");
+  const cardImg = document.querySelectorAll(".card__img");
+  const cardTitle = document.querySelectorAll(".card__title");
+  const cardLatin = document.querySelectorAll(".card__latin-name");
+  const cardAudio = document.querySelectorAll(".card__audio_player");
+  let source;
+  if (lang === 'ru') {
+    source = birdsData[cat];
+  } else {
+    source = birdsDataEn[cat];
+  }
+    for (let i = 0; i < source.length; i++) {
+      cardText[i].innerText = source[i].description;
+      cardImg[i].src = source[i].image;
+      cardTitle[i].innerText = source[i].name;
+      cardLatin[i].innerText = source[i].species;
+      cardAudio[i].src = source[i].audio;
+      createGalleryAudio(i);
+    }
+}
+
+const createGalleryAudio = (i) => {
+  const playIconC = document.querySelectorAll(".card__audio__btn");
+  const audioRangeC = document.querySelectorAll(".card__audio_range");
+  const audioPlayedC= document.querySelectorAll(".card__audio_time");
+  const audioTotalC = document.querySelectorAll(".card__audio_duration");
+  const volumeRangeC = document.querySelectorAll(".card__volume_range");
+  const audioC = document.querySelectorAll(".card__audio_player");
+  const volumeIconC = document.querySelectorAll(".card__volume_range");
+
+  PlayAudio(playIconC[i], audioRangeC[i], audioPlayedC[i], audioTotalC[i], volumeRangeC[i], audioC[i], volumeIconC[i]);
+}
+
+document.addEventListener("click", (e) => {
+  let target = e.target;
+  if (target.id == "scroll-right") {
+    galleryCat = galleryCat + 1;
+    createGallery(galleryCat);
+    activateArrow(galleryCat);
+    nextGalleryCat(galleryCat);
+  }
+})
+
+document.addEventListener("click", (e) => {
+  let target = e.target;
+  if (target.id == "scroll-left") {
+    galleryCat = galleryCat - 1;
+    createGallery(galleryCat);
+    activateArrow(galleryCat);
+    prevGalleryCat(galleryCat);
+  }
+})
+
+const activateArrow = (cat) => {
+  const leftArrow = document.getElementById("scroll-left");
+  const rightArrow = document.getElementById("scroll-right");
+  if (cat === 0) {
+    leftArrow.classList.add("disabled");
+  } else if (cat > 0 && cat < 5) {
+    leftArrow.classList.remove("disabled");
+  } else if (cat === 5) {
+    rightArrow.classList.add("disabled");
+  }
+}
+
+const nextGalleryCat = (cat) => {
+  const prev = document.getElementById(`gal-cat-${cat-1}`);
+  const next = document.getElementById(`gal-cat-${cat}`);
+  prev.classList.remove("gallery__category_current");
+  next.classList.add("gallery__category_current");
+}
+
+const prevGalleryCat = (cat) => {
+  const prev = document.getElementById(`gal-cat-${cat+1}`);
+  const next = document.getElementById(`gal-cat-${cat}`);
+  prev.classList.remove("gallery__category_current");
+  next.classList.add("gallery__category_current");
 }

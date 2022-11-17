@@ -1,8 +1,9 @@
 import './index.scss';
 import Header from './components/header/index';
-import GameSection from './pages/game-page/index';
+import GamePage from './pages/game-page/index';
 import Footer from './components/footer/index';
 import ResultsPage from './pages/results-page/index';
+import GalleryPage from './pages/gallery-page/index';
 import StartPage from './pages/start-page/index';
 import PlayAudio from './pages/game-page/audio-player';
 import BirdsData from './pages/game-page/birds-data';
@@ -12,6 +13,7 @@ import { translation } from './utils/english-translations';
 const body = document.getElementById('body');
 
 body.append(Header);
+//body.append(GalleryPage);
 body.append(StartPage);
 body.append(Footer);
 
@@ -29,7 +31,7 @@ lgBtn.addEventListener("click", () => {
 
   switchLg(lang);
 
-  if (GameSection.parentElement === body) {
+  if (GamePage.parentElement === body) {
     translateBirds(lang);
   }
 
@@ -38,6 +40,8 @@ lgBtn.addEventListener("click", () => {
 //translate elements
 const linkStart = document.getElementById("menu-link-start");
 const linkPlay = document.getElementById("menu-link-play");
+const linkGallery = document.getElementById("menu-link-gallery");
+const navLinks = document.querySelectorAll(".menu__item");
 
 const switchLg = (lg) => {
   linkStart.innerText = translation[lg].linkStart;
@@ -51,7 +55,7 @@ const switchLg = (lg) => {
     startTxt.innerHTML = translation[lg].startTxt;
   }
 
-  if (GameSection.parentElement === body) {
+  if (GamePage.parentElement === body) {
     const cat0 = document.getElementById("cat-0");
     const cat1 = document.getElementById("cat-1");
     const cat2 = document.getElementById("cat-2");
@@ -126,17 +130,13 @@ const translateBirds = (lg) => {
 
 //***NAV BAR AND START PAGE LISTENERS***//
 document.addEventListener("click", (e) => {
-  const navLinks = document.querySelectorAll(".menu__item");
   let target = e.target;
   if (target.id == "start-btn") {
-    body.replaceChild(GameSection, StartPage);
-    switchLg(lang);
+    replacePages(GamePage, StartPage, ResultsPage, GalleryPage);
     createAudio();
     createVolume();
     chooseRandom(currCat);
-    navLinks.forEach(link => 
-      link.classList.remove("menu__link_active"));
-    linkPlay.classList.add("menu__link_active");
+    activateLink(linkPlay);
   
     if (currScore != 0) {
       starterPack();
@@ -147,50 +147,42 @@ document.addEventListener("click", (e) => {
   }
 })
 
-document.addEventListener ("click", (e) => {
-  const navLinks = document.querySelectorAll(".menu__item");
-  let target = e.target;
-  if (target.id == "menu-link-play") {
-    if (StartPage.parentElement === body) {
-      body.replaceChild(GameSection, StartPage);
-      switchLg(lang);
-    } else if (ResultsPage.parentElement === body) {
-      body.replaceChild(GameSection, ResultsPage);
-      switchLg(lang);
-    }
+linkPlay.addEventListener ("click", () => {
+  replacePages(GamePage, StartPage, ResultsPage, GalleryPage);
+  activateLink(linkPlay);
 
-    navLinks.forEach(link => 
-      link.classList.remove("menu__link_active"));
-    target.classList.add("menu__link_active");
-
-    if (currScore != 0) {
-      starterPack();
-      currCat = 0;
-      changeCategory(currCat);
-      updateScore();
-    }
+  if (currScore != 0) {
+    starterPack();
+    currCat = 0;
+    changeCategory(currCat);
+    updateScore();
   }
 })
 
-document.addEventListener ("click", (e) => {
-  const navLinks = document.querySelectorAll(".menu__item");
-  let target = e.target; 
-  if (target.id == "menu-link-start") {
-    if (GameSection.parentElement === body) {
-      body.replaceChild(StartPage, GameSection);
-      switchLg(lang);
-    } else if (ResultsPage.parentElement === body) {
-      body.replaceChild(StartPage, ResultsPage);
-      switchLg(lang);
-    }
-
-    navLinks.forEach(link => 
-      link.classList.remove("menu__link_active"));
-    target.classList.add("menu__link_active");
-  }
-
+linkStart.addEventListener ("click", () => {
+  replacePages(StartPage, GamePage, ResultsPage, GalleryPage);
+  activateLink(linkStart);
 })
 
+linkGallery.addEventListener ("click", () => {
+  replacePages(GalleryPage, StartPage, GamePage, ResultsPage);
+  activateLink(linkGallery);
+})
+
+  const replacePages = (newP, old1, old2, old3) => {
+    [old1, old2, old3].forEach(page => {
+      if(page.parentElement === body) {
+        body.replaceChild(newP, page);
+        switchLg(lang);
+      }
+    })
+  }
+
+  const activateLink = (l) => {
+    navLinks.forEach(link => 
+      link.classList.remove("menu__link_active"));
+    l.classList.add("menu__link_active");
+  }
 
 //***AUDIO PLAYER - QUESTION***//
 const createAudio = () => {
@@ -454,7 +446,7 @@ const changeCategory = (cat) => {
 const gameOver = (cat) => {
   const linkPlay = document.getElementById("menu-link-play");
   if (rightAnswer === true && cat === 5) {
-    body.replaceChild(ResultsPage, GameSection);
+    body.replaceChild(ResultsPage, GamePage);
     switchLg(lang);
     linkPlay.classList.remove("menu__link_active");
     createResults(currScore);
@@ -478,7 +470,7 @@ const createResults = (score) => {
 document.addEventListener("click", (e) => {
   let target = e.target;
   if (target.id == "results-btn") {
-    body.replaceChild(GameSection, ResultsPage);
+    body.replaceChild(GamePage, ResultsPage);
     starterPack();
     currCat = 0;
     changeCategory(currCat);

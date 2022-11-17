@@ -15,6 +15,7 @@
 }
 
 .questions__category {
+  flex-grow: 1;
   width: 184px;
   height: 45px;
   background-color: #1D3555;
@@ -37,6 +38,7 @@
 }
 
 .questions__result {
+  flex-grow: 22;
   background-color: #A6DADC;
   height: 45px;
   width: 45px;
@@ -924,6 +926,22 @@
   
   }
 
+}
 
+@media screen and (max-width: 400px) {
+  .field__wrapper {
+    height: 450px;
+  }
 
+  .questions__category {
+    height: 20px;
+  }
+
+  .questions__result {
+    height: 20px;
+  }
+
+  .questions__wrapper {
+    height: 80px;
+  }
 }

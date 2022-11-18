@@ -7,7 +7,7 @@
 
 .questions__wrapper {
   width: 100% !important;
-  height: 100px;
+  height: 60px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -41,7 +41,7 @@
   flex-grow: 22;
   background-color: #A6DADC;
   height: 45px;
-  width: 45px;
+  width: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -91,6 +91,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: left;
+  box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
 }
 
 .game__qstn_img {
@@ -137,6 +138,7 @@
   height: 30px;
   cursor: pointer;
   transition: transform .2s;
+  filter: drop-shadow(2px 1px 2px rgb(0 0 0 / 0.4));
 }
 
 .audio__volume:hover {
@@ -306,6 +308,7 @@
   display: flex;
   background-color: #437B9C;
   border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
 }
 
 .answers__list {
@@ -318,6 +321,7 @@
 }
 
 .answers__item{
+  width: 97%;
   height: calc(100%/6.1);
   flex-direction: row;
   display: flex;
@@ -419,6 +423,7 @@
   height: 18px;
   width: 22px; 
   transition: transform .2s;
+  filter: drop-shadow(1px 1px 1px rgb(0 0 0 / 0.4));
 }
 
 .bird__audio__btn:hover {
@@ -535,9 +540,10 @@
   cursor: pointer;
   font-family: 'Montserrat', sans-serif;
   text-transform: uppercase;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 
   &:disabled {
-    background-color: #e0e8dd;
+    background-color: #b9c2b6;
     color: white;
     cursor: default;
   }
@@ -691,6 +697,12 @@
     height: 30px;
   }
 
+}
+
+@media screen and (max-width: 951px) {
+  .questions__wrapper {
+    height: 100px;
+  }
 }
 
 @media screen and (max-width: 768px) {

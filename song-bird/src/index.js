@@ -13,7 +13,6 @@ import { translation } from './utils/english-translations';
 const body = document.getElementById('body');
 
 body.append(Header);
-//body.append(GalleryPage);
 body.append(StartPage);
 body.append(Footer);
 
@@ -550,7 +549,7 @@ document.addEventListener("click", (e) => {
   let target = e.target;
   if (target.id == "scroll-right") {
     galleryCat = galleryCat + 1;
-    createGallery(galleryCat);
+    createGallery(galleryCat, lang);
     activateArrow(galleryCat);
     nextGalleryCat(galleryCat);
   }
@@ -560,7 +559,7 @@ document.addEventListener("click", (e) => {
   let target = e.target;
   if (target.id == "scroll-left") {
     galleryCat = galleryCat - 1;
-    createGallery(galleryCat);
+    createGallery(galleryCat, lang);
     activateArrow(galleryCat);
     prevGalleryCat(galleryCat);
   }

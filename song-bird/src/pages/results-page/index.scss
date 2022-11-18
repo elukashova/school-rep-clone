@@ -67,6 +67,7 @@
   cursor: pointer;
   font-family: 'Montserrat', sans-serif;
   text-transform: uppercase;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 
   &:disabled {
     background-color: #e0e8dd;

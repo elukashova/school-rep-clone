@@ -4,7 +4,7 @@ export const translation = {
     linkStart: 'Start',
     linkPlay: 'Play',
     linkGallery: 'Gallery',
-    startTxt: "Do you enjoy birdsongs at any time of the day? </br> Do you consider yourself a connoisseur of bird melodies? </br> Or are you just bored and don't know how to entertain yourself? </br> Then welcome to the fascinating world of Songbird! </br> Let's check how quickly can you guess the song :)",
+    startTxt: "Do you enjoy birdsongs at any time of the day? </br> Do you consider yourself a connoisseur of bird melodies? </br> Or are you just bored and don't know how to entertain yourself? </br> Then welcome to the fascinating world of Songbird! </br> Let's check how quickly you can guess the song :)",
     cat0:  'Warm-up',
     cat0b: 'No category',
     cat1:  'Passerine',

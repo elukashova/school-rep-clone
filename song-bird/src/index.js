@@ -63,7 +63,7 @@ linkStart.addEventListener ("click", () => {
 
 linkGallery.addEventListener ("click", () => {
   replacePages(GalleryPage, StartPage, GamePage, ResultsPage);
-  createGallery(0);
+  createGallery(0, lang);
   activateLink(linkGallery);
 })
 
@@ -89,8 +89,10 @@ let lang = 'ru';
 lgBtn.addEventListener("click", () => {
   if (lang === 'ru') {
     lang = 'en';
+    lgBtn.src = "assets/icons/ru-icon.png";
   } else {
     lang = 'ru';
+    lgBtn.src = "assets/icons/en-icon.png";
   }
 
   switchLg(lang);
@@ -105,6 +107,7 @@ lgBtn.addEventListener("click", () => {
 const switchLg = (lg) => {
   linkStart.innerText = translation[lg].linkStart;
   linkPlay.innerText = translation[lg].linkPlay;
+  linkGallery.innerText = translation[lg].linkGallery;
 
   if (StartPage.parentElement === body) {
     const startBtn = document.getElementById("start-btn");
@@ -148,6 +151,24 @@ const switchLg = (lg) => {
     resultsMax.innerText = translation[lg].resultsMax;
     invitation.innerText = translation[lg].invitation;
     resultsBtn.innerText = translation[lg].resultsBtn;
+  }
+
+  if (GalleryPage.parentElement === body) {
+    const cat0 = document.getElementById("gal-cat-0");
+    const cat1 = document.getElementById("gal-cat-1");
+    const cat2 = document.getElementById("gal-cat-2");
+    const cat3 = document.getElementById("gal-cat-3");
+    const cat4 = document.getElementById("gal-cat-4");
+    const cat5 = document.getElementById("gal-cat-5");
+
+    cat0.innerText = translation[lg].cat0b;
+    cat1.innerText = translation[lg].cat1;
+    cat2.innerText = translation[lg].cat2;
+    cat3.innerText = translation[lg].cat3;
+    cat4.innerText = translation[lg].cat4;
+    cat5.innerText = translation[lg].cat5;
+
+    createGallery(galleryCat, lang);
   }
 }
 
@@ -491,7 +512,7 @@ const updateScore = () => {
 //***GALLERY***//
 let galleryCat = 0;
 
-const createGallery = (cat) => {
+const createGallery = (cat, lang) => {
   const cardText = document.querySelectorAll(".card__text");
   const cardImg = document.querySelectorAll(".card__img");
   const cardTitle = document.querySelectorAll(".card__title");

@@ -1,16 +1,14 @@
 {
   "name": "song-bird",
   "scripts": {
-    "build": "webpack",
+    "build": "webpack --config webpack.config.js",
     "dev": "webpack serve --env develop"
   },
   "devDependencies": {
     "@babel/core": "^7.20.2",
     "@babel/preset-env": "^7.20.2",
     "babel-loader": "^9.1.0",
-    "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.1",
-    "file-loader": "^6.2.0",
     "html-loader": "^4.2.0",
     "mini-css-extract-plugin": "^2.6.1",
     "sass": "^1.56.0",
@@ -22,7 +20,7 @@
     "webpack-dev-server": "^4.11.1"
   },
   "dependencies": {
-    "clean-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "^11.0.0",
     "eslint": "^8.27.0"
   }
 }

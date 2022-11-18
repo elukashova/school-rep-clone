@@ -1,7 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
-const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const assets = path.resolve(__dirname, 'assets');
 
@@ -15,7 +14,7 @@ const devServer = (isDev) => !isDev ? {} : {
 
 module.exports = ({develop}) => ({
   mode: develop ? "development" : "production",
-  devtool: develop ? "inline-source-map" : "hidden-source-map",
+  devtool: develop ? "inline-source-map" : false,
   entry: {
     main: [
       './src/index.js'
@@ -25,8 +24,9 @@ module.exports = ({develop}) => ({
     path: path.resolve(__dirname, 'dist'),
     filename: 'main.js',
     assetModuleFilename: 'assets/[name][ext]',
+    clean: true
   },
-    optimization: {
+  optimization: {
     minimize: false
   },
   module: {
@@ -34,15 +34,12 @@ module.exports = ({develop}) => ({
       {
         test: /\.html$/,
         loader: "html-loader",
-        options: {minimize: true}
+        options: {minimize: false}
       },
       {
         test: /\.js$/,
         exclude: /(node_modules)/,
-        loader: 'babel-loader',
-        options: {
-          presets: ['@babel/preset-env']
-        }
+        loader: 'babel-loader'
     },
       {
         test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
@@ -93,10 +90,7 @@ module.exports = ({develop}) => ({
           to: path.resolve(__dirname, 'dist/assets')
         }
       ]
-    }),
-    new CleanWebpackPlugin({
-      cleanStaleWebpackAssets: false
-    }),
+    })
   ],
   ...devServer(develop)
 });

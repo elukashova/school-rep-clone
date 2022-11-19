@@ -1,8 +1,8 @@
 .questions {
     max-width: 1160px;
+    min-width: 360px;
     margin-left: auto;
     margin-right: auto;
-    position: relative;
 }
 
 .questions__wrapper {
@@ -41,7 +41,7 @@
   flex-grow: 22;
   background-color: #A6DADC;
   height: 45px;
-  width: 50px;
+  width: 54px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -83,7 +83,7 @@
 }
 
 .game__qstn {
-  width: 100%;
+  width: 100% !important;
   height: 185px;
   background-color: #437B9C;
   border-radius: 10px;
@@ -295,6 +295,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  gap: 10px;
 }
 
 .answers__variants {
@@ -303,7 +304,7 @@
 
 .answers__variants, 
 .answers__description {
-  width: 49%;
+  width: 50%;
   height: 100%;
   display: flex;
   background-color: #437B9C;
@@ -843,6 +844,7 @@
     flex-direction: row;
     height: 30px;
     width: 60px;
+    gap: 5px;
   }
 
   .audio__time {
@@ -940,7 +942,7 @@
 
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 410px) {
   .field__wrapper {
     height: 450px;
   }
@@ -955,5 +957,10 @@
 
   .questions__wrapper {
     height: 80px;
+  }
+
+  .answers__variants {
+    height: 25%;
+    padding-bottom: 3px;
   }
 }

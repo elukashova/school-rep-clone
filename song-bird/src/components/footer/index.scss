@@ -14,6 +14,7 @@
   flex-direction: row;
   align-content: center;
   justify-content: space-between;
+  top: 20%;
 }
 
 .footer__rs-logo {
@@ -32,7 +33,6 @@
   align-items: center;
 }
 
-.copyright__name,
 .copyright__year {
   font-family: 'Montserrat', sans-serif;
   font-size: 16px;
@@ -48,4 +48,30 @@
 
 .copyright__logo:hover {
   transform: scale(1.2);
+}
+
+@media screen and (max-width: 640px) {
+
+  .footer__rs-logo {
+    height: 25px;
+  }
+
+  .copyright__logo {
+    height: 25px;
+  }
+
+  .copyright__year {
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 390px) {
+
+  .footer__rs-logo {
+    height: 20px;
+  }
+
+  .copyright__logo {
+    height: 20px;
+  }
 }

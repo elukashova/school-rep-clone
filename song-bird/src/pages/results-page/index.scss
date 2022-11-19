@@ -1,7 +1,6 @@
 .results {
     max-width: 1160px;
     min-width: 360px;
-    height: 520px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -21,12 +20,10 @@
 .results__text-wrapper {
   z-index: 2;
   position: absolute;
-  left: 15%;
-  top: 22%;
+  left: 13%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  column-gap: 20px;
 }
 
 .results__congrats,
@@ -51,7 +48,7 @@
 .results__cta {
   display: flex;
   flex-direction: column;
-  margin-top: 60%;
+  margin-top: 31%;
 }
 
 .results__btn {
@@ -90,20 +87,11 @@
   display: none;
 }
 
-@media screen and (max-width: 640px) {
-
-  .results__text-wrapper {
-    left: 13%;
-    top: 19%;
-  }
-
-}
 
 @media screen and (max-width: 550px) {
 
   .results__text-wrapper {
     left: 7%;
-    top: 19%;
   }
 
   .results__congrats {
@@ -114,24 +102,26 @@
     font-size: 1.1em;
   }
 
+  .results__btn {
+    font-size: 14px;
+    height: 30px;
+    width: 200px;
+  }
+
 }
 
 @media screen and (max-width: 500px) {
 
   .results__text-wrapper {
-    left: 11%;
-    top: 18%;
+    left: 9%;
   }
 
   .results__congrats,
   .results__congrats-max, 
   .results__invitation {
-    font-size: 16px;
-  }
-
-  .results__text {
     font-size: 14px;
   }
+
 
 }
 
@@ -146,14 +136,25 @@
     font-size: 14px;
   }
 
+  .results__text {
+    font-size: 16px;
+  }
+
 }
 
 @media screen and (max-width: 440px) {
 
   .results__text-wrapper {
-    left: 3%;
+    left: 2%;
   }
 
 }
 
+@media screen and (max-width: 440px) {
+
+  .results__text-wrapper {
+    top: -5%;
+  }
+
+}
 

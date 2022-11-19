@@ -1,5 +1,6 @@
 .start {
-  overflow: visible;
+  max-width: 1160px;
+  min-width: 360px;
 }
 
 .start__images {
@@ -199,16 +200,17 @@
   }
 }
 
-@media screen and (max-width: 360px) {
+@media screen and (max-width: 640px) {
 
   .start__wrapper {
     left: 0;
     width: 100%;
-    display: flex;
     flex-direction: column;
     column-gap: 10px;
-    justify-content: center;
-    align-items: center;
+  }
+
+  .start__music-notes {
+    min-width: 80px;
   }
 
   .start__music-note1,
@@ -218,7 +220,34 @@
   }
 
   .start__images {
-    top: 85%;
+    top: 25%;
+    width: 50%;
   }
+
+}
+
+@media screen and (max-width: 490px) {
+
+  .start__wrapper {
+    top: 10%;
+  }
+
+  .start__music-notes {
+    min-width: 50px;
+  }
+
+  .start__images {
+    top: 40%;
+  }
+
+
+}
+
+@media screen and (max-width: 390px) {
+
+  .start__images {
+    top: 60%;
+  }
+
 
 }

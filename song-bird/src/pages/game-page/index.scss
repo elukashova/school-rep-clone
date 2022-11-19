@@ -16,7 +16,7 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: space-between;
 }
 
 .questions__category {
@@ -333,7 +333,7 @@
   position: relative;
   align-items: center;
   border-bottom: 1px solid rgba(0,0,0,.5);
-  transition: border .2s;
+  transition: box-shadow .2s;
 }
 
 .answers__item:hover {

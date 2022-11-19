@@ -480,11 +480,14 @@ const createResults = (score) => {
   const resultsCTA = document.getElementById("results-cta");
   const resultsMax = document.getElementById("results-max");
   const results = document.getElementById("results-score");
+  const resultsBtn = document.getElementById("results-btn");
   results.innerText = `${score}!`;
   if (score === 30) {
     resultsCTA.classList.add("hidden");
   } else {
     resultsMax.classList.add("hidden");
+    resultsCTA.classList.remove("hidden");
+    resultsBtn.classList.remove("hidden");
   }
 }
 

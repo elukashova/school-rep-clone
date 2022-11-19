@@ -1,19 +1,37 @@
 export default function playAudio(playBtn, aRange, aPlayed, aTotal, vRange, a, volBtn) {
+
+  let isPlaying = false;
 //play a
 playBtn.addEventListener("click", () => {
-  if(a.paused) {
-    a.play();
+  if(!isPlaying) {
+    playAudio(a);
   } else {
+    isPlaying = false;
     a.pause();
   }
 })
 
+async function playAudio(audio) {
+  try {
+    await audio.play();
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 //change play button
 a.addEventListener("play", () => {
   playBtn.src = "assets/icons/pause-btn.svg";
+  isPlaying = true;
 })
 a.addEventListener("pause", () => {
   playBtn.src = "assets/icons/play-btn.svg";
+  isPlaying = false;
+})
+
+//on audio end
+a.addEventListener("ended", () => {
+  a.currentTime = 0;
 })
 
 //show progress

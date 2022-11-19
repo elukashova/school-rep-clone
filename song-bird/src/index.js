@@ -47,7 +47,7 @@ linkPlay.addEventListener ("click", () => {
   chooseRandom(currCat);
   activateLink(linkPlay);
 
-  if (currScore != 0) {
+  if (currScore != 0 || clicks != 0) {
     starterPack();
     currCat = 0;
     changeCategory(currCat);
@@ -552,7 +552,7 @@ const createGalleryAudio = (i) => {
   const audioTotalC = document.querySelectorAll(".card__audio_duration");
   const volumeRangeC = document.querySelectorAll(".card__volume_range");
   const audioC = document.querySelectorAll(".card__audio_player");
-  const volumeIconC = document.querySelectorAll(".card__volume_range");
+  const volumeIconC = document.querySelectorAll(".card__volume_img");
 
   PlayAudio(playIconC[i], audioRangeC[i], audioPlayedC[i], audioTotalC[i], volumeRangeC[i], audioC[i], volumeIconC[i]);
 }

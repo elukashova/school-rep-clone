@@ -1107,7 +1107,14 @@ const activateLink = l => {
 const lgBtn = document.getElementById("menu-link-lg");
 let lang = 'ru';
 lgBtn.addEventListener("click", () => {
-  if (lang === 'ru') {
+  setLg(lang);
+  localStorage.setItem('language', lang);
+  if (pages_game_page.parentElement === body) {
+    translateBirds(lang);
+  }
+});
+const setLg = lg => {
+  if (lg === 'ru') {
     lang = 'en';
     lgBtn.src = "assets/icons/ru-icon.png";
   } else {
@@ -1115,10 +1122,7 @@ lgBtn.addEventListener("click", () => {
     lgBtn.src = "assets/icons/en-icon.png";
   }
   switchLg(lang);
-  if (pages_game_page.parentElement === body) {
-    translateBirds(lang);
-  }
-});
+};
 
 //translate elements
 const switchLg = lg => {
@@ -1209,6 +1213,17 @@ const translateBirds = lg => {
     checkbox.value = newBird.name;
   }
 };
+
+//save language preference 
+window.addEventListener("load", () => {
+  if (localStorage.getItem('language')) {
+    lang = localStorage.getItem('language');
+  }
+  switchLg(lang);
+  if (pages_game_page.parentElement === body) {
+    translateBirds(lang);
+  }
+});
 
 //***AUDIO PLAYER - QUESTION***//
 const createMainAudio = () => {
@@ -1401,11 +1416,13 @@ const nextCategory = () => {
   nextBtn.disabled = false;
 };
 document.addEventListener("click", e => {
+  const audio = document.getElementById("bird-audio");
   let target = e.target;
   if (target.id == "btn-next") {
     currCat = currCat + 1;
     starterPack();
     changeCategory(currCat);
+    audio.pause();
   }
 });
 
@@ -1462,7 +1479,7 @@ const gameOver = cat => {
   }
 };
 
-//reveal results
+//***RESULTS PAGE***/
 const createResults = score => {
   const resultsCTA = document.getElementById("results-cta");
   const resultsMax = document.getElementById("results-max");

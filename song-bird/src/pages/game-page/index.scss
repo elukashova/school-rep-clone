@@ -3,11 +3,16 @@
     min-width: 360px;
     margin-left: auto;
     margin-right: auto;
+    position: relative;
+    flex-direction: column;
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .questions__wrapper {
   width: 100% !important;
-  height: 60px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -72,14 +77,12 @@
 }
 
 .field__wrapper {
-  height: 520px;
-  margin-left: auto;
-  margin-right: auto;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  gap: 10px;
 }
 
 .game__qstn {
@@ -293,7 +296,6 @@
   height: 250px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
   gap: 10px;
 }
@@ -701,17 +703,7 @@
 
 }
 
-@media screen and (max-width: 951px) {
-  .questions__wrapper {
-    height: 100px;
-  }
-}
-
 @media screen and (max-width: 768px) {
-
-  .field__wrapper {
-    height: 450px;
-  }
 
   .game__qstn {
     height: 130px;
@@ -831,10 +823,6 @@
 }
 
 @media screen and (max-width: 500px) {
-
-  .field__wrapper {
-    height: 470px;
-  }
   
   .questions__category {
     width: 150px;
@@ -868,12 +856,11 @@
 
   .answers__variants {
     width: 100%;
-    height: 20%;
+    height: 55px;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 5px;
   }
 
   .answers__item {
@@ -890,7 +877,7 @@
 
   .answers__description {
     width: 100%;
-    height: 85%;
+    height: 215px;
   }
 
   .bird__img {
@@ -944,9 +931,6 @@
 }
 
 @media screen and (max-width: 410px) {
-  .field__wrapper {
-    height: 450px;
-  }
 
   .questions__category {
     height: 20px;
@@ -956,12 +940,8 @@
     height: 20px;
   }
 
-  .questions__wrapper {
-    height: 80px;
-  }
-
   .answers__variants {
-    height: 25%;
+    height: 60px;
     padding-bottom: 3px;
   }
 }

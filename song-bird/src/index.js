@@ -302,7 +302,7 @@ const checkAnswer = (input, box) => {
     createDescription(box.id);
     revealRightAnswer(box.id);
     audio.pause();
-    countScoreRight(currScore);
+    countScore(currScore);
     rightAnswer = true;
     gameOver(currCat);
     if (currCat != 5) {
@@ -312,7 +312,6 @@ const checkAnswer = (input, box) => {
     box.classList.add("answer__wrong");
     createDescription(box.id);
     noSound();
-    countScoreWrong(currScore);
   } else if (rightAnswer === true) {
     createDescription(box.id);
   }
@@ -384,24 +383,15 @@ const noSound = () => {
 }
 
 //count the score
-const countScoreRight = (actualScore) => {
+const countScore = (actualScore) => {
   if (rightAnswer === false) {
     const quizScore = document.getElementById("result-counter");
     let maxTries = 6;
     let roundScore = maxTries - clicks;
-    currScore = actualScore + roundScore;
-    quizScore.innerText = currScore;
-  }
-}
-
-const countScoreWrong = (actualScore) => {
-  const quizScore = document.getElementById("result-counter");
-  if (rightAnswer === false) {
-    actualScore = actualScore - 1;
-    if (actualScore < 0) {
-      actualScore = 0;
+    if (maxTries === 0) {
+      roundScore = 0;
     }
-    currScore = actualScore;
+    currScore = actualScore + roundScore;
     quizScore.innerText = currScore;
   }
 }

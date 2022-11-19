@@ -43,6 +43,7 @@ min-width: 360px;
   color: #1D3555;
   list-style: none;
   cursor: pointer;
+  transition: color .5s;
 }
 
 .menu__item:hover {

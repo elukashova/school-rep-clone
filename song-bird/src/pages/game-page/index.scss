@@ -191,6 +191,7 @@
   --progress-background: linear-gradient(90deg, rgba(166,218,220,1) 0%, rgba(99,137,154,1) 49%, rgba(29,53,85,1) 100%);
   --progress-width: 0%;
   overflow: hidden;
+  transition: background-color 1s;
 
   &::-webkit-slider-runnable-track { 
     height: 20px;
@@ -545,6 +546,7 @@
   font-family: 'Montserrat', sans-serif;
   text-transform: uppercase;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  transition: background-color .2s;
 
   &:disabled {
     background-color: #b9c2b6;

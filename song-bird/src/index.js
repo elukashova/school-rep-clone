@@ -224,7 +224,8 @@ window.addEventListener("load", () => {
   }
 })
 
-//***AUDIO PLAYER - QUESTION***//
+//***AUDIO PLAYER***//
+//question
 const createMainAudio = () => {
   const playIcon = document.getElementById("btn-play");
   const audioRange = document.getElementById("qstn-audio-range");
@@ -233,11 +234,12 @@ const createMainAudio = () => {
   const volumeRange = document.getElementById("qstn-volume-range");
   const audio = document.getElementById("qstn-audio");
   const volumeIcon = document.getElementById("qstn-btn-volume");
-  PlayAudio(playIcon, audioRange, audioPlayed, audioTotal, volumeRange, audio, volumeIcon);
+  const sounds = document.querySelectorAll(".audio");
+  PlayAudio(playIcon, audioRange, audioPlayed, audioTotal, volumeRange, audio, volumeIcon, sounds);
 }
 
 
-//***AUDIO PLAYER - DESCRIPTION***//
+//description
 const createDescrAudio = () => {
   const playIconB = document.getElementById("bird-btn-play");
   const audioRangeB = document.getElementById("bird-audio-range");
@@ -246,7 +248,8 @@ const createDescrAudio = () => {
   const volumeRangeB = document.getElementById("bird-volume-range");
   const audioB = document.getElementById("bird-audio");
   const volumeIconB = document.getElementById("bird-btn-volume");
-  PlayAudio(playIconB, audioRangeB, audioPlayedB, audioTotalB, volumeRangeB, audioB, volumeIconB);
+  const sounds = document.querySelectorAll(".audio");
+  PlayAudio(playIconB, audioRangeB, audioPlayedB, audioTotalB, volumeRangeB, audioB, volumeIconB, sounds);
 }
 
 //***PLAYING***//
@@ -553,8 +556,9 @@ const createGalleryAudio = (i) => {
   const volumeRangeC = document.querySelectorAll(".card__volume_range");
   const audioC = document.querySelectorAll(".card__audio_player");
   const volumeIconC = document.querySelectorAll(".card__volume_img");
+  const sounds = document.querySelectorAll(".audio");
 
-  PlayAudio(playIconC[i], audioRangeC[i], audioPlayedC[i], audioTotalC[i], volumeRangeC[i], audioC[i], volumeIconC[i]);
+  PlayAudio(playIconC[i], audioRangeC[i], audioPlayedC[i], audioTotalC[i], volumeRangeC[i], audioC[i], volumeIconC[i], sounds);
 }
 
 document.addEventListener("click", (e) => {

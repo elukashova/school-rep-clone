@@ -1,9 +1,10 @@
-export default function playAudio(playBtn, aRange, aPlayed, aTotal, vRange, a, volBtn) {
+export default function playAudio(playBtn, aRange, aPlayed, aTotal, vRange, a, volBtn, sounds) {
 
   let isPlaying = false;
 //play a
 playBtn.addEventListener("click", () => {
   if(!isPlaying) {
+    pauseSounds(sounds);
     playAudio(a);
   } else {
     isPlaying = false;
@@ -131,4 +132,11 @@ const volume = () => {
   aIcon(vRange);
   showProgress(vRange);
 }
+}
+
+//pause other sounds while playing
+const pauseSounds = (sounds) => {
+  sounds.forEach(sound => {
+    sound.pause();
+  })
 }

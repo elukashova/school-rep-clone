@@ -66,27 +66,37 @@ linkGallery.addEventListener ("click", () => {
   activateLink(linkGallery);
 })
 
-  const replacePages = (newP, old1, old2, old3) => {
+const replacePages = (newP, old1, old2, old3) => {
     [old1, old2, old3].forEach(page => {
       if(page.parentElement === body) {
         body.replaceChild(newP, page);
         switchLg(lang);
       }
     })
-  }
+}
 
-  const activateLink = (l) => {
-    navLinks.forEach(link => 
-      link.classList.remove("menu__link_active"));
-    l.classList.add("menu__link_active");
-  }
+const activateLink = (l) => {
+  navLinks.forEach(link => 
+    link.classList.remove("menu__link_active"));
+  l.classList.add("menu__link_active");
+}
 
   //***LANGUAGE SWITCHING***//
 const lgBtn = document.getElementById("menu-link-lg");
 let lang = 'ru';
 
 lgBtn.addEventListener("click", () => {
-  if (lang === 'ru') {
+  setLg(lang);
+  localStorage.setItem('language', lang);
+
+  if (GamePage.parentElement === body) {
+    translateBirds(lang);
+  }
+
+})
+
+const setLg = (lg) => {
+  if (lg === 'ru') {
     lang = 'en';
     lgBtn.src = "assets/icons/ru-icon.png";
   } else {
@@ -95,12 +105,7 @@ lgBtn.addEventListener("click", () => {
   }
 
   switchLg(lang);
-
-  if (GamePage.parentElement === body) {
-    translateBirds(lang);
-  }
-
-})
+}
 
 //translate elements
 const switchLg = (lg) => {
@@ -206,6 +211,18 @@ const translateBirds = (lg) => {
     checkbox.value = newBird.name;
   }
 }
+
+//save language preference 
+window.addEventListener("load", () => {
+  if(localStorage.getItem('language')) {
+    lang = localStorage.getItem('language');
+  }
+
+  switchLg(lang);
+  if (GamePage.parentElement === body) {
+    translateBirds(lang);
+  }
+})
 
 //***AUDIO PLAYER - QUESTION***//
 const createMainAudio = () => {

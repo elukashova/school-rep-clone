@@ -421,11 +421,13 @@ const nextCategory =() => {
 }
 
 document.addEventListener("click", (e) => {
+  const audio = document.getElementById("bird-audio");
   let target = e.target;
   if (target.id == "btn-next") {
     currCat = currCat + 1;
     starterPack();
     changeCategory(currCat);
+    audio.pause();
   }
 })
 
@@ -482,7 +484,7 @@ const gameOver = (cat) => {
   }
 }
 
-//reveal results
+//***RESULTS PAGE***/
 const createResults = (score) => {
   const resultsCTA = document.getElementById("results-cta");
   const resultsMax = document.getElementById("results-max");

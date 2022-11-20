@@ -1,23 +1,35 @@
 export default function playAudio(playBtn, aRange, aPlayed, aTotal, vRange, a, volBtn, sounds) {
 
   let isPlaying = false;
-//play a
+//play audio
 playBtn.addEventListener("click", () => {
-  if(!isPlaying) {
-    pauseSounds(sounds);
-    playAudio(a);
-  } else {
-    isPlaying = false;
-    a.pause();
-  }
+    if (playBtn.id != "btn-play" && playBtn.id != "bird-btn-play") {
+      if(!isPlaying) {
+        pauseSounds(sounds);
+        playAudio(a);
+      } else {
+        pauseAudio(a);
+      } 
+    } else {
+      if(!isPlaying) {
+        playAudio(a);
+      } else {
+        pauseAudio(a);
+      } 
+    }
 })
 
-async function playAudio(audio) {
+async function playAudio(a) {
   try {
-    await audio.play();
+    await a.play();
   } catch (err) {
     console.log(err);
   }
+}
+
+const pauseAudio = (a) => {
+  isPlaying = false;
+  a.pause();
 }
 
 //change play button

@@ -777,6 +777,12 @@
 
 @media screen and (max-width: 640px) {
 
+  .questions {
+    gap: 4px;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
 
   .audio__wrapper {
     width: 85%;
@@ -828,6 +834,8 @@
   .bird__text {
     margin-top: 5px;
   }
+
+  
 
 }
 

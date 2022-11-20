@@ -1,6 +1,9 @@
 .start {
-  max-width: 1160px;
   min-width: 360px;
+  position: relative;
+  flex-direction: row;
+  display: flex;
+  align-items: center;
 }
 
 .start__images {
@@ -101,10 +104,7 @@
 }
 
 .start__wrapper {
-  position: absolute;
-  top: 35%;
-  left: 37%;
-  width: 50%;
+  align-self: center;
   display: flex;
   flex-direction: column;
   column-gap: 10px;
@@ -160,11 +160,6 @@
 
 @media screen and (max-width: 1000px) {
 
-  .start__wrapper {
-    top: 27%;
-    width: 60%;
-  }
-
   .start__text {
     font-size: 1em;
   }
@@ -184,11 +179,6 @@
     font-size: 25px;
   }
 
-  .start__wrapper {
-    top: 15%;
-    left: 39%;
-  }
-
   .start__button {
     height: 40px;
     width: 180px;
@@ -198,11 +188,12 @@
 
 @media screen and (max-width: 640px) {
 
-  .start__wrapper {
-    left: 0;
-    width: 100%;
+  .start {
     flex-direction: column;
-    column-gap: 10px;
+  }
+
+  .start__wrapper {
+    width: 100%;
   }
 
   .start__music-notes {
@@ -216,34 +207,28 @@
   }
 
   .start__images {
-    top: 25%;
+    order: 2;
     width: 50%;
+    align-self: baseline;
   }
 
 }
 
 @media screen and (max-width: 490px) {
 
-  .start__wrapper {
-    top: 10%;
-  }
-
   .start__music-notes {
     min-width: 50px;
   }
 
+
+}
+
+@media screen and (max-width: 450px) {
+
   .start__images {
-    top: 40%;
+    top: 10%;
   }
 
 
 }
 
-@media screen and (max-width: 390px) {
-
-  .start__images {
-    top: 60%;
-  }
-
-
-}

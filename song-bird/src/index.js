@@ -512,6 +512,7 @@ document.addEventListener("click", (e) => {
     currCat = 0;
     changeCategory(currCat);
     updateScore();
+    activateLink(linkPlay);
   }
 })
 

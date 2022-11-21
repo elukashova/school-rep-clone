@@ -625,6 +625,7 @@ const activateArrow = (cat) => {
     rightArrow.classList.remove("disabled");
   } else if (cat > 0 && cat < 5) {
     leftArrow.classList.remove("disabled");
+    rightArrow.classList.remove("disabled");
   } else if (cat === 5) {
     rightArrow.classList.add("disabled");
   }

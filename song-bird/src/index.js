@@ -6,9 +6,9 @@ import ResultsPage from './pages/results-page/index';
 import GalleryPage from './pages/gallery-page/index';
 import StartPage from './pages/start-page/index';
 import PlayAudio from './pages/game-page/audio-player';
-import BirdsData from './pages/game-page/birds-data';
-import BirdsDataEN from './pages/game-page/birds-data-en';
-import { translation } from './utils/english-translations';
+import BirdsData from './assets/data/birds-data';
+import BirdsDataEN from './assets/data/birds-data-en';
+import { translation } from './assets/data/english-translations';
 
 const body = document.getElementById('body');
 

@@ -1424,7 +1424,7 @@ document.addEventListener("input", e => {
   const checkbox = document.querySelectorAll(".answers__item_input");
   for (let box of checkbox) {
     if (target == box) {
-      if (rightAnswer === false) {
+      if (rightAnswer === false && !box.classList.contains("answer__wrong")) {
         clicks = clicks + 1;
       }
       let input = target.value;

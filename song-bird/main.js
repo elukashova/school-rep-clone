@@ -508,7 +508,7 @@ const pauseSounds = sounds => {
     sound.pause();
   });
 };
-;// CONCATENATED MODULE: ./src/pages/game-page/birds-data.js
+;// CONCATENATED MODULE: ./src/assets/data/birds-data.js
 const birdsData = [[{
   id: 1,
   name: 'Ворон',
@@ -763,7 +763,7 @@ const birdsData = [[{
   audio: 'https://www.xeno-canto.org/sounds/uploaded/VOLIQOYWKG/XC501190-190801_06.50h_zilvermeeuw_duinen%20van%20goeree_roep_2ex_overvliegend_gezien_.mp3'
 }]];
 /* harmony default export */ const birds_data = (birdsData);
-;// CONCATENATED MODULE: ./src/pages/game-page/birds-data-en.js
+;// CONCATENATED MODULE: ./src/assets/data/birds-data-en.js
 const birdsDataEn = [[{
   id: 1,
   name: 'Raven',
@@ -1018,7 +1018,7 @@ const birdsDataEn = [[{
   audio: 'https://www.xeno-canto.org/sounds/uploaded/VOLIQOYWKG/XC501190-190801_06.50h_zilvermeeuw_duinen%20van%20goeree_roep_2ex_overvliegend_gezien_.mp3'
 }]];
 /* harmony default export */ const birds_data_en = (birdsDataEn);
-;// CONCATENATED MODULE: ./src/utils/english-translations.js
+;// CONCATENATED MODULE: ./src/assets/data/english-translations.js
 const translation = {
   ['en']: {
     startBtn: 'Play',
@@ -1143,7 +1143,7 @@ const lgBtn = document.getElementById("menu-link-lg");
 let lang = 'ru';
 lgBtn.addEventListener("click", () => {
   setLg(lang);
-  localStorage.setItem('language', lang);
+  localStorage.setItem('lg', lang);
   if (pages_game_page.parentElement === body) {
     translateBirds(lang);
   }
@@ -1251,8 +1251,8 @@ const translateBirds = lg => {
 
 //save language preference 
 window.addEventListener("load", () => {
-  if (localStorage.getItem('language')) {
-    lang = localStorage.getItem('language');
+  if (localStorage.getItem('lg')) {
+    lang = localStorage.getItem('lg');
   }
   switchLg(lang);
   if (pages_game_page.parentElement === body) {
@@ -1603,6 +1603,7 @@ document.addEventListener("click", e => {
   let target = e.target;
   if (target.id == "scroll-right") {
     galleryCat = galleryCat + 1;
+    animateCards();
     createGallery(galleryCat, lang);
     activateArrow(galleryCat);
     nextGalleryCat(galleryCat);
@@ -1612,6 +1613,7 @@ document.addEventListener("click", e => {
   let target = e.target;
   if (target.id == "scroll-left") {
     galleryCat = galleryCat - 1;
+    animateCards();
     createGallery(galleryCat, lang);
     activateArrow(galleryCat);
     prevGalleryCat(galleryCat);
@@ -1641,6 +1643,24 @@ const prevGalleryCat = cat => {
   prev.classList.remove("gallery__category_current");
   next.classList.add("gallery__category_current");
 };
+const animateCards = () => {
+  const cards = document.querySelectorAll(".gallery__card");
+  cards.forEach(card => {
+    card.classList.add("spin");
+  });
+};
+document.addEventListener("animationend", e => {
+  let target = e.target;
+  if (target.classList.contains("spin")) {
+    target.classList.remove("spin");
+  }
+});
+
+//***SELF-EVALUATION***//
+const evaluation = `Доброго времени суток! Все пункты ТЗ выполнены. 
+По началу игры, название правильной птицы будет выведено в консоль для упрощения проверки задания.
+Приятной проверки!`;
+console.log(evaluation);
 })();
 
 /******/ })()

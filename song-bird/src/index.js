@@ -580,6 +580,7 @@ document.addEventListener("click", (e) => {
   let target = e.target;
   if (target.id == "scroll-right") {
     galleryCat = galleryCat + 1;
+    animateCards();
     createGallery(galleryCat, lang);
     activateArrow(galleryCat);
     nextGalleryCat(galleryCat);
@@ -590,6 +591,7 @@ document.addEventListener("click", (e) => {
   let target = e.target;
   if (target.id == "scroll-left") {
     galleryCat = galleryCat - 1;
+    animateCards();
     createGallery(galleryCat, lang);
     activateArrow(galleryCat);
     prevGalleryCat(galleryCat);
@@ -622,3 +624,17 @@ const prevGalleryCat = (cat) => {
   prev.classList.remove("gallery__category_current");
   next.classList.add("gallery__category_current");
 }
+
+const animateCards = () => {
+  const cards = document.querySelectorAll(".gallery__card");
+  cards.forEach(card => {
+    card.classList.add("spin");
+  })
+}
+
+document.addEventListener("animationend", (e) => {
+  let target = e.target;
+  if(target.classList.contains("spin")) {
+    target.classList.remove("spin");
+  }
+})

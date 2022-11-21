@@ -587,6 +587,7 @@ const activateArrow = (cat) => {
   const rightArrow = document.getElementById("scroll-right");
   if (cat === 0) {
     leftArrow.classList.add("disabled");
+    rightArrow.classList.remove("disabled");
   } else if (cat > 0 && cat < 5) {
     leftArrow.classList.remove("disabled");
   } else if (cat === 5) {

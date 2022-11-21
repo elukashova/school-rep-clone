@@ -71,9 +71,6 @@
   flex-wrap: wrap;
   justify-content: space-between;
   row-gap: 10px;
-  overflow: hidden;
-  position: relative;
-  padding: 5px;
 }
 
 .gallery__card {
@@ -485,6 +482,7 @@
 
   .gallery__card {
     width: 500px;
+    height: 220px;
   }
 
   .card__info_wrapper {

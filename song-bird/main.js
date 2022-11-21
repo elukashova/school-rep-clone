@@ -1121,8 +1121,9 @@ linkStart.addEventListener("click", () => {
   activateLink(linkStart);
 });
 linkGallery.addEventListener("click", () => {
+  galleryCat = 0;
   replacePages(pages_gallery_page, pages_start_page, pages_game_page, pages_results_page);
-  createGallery(0, lang);
+  createGallery(galleryCat, lang);
   activateLink(linkGallery);
 });
 const replacePages = (newP, old1, old2, old3) => {
@@ -1501,6 +1502,8 @@ const starterPack = () => {
 
 //highlight the current category
 const changeCategory = cat => {
+  const categories = document.querySelectorAll(".questions__category");
+  updateCategory(categories);
   if (cat === 0) {
     let previous = document.getElementById(`cat-5`);
     let current = document.getElementById(`cat-${cat}`);
@@ -1513,6 +1516,19 @@ const changeCategory = cat => {
     current.classList.add("questions__category_current");
   }
   chooseRandom(currCat);
+};
+
+//remove category highlight
+const updateCategory = categories => {
+  categories.forEach(cat => {
+    if (cat.classList.contains("questions__category_current")) {
+      cat.classList.remove("questions__category_current");
+    } else if (cat.classList.contains("gallery__category_current")) {
+      let current = document.getElementById("gal-cat-0");
+      cat.classList.remove("gallery__category_current");
+      current.classList.add("gallery__category_current");
+    }
+  });
 };
 
 //ending the game
@@ -1570,6 +1586,10 @@ const createGallery = (cat, lang) => {
   const cardTitle = document.querySelectorAll(".card__title");
   const cardLatin = document.querySelectorAll(".card__latin-name");
   const cardAudio = document.querySelectorAll(".card__audio_player");
+  const categories = document.querySelectorAll(".gallery__category");
+  if (galleryCat === 0) {
+    updateCategory(categories);
+  }
   let source;
   if (lang === 'ru') {
     source = src_birdsData[cat];

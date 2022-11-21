@@ -496,10 +496,6 @@ const updateCategory = (categories) => {
   categories.forEach(cat => {
     if (cat.classList.contains("questions__category_current")) {
       cat.classList.remove("questions__category_current");
-    } else if (cat.classList.contains("gallery__category_current")) {
-      let current = document.getElementById("gal-cat-0");
-      cat.classList.remove("gallery__category_current");
-      current.classList.add("gallery__category_current");
     }
   })
 }
@@ -564,7 +560,7 @@ const createGallery = (cat, lang) => {
   const categories = document.querySelectorAll(".gallery__category");
 
   if (galleryCat === 0) {
-    updateCategory(categories);
+    updateGallery(categories);
   }
   
   let source;
@@ -632,6 +628,17 @@ const activateArrow = (cat) => {
   } else if (cat === 5) {
     rightArrow.classList.add("disabled");
   }
+}
+
+const updateGallery = (categories) => {
+  categories.forEach(cat => {
+    if (cat.classList.contains("gallery__category_current")) {
+      let current = document.getElementById("gal-cat-0");
+      cat.classList.remove("gallery__category_current");
+      current.classList.add("gallery__category_current");
+    }
+  })
+  activateArrow(galleryCat);
 }
 
 const nextGalleryCat = (cat) => {

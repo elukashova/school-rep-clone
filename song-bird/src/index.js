@@ -346,9 +346,13 @@ const createDescription = (id) => {
   const currBirdName = document.getElementById("bird-name");
   const currBirdLatin = document.getElementById("bird-name-latin");
   const currBirdAudio = document.getElementById("bird-audio");
+  const playIconB = document.getElementById("bird-btn-play");
+  replaceIcon(playIconB);
+
   currBirdText.classList.remove("hidden");
   hiddenInfo.classList.remove("hidden");
   initialTxt.classList.add("hidden");
+
   let bird;
   if (lang === 'ru') {
     bird = birdsData[currCat][id];
@@ -374,6 +378,13 @@ const revealRightAnswer = (id) => {
   }
   placeholder.innerText = bird.name;
   qstnImage.src = bird.image;
+}
+
+//replace play icon
+const replaceIcon = (icon) => {
+  if(icon.src != "assets/icons/play-btn.svg") {
+    icon.src = "assets/icons/play-btn.svg";
+  }
 }
 
 //add event listener to checkboxes
@@ -551,6 +562,9 @@ const createGallery = (cat, lang) => {
 
 const createGalleryAudio = (i) => {
   const playIconC = document.querySelectorAll(".card__audio__btn");
+  playIconC.forEach(icon => {
+    replaceIcon(icon);
+  })
   const audioRangeC = document.querySelectorAll(".card__audio_range");
   const audioPlayedC= document.querySelectorAll(".card__audio_time");
   const audioTotalC = document.querySelectorAll(".card__audio_duration");

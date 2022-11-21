@@ -10,3 +10,15 @@
   flex-direction: column;
   justify-content: space-between;
 }
+
+@media screen and (max-width: 640px) {
+
+  html {
+    height: 100%;
+  }
+  
+  .body {
+    height: 100%;
+  }
+
+}

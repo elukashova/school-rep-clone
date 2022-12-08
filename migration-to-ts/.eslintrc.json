@@ -11,6 +11,10 @@
         "ecmaVersion": 2020,
         "sourceType": "module"
     },
+    "ignorePatterns": [
+        "webpack.dev.config.js",
+        "webpack.config.js"
+    ],
     "env": {
         "es6": true,
         "browser": true,
@@ -28,7 +32,19 @@
                 "default": "array"
             }
         ],
-        "@typescript-eslint/explicit-member-accessibility": "error",
+        "@typescript-eslint/explicit-member-accessibility":[
+            "error",
+            {
+                "accessibility": "explicit",
+                "overrides": {
+                    "accessors": "explicit",
+                    "constructors": "off",
+                    "methods": "explicit",
+                    "properties": "explicit",
+                    "parameterProperties": "explicit"
+                }
+            }
+        ],
         "max-lines-per-function": [
             "error",
             40
@@ -36,5 +52,17 @@
         "@typescript-eslint/explicit-function-return-type": "error",
         "@typescript-eslint/no-unnecessary-type-assertion": "error",
         "@typescript-eslint/no-non-null-assertion": "warn"
+    },
+    "overrides": [
+    {
+      "files": [
+        "*.ts"
+      ],
+      "parserOptions": {
+        "project": [
+          "tsconfig.json"
+        ]
+      }
     }
+  ]
 }

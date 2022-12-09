@@ -1,6 +1,7 @@
 /* eslint-disable max-lines-per-function */
 import './news.css';
 import { ArticleData } from './news.types';
+import { setProperty } from './news.function';
 
 class News {
     public draw(data: ArticleData[]): void {
@@ -20,29 +21,17 @@ class News {
                     if (newsPhoto && newsPhoto instanceof HTMLElement) {
                         newsPhoto.style.backgroundImage = `url(${item.urlToImage || 'img/news_placeholder.jpg'})`;
                     }
-                    const newsAuthor: Element | null = newsClone.querySelector('.news__meta-author');
-                    if (newsAuthor) {
-                        newsAuthor.textContent = item.author || item.source.name;
-                    }
-                    const metaDate: Element | null = newsClone.querySelector('.news__meta-date');
-                    if (metaDate) {
-                        metaDate.textContent = item.publishedAt.slice(0, 10).split('-').reverse().join('-');
-                    }
 
-                    const descriptionTitle: Element | null = newsClone.querySelector('.news__description-title');
-                    if (descriptionTitle) {
-                        descriptionTitle.textContent = item.title;
-                    }
-
-                    const descriptionSource: Element | null = newsClone.querySelector('.news__description-source');
-                    if (descriptionSource) {
-                        descriptionSource.textContent = item.source.name;
-                    }
-
-                    const descriptionContent: Element | null = newsClone.querySelector('.news__description-content');
-                    if (descriptionContent) {
-                        descriptionContent.textContent = item.description;
-                    }
+                    setProperty(newsClone, '.news__meta-author', 'textContent', item.author || item.source.name);
+                    setProperty(
+                        newsClone,
+                        '.news__meta-date',
+                        'textContent',
+                        item.publishedAt.slice(0, 10).split('-').reverse().join('-')
+                    );
+                    setProperty(newsClone, '.news__description-title', 'textContent', item.title);
+                    setProperty(newsClone, '.news__description-source', 'textContent', item.source.name);
+                    setProperty(newsClone, '.news__description-content', 'textContent', item.description);
 
                     const readMore: Element | null = newsClone.querySelector('.news__read-more a');
                     if (readMore) {

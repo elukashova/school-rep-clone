@@ -25,8 +25,8 @@ class Loader {
         return res;
     }
 
-    private makeUrl(options: Options, endpoint: string): string {
-        const urlOptions: Options = { ...this.options, ...options };
+    private makeUrl(options: Partial<Options>, endpoint: string): string {
+        const urlOptions: Partial<Options> = { ...this.options, ...options };
         let url: string = `${this.baseLink}${endpoint}?`;
 
         Object.keys(urlOptions).forEach((key: string): void => {
@@ -36,7 +36,7 @@ class Loader {
         return url.slice(0, -1);
     }
 
-    private load(method: string, endpoint: string, callback: Callback<RespData>, options = {}): void {
+    private load(method: string, endpoint: string, callback: Callback<RespData>, options: Partial<Options> = {}): void {
         fetch(this.makeUrl(options, endpoint), { method })
             .then(this.errorHandler)
             .then((res: Response) => res.json())

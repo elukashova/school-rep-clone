@@ -21,7 +21,6 @@ export interface RespData {
   articles: ArticleData[];
 }
 
-
 //NOT FOR EXPORT
 enum Endpoints {
   Sources = "sources",

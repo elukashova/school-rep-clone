@@ -3,7 +3,7 @@ import Loader from './loader';
 class AppLoader extends Loader {
     constructor() {
         super('https://nodenews.up.railway.app/', {
-            apiKey: '59573672e8be4a728354bedcc494a09b', // получите свой ключ https://newsapi.org/
+            apiKey: '6bf2a25dbb474b1f8ec53f5fc6549c9a', // получите свой ключ https://newsapi.org/
         });
     }
 }

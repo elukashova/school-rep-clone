@@ -25,8 +25,6 @@ export interface ArticleData {
   urlToImage: string;
 }
 
-export type EventType<T> = T | null;
-
 // NOT FOR EXPORT
 interface Source {
   id: string;

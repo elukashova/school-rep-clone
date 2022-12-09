@@ -1,5 +1,5 @@
 import AppLoader from './appLoader';
-import { Endpoints, Callback, SourceData, ArticleData, EventType } from './controller.types';
+import { Endpoints, Callback, SourceData, ArticleData } from './controller.types';
 
 class AppController extends AppLoader {
     public getSources(callback: Callback<SourceData>): void {
@@ -12,8 +12,8 @@ class AppController extends AppLoader {
     }
 
     public getNews(e: Event, callback: Callback<ArticleData>): void {
-        let target: EventType<EventTarget> = e.target;
-        const newsContainer: EventType<EventTarget> = e.currentTarget;
+        let target: EventTarget | null = e.target;
+        const newsContainer: EventTarget | null = e.currentTarget;
 
         while (target !== newsContainer) {
             if (target instanceof HTMLElement && target.classList.contains('source__item')) {

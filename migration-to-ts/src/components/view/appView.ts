@@ -3,17 +3,17 @@ import Sources from './sources/sources';
 import { ArticleInfo, ArticleData, SourcesInfo, SourcesData } from './appView.types';
 
 export class AppView {
-    constructor(news: News, sources: Sources) {
+    constructor(public news: News, public sources: Sources) {
         this.news = new News();
         this.sources = new Sources();
     }
 
-    drawNews(data: ArticleInfo): void {
+    public drawNews(data: ArticleInfo): void {
         const values: ArticleData[] = data?.articles ? data?.articles : [];
         this.news.draw(values);
     }
 
-    drawSources(data: SourcesInfo): void {
+    public drawSources(data: SourcesInfo): void {
         const values: SourcesData[] = data?.sources ? data?.sources : [];
         this.sources.draw(values);
     }

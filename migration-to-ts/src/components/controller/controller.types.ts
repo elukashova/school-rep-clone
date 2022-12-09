@@ -23,21 +23,36 @@ interface ArticleData {
   content: string;
   description: string;
   publishedAt: string;
-  source: {
-    id: string;
-    name: string;
-  }
+  source: ArticleSource;
   title: string;
   url: string;
   urlToImage: string;
 }
 
-interface SourceData {
+type SourceData = Pick<DataTypes, 'id' | 'name' | 'description' | 'url' | 'category' | 'language' | 'country'>;
+type ArticleSource = Pick<DataTypes, 'id' | 'name'>;
+
+interface DataTypes {
+  author: string;
+  content: string;
+  description: string;
+  publishedAt: string;
   id: string;
   name: string;
-  description: string;
+  title: string;
   url: string;
+  urlToImage: string;
   category: string;
   language: string;
   country: string;
 }
+
+// interface SourceData {
+//   id: string;
+//   name: string;
+//   description: string;
+//   url: string;
+//   category: string;
+//   language: string;
+//   country: string;
+// }

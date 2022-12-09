@@ -1,27 +1,32 @@
 import AppLoader from './appLoader';
+import { Endpoints, Callback, SourceData, ArticleData, EventType } from './controller.types';
 
 class AppController extends AppLoader {
-    public getSources(callback) {
+    public getSources(callback: Callback<SourceData>): void {
         super.getResp(
             {
-                endpoint: 'sources',
+                endpoint: Endpoints.Sources,
             },
             callback
         );
     }
 
-    public getNews(e, callback) {
-        let target = e.target;
-        const newsContainer = e.currentTarget;
+    public getNews(e: Event, callback: Callback<ArticleData>): void {
+        let target: EventType<EventTarget> = e.target;
+        const newsContainer: EventType<EventTarget> = e.currentTarget;
 
         while (target !== newsContainer) {
-            if (target.classList.contains('source__item')) {
-                const sourceId = target.getAttribute('data-source-id');
-                if (newsContainer.getAttribute('data-source') !== sourceId) {
+            if (target instanceof HTMLElement && target.classList.contains('source__item')) {
+                const sourceId: string | null = target.getAttribute('data-source-id');
+                if (
+                    sourceId &&
+                    newsContainer instanceof HTMLElement &&
+                    newsContainer.getAttribute('data-source') !== sourceId
+                ) {
                     newsContainer.setAttribute('data-source', sourceId);
                     super.getResp(
                         {
-                            endpoint: 'everything',
+                            endpoint: Endpoints.Everything,
                             options: {
                                 sources: sourceId,
                             },
@@ -31,7 +36,7 @@ class AppController extends AppLoader {
                 }
                 return;
             }
-            target = target.parentNode;
+            target = target && target instanceof HTMLElement ? target.parentElement : null;
         }
     }
 }

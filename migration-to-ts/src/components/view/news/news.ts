@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import './news.css';
 import { ArticleData } from './news.types';
 

@@ -6,12 +6,19 @@ export enum Endpoints {
 
 export type Callback<T> = (data?: T) => void;
 
-export interface SourceData {
+export interface SourceInfo {
   status: string;
-  sources: Source[];
+  sources: SourceData[];
 }
 
-export interface ArticleData {
+export interface ArticleInfo {
+  status: string;
+  totalResults: number;
+  articles: ArticleData[];
+}
+
+// NOT FOR EXPORT
+interface ArticleData {
   author: string;
   content: string;
   description: string;
@@ -25,8 +32,7 @@ export interface ArticleData {
   urlToImage: string;
 }
 
-// NOT FOR EXPORT
-interface Source {
+interface SourceData {
   id: string;
   name: string;
   description: string;

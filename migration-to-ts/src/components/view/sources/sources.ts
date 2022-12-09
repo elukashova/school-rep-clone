@@ -1,20 +1,34 @@
 import './sources.css';
+import { SourcesData } from './sources.types';
 
 class Sources {
-    public draw(data) {
-        const fragment = document.createDocumentFragment();
-        const sourceItemTemp = document.querySelector('#sourceItemTemp');
+    public draw(data: SourcesData[]): void {
+        const fragment: DocumentFragment = document.createDocumentFragment();
+        const sourceItemTemp: Element | null = document.querySelector('#sourceItemTemp');
 
-        data.forEach((item) => {
-            const sourceClone = sourceItemTemp.content.cloneNode(true);
+        if (sourceItemTemp && sourceItemTemp instanceof HTMLTemplateElement) {
+            data.forEach((item: SourcesData) => {
+                const sourceClone: Node = sourceItemTemp.content.cloneNode(true);
 
-            sourceClone.querySelector('.source__item-name').textContent = item.name;
-            sourceClone.querySelector('.source__item').setAttribute('data-source-id', item.id);
+                if (sourceClone && sourceClone instanceof DocumentFragment) {
+                    const itemName: Element | null = sourceClone.querySelector('.source__item-name');
+                    if (itemName) {
+                        itemName.textContent = item.name;
+                    }
 
-            fragment.append(sourceClone);
-        });
+                    const sourceItem: Element | null = sourceClone.querySelector('.source__item');
+                    if (sourceItem) {
+                        sourceItem.setAttribute('data-source-id', item.id);
+                    }
+                }
+                fragment.append(sourceClone);
+            });
+        }
 
-        document.querySelector('.sources').append(fragment);
+        const sources: Element | null = document.querySelector('.sources');
+        if (sources) {
+            sources.append(fragment);
+        }
     }
 }
 

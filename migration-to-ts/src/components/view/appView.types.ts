@@ -1,35 +1,35 @@
 /* eslint-disable prettier/prettier */
 export interface ArticleData {
-  author: string;
-  content: string;
-  description: string;
-  publishedAt: string;
-  source: {
+  readonly author: string;
+  readonly content: string;
+  readonly description: string;
+  readonly publishedAt: string;
+  readonly source: {
     id: string;
     name: string;
   }
-  title: string;
-  url: string;
-  urlToImage: string;
+  readonly title: string;
+  readonly url: string;
+  readonly urlToImage: string;
 }
 
 export interface SourcesData {
-  category: string;
-  country: string;
-  description: string;
-  id: string;
-  language: string;
-  name: string;
-  url: string;
+  readonly category: string;
+  readonly country: string;
+  readonly description: string;
+  readonly id: string;
+  readonly language: string;
+  readonly name: string;
+  readonly url: string;
 }
 
 export interface ArticleInfo {
-  status: string;
-  totalResults: number;
-  articles: ArticleData[];
+  readonly status: string;
+  readonly totalResults: number;
+  readonly articles: ArticleData[];
 }
 
 export interface SourcesInfo {
-  status: string;
-  sources: SourcesData[];
+  readonly status: string;
+  readonly sources: SourcesData[];
 }

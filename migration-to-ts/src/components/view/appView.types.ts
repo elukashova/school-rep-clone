@@ -7,6 +7,9 @@ export interface IAppView {
   sources: Sources;
   drawNews: (data: ArticleInfo) => void;
   drawSources: (data: SourcesInfo) => void;
+  undrawSources: (data: SourcesInfo) => void;
+  selectSources: (input: string, data: SourcesInfo) => void;
+  drawLetters: (data: SourcesInfo) => void;
 }
 
 export interface ArticleData {

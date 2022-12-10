@@ -1,7 +1,6 @@
 /* eslint-disable prettier/prettier */
-export interface ISources {
+export interface ILetters {
   draw: (data: SourcesData[]) => void;
-  undraw: (data: SourcesData[]) => void;
 }
 
 export interface SourcesData {

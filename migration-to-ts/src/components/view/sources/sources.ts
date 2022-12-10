@@ -30,6 +30,17 @@ class Sources implements ISources {
             sources.append(fragment);
         }
     }
+
+    public undraw(data: SourcesData[]): void {
+        const sourcesAll: NodeListOf<Element> = document.querySelectorAll('.source__item');
+        const sources: Element | null = document.querySelector('.sources');
+        if (sources && sourcesAll) {
+            for (let i: number = 0; i < sourcesAll.length; i++) {
+                sources.removeChild(sourcesAll[i]);
+            }
+            this.draw(data);
+        }
+    }
 }
 
 export default Sources;

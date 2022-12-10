@@ -1,8 +1,8 @@
 import AppController from '../controller/controller';
 import { AppView } from '../view/appView';
-import { ArticleInfo, SourcesInfo } from './app.types';
+import { IApp, ArticleInfo, SourcesInfo } from './app.types';
 
-class App {
+class App implements IApp {
     public controller: AppController;
     public view: AppView;
 

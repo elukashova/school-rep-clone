@@ -1,4 +1,13 @@
 /* eslint-disable prettier/prettier */
+export interface ILoader {
+  baseLink: string;
+  options: Options;
+  getResp: (
+    { endpoint, options = {} }: RespBundle,
+    callback: () => void
+  ) => void;
+}
+
 export interface Options {
   [key: string]: string;
 }

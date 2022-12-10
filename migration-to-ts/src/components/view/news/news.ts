@@ -1,9 +1,9 @@
 /* eslint-disable max-lines-per-function */
 import './news.css';
-import { ArticleData } from './news.types';
+import { INews, ArticleData } from './news.types';
 import { setProperty } from './news.function';
 
-class News {
+class News implements INews {
     public draw(data: ArticleData[]): void {
         const news: ArticleData[] = data.length >= 10 ? data.filter((_item, idx) => idx < 10) : data;
         const fragment: DocumentFragment = document.createDocumentFragment();

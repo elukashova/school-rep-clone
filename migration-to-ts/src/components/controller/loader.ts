@@ -1,7 +1,10 @@
-import { Options, Errors, RespBundle, Callback, RespData } from './loader.types';
+import { ILoader, Options, Errors, RespBundle, Callback, RespData } from './loader.types';
 
-class Loader {
-    constructor(public baseLink: string, public options: Options) {
+class Loader implements ILoader {
+    public baseLink: string;
+    public options: Options;
+
+    constructor(baseLink: string, options: Options) {
         this.baseLink = baseLink;
         this.options = options;
     }

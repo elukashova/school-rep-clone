@@ -1,8 +1,8 @@
 import News from './news/news';
 import Sources from './sources/sources';
-import { ArticleInfo, ArticleData, SourcesInfo, SourcesData } from './appView.types';
+import { IAppView, ArticleInfo, ArticleData, SourcesInfo, SourcesData } from './appView.types';
 
-export class AppView {
+export class AppView implements IAppView {
     public news: News;
     public sources: Sources;
 

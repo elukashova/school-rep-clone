@@ -1,4 +1,8 @@
 /* eslint-disable prettier/prettier */
+export interface INews {
+  draw: (data: ArticleData[]) => void;
+}
+
 export interface ArticleData {
   readonly author: string;
   readonly content: string;

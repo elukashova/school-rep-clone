@@ -1,4 +1,13 @@
 /* eslint-disable prettier/prettier */
+import AppController from '../controller/controller';
+import { AppView } from '../view/appView';
+
+export interface IApp {
+  controller: AppController;
+  view: AppView;
+  start: () => void;
+}
+
 export interface ArticleInfo {
   status: string;
   totalResults: number;

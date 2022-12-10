@@ -1,4 +1,14 @@
 /* eslint-disable prettier/prettier */
+import News from './news/news';
+import Sources from './sources/sources';
+
+export interface IAppView {
+  news: News;
+  sources: Sources;
+  drawNews: (data: ArticleInfo) => void;
+  drawSources: (data: SourcesInfo) => void;
+}
+
 export interface ArticleData {
   readonly author: string;
   readonly content: string;

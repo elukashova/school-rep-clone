@@ -1,34 +1,64 @@
 .sources {
+    flex-shrink: 1;
     display: flex;
+    flex-direction: row;
     flex-wrap: nowrap;
     width: 100%;
-    height: 120px;
-    overflow: auto;
+    overflow-x: auto;
     align-items: center;
     font: 300 1em 'Fira Sans', sans-serif;
+    gap: 2px;
+}
+
+.sources:hover > :not(:hover) {
+    opacity: 50%;
+}
+
+.sources::-webkit-scrollbar {
+    width: 15px;
+}
+
+.sources::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.sources::-webkit-scrollbar-thumb {
+    background: #00A6FB;
+}
+
+.sources::-webkit-scrollbar-thumb:hover {
+    background: #0582CA;
+}
+
+.sources::-webkit-scrollbar-thumb:active {
+    background: #006494;
 }
 
 .source__item {
-    background: none;
-    border: 2px solid #30c5ff;
+    flex: 1;
+    border: 2px solid #0582CA;
     font: inherit;
     line-height: 1;
-    margin: 0.5em;
     padding: 1em 2em;
-    color: #70d6ff;
-    transition: 0.25s;
+    margin: 0.2em;
+    color: #003554;
+    transition: 0.3s;
     cursor: pointer;
+    text-align: center;
 }
 
-.source__item:hover,
-.source__item:focus {
-    border-color: #3fcc59;
-    color: #69db7e;
-    box-shadow: 0 0.5em 0.5em -0.4em #3fcc59;
-    transform: translateY(-0.25em);
+.source__item:hover {
+    transform: scale(1.1);
 }
 
 .source__item-name {
     font-weight: 400;
     white-space: nowrap;
 }
+
+@media screen and (max-width: 640px) {
+    .source__item  {
+        padding: 0.5em 1em;
+    }
+  
+  }

@@ -16,7 +16,6 @@ class Letters implements ILetters {
 
         if (sourceLettersTemp && sourceLettersTemp instanceof HTMLTemplateElement) {
             uniqueChars.forEach((item: string) => {
-                // const index: number = uniqueChars.indexOf(item);
                 const sourceClone: Node = sourceLettersTemp.content.cloneNode(true);
 
                 if (sourceClone && sourceClone instanceof DocumentFragment) {

@@ -10,12 +10,14 @@ class Loader implements ILoader {
     }
 
     public getResp(
-        { endpoint, options = {} }: RespBundle,
+        { endpoint, options = {} }: Partial<RespBundle>,
         callback = (): void => {
             console.error('No callback for GET response');
         }
     ): void {
-        this.load('GET', endpoint, callback, options);
+        if (endpoint) {
+            this.load('GET', endpoint, callback, options);
+        }
     }
 
     private errorHandler(res: Response): Response {
@@ -28,8 +30,8 @@ class Loader implements ILoader {
         return res;
     }
 
-    private makeUrl(options: Partial<Options>, endpoint: string): string {
-        const urlOptions: Partial<Options> = { ...this.options, ...options };
+    private makeUrl(options: Options, endpoint: string): string {
+        const urlOptions: Options = { ...this.options, ...options };
         let url: string = `${this.baseLink}${endpoint}?`;
 
         Object.keys(urlOptions).forEach((key: string): void => {
@@ -39,7 +41,7 @@ class Loader implements ILoader {
         return url.slice(0, -1);
     }
 
-    private load(method: string, endpoint: string, callback: Callback<RespData>, options: Partial<Options> = {}): void {
+    private load(method: string, endpoint: string, callback: Callback<RespData>, options: Options = {}): void {
         fetch(this.makeUrl(options, endpoint), { method })
             .then(this.errorHandler)
             .then((res: Response) => res.json())

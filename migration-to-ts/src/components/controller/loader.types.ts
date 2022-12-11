@@ -14,7 +14,7 @@ export interface Options {
 
 export interface RespBundle {
   endpoint: Endpoints;
-  options?: Options;
+  options: Options;
 }
 
 export enum Errors {

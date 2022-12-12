@@ -3,7 +3,7 @@
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    width: 100%;
+    width: 99%;
     overflow-x: auto;
     align-items: center;
     font: 300 1em 'Fira Sans', sans-serif;
@@ -24,6 +24,7 @@
 
 .sources::-webkit-scrollbar-thumb {
     background: #00A6FB;
+    background-clip: content-box;
 }
 
 .sources::-webkit-scrollbar-thumb:hover {
@@ -40,7 +41,7 @@
     font: inherit;
     line-height: 1;
     padding: 1em 2em;
-    margin: 0.2em;
+    margin-bottom: 2px;
     color: #003554;
     transition: 0.3s;
     cursor: pointer;
@@ -48,7 +49,7 @@
 }
 
 .source__item:hover {
-    transform: scale(1.1);
+    background-color: #00A6FB;
 }
 
 .source__item-name {

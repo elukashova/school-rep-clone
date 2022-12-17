@@ -1,3 +1,5 @@
+import { Endpoints } from './controller.types';
+
 export interface ILoader {
     baseLink: string;
     options: Options;
@@ -19,29 +21,3 @@ export enum Errors {
 }
 
 export type Callback<T> = (data: T) => void;
-
-export interface RespData {
-    status: string;
-    totalResults: number;
-    articles: ArticleData[];
-}
-
-//NOT FOR EXPORT
-enum Endpoints {
-    Sources = 'sources',
-    Everything = 'everything',
-}
-
-interface ArticleData {
-    author: string;
-    content: string;
-    description: string;
-    publishedAt: string;
-    source: {
-        id: string;
-        name: string;
-    };
-    title: string;
-    url: string;
-    urlToImage: string;
-}

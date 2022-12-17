@@ -1,14 +1,6 @@
-export interface ISources {
-    draw: (data: SourcesData[]) => void;
-    undraw: (data: SourcesData[]) => void;
-}
+import { Source } from '../../app/app.types';
 
-export interface SourcesData {
-    category: string;
-    country: string;
-    description: string;
-    id: string;
-    language: string;
-    name: string;
-    url: string;
+export interface ISources {
+    draw: (data: Source[]) => void;
+    undraw: (data: Source[]) => void;
 }

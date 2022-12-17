@@ -1,4 +1,5 @@
-import { ILoader, Options, Errors, RespBundle, Callback, RespData } from './loader.types';
+import { ILoader, Options, Errors, RespBundle, Callback } from './loader.types';
+import { ResponseArticles } from '../app/app.types';
 
 class Loader implements ILoader {
     public baseLink: string;
@@ -41,11 +42,11 @@ class Loader implements ILoader {
         return url.slice(0, -1);
     }
 
-    private load(method: string, endpoint: string, callback: Callback<RespData>, options: Options = {}): void {
+    private load(method: string, endpoint: string, callback: Callback<ResponseArticles>, options: Options = {}): void {
         fetch(this.makeUrl(options, endpoint), { method })
             .then(this.errorHandler)
             .then((res: Response) => res.json())
-            .then((data: RespData) => callback(data))
+            .then((data: ResponseArticles) => callback(data))
             .catch((err: Error) => console.error(err));
     }
 }

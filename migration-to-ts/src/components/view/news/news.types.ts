@@ -1,19 +1,7 @@
-export interface INews {
-    draw: (data: ArticleData[]) => void;
-}
+import { Article } from '../../app/app.types';
 
-export interface ArticleData {
-    readonly author: string;
-    readonly content: string;
-    readonly description: string;
-    readonly publishedAt: string;
-    readonly source: {
-        id: string;
-        name: string;
-    };
-    readonly title: string;
-    readonly url: string;
-    readonly urlToImage: string;
+export interface INews {
+    draw: (data: Article[]) => void;
 }
 
 export type FunctionParameters = {

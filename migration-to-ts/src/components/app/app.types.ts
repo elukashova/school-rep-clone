@@ -19,8 +19,7 @@ export interface ResponseSources extends ApiResponse {
 
 export type Callback<T> = (data?: T) => void;
 
-//NOT FOR EXPORT
-interface Article {
+export interface Article {
     author: string;
     content: string;
     description: string;
@@ -34,7 +33,7 @@ interface Article {
     urlToImage: string;
 }
 
-interface Source {
+export interface Source {
     category: string;
     country: string;
     description: string;

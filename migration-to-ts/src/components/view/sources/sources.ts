@@ -1,13 +1,14 @@
 import './sources.css';
-import { ISources, SourcesData } from './sources.types';
+import { ISources } from './sources.types';
+import { Source } from '../../app/app.types';
 
 class Sources implements ISources {
-    public draw(data: SourcesData[]): void {
+    public draw(data: Source[]): void {
         const fragment: DocumentFragment = document.createDocumentFragment();
         const sourceItemTemp: Element | null = document.querySelector('#sourceItemTemp');
 
         if (sourceItemTemp && sourceItemTemp instanceof HTMLTemplateElement) {
-            data.forEach((item: SourcesData) => {
+            data.forEach((item: Source) => {
                 const sourceClone: Node = sourceItemTemp.content.cloneNode(true);
 
                 if (sourceClone && sourceClone instanceof DocumentFragment) {
@@ -31,7 +32,7 @@ class Sources implements ISources {
         }
     }
 
-    public undraw(data: SourcesData[]): void {
+    public undraw(data: Source[]): void {
         const sourcesAll: NodeListOf<Element> = document.querySelectorAll('.source__item');
         const sources: Element | null = document.querySelector('.sources');
         if (sources && sourcesAll) {

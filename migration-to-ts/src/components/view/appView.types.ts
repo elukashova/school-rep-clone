@@ -1,47 +1,13 @@
 import News from './news/news';
 import Sources from './sources/sources';
+import { ResponseArticles, ResponseSources } from '../app/app.types';
 
 export interface IAppView {
     news: News;
     sources: Sources;
-    drawNews: (data: ArticleInfo) => void;
-    drawSources: (data: SourcesInfo) => void;
-    undrawSources: (data: SourcesInfo) => void;
-    selectSources: (input: string, data: SourcesInfo) => void;
-    drawLetters: (data: SourcesInfo) => void;
-}
-
-export interface ArticleData {
-    readonly author: string;
-    readonly content: string;
-    readonly description: string;
-    readonly publishedAt: string;
-    readonly source: {
-        id: string;
-        name: string;
-    };
-    readonly title: string;
-    readonly url: string;
-    readonly urlToImage: string;
-}
-
-export interface SourcesData {
-    readonly category: string;
-    readonly country: string;
-    readonly description: string;
-    readonly id: string;
-    readonly language: string;
-    readonly name: string;
-    readonly url: string;
-}
-
-export interface ArticleInfo {
-    readonly status: string;
-    readonly totalResults: number;
-    readonly articles: ArticleData[];
-}
-
-export interface SourcesInfo {
-    readonly status: string;
-    readonly sources: SourcesData[];
+    drawNews: (data: ResponseArticles) => void;
+    drawSources: (data: ResponseSources) => void;
+    undrawSources: (data: ResponseSources) => void;
+    selectSources: (input: string, data: ResponseSources) => void;
+    drawLetters: (data: ResponseSources) => void;
 }

@@ -1,9 +1,10 @@
 /* eslint-disable max-lines-per-function */
 import './letters.css';
-import { ILetters, SourcesData } from './letters.types';
+import { ILetters } from './letters.types';
+import { Source } from '../../app/app.types';
 
 class Letters implements ILetters {
-    public draw(data: SourcesData[]): void {
+    public draw(data: Source[]): void {
         const chars: string[] = [];
         for (let i: number = 0; i < data.length; i++) {
             const firstChar: string = data[i].name.charAt(0);

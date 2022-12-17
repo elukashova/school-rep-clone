@@ -1,13 +1,5 @@
-export interface ILetters {
-    draw: (data: SourcesData[]) => void;
-}
+import { Source } from '../../app/app.types';
 
-export interface SourcesData {
-    category: string;
-    country: string;
-    description: string;
-    id: string;
-    language: string;
-    name: string;
-    url: string;
+export interface ILetters {
+    draw: (data: Source[]) => void;
 }

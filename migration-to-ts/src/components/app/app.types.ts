@@ -7,21 +7,20 @@ export interface IApp {
     start: () => void;
 }
 
-export interface ArticleInfo {
-    status: string;
+export interface ResponseArticles extends ApiResponse {
     totalResults: number;
-    articles: ArticleData[];
+    articles: Article[];
 }
 
-export interface SourcesInfo {
+export interface ResponseSources extends ApiResponse {
     status: string;
-    sources: SourcesData[];
+    sources: Source[];
 }
 
 export type Callback<T> = (data?: T) => void;
 
 //NOT FOR EXPORT
-interface ArticleData {
+interface Article {
     author: string;
     content: string;
     description: string;
@@ -35,7 +34,7 @@ interface ArticleData {
     urlToImage: string;
 }
 
-interface SourcesData {
+interface Source {
     category: string;
     country: string;
     description: string;
@@ -43,4 +42,8 @@ interface SourcesData {
     language: string;
     name: string;
     url: string;
+}
+
+interface ApiResponse {
+    status: string;
 }

@@ -12,28 +12,28 @@ export class AppView implements IAppView {
     ) {}
 
     public drawNews(data: ResponseArticles): void {
-        const values: Article[] = data?.articles ? data?.articles : [];
+        const values: Article[] = data?.articles ?? [];
         this.news.draw(values);
     }
 
     public drawSources(data: ResponseSources): void {
-        const values: Source[] = data?.sources ? data?.sources : [];
+        const values: Source[] = data?.sources ?? [];
         this.sources.draw(values);
     }
 
     public undrawSources(data: ResponseSources): void {
-        const values: Source[] = data?.sources ? data?.sources : [];
+        const values: Source[] = data?.sources ?? [];
         this.sources.undraw(values);
     }
 
     public selectSources(input: string, data: ResponseSources): void {
-        const values: Source[] = data?.sources ? data?.sources : [];
+        const values: Source[] = data?.sources ?? [];
         const filtered: Source[] = values.filter((obj: Source) => obj.name[0] === input);
         this.sources.undraw(filtered);
     }
 
     public drawLetters(data: ResponseSources): void {
-        const values: Source[] = data?.sources ? data?.sources : [];
+        const values: Source[] = data?.sources ?? [];
         this.letters.draw(values);
     }
 }

@@ -1,16 +1,17 @@
 /* eslint-disable max-lines-per-function */
 import './news.css';
-import { INews, ArticleData } from './news.types';
+import { INews } from './news.types';
 import { setProperty } from './news.function';
+import { Article } from '../../app/app.types';
 
 class News implements INews {
-    public draw(data: ArticleData[]): void {
-        const news: ArticleData[] = data.length >= 10 ? data.filter((_item, idx) => idx < 10) : data;
+    public draw(data: Article[]): void {
+        const news: Article[] = data.length >= 10 ? data.filter((_item, idx) => idx < 10) : data;
         const fragment: DocumentFragment = document.createDocumentFragment();
         const newsItemTemp: Element | null = document.querySelector('#newsItemTemp');
 
         if (newsItemTemp instanceof HTMLTemplateElement) {
-            news.forEach((item: ArticleData, idx: number) => {
+            news.forEach((item: Article, idx: number) => {
                 const newsClone: Node = newsItemTemp.content.cloneNode(true);
                 if (newsClone && newsClone instanceof DocumentFragment) {
                     if (idx % 2) {

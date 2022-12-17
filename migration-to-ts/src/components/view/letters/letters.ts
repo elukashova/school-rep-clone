@@ -5,11 +5,7 @@ import { Source } from '../../app/app.types';
 
 class Letters implements ILetters {
     public draw(data: Source[]): void {
-        const chars: string[] = [];
-        for (let i: number = 0; i < data.length; i++) {
-            const firstChar: string = data[i].name.charAt(0);
-            chars.push(firstChar);
-        }
+        const chars: string[] = data.map((source: Source) => source.name[0]);
         const uniqueChars: string[] = [...new Set(chars)];
 
         const fragment: DocumentFragment = document.createDocumentFragment();

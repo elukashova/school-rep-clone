@@ -15,3 +15,9 @@ export interface ArticleData {
     readonly url: string;
     readonly urlToImage: string;
 }
+
+export type FunctionParameters = {
+    root: DocumentFragment;
+    selector: string;
+    value: string;
+};

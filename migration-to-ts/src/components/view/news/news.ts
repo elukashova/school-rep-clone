@@ -22,16 +22,19 @@ class News implements INews {
                         newsPhoto.style.backgroundImage = `url(${item.urlToImage || 'img/news_placeholder.jpg'})`;
                     }
 
-                    setProperty(newsClone, '.news__meta-author', 'textContent', item.author || item.source.name);
-                    setProperty(
-                        newsClone,
-                        '.news__meta-date',
-                        'textContent',
-                        item.publishedAt.slice(0, 10).split('-').reverse().join('-')
-                    );
-                    setProperty(newsClone, '.news__description-title', 'textContent', item.title);
-                    setProperty(newsClone, '.news__description-source', 'textContent', item.source.name);
-                    setProperty(newsClone, '.news__description-content', 'textContent', item.description);
+                    setProperty({
+                        root: newsClone,
+                        selector: '.news__meta-author',
+                        value: item.author || item.source.name,
+                    });
+                    setProperty({
+                        root: newsClone,
+                        selector: '.news__meta-date',
+                        value: item.publishedAt.slice(0, 10).split('-').reverse().join('-'),
+                    });
+                    setProperty({ root: newsClone, selector: '.news__description-title', value: item.title });
+                    setProperty({ root: newsClone, selector: '.news__description-source', value: item.source.name });
+                    setProperty({ root: newsClone, selector: '.news__description-content', value: item.description });
 
                     const readMore: Element | null = newsClone.querySelector('.news__read-more a');
                     if (readMore) {

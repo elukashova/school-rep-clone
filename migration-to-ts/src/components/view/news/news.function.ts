@@ -1,6 +1,8 @@
-export function setProperty(root: DocumentFragment, selector: string, property: 'textContent', value: string): void {
-    const item: Element | null = root.querySelector(selector);
+import { FunctionParameters } from './news.types';
+
+export function setProperty(parameters: FunctionParameters): void {
+    const item: Element | null = parameters.root.querySelector(parameters.selector);
     if (item) {
-        item[property] = value;
+        item['textContent'] = parameters.value;
     }
 }

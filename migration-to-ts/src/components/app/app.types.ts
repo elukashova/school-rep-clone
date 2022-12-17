@@ -24,10 +24,7 @@ export interface Article {
     content: string;
     description: string;
     publishedAt: string;
-    source: {
-        id: string;
-        name: string;
-    };
+    source: Pick<Source, 'id' | 'name'>;
     title: string;
     url: string;
     urlToImage: string;

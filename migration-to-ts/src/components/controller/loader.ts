@@ -1,5 +1,4 @@
 import { ILoader, Options, Errors, RespBundle, Callback } from './loader.types';
-import { ResponseArticles } from '../app/app.types';
 import { Endpoints } from './controller.types';
 
 class Loader implements ILoader {

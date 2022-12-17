@@ -6,7 +6,7 @@ import { Article } from '../../app/app.types';
 
 class News implements INews {
     public draw(data: Article[]): void {
-        const news: Article[] = data.length >= 10 ? data.filter((_item, idx) => idx < 10) : data;
+        const news: Article[] = data.length >= 10 ? data.filter((_item: Article, idx: number) => idx < 10) : data;
         const fragment: DocumentFragment = document.createDocumentFragment();
         const newsItemTemp: Element | null = document.querySelector('#newsItemTemp');
 

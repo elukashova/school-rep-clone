@@ -1,5 +1,6 @@
 import { ILoader, Options, Errors, RespBundle, Callback } from './loader.types';
 import { ResponseArticles } from '../app/app.types';
+import { Endpoints } from './controller.types';
 
 class Loader implements ILoader {
     constructor(private baseLink: string, private options: Options) {}
@@ -36,12 +37,12 @@ class Loader implements ILoader {
         return url.slice(0, -1);
     }
 
-    private load(method: string, endpoint: string, callback: Callback<ResponseArticles>, options: Options = {}): void {
+    private load<T>(method: string, endpoint: Endpoints, callback: Callback<T>, options: Options): void {
         fetch(this.makeUrl(options, endpoint), { method })
             .then(this.errorHandler)
-            .then((res: Response) => res.json())
-            .then((data: ResponseArticles) => callback(data))
-            .catch((err: Error) => console.error(err));
+            .then((res: Response): Promise<T> => res.json())
+            .then((data: T): void => callback(data))
+            .catch((err: Error): void => console.error(err));
     }
 }
 

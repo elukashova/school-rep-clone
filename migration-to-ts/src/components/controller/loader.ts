@@ -2,13 +2,7 @@ import { ILoader, Options, Errors, RespBundle, Callback } from './loader.types';
 import { ResponseArticles } from '../app/app.types';
 
 class Loader implements ILoader {
-    public baseLink: string;
-    public options: Options;
-
-    constructor(baseLink: string, options: Options) {
-        this.baseLink = baseLink;
-        this.options = options;
-    }
+    constructor(private baseLink: string, private options: Options) {}
 
     public getResp(
         { endpoint, options = {} }: Partial<RespBundle>,

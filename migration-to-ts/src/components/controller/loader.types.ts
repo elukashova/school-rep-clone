@@ -1,8 +1,6 @@
 import { Endpoints } from './controller.types';
 
 export interface ILoader {
-    baseLink: string;
-    options: Options;
     getResp: ({ endpoint, options = {} }: RespBundle, callback: () => void) => void;
 }
 

@@ -5,11 +5,7 @@ import { IAppView } from './appView.types';
 import { ResponseArticles, Article, ResponseSources, Source } from '../app/app.types';
 
 export class AppView implements IAppView {
-    public news: News;
-    public sources: Sources;
-    public letters: Letters;
-
-    constructor() {
+    constructor(public news: News, public sources: Sources, public letters: Letters) {
         this.news = new News();
         this.sources = new Sources();
         this.letters = new Letters();

@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import AppController from '../controller/controller';
 import { AppView } from '../view/appView';
 import { IApp, ArticleInfo, SourcesInfo } from './app.types';
@@ -12,6 +11,7 @@ class App implements IApp {
         this.view = new AppView();
     }
 
+    // eslint-disable-next-line max-lines-per-function
     public start(): void {
         const sources = document.querySelector('.sources');
         if (sources) {

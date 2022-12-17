@@ -3,13 +3,7 @@ import { AppView } from '../view/appView';
 import { IApp, ResponseArticles, ResponseSources } from './app.types';
 
 class App implements IApp {
-    public controller: AppController;
-    public view: AppView;
-
-    constructor() {
-        this.controller = new AppController();
-        this.view = new AppView();
-    }
+    constructor(private controller: AppController = new AppController(), private view: AppView = new AppView()) {}
 
     // eslint-disable-next-line max-lines-per-function
     public start(): void {

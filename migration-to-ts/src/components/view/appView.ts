@@ -5,11 +5,9 @@ import { IAppView } from './appView.types';
 import { ResponseArticles, Article, ResponseSources, Source } from '../app/app.types';
 
 export class AppView implements IAppView {
-    constructor(
-        public news: News = new News(),
-        public sources: Sources = new Sources(),
-        public letters: Letters = new Letters()
-    ) {}
+    public news: News = new News();
+    public sources: Sources = new Sources();
+    public letters: Letters = new Letters();
 
     public drawNews(data: ResponseArticles): void {
         const values: Article[] = data?.articles ?? [];

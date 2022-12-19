@@ -8,7 +8,6 @@ export interface ResponseArticles extends ApiResponse {
 }
 
 export interface ResponseSources extends ApiResponse {
-    status: string;
     sources: Source[];
 }
 

@@ -31,10 +31,10 @@ class App implements IApp {
             letters.addEventListener('click', (e: Event) => {
                 const target: EventTarget | null = e.target;
                 if (target && target instanceof HTMLElement) {
-                    const id: string = target.id;
+                    const letter: string | null = target.getAttribute('letter');
                     this.controller.getSources((data: ResponseSources | undefined) => {
-                        if (data) {
-                            this.view.selectSources(id, data);
+                        if (data && letter) {
+                            this.view.selectSources(letter, data);
                         }
                     });
                 }

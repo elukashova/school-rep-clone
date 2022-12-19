@@ -19,7 +19,7 @@ class Letters implements ILetters {
                     const letterText: Element | null = sourceClone.querySelector('.source__letter-text');
                     if (letterText) {
                         letterText.textContent = item;
-                        letterText.setAttribute('data', item);
+                        letterText.setAttribute('letter', item);
                     }
 
                     const sourceLetter: Element | null = sourceClone.querySelector('.source__letter');

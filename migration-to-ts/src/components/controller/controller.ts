@@ -4,7 +4,7 @@ import { ResponseArticles, ResponseSources } from '../app/app.types';
 
 class AppController extends AppLoader {
     public getSources(callback: Callback<ResponseSources>): void {
-        super.getResp(
+        super.getResp<ResponseSources>(
             {
                 endpoint: Endpoints.Sources,
             },
@@ -25,7 +25,7 @@ class AppController extends AppLoader {
                     newsContainer.getAttribute('data-source') !== sourceId
                 ) {
                     newsContainer.setAttribute('data-source', sourceId);
-                    super.getResp(
+                    super.getResp<ResponseArticles>(
                         {
                             endpoint: Endpoints.Everything,
                             options: {

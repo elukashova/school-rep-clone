@@ -4,14 +4,14 @@ import { Endpoints } from './controller.types';
 class Loader implements ILoader {
     constructor(private baseLink: string, private options: Options) {}
 
-    public getResp(
+    public getResp<T>(
         { endpoint, options = {} }: Partial<RespBundle>,
         callback = (): void => {
             console.error('No callback for GET response');
         }
     ): void {
         if (endpoint) {
-            this.load('GET', endpoint, callback, options);
+            this.load<T>('GET', endpoint, callback, options);
         }
     }
 

@@ -1,8 +1,8 @@
-import { FunctionParameters } from './news.types';
+import { PropertiesToSet } from './news.types';
 
-export function setProperty(parameters: FunctionParameters): void {
-    const item: Element | null = parameters.root.querySelector(parameters.selector);
+export function setProperty({ root, selector, value }: PropertiesToSet): void {
+    const item: Element | null = root.querySelector(selector);
     if (item) {
-        item['textContent'] = parameters.value;
+        item['textContent'] = value;
     }
 }

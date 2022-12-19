@@ -4,7 +4,7 @@ export interface INews {
     draw: (data: Article[]) => void;
 }
 
-export type FunctionParameters = {
+export type PropertiesToSet = {
     root: DocumentFragment;
     selector: string;
     value: string;

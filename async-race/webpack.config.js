@@ -29,7 +29,7 @@ module.exports = ({ develop }) => ({
     filename: 'bundle.js',
     assetModuleFilename: 'assets/images/[name][ext]',
     clean: true,
-    publicPath: '/',
+    publicPath: '',
   },
   module: {
     rules: [

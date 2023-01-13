@@ -1,6 +1,9 @@
-import BaseComponent from './base-component';
+import './page-garage.styles.css';
+import BaseComponent from './static/base-component';
+import RaceTrack from './race-track';
+import { CarType } from './view.types';
 
-export default class MainGarage extends BaseComponent {
+export default class GaragePage extends BaseComponent {
   private createInputText: BaseComponent | null = null;
 
   private createInputColor: BaseComponent | null = null;
@@ -28,7 +31,7 @@ export default class MainGarage extends BaseComponent {
   private currentPage: number = 1;
 
   constructor() {
-    super('main', undefined, 'main__garage garage');
+    super('section', undefined, 'section garage');
     this.render();
   }
 
@@ -39,10 +42,17 @@ export default class MainGarage extends BaseComponent {
 
   // creating block with cars settings
   private renderSettingsBlock(): void {
+    this.carsLimitElement = new BaseComponent(
+      'span',
+      this.element,
+      'garage__race_cars-limit',
+      `Garage (${this.carsLimit})`,
+    );
     const settingsWrapper: BaseComponent = new BaseComponent('div', this.element, 'garage__settings settings');
+    const carsSettingsWrapper: BaseComponent = new BaseComponent('div', settingsWrapper.element, 'settings__cars');
     const createSettingWrapper: BaseComponent = new BaseComponent(
       'div',
-      settingsWrapper.element,
+      carsSettingsWrapper.element,
       'settings__create-wrapper',
     );
     this.createInputText = this.createSettingsInput(createSettingWrapper, 'create', 'text');
@@ -51,17 +61,17 @@ export default class MainGarage extends BaseComponent {
 
     const updateSettingWrapper: BaseComponent = new BaseComponent(
       'div',
-      settingsWrapper.element,
+      carsSettingsWrapper.element,
       'settings__update-wrapper',
     );
     this.updateInputText = this.createSettingsInput(updateSettingWrapper, 'create', 'text');
     this.updateInputColor = this.createSettingsInput(updateSettingWrapper, 'create', 'color');
-    this.updateBtn = this.createSettingsBtn(updateSettingWrapper, 'create', 'submit');
+    this.updateBtn = this.createSettingsBtn(updateSettingWrapper, 'update', 'submit');
 
     const btnsWrapper: BaseComponent = new BaseComponent('div', settingsWrapper.element, 'settings__btns-wrapper');
     this.raceBtn = this.createSettingsBtn(btnsWrapper, 'race', 'submit');
     this.resetBtn = this.createSettingsBtn(btnsWrapper, 'reset', 'reset');
-    this.generateBtn = this.createSettingsBtn(btnsWrapper, 'generate cards', 'submit');
+    this.generateBtn = this.createSettingsBtn(btnsWrapper, 'generate trains', 'submit');
   }
 
   private createSettingsInput(parent: BaseComponent, setting: string, type: string): BaseComponent {
@@ -81,17 +91,19 @@ export default class MainGarage extends BaseComponent {
   // creating block with race
   private renderRaceBlock(): void {
     const raceFieldWrapper: BaseComponent = new BaseComponent('div', this.element, 'garage__race-wrapper');
-    this.carsLimitElement = new BaseComponent(
-      'span',
-      raceFieldWrapper.element,
-      'garage__race_cars-limit',
-      `Garage (${this.carsLimit})`,
-    );
     this.currentPageElement = new BaseComponent(
       'span',
       raceFieldWrapper.element,
       'garage__race_current-page',
       `Page #${this.currentPage}`,
     );
+    const raceField: BaseComponent = new BaseComponent('div', this.element, 'garage__race-field race');
+    const carDataTemp: CarType = {
+      name: 'Tesla',
+      color: '#65C8DE',
+      id: 1,
+    };
+    const track: RaceTrack = new RaceTrack(carDataTemp);
+    raceField.element.append(track.element);
   }
 }

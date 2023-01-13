@@ -1,30 +1,39 @@
-import Header from '../view/components/header';
-import MainGarage from '../view/components/main-garage';
-import MainWinners from '../view/components/main-winners';
+import Header from '../view/static/header';
+import GaragePage from '../view/page-garage';
+import WinnersPage from '../view/page-winners';
+import Footer from '../view/static/footer';
+import BaseComponent from '../view/static/base-component';
 
 export default class App {
-  private readonly header: Header;
+  private header: Header | null = null;
 
-  private readonly garagePage: MainGarage = new MainGarage();
+  private main: BaseComponent | null = null;
 
-  private winnersPage: MainWinners | null = null;
+  private garagePage: GaragePage = new GaragePage();
 
-  constructor(private readonly root: HTMLElement) {
-    this.header = new Header(root, this.replaceMain);
-    this.root.append(this.garagePage.element);
-  }
+  private winnersPage: WinnersPage | null = null;
+
+  private footer: Footer = new Footer();
+
+  constructor(private readonly root: HTMLElement) {}
 
   public init(): void {
     this.root.classList.add('root');
+    this.header = new Header(this.root, this.replaceMain);
+    this.main = new BaseComponent('main', this.root, 'main');
+    this.main.element.append(this.garagePage.element);
+    this.root.append(this.footer.element);
   }
 
   public replaceMain = (e: Event): void => {
     e.preventDefault();
-    if (this.garagePage && this.garagePage.element.parentElement === this.root) {
-      this.winnersPage = new MainWinners();
-      this.root.replaceChild(this.winnersPage.element, this.garagePage.element);
-    } else if (this.winnersPage && this.winnersPage.element.parentElement === this.root) {
-      this.root.replaceChild(this.garagePage.element, this.winnersPage.element);
+    if (this.main) {
+      if (this.garagePage && this.garagePage.element.parentElement === this.main.element) {
+        this.winnersPage = new WinnersPage();
+        this.main.element.replaceChild(this.winnersPage.element, this.garagePage.element);
+      } else if (this.winnersPage && this.winnersPage.element.parentElement === this.main.element) {
+        this.main.element.replaceChild(this.garagePage.element, this.winnersPage.element);
+      }
     }
   };
 }

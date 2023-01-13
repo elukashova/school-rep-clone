@@ -1,0 +1,49 @@
+.header {
+  flex: 0 0 auto;
+  width: 100%;
+  height: 8rem;
+  padding: 0rem 5rem;
+}
+
+.header__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.logo__img {
+  width: 12rem;
+  pointer-events: none;
+}
+
+.header__nav {
+  display: flex;
+  justify-content: center;
+  gap: 3em;
+}
+
+.nav__garage-btn,
+.nav__winners-btn {
+  cursor: pointer;
+  background-color: #62432C;
+  color: #FFF;
+  text-transform: uppercase;
+  width: 7em;
+  height: 2em;
+  border-radius: 0.15em;
+  font-size: calc(.5em + 0.8vw);
+  transition: background-color .3s;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+}
+
+.nav__garage-btn:hover,
+.nav__winners-btn:hover {
+  background-color: #BD5923;
+}
+
+.nav__garage-btn:active,
+.nav__winners-btn:active {
+  background-color: #FAB05A;
+}

@@ -1,5 +1,5 @@
 import { Observer } from '../controller/loader.types';
-import BaseComponent from './static/base-component';
+import BaseComponent from './base-component';
 
 export default class WinnersPage extends BaseComponent {
   private observers: Observer[] = [];

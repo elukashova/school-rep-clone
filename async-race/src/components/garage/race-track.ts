@@ -1,5 +1,6 @@
-import BaseComponent from './static/base-component';
-import { CarType } from './view.types';
+import './race-track.styles.css';
+import BaseComponent from '../base-component';
+import { CarType } from './garage.types';
 
 export default class RaceTrack extends BaseComponent {
   private selectBtn: BaseComponent | null = null;
@@ -8,7 +9,7 @@ export default class RaceTrack extends BaseComponent {
 
   private carNameElemenet: BaseComponent | null = null;
 
-  private leaveBtn: BaseComponent | null = null;
+  public startBtn: BaseComponent | null = null;
 
   private stopBtn: BaseComponent | null = null;
 
@@ -26,12 +27,13 @@ export default class RaceTrack extends BaseComponent {
 
     const bottomLinePart: BaseComponent = new BaseComponent('div', this.element, 'race__track-bottom');
     const btnsWrapper: BaseComponent = new BaseComponent('div', bottomLinePart.element, 'race__track-bottom__btns');
-    this.leaveBtn = this.createBtn(btnsWrapper, 'leave', 'submit');
+    this.startBtn = this.createBtn(btnsWrapper, 'start', 'submit');
     this.stopBtn = this.createBtn(btnsWrapper, 'stop', 'submit');
 
     const trackLine: BaseComponent = new BaseComponent('div', bottomLinePart.element, 'race__track-line');
     const car: Element = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     car.classList.add('race__car');
+    car.setAttribute('id', `${data.id}`);
     car.setAttribute('fill', 'none');
     car.setAttribute('width', '102');
     car.setAttribute('height', '88');

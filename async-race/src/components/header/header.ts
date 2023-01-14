@@ -1,5 +1,5 @@
 import './header.styles.css';
-import BaseComponent from './base-component';
+import BaseComponent from '../base-component';
 
 export default class Header extends BaseComponent {
   private garageBtn: BaseComponent | null = null;

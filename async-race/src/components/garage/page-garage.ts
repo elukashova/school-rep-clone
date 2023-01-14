@@ -1,9 +1,9 @@
 import './page-garage.styles.css';
-import BaseComponent from './static/base-component';
+import BaseComponent from '../base-component';
 import RaceTrack from './race-track';
-import { CarType, PageStatusType } from './view.types';
-import { getCars } from '../services/garage';
-import { CarsData, Observer } from '../controller/loader.types';
+import { CarType, PageStatusType } from './garage.types';
+import { getCars } from '../../services/garage';
+import { CarsData, Observer } from '../../controller/loader.types';
 
 export default class GaragePage extends BaseComponent {
   private observers: Observer[] = [];

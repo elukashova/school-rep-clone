@@ -1,8 +1,8 @@
-import Header from '../view/static/header';
-import GaragePage from '../view/page-garage';
-import WinnersPage from '../view/page-winners';
-import Footer from '../view/static/footer';
-import BaseComponent from '../view/static/base-component';
+import Header from '../components/header/header';
+import GaragePage from '../components/garage/page-garage';
+import WinnersPage from '../components/page-winners';
+import Footer from '../components/footer/footer';
+import BaseComponent from '../components/base-component';
 import Loader from '../controller/loader';
 
 export default class App {

@@ -44,16 +44,17 @@
   display: flex;
 }
 
-.race__car {
-  width: 6.5rem;
-  height: 3.5rem;
-  filter: drop-shadow(1px 1px 1px #62432C);
-}
-
 .race__track-line {
   width: 100%;
   border-bottom: 5px dashed #62432C;
   position: relative;
+  border-radius: 1em 1em 0em 0em ;
+}
+
+.race__car {
+  width: 6.5rem;
+  height: 3.5rem;
+  filter: drop-shadow(0.5px 0.5px 0.5px #62432C);
 }
 
 .race__end {

@@ -1,7 +1,9 @@
 import './page-garage.styles.css';
 import BaseComponent from './static/base-component';
 import RaceTrack from './race-track';
-import { CarType } from './view.types';
+import { CarType, PageStatusType } from './view.types';
+import { getCars } from '../services/garage';
+import { CarsData } from '../controller/loader.types';
 
 export default class GaragePage extends BaseComponent {
   private createInputText: BaseComponent | null = null;
@@ -30,24 +32,26 @@ export default class GaragePage extends BaseComponent {
 
   private currentPage: number = 1;
 
+  private currentPageStatus: PageStatusType = {
+    page: 1,
+    limit: 7,
+  };
+
   constructor() {
     super('section', undefined, 'section garage');
     this.render();
   }
 
   private render(): void {
-    this.renderSettingsBlock();
-    this.renderRaceBlock();
+    getCars(this.currentPageStatus).then((cars: CarsData) => {
+      this.renderSettingsBlock(cars.length);
+      this.renderRaceBlock(cars);
+    });
   }
 
   // creating block with cars settings
-  private renderSettingsBlock(): void {
-    this.carsLimitElement = new BaseComponent(
-      'span',
-      this.element,
-      'garage__race_cars-limit',
-      `Garage (${this.carsLimit})`,
-    );
+  private renderSettingsBlock(total: number): void {
+    this.carsLimitElement = new BaseComponent('span', this.element, 'garage__race_cars-limit', `Garage (${total})`);
     const settingsWrapper: BaseComponent = new BaseComponent('div', this.element, 'garage__settings settings');
     const carsSettingsWrapper: BaseComponent = new BaseComponent('div', settingsWrapper.element, 'settings__cars');
     const createSettingWrapper: BaseComponent = new BaseComponent(
@@ -89,7 +93,7 @@ export default class GaragePage extends BaseComponent {
   }
 
   // creating block with race
-  private renderRaceBlock(): void {
+  private renderRaceBlock(cars: CarType[]): void {
     const raceFieldWrapper: BaseComponent = new BaseComponent('div', this.element, 'garage__race-wrapper');
     this.currentPageElement = new BaseComponent(
       'span',
@@ -97,13 +101,11 @@ export default class GaragePage extends BaseComponent {
       'garage__race_current-page',
       `Page #${this.currentPage}`,
     );
-    const raceField: BaseComponent = new BaseComponent('div', this.element, 'garage__race-field race');
-    const carDataTemp: CarType = {
-      name: 'Tesla',
-      color: '#65C8DE',
-      id: 1,
-    };
-    const track: RaceTrack = new RaceTrack(carDataTemp);
-    raceField.element.append(track.element);
+
+    cars.forEach((car) => {
+      const raceField: BaseComponent = new BaseComponent('div', this.element, 'garage__race-field race');
+      const track: RaceTrack = new RaceTrack(car);
+      raceField.element.append(track.element);
+    });
   }
 }

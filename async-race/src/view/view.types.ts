@@ -3,3 +3,8 @@ export type CarType = {
   color: string;
   id: number;
 };
+
+export type PageStatusType = {
+  page: number;
+  limit: number;
+};

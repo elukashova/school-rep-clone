@@ -22,3 +22,13 @@ export type StringConverterType = string | number | boolean | number[] | undefin
 //   TooManyRequests = 429,
 //   InternalServer = 500,
 // }
+
+export interface ObservedSubject {
+  attachObserver(observer: Observer): void;
+  removeObserver(observer: Observer): void;
+  notifyObserver(): void;
+}
+
+export interface Observer {
+  update(subject: ObservedSubject, e?: Event): void;
+}

@@ -3,11 +3,12 @@ import GaragePage from '../view/page-garage';
 import WinnersPage from '../view/page-winners';
 import Footer from '../view/static/footer';
 import BaseComponent from '../view/static/base-component';
+import Loader from '../controller/loader';
 
 export default class App {
-  private header: Header | null = null;
+  private header: Header;
 
-  private main: BaseComponent | null = null;
+  private main: BaseComponent;
 
   private garagePage: GaragePage = new GaragePage();
 
@@ -25,14 +26,15 @@ export default class App {
     this.root.append(this.footer.element);
   }
 
-  public replaceMain = (e: Event): void => {
-    e.preventDefault();
+  public replaceMain = (): void => {
     if (this.main) {
       if (this.garagePage && this.garagePage.element.parentElement === this.main.element) {
         this.winnersPage = new WinnersPage();
         this.main.element.replaceChild(this.winnersPage.element, this.garagePage.element);
+        this.winnersPage.attachObserver(Loader);
       } else if (this.winnersPage && this.winnersPage.element.parentElement === this.main.element) {
         this.main.element.replaceChild(this.garagePage.element, this.winnersPage.element);
+        this.garagePage.attachObserver(Loader);
       }
     }
   };

@@ -3,9 +3,11 @@ import BaseComponent from './static/base-component';
 import RaceTrack from './race-track';
 import { CarType, PageStatusType } from './view.types';
 import { getCars } from '../services/garage';
-import { CarsData } from '../controller/loader.types';
+import { CarsData, Observer } from '../controller/loader.types';
 
 export default class GaragePage extends BaseComponent {
+  private observers: Observer[] = [];
+
   private createInputText: BaseComponent | null = null;
 
   private createInputColor: BaseComponent | null = null;
@@ -107,5 +109,29 @@ export default class GaragePage extends BaseComponent {
       const track: RaceTrack = new RaceTrack(car);
       raceField.element.append(track.element);
     });
+  }
+
+  public attachObserver(observer: Observer): void {
+    const isExist = this.observers.includes(observer);
+    if (isExist) {
+      console.log('Subject: Observer has been attached already.');
+    }
+    this.observers.push(observer);
+  }
+
+  public removeObserver(observer: Observer): void {
+    const observerIndex = this.observers.indexOf(observer);
+    if (observerIndex === -1) {
+      console.log('Subject: Nonexistent observer.');
+    }
+
+    this.observers.splice(observerIndex, 1);
+    console.log('Subject: Detached an observer.');
+  }
+
+  public notifyObserver(): void {
+    for (let i: number = 0; i < this.observers.length; i += 1) {
+      this.observers[i].update(this);
+    }
   }
 }

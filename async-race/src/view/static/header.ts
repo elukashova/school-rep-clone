@@ -6,7 +6,7 @@ export default class Header extends BaseComponent {
 
   private winnersBtn: BaseComponent | null = null;
 
-  constructor(private root: HTMLElement, private callback: (e: Event) => void) {
+  constructor(private root: HTMLElement, private callback: () => void) {
     super('header', root, 'header');
     this.render();
   }
@@ -25,7 +25,7 @@ export default class Header extends BaseComponent {
     this.winnersBtn.element.addEventListener('click', this.navBtnCallback);
   }
 
-  private navBtnCallback = (e: Event): void => {
-    this.callback(e);
+  private navBtnCallback = (): void => {
+    this.callback();
   };
 }

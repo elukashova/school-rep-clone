@@ -29,7 +29,15 @@
   align-items: center;
 }
 
+.garage__race-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .garage__race-field {
   width: 100%;
   display: flex;
+  flex-direction: column;
 }

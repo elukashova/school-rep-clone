@@ -6,27 +6,31 @@
 
 .race__track-bottom {
   display: flex;
+  width: 100%;
 }
 
 .race__track-line {
   width: 100%;
-  border-bottom: 5px dashed #62432C;
+  border-bottom: 5px dashed white;
   position: relative;
   border-radius: 1em 1em 0em 0em ;
+  height: 4.5rem;
 }
 
 .race__car {
-  width: 4.2rem;
-  height: 3.5rem;
+  width: 4.5rem;
+  height: 3.8rem;
   filter: drop-shadow(0.5px 0.5px 0.5px #62432C);
   z-index: 1;
+  top: 0.45rem;
+  position: relative;
 }
 
 .race__end {
   position: absolute;
   right: 5rem;
   bottom: 0rem;
-  height: 5.3rem;
-  width: 3.6rem;
+  height: 5.2rem;
+  width: 3.5rem;
   z-index: -1;
 }

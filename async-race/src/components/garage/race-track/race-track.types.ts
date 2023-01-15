@@ -9,7 +9,7 @@ export type Settings = {
 export type CarType = {
   name: string;
   color: string;
-  id: number;
+  id?: number;
   status?: EngineStatus;
 };
 

@@ -28,7 +28,9 @@ export default class RaceTrack extends BaseComponent<'div'> {
 
   constructor(data: CarType) {
     super('div', undefined, 'race__track');
-    this.id = data.id;
+    if (data.id) {
+      this.id = data.id;
+    }
     this.name = data.name;
     this.color = data.color;
     this.engine = new Engine(this.car, this.id, this.trackLine.element);

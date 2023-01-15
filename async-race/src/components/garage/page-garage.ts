@@ -3,7 +3,7 @@ import BaseComponent from '../base-component';
 import RaceTrack from './race-track/race-track';
 import { PageStatus } from './page-garage.types';
 import { CarType, CarsData, Settings } from './race-track/race-track.types';
-import { Observer, Options } from '../../controller/loader.types';
+import { Observer, DataParams } from '../../controller/loader.types';
 import Loader from '../../controller/loader';
 
 export default class GaragePage extends BaseComponent<'section'> {
@@ -29,11 +29,20 @@ export default class GaragePage extends BaseComponent<'section'> {
 
   private carsLimitElement: BaseComponent<'span'> | null = null;
 
+  private raceFieldWrapper: BaseComponent<'div'> | null = null;
+
+  private raceField: BaseComponent<'div'> | null = null;
+
   private carsLimit: number = 4;
 
   private currentPageElement: BaseComponent<'span'> | null = null;
 
   private currentPage: number = 1;
+
+  private newCarData: CarType = {
+    name: '',
+    color: '',
+  };
 
   private currentPageStatus: PageStatus = {
     page: 1,
@@ -47,14 +56,21 @@ export default class GaragePage extends BaseComponent<'section'> {
 
   private render(): void {
     GaragePage.getCars(this.currentPageStatus).then((cars: CarsData) => {
-      this.renderSettingsBlock(cars.length);
+      this.carsLimitElement = new BaseComponent(
+        'span',
+        this.element,
+        'garage__race_cars-limit',
+        `Garage (${cars.length})`,
+      );
+      this.renderSettingsBlock();
+      this.raceFieldWrapper = new BaseComponent('div', this.element, 'garage__race-wrapper');
       this.renderRaceBlock(cars);
     });
   }
 
   // creating block with cars settings
   // eslint-disable-next-line max-lines-per-function
-  private renderSettingsBlock(total: number): void {
+  private renderSettingsBlock(): void {
     const settingsWrapper: BaseComponent<'div'> = new BaseComponent('div', this.element, 'garage__settings settings');
     const carsSettingsWrapper: BaseComponent<'div'> = new BaseComponent(
       'div',
@@ -77,7 +93,6 @@ export default class GaragePage extends BaseComponent<'section'> {
       'settings__btns-wrapper',
     );
 
-    this.carsLimitElement = new BaseComponent('span', this.element, 'garage__race_cars-limit', `Garage (${total})`);
     this.createInputText = GaragePage.SettingsInput({
       parent: createSettingWrapper,
       name: 'create',
@@ -107,8 +122,37 @@ export default class GaragePage extends BaseComponent<'section'> {
       name: 'generate trains',
       type: 'submit',
     });
+
+    this.createInputText.element.addEventListener('input', this.createTextInputCallback);
+    this.createInputColor.element.addEventListener('input', this.createColorInputCallback);
+    this.createBtn.element.addEventListener('click', this.createBtnCallback);
   }
 
+  // callbacks for creating a new car
+  private createTextInputCallback = (): void => {
+    if (this.createInputText) {
+      this.newCarData.name = this.createInputText.element.value;
+    }
+  };
+
+  private createColorInputCallback = (): void => {
+    if (this.createInputColor) {
+      this.newCarData.color = this.createInputColor.element.value;
+    }
+  };
+
+  private createBtnCallback = async (): Promise<void> => {
+    const newCar: CarType = await GaragePage.createCar(this.newCarData);
+    const track: RaceTrack = new RaceTrack(newCar);
+    this.raceField?.element.append(track.element);
+  };
+
+  // server-related functions
+  private static getCars = (params: DataParams): Promise<CarsData> => Loader.getAndPatch('GET', 'garage', params);
+
+  private static createCar = (params: DataParams): Promise<CarType> => Loader.postData('garage', params);
+
+  // functions to render similar elements
   private static SettingsInput(data: Settings): BaseComponent<'input'> {
     const txtInput = new BaseComponent('input', data.parent.element, `settings__${data.name}_input-${data.type}`, '', {
       type: `${data.type}`,
@@ -125,22 +169,19 @@ export default class GaragePage extends BaseComponent<'section'> {
 
   // creating block with race
   private renderRaceBlock(cars: CarType[]): void {
-    const raceFieldWrapper: BaseComponent<'div'> = new BaseComponent('div', this.element, 'garage__race-wrapper');
     this.currentPageElement = new BaseComponent(
       'span',
-      raceFieldWrapper.element,
+      this.raceFieldWrapper?.element,
       'garage__race_current-page',
       `Page #${this.currentPage}`,
     );
+    this.raceField = new BaseComponent('div', this.raceFieldWrapper?.element, 'garage__race-field race');
 
     cars.forEach((car) => {
-      const raceField: BaseComponent<'div'> = new BaseComponent('div', this.element, 'garage__race-field race');
       const track: RaceTrack = new RaceTrack(car);
-      raceField.element.append(track.element);
+      this.raceField?.element.append(track.element);
     });
   }
-
-  private static getCars = (options: Options): Promise<CarsData> => Loader.getAndPatch('GET', 'garage', options);
 
   // public attachObserver(observer: Observer): void {
   //   const isExist = this.observers.includes(observer);

@@ -1,4 +1,4 @@
-export type Options = Partial<Record<string, string | number | boolean | number[]>>;
+export type DataParams = Partial<Record<string, string | number | boolean | number[]>>;
 
 export type EngineResp = {
   velocity: number;

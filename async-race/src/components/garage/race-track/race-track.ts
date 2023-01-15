@@ -54,6 +54,7 @@ export default class RaceTrack extends BaseComponent<'div'> {
     this.startBtn = RaceTrack.createBtn({ parent: btnsWrapper, name: 'start', type: 'submit' });
     this.stopBtn = RaceTrack.createBtn({ parent: btnsWrapper, name: 'stop', type: 'submit' });
 
+    this.stopBtn.element.setAttribute('disabled', '');
     this.car.classList.add('race__car');
     carSource.setAttribute('href', 'assets/sprite.svg#snowmobile');
     this.car.setAttribute('fill', `${this.color}`);
@@ -71,10 +72,14 @@ export default class RaceTrack extends BaseComponent<'div'> {
   }
 
   private startBtnCallback = async (): Promise<void> => {
+    this.startBtn?.element.setAttribute('disabled', '');
+    this.stopBtn?.element.removeAttribute('disabled');
     await this.engine.startDriving();
   };
 
   private stopBtnCallback = async (): Promise<void> => {
+    this.stopBtn?.element.setAttribute('disabled', '');
+    this.startBtn?.element.removeAttribute('disabled');
     await this.engine.stopDriving();
   };
 

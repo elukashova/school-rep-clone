@@ -38,31 +38,31 @@ export default class RaceTrack extends BaseComponent<'div'> {
   // eslint-disable-next-line max-lines-per-function
   private render(): void {
     const topLinePart: BaseComponent<'div'> = new BaseComponent('div', this.element, 'race__track-top');
-    this.selectBtn = RaceTrack.createBtn({ parent: topLinePart, name: 'select', type: 'submit' });
-    this.deleteBtn = RaceTrack.createBtn({ parent: topLinePart, name: 'delete', type: 'submit' });
-    this.carNameElemenet = new BaseComponent('span', topLinePart.element, 'race__car-name', `${this.name}`);
-
     const bottomLinePart: BaseComponent<'div'> = new BaseComponent('div', this.element, 'race__track-bottom');
     const btnsWrapper: BaseComponent<'div'> = new BaseComponent(
       'div',
       bottomLinePart.element,
       'race__track-bottom__btns',
     );
+    const carSource = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+    const finish: SVGElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    const finishSource = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+
+    this.selectBtn = RaceTrack.createBtn({ parent: topLinePart, name: 'select', type: 'submit' });
+    this.deleteBtn = RaceTrack.createBtn({ parent: topLinePart, name: 'delete', type: 'submit' });
+    this.carNameElemenet = new BaseComponent('span', topLinePart.element, 'race__car-name', `${this.name}`);
     this.startBtn = RaceTrack.createBtn({ parent: btnsWrapper, name: 'start', type: 'submit' });
     this.stopBtn = RaceTrack.createBtn({ parent: btnsWrapper, name: 'stop', type: 'submit' });
 
-    bottomLinePart.element.append(this.trackLine.element);
     this.car.classList.add('race__car');
-    const carSource = document.createElementNS('http://www.w3.org/2000/svg', 'use');
     carSource.setAttribute('href', 'assets/sprite.svg#snowmobile');
-    this.car.append(carSource);
     this.car.setAttribute('fill', `${this.color}`);
-    this.trackLine.element.append(this.car);
-
-    const finish: SVGElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    const finishSource = document.createElementNS('http://www.w3.org/2000/svg', 'use');
     finishSource.setAttribute('href', 'assets/sprite.svg#snowman');
     finish.classList.add('race__end');
+
+    bottomLinePart.element.append(this.trackLine.element);
+    this.trackLine.element.append(this.car);
+    this.car.append(carSource);
     finish.append(finishSource);
     this.trackLine.element.append(finish);
 

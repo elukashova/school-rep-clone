@@ -19,6 +19,7 @@ export default class Header extends BaseComponent<'header'> {
     });
     logoLink.element.append(logoImg.element);
     const nav: BaseComponent<'nav'> = new BaseComponent('nav', container.element, 'header__nav nav');
+
     this.garageBtn = new BaseComponent('button', nav.element, 'nav__garage-btn', 'garage');
     this.garageBtn.element.addEventListener('click', this.navBtnCallback);
     this.winnersBtn = new BaseComponent('button', nav.element, 'nav__winners-btn', 'winners');

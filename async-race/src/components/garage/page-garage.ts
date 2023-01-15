@@ -55,7 +55,6 @@ export default class GaragePage extends BaseComponent<'section'> {
   // creating block with cars settings
   // eslint-disable-next-line max-lines-per-function
   private renderSettingsBlock(total: number): void {
-    this.carsLimitElement = new BaseComponent('span', this.element, 'garage__race_cars-limit', `Garage (${total})`);
     const settingsWrapper: BaseComponent<'div'> = new BaseComponent('div', this.element, 'garage__settings settings');
     const carsSettingsWrapper: BaseComponent<'div'> = new BaseComponent(
       'div',
@@ -67,6 +66,18 @@ export default class GaragePage extends BaseComponent<'section'> {
       carsSettingsWrapper.element,
       'settings__create-wrapper',
     );
+    const updateSettingWrapper: BaseComponent<'div'> = new BaseComponent(
+      'div',
+      carsSettingsWrapper.element,
+      'settings__update-wrapper',
+    );
+    const btnsWrapper: BaseComponent<'div'> = new BaseComponent(
+      'div',
+      settingsWrapper.element,
+      'settings__btns-wrapper',
+    );
+
+    this.carsLimitElement = new BaseComponent('span', this.element, 'garage__race_cars-limit', `Garage (${total})`);
     this.createInputText = GaragePage.SettingsInput({
       parent: createSettingWrapper,
       name: 'create',
@@ -78,12 +89,6 @@ export default class GaragePage extends BaseComponent<'section'> {
       type: 'color',
     });
     this.createBtn = GaragePage.SettingsBtn({ parent: createSettingWrapper, name: 'create', type: 'submit' });
-
-    const updateSettingWrapper: BaseComponent<'div'> = new BaseComponent(
-      'div',
-      carsSettingsWrapper.element,
-      'settings__update-wrapper',
-    );
     this.updateInputText = GaragePage.SettingsInput({
       parent: updateSettingWrapper,
       name: 'create',
@@ -95,12 +100,6 @@ export default class GaragePage extends BaseComponent<'section'> {
       type: 'color',
     });
     this.updateBtn = GaragePage.SettingsBtn({ parent: updateSettingWrapper, name: 'update', type: 'submit' });
-
-    const btnsWrapper: BaseComponent<'div'> = new BaseComponent(
-      'div',
-      settingsWrapper.element,
-      'settings__btns-wrapper',
-    );
     this.raceBtn = GaragePage.SettingsBtn({ parent: btnsWrapper, name: 'race', type: 'submit' });
     this.resetBtn = GaragePage.SettingsBtn({ parent: btnsWrapper, name: 'reset', type: 'reset' });
     this.generateBtn = GaragePage.SettingsBtn({

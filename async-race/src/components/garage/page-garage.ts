@@ -1,10 +1,10 @@
 import './page-garage.styles.css';
 import BaseComponent from '../base-component';
-import RaceTrack from './race-track';
+import RaceTrack from './race-track/race-track';
 import { PageStatus } from './page-garage.types';
-import { CarType, CarsData, Settings } from './race-track.types';
-import { getCars } from '../../controller/services/garage-services';
-import { Observer } from '../../controller/loader.types';
+import { CarType, CarsData, Settings } from './race-track/race-track.types';
+import { Observer, Options } from '../../controller/loader.types';
+import Loader from '../../controller/loader';
 
 export default class GaragePage extends BaseComponent<'section'> {
   private observers: Observer[] = [];
@@ -46,7 +46,7 @@ export default class GaragePage extends BaseComponent<'section'> {
   }
 
   private render(): void {
-    getCars(this.currentPageStatus).then((cars: CarsData) => {
+    GaragePage.getCars(this.currentPageStatus).then((cars: CarsData) => {
       this.renderSettingsBlock(cars.length);
       this.renderRaceBlock(cars);
     });
@@ -141,27 +141,29 @@ export default class GaragePage extends BaseComponent<'section'> {
     });
   }
 
-  public attachObserver(observer: Observer): void {
-    const isExist = this.observers.includes(observer);
-    if (isExist) {
-      console.log('Subject: Observer has been attached already.');
-    }
-    this.observers.push(observer);
-  }
+  private static getCars = (options: Options): Promise<CarsData> => Loader.getAndPatch('GET', 'garage', options);
 
-  public removeObserver(observer: Observer): void {
-    const observerIndex = this.observers.indexOf(observer);
-    if (observerIndex === -1) {
-      console.log('Subject: Nonexistent observer.');
-    }
+  // public attachObserver(observer: Observer): void {
+  //   const isExist = this.observers.includes(observer);
+  //   if (isExist) {
+  //     console.log('Subject: Observer has been attached already.');
+  //   }
+  //   this.observers.push(observer);
+  // }
 
-    this.observers.splice(observerIndex, 1);
-    console.log('Subject: Detached an observer.');
-  }
+  // public removeObserver(observer: Observer): void {
+  //   const observerIndex = this.observers.indexOf(observer);
+  //   if (observerIndex === -1) {
+  //     console.log('Subject: Nonexistent observer.');
+  //   }
 
-  public notifyObserver(): void {
-    for (let i: number = 0; i < this.observers.length; i += 1) {
-      this.observers[i].update(this);
-    }
-  }
+  //   this.observers.splice(observerIndex, 1);
+  //   console.log('Subject: Detached an observer.');
+  // }
+
+  // public notifyObserver(): void {
+  //   for (let i: number = 0; i < this.observers.length; i += 1) {
+  //     this.observers[i].update(this);
+  //   }
+  // }
 }

@@ -3,7 +3,6 @@ import GaragePage from '../components/garage/page-garage';
 import WinnersPage from '../components/page-winners';
 import Footer from '../components/footer/footer';
 import BaseComponent from '../components/base-component';
-import Loader from '../controller/loader';
 
 export default class App {
   private header: Header;
@@ -31,10 +30,8 @@ export default class App {
       if (this.garagePage && this.garagePage.element.parentElement === this.main.element) {
         this.winnersPage = new WinnersPage();
         this.main.element.replaceChild(this.winnersPage.element, this.garagePage.element);
-        this.winnersPage.attachObserver(Loader);
       } else if (this.winnersPage && this.winnersPage.element.parentElement === this.main.element) {
         this.main.element.replaceChild(this.garagePage.element, this.winnersPage.element);
-        this.garagePage.attachObserver(Loader);
       }
     }
   };

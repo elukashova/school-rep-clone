@@ -1,4 +1,4 @@
-import { ObservedSubject, Options, StringConverterType } from './loader.types';
+import { Options, StringConverterType } from './loader.types';
 
 export default class Loader {
   private static server: string = 'http://127.0.0.1:3000/';
@@ -22,14 +22,14 @@ export default class Loader {
     return res;
   }
 
-  public static getData<T>(view: string, options?: Options): Promise<T> {
+  public static getAndPatch<T>(method: string, view: string, options?: Options): Promise<T> {
     const url: URL = Loader.createURL(view);
 
     if (options) {
-      url.search = new URLSearchParams(Loader.makeURLParams(options, true)).toString();
+      url.search = new URLSearchParams(Loader.makeURLParams(options)).toString();
     }
 
-    return this.load(url, 'GET').then((res: Response) => res.json());
+    return this.load(url, method).then((res: Response) => res.json());
   }
 
   private static createURL = (view: string): URL => {
@@ -53,9 +53,5 @@ export default class Loader {
       result = typeof value === 'string' ? value : value.toString();
     }
     return result;
-  }
-
-  public static update(subject: ObservedSubject): void {
-    console.log(subject);
   }
 }

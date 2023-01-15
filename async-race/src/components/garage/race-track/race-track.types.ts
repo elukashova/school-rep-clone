@@ -1,4 +1,4 @@
-import BaseComponent from '../base-component';
+import BaseComponent from '../../base-component';
 
 export type Settings = {
   parent: BaseComponent<'div'>;
@@ -10,9 +10,11 @@ export type CarType = {
   name: string;
   color: string;
   id: number;
-  state?: 'started' | 'stopped' | 'drive';
+  status?: EngineStatus;
 };
 
-export type EngineState = Pick<CarType, 'id' | 'state'>;
+export type EngineStatus = 'started' | 'stopped' | 'drive';
+
+export type EngineState = Pick<CarType, 'id' | 'status'>;
 
 export type CarsData = CarType[];

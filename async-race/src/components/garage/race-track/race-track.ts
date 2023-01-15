@@ -1,8 +1,19 @@
 import './race-track.styles.css';
-import BaseComponent from '../base-component';
+import BaseComponent from '../../base-component';
 import { Settings, CarType } from './race-track.types';
+import Engine from './engine';
 
 export default class RaceTrack extends BaseComponent<'div'> {
+  private car: Element = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+
+  private id: number;
+
+  private name: string;
+
+  private color: string;
+
+  private trackLine: BaseComponent<'div'> = new BaseComponent('div', undefined, 'race__track-line');
+
   private selectBtn: BaseComponent<'button'> | null = null;
 
   private deleteBtn: BaseComponent<'button'> | null = null;
@@ -15,15 +26,18 @@ export default class RaceTrack extends BaseComponent<'div'> {
 
   constructor(data: CarType) {
     super('div', undefined, 'race__track');
-    this.render(data);
+    this.id = data.id;
+    this.name = data.name;
+    this.color = data.color;
+    this.render();
   }
 
   // eslint-disable-next-line max-lines-per-function
-  private render(data: CarType): void {
+  private render(): void {
     const topLinePart: BaseComponent<'div'> = new BaseComponent('div', this.element, 'race__track-top');
     this.selectBtn = RaceTrack.createBtn({ parent: topLinePart, name: 'select', type: 'submit' });
     this.deleteBtn = RaceTrack.createBtn({ parent: topLinePart, name: 'delete', type: 'submit' });
-    this.carNameElemenet = new BaseComponent('span', topLinePart.element, 'race__car-name', `${data.name}`);
+    this.carNameElemenet = new BaseComponent('span', topLinePart.element, 'race__car-name', `${this.name}`);
 
     const bottomLinePart: BaseComponent<'div'> = new BaseComponent('div', this.element, 'race__track-bottom');
     const btnsWrapper: BaseComponent<'div'> = new BaseComponent(
@@ -34,16 +48,16 @@ export default class RaceTrack extends BaseComponent<'div'> {
     this.startBtn = RaceTrack.createBtn({ parent: btnsWrapper, name: 'start', type: 'submit' });
     this.stopBtn = RaceTrack.createBtn({ parent: btnsWrapper, name: 'stop', type: 'submit' });
 
-    const trackLine: BaseComponent<'div'> = new BaseComponent('div', bottomLinePart.element, 'race__track-line');
-    const car: Element = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    car.classList.add('race__car');
-    car.setAttribute('id', `${data.id}`);
-    car.setAttribute('fill', 'none');
-    car.setAttribute('width', '102');
-    car.setAttribute('height', '88');
-    car.setAttribute('viewBox', '0 0 102 88');
-    RaceTrack.createMainSVGPathes(car, `${data.color}`);
-    trackLine.element.append(car);
+    bottomLinePart.element.append(this.trackLine.element);
+    this.car.classList.add('race__car');
+    this.car.setAttribute('id', `${this.id}`);
+    this.car.setAttribute('fill', 'none');
+    this.car.setAttribute('width', '102');
+    this.car.setAttribute('height', '88');
+    this.car.setAttribute('viewBox', '0 0 102 88');
+    RaceTrack.createMainSVGPathes(this.car, `${this.color}`);
+    this.trackLine.element.append(this.car);
+    this.startBtn.element.addEventListener('click', this.startBtnCallback);
 
     const clock: Element = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     clock.classList.add('race__end'); // TODO: refactor this part
@@ -69,8 +83,14 @@ export default class RaceTrack extends BaseComponent<'div'> {
     clockPath2.setAttribute('fill', 'white');
     clock.append(clockPath1);
     clock.append(clockPath2);
-    trackLine.element.append(clock);
+    this.trackLine.element.append(clock);
   }
+
+  // this.car, this.id, trackLine.element
+  private startBtnCallback = async (): Promise<void> => {
+    const engine: Engine = new Engine(this.car, this.id, this.trackLine.element);
+    await engine.startDriving();
+  };
 
   private static createBtn(data: Settings): BaseComponent<'button'> {
     const button = new BaseComponent('button', data.parent.element, `race__${data.name}_btn`, `${data.name}`, {

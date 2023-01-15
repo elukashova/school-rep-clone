@@ -1,40 +1,41 @@
 import './page-garage.styles.css';
 import BaseComponent from '../base-component';
 import RaceTrack from './race-track';
-import { CarType, PageStatusType } from './garage.types';
-import { getCars } from '../../services/garage';
-import { CarsData, Observer } from '../../controller/loader.types';
+import { PageStatus } from './page-garage.types';
+import { CarType, CarsData, Settings } from './race-track.types';
+import { getCars } from '../../controller/services/garage-services';
+import { Observer } from '../../controller/loader.types';
 
-export default class GaragePage extends BaseComponent {
+export default class GaragePage extends BaseComponent<'section'> {
   private observers: Observer[] = [];
 
-  private createInputText: BaseComponent | null = null;
+  private createInputText: BaseComponent<'input'> | null = null;
 
-  private createInputColor: BaseComponent | null = null;
+  private createInputColor: BaseComponent<'input'> | null = null;
 
-  private createBtn: BaseComponent | null = null;
+  private createBtn: BaseComponent<'button'> | null = null;
 
-  private updateInputText: BaseComponent | null = null;
+  private updateInputText: BaseComponent<'input'> | null = null;
 
-  private updateInputColor: BaseComponent | null = null;
+  private updateInputColor: BaseComponent<'input'> | null = null;
 
-  private updateBtn: BaseComponent | null = null;
+  private updateBtn: BaseComponent<'button'> | null = null;
 
-  private raceBtn: BaseComponent | null = null;
+  private raceBtn: BaseComponent<'button'> | null = null;
 
-  private resetBtn: BaseComponent | null = null;
+  private resetBtn: BaseComponent<'button'> | null = null;
 
-  private generateBtn: BaseComponent | null = null;
+  private generateBtn: BaseComponent<'button'> | null = null;
 
-  private carsLimitElement: BaseComponent | null = null;
+  private carsLimitElement: BaseComponent<'span'> | null = null;
 
   private carsLimit: number = 4;
 
-  private currentPageElement: BaseComponent | null = null;
+  private currentPageElement: BaseComponent<'span'> | null = null;
 
   private currentPage: number = 1;
 
-  private currentPageStatus: PageStatusType = {
+  private currentPageStatus: PageStatus = {
     page: 1,
     limit: 7,
   };
@@ -52,51 +53,80 @@ export default class GaragePage extends BaseComponent {
   }
 
   // creating block with cars settings
+  // eslint-disable-next-line max-lines-per-function
   private renderSettingsBlock(total: number): void {
     this.carsLimitElement = new BaseComponent('span', this.element, 'garage__race_cars-limit', `Garage (${total})`);
-    const settingsWrapper: BaseComponent = new BaseComponent('div', this.element, 'garage__settings settings');
-    const carsSettingsWrapper: BaseComponent = new BaseComponent('div', settingsWrapper.element, 'settings__cars');
-    const createSettingWrapper: BaseComponent = new BaseComponent(
+    const settingsWrapper: BaseComponent<'div'> = new BaseComponent('div', this.element, 'garage__settings settings');
+    const carsSettingsWrapper: BaseComponent<'div'> = new BaseComponent(
+      'div',
+      settingsWrapper.element,
+      'settings__cars',
+    );
+    const createSettingWrapper: BaseComponent<'div'> = new BaseComponent(
       'div',
       carsSettingsWrapper.element,
       'settings__create-wrapper',
     );
-    this.createInputText = this.createSettingsInput(createSettingWrapper, 'create', 'text');
-    this.createInputColor = this.createSettingsInput(createSettingWrapper, 'create', 'color');
-    this.createBtn = this.createSettingsBtn(createSettingWrapper, 'create', 'submit');
+    this.createInputText = GaragePage.SettingsInput({
+      parent: createSettingWrapper,
+      name: 'create',
+      type: 'text',
+    });
+    this.createInputColor = GaragePage.SettingsInput({
+      parent: createSettingWrapper,
+      name: 'create',
+      type: 'color',
+    });
+    this.createBtn = GaragePage.SettingsBtn({ parent: createSettingWrapper, name: 'create', type: 'submit' });
 
-    const updateSettingWrapper: BaseComponent = new BaseComponent(
+    const updateSettingWrapper: BaseComponent<'div'> = new BaseComponent(
       'div',
       carsSettingsWrapper.element,
       'settings__update-wrapper',
     );
-    this.updateInputText = this.createSettingsInput(updateSettingWrapper, 'create', 'text');
-    this.updateInputColor = this.createSettingsInput(updateSettingWrapper, 'create', 'color');
-    this.updateBtn = this.createSettingsBtn(updateSettingWrapper, 'update', 'submit');
+    this.updateInputText = GaragePage.SettingsInput({
+      parent: updateSettingWrapper,
+      name: 'create',
+      type: 'text',
+    });
+    this.updateInputColor = GaragePage.SettingsInput({
+      parent: updateSettingWrapper,
+      name: 'create',
+      type: 'color',
+    });
+    this.updateBtn = GaragePage.SettingsBtn({ parent: updateSettingWrapper, name: 'update', type: 'submit' });
 
-    const btnsWrapper: BaseComponent = new BaseComponent('div', settingsWrapper.element, 'settings__btns-wrapper');
-    this.raceBtn = this.createSettingsBtn(btnsWrapper, 'race', 'submit');
-    this.resetBtn = this.createSettingsBtn(btnsWrapper, 'reset', 'reset');
-    this.generateBtn = this.createSettingsBtn(btnsWrapper, 'generate trains', 'submit');
+    const btnsWrapper: BaseComponent<'div'> = new BaseComponent(
+      'div',
+      settingsWrapper.element,
+      'settings__btns-wrapper',
+    );
+    this.raceBtn = GaragePage.SettingsBtn({ parent: btnsWrapper, name: 'race', type: 'submit' });
+    this.resetBtn = GaragePage.SettingsBtn({ parent: btnsWrapper, name: 'reset', type: 'reset' });
+    this.generateBtn = GaragePage.SettingsBtn({
+      parent: btnsWrapper,
+      name: 'generate trains',
+      type: 'submit',
+    });
   }
 
-  private createSettingsInput(parent: BaseComponent, setting: string, type: string): BaseComponent {
-    const txtInput = new BaseComponent('input', parent.element, `settings__${setting}_input-${type}`, '', {
-      type: `${type}`,
+  private static SettingsInput(data: Settings): BaseComponent<'input'> {
+    const txtInput = new BaseComponent('input', data.parent.element, `settings__${data.name}_input-${data.type}`, '', {
+      type: `${data.type}`,
     });
     return txtInput;
   }
 
-  private createSettingsBtn(parent: BaseComponent, setting: string, type: string): BaseComponent {
-    const button = new BaseComponent('button', parent.element, `settings__${setting}_btn`, `${setting}`, {
-      type: `${type}`,
+  private static SettingsBtn(data: Settings): BaseComponent<'button'> {
+    const button = new BaseComponent('button', data.parent.element, `settings__${data.name}_btn`, `${data.name}`, {
+      type: `${data.type}`,
     });
     return button;
   }
 
   // creating block with race
   private renderRaceBlock(cars: CarType[]): void {
-    const raceFieldWrapper: BaseComponent = new BaseComponent('div', this.element, 'garage__race-wrapper');
+    const raceFieldWrapper: BaseComponent<'div'> = new BaseComponent('div', this.element, 'garage__race-wrapper');
     this.currentPageElement = new BaseComponent(
       'span',
       raceFieldWrapper.element,
@@ -105,7 +135,7 @@ export default class GaragePage extends BaseComponent {
     );
 
     cars.forEach((car) => {
-      const raceField: BaseComponent = new BaseComponent('div', this.element, 'garage__race-field race');
+      const raceField: BaseComponent<'div'> = new BaseComponent('div', this.element, 'garage__race-field race');
       const track: RaceTrack = new RaceTrack(car);
       raceField.element.append(track.element);
     });

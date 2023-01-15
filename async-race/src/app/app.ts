@@ -8,7 +8,7 @@ import Loader from '../controller/loader';
 export default class App {
   private header: Header;
 
-  private main: BaseComponent;
+  private main: BaseComponent<'main'>;
 
   private garagePage: GaragePage = new GaragePage();
 

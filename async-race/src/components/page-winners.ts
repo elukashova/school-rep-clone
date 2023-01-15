@@ -1,15 +1,15 @@
 import { Observer } from '../controller/loader.types';
 import BaseComponent from './base-component';
 
-export default class WinnersPage extends BaseComponent {
+export default class WinnersPage extends BaseComponent<'section'> {
   private observers: Observer[] = [];
 
   constructor() {
     super('section', undefined, 'section winners');
-    this.render();
+    WinnersPage.render();
   }
 
-  private render(): void {
+  private static render(): void {
     console.log('winners page');
   }
 

@@ -1,8 +1,8 @@
-export default class BaseComponent {
-  public readonly element: HTMLElement;
+export default class BaseComponent<T extends keyof HTMLElementTagNameMap> {
+  public readonly element: HTMLElementTagNameMap[T];
 
   constructor(
-    tag: keyof HTMLElementTagNameMap,
+    tag: T,
     parent?: HTMLElement,
     classes?: string,
     content?: string,

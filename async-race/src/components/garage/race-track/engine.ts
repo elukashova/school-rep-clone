@@ -1,7 +1,7 @@
 import Loader from '../../../controller/loader';
 // eslint-disable-next-line object-curly-newline
 import { EngineResp, Errors, SuccessResp } from '../../../controller/loader.types';
-// import { startDriveMode, turnEngineOn } from '../../../controller/services/garage-services';
+// import { startDriveMode, turnEngineOnOff } from '../../../controller/services/garage-services';
 import { EngineState, EngineStatus } from './race-track.types';
 
 export default class Engine {
@@ -26,7 +26,7 @@ export default class Engine {
   }
 
   public startDriving = async (): Promise<void> => {
-    this.drive = await Engine.turnEngineOn({ id: this.id, status: this.status });
+    this.drive = await Engine.turnEngineOnOff({ id: this.id, status: this.status });
     const duration: number = this.drive.distance / this.drive.velocity;
 
     this.animation = this.car.animate(
@@ -50,14 +50,27 @@ export default class Engine {
     } catch (err) {
       if (err instanceof Error && err.message === Errors.Error500) {
         if (this.animation) {
-          this.animation.pause();
+          this.animation?.pause();
         }
       }
     }
   };
 
+  public stopDriving = async (): Promise<void> => {
+    if (this.animation) {
+      this.animation.pause();
+    }
+
+    this.status = 'stopped';
+    await Engine.turnEngineOnOff({ id: this.id, status: this.status });
+
+    if (this.animation) {
+      this.animation.currentTime = 0;
+    }
+  };
+
   // eslint-disable-next-line prettier/prettier
-  private static turnEngineOn = (status: EngineState): Promise<EngineResp> => Loader.getAndPatch('PATCH', 'engine', status);
+  private static turnEngineOnOff = (status: EngineState): Promise<EngineResp> => Loader.getAndPatch('PATCH', 'engine', status);
 
   // eslint-disable-next-line prettier/prettier
   private static startDriveMode = (status: EngineState): Promise<SuccessResp> => Loader.getAndPatch('PATCH', 'engine', status);

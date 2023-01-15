@@ -24,11 +24,14 @@ export default class RaceTrack extends BaseComponent<'div'> {
 
   private stopBtn: BaseComponent<'button'> | null = null;
 
+  private engine: Engine;
+
   constructor(data: CarType) {
     super('div', undefined, 'race__track');
     this.id = data.id;
     this.name = data.name;
     this.color = data.color;
+    this.engine = new Engine(this.car, this.id, this.trackLine.element);
     this.render();
   }
 
@@ -54,9 +57,7 @@ export default class RaceTrack extends BaseComponent<'div'> {
     carSource.setAttribute('href', 'assets/sprite.svg#snowmobile');
     this.car.append(carSource);
     this.car.setAttribute('fill', `${this.color}`);
-    // RaceTrack.createMainSVGPathes(this.car, `${this.color}`);
     this.trackLine.element.append(this.car);
-    this.startBtn.element.addEventListener('click', this.startBtnCallback);
 
     const finish: SVGElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     const finishSource = document.createElementNS('http://www.w3.org/2000/svg', 'use');
@@ -64,12 +65,17 @@ export default class RaceTrack extends BaseComponent<'div'> {
     finish.classList.add('race__end');
     finish.append(finishSource);
     this.trackLine.element.append(finish);
+
+    this.startBtn.element.addEventListener('click', this.startBtnCallback);
+    this.stopBtn.element.addEventListener('click', this.stopBtnCallback);
   }
 
-  // this.car, this.id, trackLine.element
   private startBtnCallback = async (): Promise<void> => {
-    const engine: Engine = new Engine(this.car, this.id, this.trackLine.element);
-    await engine.startDriving();
+    await this.engine.startDriving();
+  };
+
+  private stopBtnCallback = async (): Promise<void> => {
+    await this.engine.stopDriving();
   };
 
   private static createBtn(data: Settings): BaseComponent<'button'> {

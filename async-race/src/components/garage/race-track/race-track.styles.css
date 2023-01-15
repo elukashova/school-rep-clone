@@ -19,10 +19,14 @@
   width: 4.2rem;
   height: 3.5rem;
   filter: drop-shadow(0.5px 0.5px 0.5px #62432C);
+  z-index: 1;
 }
 
 .race__end {
   position: absolute;
-  right: 6.1rem;
+  right: 5rem;
   bottom: 0rem;
+  height: 5.3rem;
+  width: 3.6rem;
+  z-index: -1;
 }

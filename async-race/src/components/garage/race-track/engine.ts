@@ -1,11 +1,11 @@
 import Loader from '../../../controller/loader';
 // eslint-disable-next-line object-curly-newline
-import { EngineResp, Errors, Observer, SuccessResp } from '../../../controller/loader.types';
+import { EngineResp, Errors, SuccessResp } from '../../../controller/loader.types';
 // import { startDriveMode, turnEngineOn } from '../../../controller/services/garage-services';
 import { EngineState, EngineStatus } from './race-track.types';
 
 export default class Engine {
-  private observers: Observer[] = [];
+  // private observers: Observer[] = [];
 
   private car: Element;
 

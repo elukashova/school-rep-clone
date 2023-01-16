@@ -18,3 +18,5 @@ export type EngineStatus = 'started' | 'stopped' | 'drive';
 export type EngineState = Pick<CarType, 'id' | 'status'>;
 
 export type CarsData = CarType[];
+
+export type CarStatus = 'delete' | 'edit' | '';

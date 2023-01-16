@@ -1,12 +1,16 @@
 import './race-track.styles.css';
 import BaseComponent from '../../base-component';
-import { Settings, CarType } from './race-track.types';
+import { Settings, CarType, CarStatus } from './race-track.types';
 import Engine from './engine';
+import Loader from '../../../controller/loader';
+import { ObserverFn } from '../../observable.types';
 
 export default class RaceTrack extends BaseComponent<'div'> {
+  public observers: ObserverFn[] = [];
+
   private car: SVGElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
 
-  private id: number;
+  private id!: number;
 
   private name: string;
 
@@ -26,14 +30,16 @@ export default class RaceTrack extends BaseComponent<'div'> {
 
   private engine: Engine;
 
-  constructor(data: CarType) {
+  private status: CarStatus = '';
+
+  constructor(data: CarType, private callback: (id: number) => void) {
     super('div', undefined, 'race__track');
     if (data.id) {
       this.id = data.id;
     }
     this.name = data.name;
     this.color = data.color;
-    this.engine = new Engine(this.car, this.id, this.trackLine.element);
+    this.engine = new Engine(this.car, this.trackLine.element, this.id);
     this.render();
   }
 
@@ -58,8 +64,8 @@ export default class RaceTrack extends BaseComponent<'div'> {
 
     this.stopBtn.element.setAttribute('disabled', '');
     this.car.classList.add('race__car');
-    carSource.setAttribute('href', 'assets/sprite.svg#snowmobile');
     this.car.setAttribute('fill', `${this.color}`);
+    carSource.setAttribute('href', 'assets/sprite.svg#snowmobile');
     finishSource.setAttribute('href', 'assets/sprite.svg#snowman');
     finish.classList.add('race__end');
 
@@ -71,6 +77,7 @@ export default class RaceTrack extends BaseComponent<'div'> {
 
     this.startBtn.element.addEventListener('click', this.startBtnCallback);
     this.stopBtn.element.addEventListener('click', this.stopBtnCallback);
+    this.deleteBtn.element.addEventListener('click', this.deleteBtnCallback);
   }
 
   private startBtnCallback = async (): Promise<void> => {
@@ -85,10 +92,19 @@ export default class RaceTrack extends BaseComponent<'div'> {
     await this.engine.stopDriving();
   };
 
+  private deleteBtnCallback = async (): Promise<void> => {
+    if (this.id) {
+      await RaceTrack.deleteCar(this.id).then(() => this.callback(this.id));
+    }
+  };
+
   private static createBtn(data: Settings): BaseComponent<'button'> {
     const button = new BaseComponent('button', data.parent.element, `race__${data.name}_btn`, `${data.name}`, {
       type: `${data.type}`,
     });
     return button;
   }
+
+  // server-related functions
+  private static deleteCar = (id: number): Promise<void> => Loader.deleteData(`garage/${id}`);
 }

@@ -11,15 +11,15 @@ export default class Engine {
 
   private parent: Element;
 
-  public id: number;
+  public id: number | undefined;
 
   private animation: Animation | null = null;
 
   public status: EngineStatus = 'started';
 
-  public drive: EngineResp;
+  public drive: EngineResp | undefined;
 
-  constructor(car: Element, carId: number, parent: Element) {
+  constructor(car: Element, parent: Element, carId?: number) {
     this.car = car;
     this.id = carId;
     this.parent = parent;

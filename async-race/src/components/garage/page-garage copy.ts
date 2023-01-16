@@ -5,8 +5,11 @@ import { PageStatus } from './page-garage.types';
 import { CarType, CarsData, Settings } from './race-track/race-track.types';
 import { DataParams } from '../../controller/loader.types';
 import Loader from '../../controller/loader';
+import { ObserverData, ObserverFn } from '../observable.types';
 
 export default class GaragePage extends BaseComponent<'section'> {
+  public observers: ObserverFn[] = [];
+
   private createInputText: BaseComponent<'input'> | null = null;
 
   private createInputColor: BaseComponent<'input'> | null = null;
@@ -46,8 +49,6 @@ export default class GaragePage extends BaseComponent<'section'> {
     page: 1,
     limit: 7,
   };
-
-  private currentTracks: RaceTrack[] = [];
 
   constructor() {
     super('section', undefined, 'section garage');
@@ -93,31 +94,31 @@ export default class GaragePage extends BaseComponent<'section'> {
       'settings__btns-wrapper',
     );
 
-    this.createInputText = GaragePage.createSettingsInput({
+    this.createInputText = GaragePage.SettingsInput({
       parent: createSettingWrapper,
       name: 'create',
       type: 'text',
     });
-    this.createInputColor = GaragePage.createSettingsInput({
+    this.createInputColor = GaragePage.SettingsInput({
       parent: createSettingWrapper,
       name: 'create',
       type: 'color',
     });
-    this.createBtn = GaragePage.createSettingsBtn({ parent: createSettingWrapper, name: 'create', type: 'submit' });
-    this.updateInputText = GaragePage.createSettingsInput({
+    this.createBtn = GaragePage.SettingsBtn({ parent: createSettingWrapper, name: 'create', type: 'submit' });
+    this.updateInputText = GaragePage.SettingsInput({
       parent: updateSettingWrapper,
       name: 'create',
       type: 'text',
     });
-    this.updateInputColor = GaragePage.createSettingsInput({
+    this.updateInputColor = GaragePage.SettingsInput({
       parent: updateSettingWrapper,
       name: 'create',
       type: 'color',
     });
-    this.updateBtn = GaragePage.createSettingsBtn({ parent: updateSettingWrapper, name: 'update', type: 'submit' });
-    this.raceBtn = GaragePage.createSettingsBtn({ parent: btnsWrapper, name: 'race', type: 'submit' });
-    this.resetBtn = GaragePage.createSettingsBtn({ parent: btnsWrapper, name: 'reset', type: 'reset' });
-    this.generateBtn = GaragePage.createSettingsBtn({
+    this.updateBtn = GaragePage.SettingsBtn({ parent: updateSettingWrapper, name: 'update', type: 'submit' });
+    this.raceBtn = GaragePage.SettingsBtn({ parent: btnsWrapper, name: 'race', type: 'submit' });
+    this.resetBtn = GaragePage.SettingsBtn({ parent: btnsWrapper, name: 'reset', type: 'reset' });
+    this.generateBtn = GaragePage.SettingsBtn({
       parent: btnsWrapper,
       name: 'generate trains',
       type: 'submit',
@@ -126,40 +127,6 @@ export default class GaragePage extends BaseComponent<'section'> {
     this.createInputText.element.addEventListener('input', this.createTextInputCallback);
     this.createInputColor.element.addEventListener('input', this.createColorInputCallback);
     this.createBtn.element.addEventListener('click', this.createBtnCallback);
-  }
-
-  private deleteRaceTracks = (id: number): void => {
-    if (this.raceField) {
-      for (let i: number = 0; i < this.raceField.element.children.length; i += 1) {
-        if (Number(this.raceField.element.children[i].id) === id) {
-          this.raceField.element.removeChild(this.raceField.element.children[i]);
-        }
-      }
-      this.updateCurrentTrackArray(id);
-      this.updateGarageNumber(Number(this.raceField.element.children.length));
-    }
-  };
-
-  private updateGarageNumber(num: number): void {
-    if (this.carsLimitElement?.element) {
-      this.carsLimitElement.element.textContent = `Garage (${num})`;
-    }
-  }
-
-  private updateCurrentTrackArray(id: number): void {
-    for (let i: number = 0; i < this.currentTracks.length; i += 1) {
-      if (Number(this.currentTracks[i].element.id) === id) {
-        const idx: number = this.currentTracks.indexOf(this.currentTracks[i]);
-        this.currentTracks.splice(idx, 1);
-      }
-    }
-  }
-
-  private createRaceTrack(car: CarType): void {
-    const track: RaceTrack = new RaceTrack(car, this.deleteRaceTracks);
-    this.currentTracks.push(track);
-    track.element.setAttribute('id', `${car.id}`);
-    this.raceField?.element.append(track.element);
   }
 
   // callbacks for creating a new car
@@ -177,23 +144,25 @@ export default class GaragePage extends BaseComponent<'section'> {
 
   private createBtnCallback = async (): Promise<void> => {
     const newCar: CarType = await GaragePage.createCar(this.newCarData);
-    this.createRaceTrack(newCar);
+    const track: RaceTrack = new RaceTrack(newCar);
+    this.raceField?.element.append(track.element);
   };
 
   // server-related functions
+  
   private static getCars = (params: DataParams): Promise<CarsData> => Loader.getAndPatch('GET', 'garage', params);
 
   private static createCar = (params: DataParams): Promise<CarType> => Loader.postData('garage', params);
 
-  // functions to render elements
-  private static createSettingsInput(data: Settings): BaseComponent<'input'> {
+  // functions to render similar elements
+  private static SettingsInput(data: Settings): BaseComponent<'input'> {
     const txtInput = new BaseComponent('input', data.parent.element, `settings__${data.name}_input-${data.type}`, '', {
       type: `${data.type}`,
     });
     return txtInput;
   }
 
-  private static createSettingsBtn(data: Settings): BaseComponent<'button'> {
+  private static SettingsBtn(data: Settings): BaseComponent<'button'> {
     const button = new BaseComponent('button', data.parent.element, `settings__${data.name}_btn`, `${data.name}`, {
       type: `${data.type}`,
     });
@@ -211,8 +180,21 @@ export default class GaragePage extends BaseComponent<'section'> {
     this.raceField = new BaseComponent('div', this.raceFieldWrapper?.element, 'garage__race-field race');
 
     cars.forEach((car) => {
-      this.createRaceTrack(car);
+      const track: RaceTrack = new RaceTrack(car);
+      this.raceField?.element.append(track.element);
     });
+  }
+
+  public subscribe(func: ObserverFn): void {
+    this.observers.push(func);
+  }
+
+  public unsubscribe(func: ObserverFn): void {
+    this.observers = this.observers.filter((observer) => observer !== func);
+  }
+
+  public notify(data: ObserverData): void {
+    this.observers.forEach(async (observer) => observer(data));
   }
 
   // public attachObserver(observer: Observer): void {

@@ -5,9 +5,9 @@ import Footer from '../components/footer/footer';
 import BaseComponent from '../components/base-component';
 
 export default class App {
-  private header: Header;
+  private header: Header | undefined;
 
-  private main: BaseComponent<'main'>;
+  private main: BaseComponent<'main'> | undefined;
 
   private garagePage: GaragePage = new GaragePage();
 

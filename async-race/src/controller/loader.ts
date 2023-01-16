@@ -32,7 +32,13 @@ export default class Loader {
     return this.load(url, 'POST', params).then((res: Response) => res.json());
   }
 
-  // TODO: export utilities to a separate file
+  public static deleteData<T>(view: string): Promise<T> {
+    const url: URL = Loader.createURL(view);
+
+    return this.load(url, 'DELETE').then((res: Response) => res.json());
+  }
+
+  // TODO: export utilities to a separate file?
   private static errorHandler(res: Response): Response {
     if (!res.ok) {
       throw new Error(res.statusText);

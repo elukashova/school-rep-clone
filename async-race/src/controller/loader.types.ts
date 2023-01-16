@@ -11,10 +11,6 @@ export type EngineResp = {
   distance: number;
 };
 
-export type SuccessResp = {
-  success: boolean;
-};
-
 export enum Errors {
   Error400 = 'Bad Request',
   Error404 = 'Not Found',

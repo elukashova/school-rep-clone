@@ -26,10 +26,10 @@ export default class Loader {
     return this.load(url, method).then((res: Response) => res.json());
   }
 
-  public static postData<T>(view: string, params?: DataParams): Promise<T> {
+  public static postAndPutData<T>(method: string, view: string, params?: DataParams): Promise<T> {
     const url: URL = Loader.createURL(view);
 
-    return this.load(url, 'POST', params).then((res: Response) => res.json());
+    return this.load(url, method, params).then((res: Response) => res.json());
   }
 
   public static deleteData<T>(view: string): Promise<T> {

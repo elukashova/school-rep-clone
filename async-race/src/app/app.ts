@@ -5,9 +5,9 @@ import Footer from '../components/footer/footer';
 import BaseComponent from '../components/base-component';
 
 export default class App {
-  private header: Header | undefined;
+  private header: Header;
 
-  private main: BaseComponent<'main'> | undefined;
+  private main: BaseComponent<'main'>;
 
   private garagePage: GaragePage = new GaragePage();
 
@@ -15,12 +15,13 @@ export default class App {
 
   private footer: Footer = new Footer();
 
-  constructor(private readonly root: HTMLElement) {}
-
-  public init(): void {
+  constructor(private readonly root: HTMLElement) {
     this.root.classList.add('root');
     this.header = new Header(this.root, this.replaceMain);
     this.main = new BaseComponent('main', this.root, 'main');
+  }
+
+  public init(): void {
     this.main.element.append(this.garagePage.element);
     this.root.append(this.footer.element);
   }

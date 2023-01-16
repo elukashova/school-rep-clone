@@ -28,20 +28,4 @@ export default class BaseComponent<T extends keyof HTMLElementTagNameMap> {
       });
     }
   }
-
-  // public subscribe(func: ObserverFn): void {
-  //   this.observers.push(func);
-  // }
-
-  // public unsubscribe(func: ObserverFn): void {
-  //   this.observers = this.observers.filter((observer) => observer !== func);
-  // }
-
-  // public notify(id: number): void {
-  //   this.observers.forEach((observer) => observer(id));
-  // }
-
-  // // public notify(data: ObserverData): void {
-  // //   this.observers.forEach(async (observer) => observer(data));
-  // // }
 }

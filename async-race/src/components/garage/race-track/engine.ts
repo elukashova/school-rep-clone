@@ -1,12 +1,8 @@
 import Loader from '../../../controller/loader';
-// eslint-disable-next-line object-curly-newline
-import { EngineResp, Errors, SuccessResp } from '../../../controller/loader.types';
-// import { startDriveMode, turnEngineOnOff } from '../../../controller/services/garage-services';
+import { EngineResp, Errors, DataParams } from '../../../controller/loader.types';
 import { EngineState, EngineStatus } from './race-track.types';
 
 export default class Engine {
-  // private observers: Observer[] = [];
-
   private car: Element;
 
   private parent: Element;
@@ -73,5 +69,5 @@ export default class Engine {
   private static turnEngineOnOff = (status: EngineState): Promise<EngineResp> => Loader.getAndPatch('PATCH', 'engine', status);
 
   // eslint-disable-next-line prettier/prettier
-  private static startDriveMode = (status: EngineState): Promise<SuccessResp> => Loader.getAndPatch('PATCH', 'engine', status);
+  private static startDriveMode = (status: EngineState): Promise<DataParams> => Loader.getAndPatch('PATCH', 'engine', status);
 }

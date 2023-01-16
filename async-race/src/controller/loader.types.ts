@@ -1,11 +1,15 @@
-export type DataParams = Partial<Record<string, string | number | boolean | number[]>>;
+export type DataParams = {
+  [key: string]: string | number | boolean | number[];
+};
+
+export type UrlObj = {
+  [key: string]: string;
+};
 
 export type EngineResp = {
   velocity: number;
   distance: number;
 };
-
-export type StringConverterType = string | number | boolean | number[] | undefined;
 
 export type SuccessResp = {
   success: boolean;

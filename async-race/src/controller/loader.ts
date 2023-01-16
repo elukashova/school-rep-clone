@@ -1,4 +1,4 @@
-import { DataParams, StringConverterType } from './loader.types';
+import { DataParams, UrlObj } from './loader.types';
 
 export default class Loader {
   private static server: string = 'http://127.0.0.1:3000/';
@@ -19,7 +19,8 @@ export default class Loader {
     const url: URL = Loader.createURL(view);
 
     if (params) {
-      url.search = new URLSearchParams(Loader.makeURLParams(params)).toString();
+      const paramsString = Loader.makeURLParams(params);
+      url.search = new URLSearchParams(paramsString).toString();
     }
 
     return this.load(url, method).then((res: Response) => res.json());
@@ -44,21 +45,14 @@ export default class Loader {
     return url;
   };
 
-  private static makeURLParams(par: DataParams, isPrefix: boolean = false): Record<string, string> {
-    return Object.keys(par).reduce(
-      (params: Record<string, string>, key: string) => ({
+  private static makeURLParams(par: DataParams, isPrefix: boolean = false): UrlObj {
+    const result: UrlObj = Object.keys(par).reduce(
+      (params: UrlObj, key: string) => ({
         ...params,
-        [!isPrefix ? key : `_${key}`]: Loader.convertToString(par[key]),
+        [key]: !isPrefix ? `${par[key]}` : `_${key}`,
       }),
       {},
     );
-  }
-
-  private static convertToString(value: StringConverterType): string {
-    let result: string = '';
-    if (value) {
-      result = typeof value === 'string' ? value : value.toString();
-    }
     return result;
   }
 }

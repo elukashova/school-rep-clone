@@ -115,7 +115,7 @@ export default class GaragePage extends BaseComponent<'section'> {
     });
     this.updateInputColor = GaragePage.createSettingsInput({
       parent: updateSettingWrapper,
-      name: 'create',
+      name: 'update',
       type: 'color',
     });
     this.updateBtn = GaragePage.createSettingsBtn({ parent: updateSettingWrapper, name: 'update', type: 'submit' });
@@ -127,8 +127,9 @@ export default class GaragePage extends BaseComponent<'section'> {
       type: 'submit',
     });
 
-    this.disableUpdateElements();
+    this.createInputText.element.placeholder = 'Enter name here';
 
+    this.disableUpdateElements();
     this.createInputText.element.addEventListener('input', this.createTextInputCallback);
     this.createInputColor.element.addEventListener('input', this.createColorInputCallback);
     this.createBtn.element.addEventListener('click', this.createBtnCallback);

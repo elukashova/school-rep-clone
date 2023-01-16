@@ -1,16 +1,91 @@
+.garage__race_cars-limit {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: calc(.8em + 1vw);
+  color: #252339;
+  letter-spacing: 0.1em;
+}
+
+.settings__create_input-text,
+.settings__update_input-text {
+  border-radius: 0.5rem;
+  width: 20em;
+  height: 2em;
+  text-align: center;
+  color: #0E5276;
+}
+
+.settings__create_input-text:focus,
+.settings__update_input-text:focus {
+  outline: none;
+  border:1px solid #0E5276;
+}
+
+.settings__create_input-text::placeholder {
+  text-align: center;
+  color: #98C0E3;
+}
+
+.settings__create_input-color,
+.settings__update_input-color {
+  --webkit-appearance: none;
+  appearance: none;
+  border-radius: 0.5rem;
+  padding: 0.1em;
+  display: block;
+}
+
+.settings__create_input-color::-webkit-color-swatch-wrapper,
+.settings__update_input-color::-webkit-color-swatch-wrapper {
+  padding: 0.3em;
+}
+
+.settings__create_input-color::-webkit-color-swatch,
+.settings__update_input-color::-webkit-color-swatch {
+  border-radius: 0.3rem;
+}
+
+.settings__create_btn,
+.settings__update_btn {
+  background-color: #0E5276;
+  cursor: pointer;
+  color: #E2EFF8;
+  text-transform: uppercase;
+  width: 7em;
+  height: 2em;
+  border-radius: 0.5rem;
+  font-size: calc(.74em + 0.1vw);
+  transition: background-color .3s;
+}
+
+.settings__update_btn:disabled {
+  opacity: 50%;
+  pointer-events: none;
+}
+
+.settings__create_btn:hover,
+.settings__update_btn:hover {
+  background-color: #213B54;
+}
+
+.settings__create_btn:active,
+.settings__update_btn:active {
+  background-color: #252339;
+}
 
 .garage__settings {
   width: 100%;
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.5em;
+  justify-content: space-between;
 }
 
 .settings__cars {
-  width: 100%;
+  width: 60%;
   display: flex;
-  justify-content: center;
-  gap: 5em;
+  justify-content: left;
+  flex-direction: column;
+  gap: 1em;
 }
 
 .settings__create-wrapper,
@@ -22,10 +97,10 @@
 
 .settings__btns-wrapper {
   display: flex;
-  width: 100%;
-  justify-content: left;
+  flex-direction: column;
+  width: 40%;
+  justify-content: right;
   gap: 0.5rem;
-  justify-content: center;
   align-items: center;
 }
 

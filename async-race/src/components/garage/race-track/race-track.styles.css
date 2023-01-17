@@ -34,3 +34,10 @@
   width: 3.5rem;
   z-index: -1;
 }
+
+.winner-modal {
+  position: absolute;
+  z-index: 1;
+  align-self: center;
+  margin-top: 2rem;
+}

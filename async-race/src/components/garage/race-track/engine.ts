@@ -8,29 +8,32 @@ export default class Engine {
 
   private parent: Element;
 
-  private animation: Animation | null = null;
+  public animation!: Animation;
 
   public drive: EngineResp | undefined;
 
   public EngineState: EngineState = {
     id: undefined,
-    status: 'started',
+    status: 'stopped',
   };
+
+  public duration: number = 0;
 
   constructor(data: EngineData) {
     this.car = data.car;
     this.EngineState.id = data.id;
     this.parent = data.parent;
-    // this.subscribeToEvents();
   }
 
   public startDriving = async (): Promise<void> => {
+    this.setStatusToStarted();
+
     await Engine.turnEngineOnOff(this.EngineState)
       .then((result: EngineResp) => this.startAnimation(result))
       .then(() => this.switchToDrivingMode());
   };
 
-  private switchToDrivingMode = async (): Promise<void> => {
+  public switchToDrivingMode = async (): Promise<void> => {
     try {
       this.EngineState.status = 'drive';
       await Engine.startDriveMode(this.EngineState);
@@ -38,7 +41,7 @@ export default class Engine {
       if (err instanceof Error && err.message === Errors.Error500) {
         if (this.animation) {
           this.animation?.pause();
-          eventEmitter.emit('stopDriving', {});
+          eventEmitter.emit('broken', {});
         }
       }
     }
@@ -46,16 +49,13 @@ export default class Engine {
 
   public stopDriving = async (): Promise<void> => {
     eventEmitter.emit('stopDriving', this.EngineState);
-    this.EngineState.status = 'stopped';
+    this.setStatusToStarted();
     await Engine.turnEngineOnOff(this.EngineState);
-
-    if (this.animation) {
-      this.animation.cancel();
-    }
+    this.stopAnimation();
   };
 
   public startAnimation(result: EngineResp): void {
-    const duration: number = result.distance / result.velocity;
+    this.duration = result.distance / result.velocity;
     this.animation = this.car.animate(
       [
         {
@@ -66,10 +66,38 @@ export default class Engine {
         },
       ],
       {
-        duration,
+        duration: this.duration,
         fill: 'forwards',
       },
     );
+    this.animation.addEventListener('finish', this.animationCallback);
+  }
+
+  public stopAnimation(): void {
+    if (this.animation) {
+      this.animation.removeEventListener('finish', this.animationCallback);
+      this.animation.cancel();
+    }
+  }
+
+  public removeEventListener(): void {
+    this.animation.removeEventListener('finish', this.animationCallback);
+  }
+
+  public animationCallback = (): void => {
+    eventEmitter.emit('animationFinished', this.EngineState);
+  };
+
+  public setStatusToStarted(): void {
+    if (this.EngineState.status !== 'started') {
+      this.EngineState.status = 'started';
+    }
+  }
+
+  public setStatusToStopped(): void {
+    if (this.EngineState.status !== 'stopped') {
+      this.EngineState.status = 'stopped';
+    }
   }
 
   // eslint-disable-next-line prettier/prettier

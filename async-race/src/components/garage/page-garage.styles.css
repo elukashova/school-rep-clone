@@ -58,6 +58,7 @@
   transition: background-color .3s;
 }
 
+.settings__create_btn:disabled,
 .settings__update_btn:disabled {
   opacity: 50%;
   pointer-events: none;

@@ -25,7 +25,7 @@ export default class RaceTrack extends BaseComponent<'div'> {
 
   public engine: Engine;
 
-  private carData: CarType = {
+  public carData: CarType = {
     name: '',
     color: '',
   };
@@ -43,6 +43,9 @@ export default class RaceTrack extends BaseComponent<'div'> {
       this.EngineData.id = data.id;
     }
     this.carData.name = data.name;
+    if (this.carData.name === 'Mersedes') {
+      this.carData.name = 'Mercedes';
+    }
     this.carData.color = data.color;
     this.engine = new Engine(this.EngineData);
     this.render();
@@ -89,13 +92,13 @@ export default class RaceTrack extends BaseComponent<'div'> {
 
   private startBtnCallback = async (): Promise<void> => {
     eventEmitter.emit('waitingToStart', {});
-    this.handleBtnsWhileDriving();
+    this.disableBtnsWhileDriving();
     this.activateStopBtn();
     await this.engine.startDriving();
   };
 
   private stopBtnCallback = async (): Promise<void> => {
-    this.handleBtnsAfterDriving();
+    this.activateBtnsAfterDriving();
     this.disableStopBtn();
     await this.engine.stopDriving();
   };
@@ -111,6 +114,11 @@ export default class RaceTrack extends BaseComponent<'div'> {
     eventEmitter.emit('selectCar', this.carData);
   };
 
+  public showWinner(time: string): void {
+    const modal: BaseComponent<'div'> = new BaseComponent('div', this.element, 'winner-modal');
+    modal.element.textContent = `${this.carData.name} wins in ${time}s!`;
+  }
+
   private subscribeToEvents(): void {
     eventEmitter.on('changeColor', (data: DataParams): void => {
       if (data.id === this.id) {
@@ -119,18 +127,23 @@ export default class RaceTrack extends BaseComponent<'div'> {
     });
 
     eventEmitter.on('startRace', (): void => {
-      this.handleBtnsWhileDriving();
+      this.disableBtnsWhileDriving();
+      this.disableStopBtn();
+    });
+
+    eventEmitter.on('stopDriving', (): void => {
+      this.activateBtnsAfterDriving();
       this.disableStopBtn();
     });
   }
 
-  private handleBtnsWhileDriving(): void {
+  private disableBtnsWhileDriving(): void {
     this.startBtn?.element.setAttribute('disabled', '');
     this.selectBtn?.element.setAttribute('disabled', '');
     this.deleteBtn?.element.setAttribute('disabled', '');
   }
 
-  private handleBtnsAfterDriving(): void {
+  private activateBtnsAfterDriving(): void {
     this.startBtn?.element.removeAttribute('disabled');
     this.selectBtn?.element.removeAttribute('disabled');
     this.deleteBtn?.element.removeAttribute('disabled');

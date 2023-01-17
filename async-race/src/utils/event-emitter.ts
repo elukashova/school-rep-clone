@@ -11,6 +11,7 @@ class EventEmitter {
     this.events[eventName].push(fn);
   };
 
+  // eslint-disable-next-line max-len
   public unsubscribe = (eventName: string, fn: (data: DataParams) => void): void => {
     if (!this.events[eventName]) {
       return;

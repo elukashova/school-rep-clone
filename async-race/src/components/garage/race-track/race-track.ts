@@ -23,7 +23,7 @@ export default class RaceTrack extends BaseComponent<'div'> {
 
   private stopBtn: BaseComponent<'button'> | null = null;
 
-  private engine: Engine;
+  public engine: Engine;
 
   private carData: CarType = {
     name: '',
@@ -96,6 +96,7 @@ export default class RaceTrack extends BaseComponent<'div'> {
 
   private stopBtnCallback = async (): Promise<void> => {
     this.handleBtnsAfterDriving();
+    this.disableStopBtn();
     await this.engine.stopDriving();
   };
 
@@ -118,6 +119,7 @@ export default class RaceTrack extends BaseComponent<'div'> {
     });
 
     eventEmitter.on('startRace', (): void => {
+      this.handleBtnsWhileDriving();
       this.disableStopBtn();
     });
   }

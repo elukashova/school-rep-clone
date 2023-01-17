@@ -12,38 +12,21 @@ export default class Engine {
 
   public drive: EngineResp | undefined;
 
-  private EngineState: EngineState = {
+  public EngineState: EngineState = {
     id: undefined,
-    status: 'stopped',
+    status: 'started',
   };
 
   constructor(data: EngineData) {
     this.car = data.car;
     this.EngineState.id = data.id;
     this.parent = data.parent;
+    // this.subscribeToEvents();
   }
 
   public startDriving = async (): Promise<void> => {
-    this.EngineState.status = 'started';
     await Engine.turnEngineOnOff(this.EngineState)
-      .then((result) => {
-        const duration: number = result.distance / result.velocity;
-
-        this.animation = this.car.animate(
-          [
-            {
-              transform: 'translateX(0)',
-            },
-            {
-              transform: `translateX(${this.parent.clientWidth - this.car.clientWidth}px)`,
-            },
-          ],
-          {
-            duration,
-            fill: 'forwards',
-          },
-        );
-      })
+      .then((result: EngineResp) => this.startAnimation(result))
       .then(() => this.switchToDrivingMode());
   };
 
@@ -71,9 +54,27 @@ export default class Engine {
     }
   };
 
-  // eslint-disable-next-line prettier/prettier
-  private static turnEngineOnOff = (status: EngineState): Promise<EngineResp> => Loader.getAndPatch('PATCH', 'engine', status);
+  public startAnimation(result: EngineResp): void {
+    const duration: number = result.distance / result.velocity;
+    this.animation = this.car.animate(
+      [
+        {
+          transform: 'translateX(0)',
+        },
+        {
+          transform: `translateX(${this.parent.clientWidth - this.car.clientWidth}px)`,
+        },
+      ],
+      {
+        duration,
+        fill: 'forwards',
+      },
+    );
+  }
 
   // eslint-disable-next-line prettier/prettier
-  private static startDriveMode = (status: EngineState): Promise<DataParams> => Loader.getAndPatch('PATCH', 'engine', status);
+  public static turnEngineOnOff = (status: EngineState): Promise<EngineResp> => Loader.getAndPatch('PATCH', 'engine', status);
+
+  // eslint-disable-next-line prettier/prettier
+  public static startDriveMode = (status: EngineState): Promise<DataParams> => Loader.getAndPatch('PATCH', 'engine', status);
 }

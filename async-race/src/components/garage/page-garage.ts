@@ -2,10 +2,12 @@ import './page-garage.styles.css';
 import BaseComponent from '../base-component';
 import RaceTrack from './race-track/race-track';
 import { PageStatus } from './page-garage.types';
+// eslint-disable-next-line object-curly-newline
 import { CarType, CarsData, Settings } from './race-track/race-track.types';
 import { DataParams } from '../../controller/loader.types';
 import Loader from '../../controller/loader';
 import eventEmitter from '../../utils/event-emitter';
+import { turnEngineOnOff } from '../../utils/engine';
 
 export default class GaragePage extends BaseComponent<'section'> {
   private createInputText: BaseComponent<'input'> | null = null;
@@ -188,11 +190,14 @@ export default class GaragePage extends BaseComponent<'section'> {
   };
 
   // callback for race
-  private raceBtnCallback = (): void => {
-    for (let i: number = 0; i < this.tracksOnPage.length; i += 1) {
-      this.tracksOnPage[i].startBtn?.element.click();
-      eventEmitter.emit('startRace', {});
+  private raceBtnCallback = async (): Promise<void> => {
+    // eslint-disable-next-line max-len
+    const requests = this.tracksOnPage.map(async (track) => turnEngineOnOff(track.engine.EngineState));
+    const results = await Promise.all(requests);
+    for (let i: number = 0; i < results.length; i += 1) {
+      this.tracksOnPage[i].engine.startAnimation(results[i]);
     }
+    eventEmitter.emit('startRace', {});
   };
 
   // useful methods

@@ -13,6 +13,12 @@ export type CarType = {
   status?: EngineStatus;
 };
 
+export type EngineData = {
+  car: Element;
+  parent: Element;
+  id?: number;
+};
+
 export type EngineStatus = 'started' | 'stopped' | 'drive';
 
 export type EngineState = Pick<CarType, 'id' | 'status'>;

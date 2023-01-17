@@ -1,6 +1,6 @@
 import './race-track.styles.css';
 import BaseComponent from '../../base-component';
-import { Settings, CarType } from './race-track.types';
+import { Settings, CarType, EngineData } from './race-track.types';
 import Engine from './engine';
 import Loader from '../../../controller/loader';
 import eventEmitter from '../../../utils/event-emitter';
@@ -19,7 +19,7 @@ export default class RaceTrack extends BaseComponent<'div'> {
 
   private carNameElemenet: BaseComponent<'span'> | null = null;
 
-  private startBtn: BaseComponent<'button'> | null = null;
+  public startBtn: BaseComponent<'button'> | null = null;
 
   private stopBtn: BaseComponent<'button'> | null = null;
 
@@ -30,14 +30,21 @@ export default class RaceTrack extends BaseComponent<'div'> {
     color: '',
   };
 
+  public EngineData: EngineData = {
+    car: this.car,
+    parent: this.trackLine.element,
+    id: undefined,
+  };
+
   constructor(data: CarType) {
     super('div', undefined, 'race__track');
     if (data.id) {
       this.id = data.id;
+      this.EngineData.id = data.id;
     }
     this.carData.name = data.name;
     this.carData.color = data.color;
-    this.engine = new Engine(this.car, this.trackLine.element, this.id);
+    this.engine = new Engine(this.EngineData);
     this.render();
     this.subscribeToEvents();
   }
@@ -81,14 +88,14 @@ export default class RaceTrack extends BaseComponent<'div'> {
   }
 
   private startBtnCallback = async (): Promise<void> => {
-    this.startBtn?.element.setAttribute('disabled', '');
-    this.stopBtn?.element.removeAttribute('disabled');
+    eventEmitter.emit('waitingToStart', {});
+    this.handleBtnsWhileDriving();
+    this.activateStopBtn();
     await this.engine.startDriving();
   };
 
   private stopBtnCallback = async (): Promise<void> => {
-    this.stopBtn?.element.setAttribute('disabled', '');
-    this.startBtn?.element.removeAttribute('disabled');
+    this.handleBtnsAfterDriving();
     await this.engine.stopDriving();
   };
 
@@ -109,10 +116,34 @@ export default class RaceTrack extends BaseComponent<'div'> {
         this.updateColor(String(data.color));
       }
     });
+
+    eventEmitter.on('startRace', (): void => {
+      this.disableStopBtn();
+    });
+  }
+
+  private handleBtnsWhileDriving(): void {
+    this.startBtn?.element.setAttribute('disabled', '');
+    this.selectBtn?.element.setAttribute('disabled', '');
+    this.deleteBtn?.element.setAttribute('disabled', '');
+  }
+
+  private handleBtnsAfterDriving(): void {
+    this.startBtn?.element.removeAttribute('disabled');
+    this.selectBtn?.element.removeAttribute('disabled');
+    this.deleteBtn?.element.removeAttribute('disabled');
   }
 
   private updateColor(color: string): void {
     this.car.setAttribute('fill', `${color}`);
+  }
+
+  private activateStopBtn(): void {
+    this.stopBtn?.element.removeAttribute('disabled');
+  }
+
+  private disableStopBtn(): void {
+    this.stopBtn?.element.setAttribute('disabled', '');
   }
 
   private static createBtn(data: Settings): BaseComponent<'button'> {

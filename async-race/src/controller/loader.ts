@@ -22,7 +22,6 @@ export default class Loader {
       const paramsString = Loader.makeURLParams(params);
       url.search = new URLSearchParams(paramsString).toString();
     }
-
     return this.load(url, method).then((res: Response) => res.json());
   }
 

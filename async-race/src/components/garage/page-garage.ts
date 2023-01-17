@@ -50,7 +50,7 @@ export default class GaragePage extends BaseComponent<'section'> {
 
   private currentPage: number = 1;
 
-  private currentTracks: RaceTrack[] = [];
+  private tracksOnPage: RaceTrack[] = [];
 
   constructor() {
     super('section', undefined, 'section garage');
@@ -133,6 +133,7 @@ export default class GaragePage extends BaseComponent<'section'> {
     this.createInputText.element.addEventListener('input', this.createTextInputCallback);
     this.createInputColor.element.addEventListener('input', this.createColorInputCallback);
     this.createBtn.element.addEventListener('click', this.createBtnCallback);
+    this.raceBtn.element.addEventListener('click', this.raceBtnCallback);
   }
 
   private updateGarageNumber(data: DataParams): void {
@@ -142,10 +143,10 @@ export default class GaragePage extends BaseComponent<'section'> {
   }
 
   private updateCurrentTrackArray(data: DataParams): void {
-    for (let i: number = 0; i < this.currentTracks.length; i += 1) {
-      if (Number(this.currentTracks[i].element.id) === data.id) {
-        const idx: number = this.currentTracks.indexOf(this.currentTracks[i]);
-        this.currentTracks.splice(idx, 1);
+    for (let i: number = 0; i < this.tracksOnPage.length; i += 1) {
+      if (Number(this.tracksOnPage[i].element.id) === data.id) {
+        const idx: number = this.tracksOnPage.indexOf(this.tracksOnPage[i]);
+        this.tracksOnPage.splice(idx, 1);
       }
     }
   }
@@ -182,6 +183,16 @@ export default class GaragePage extends BaseComponent<'section'> {
   private updateBtnCallback = async (): Promise<void> => {
     const data: DataParams = await this.updateCar(this.carData);
     eventEmitter.emit('changeColor', data);
+    this.disableUpdateElements();
+    this.setUpdateElementsToDefault();
+  };
+
+  // callback for race
+  private raceBtnCallback = (): void => {
+    for (let i: number = 0; i < this.tracksOnPage.length; i += 1) {
+      this.tracksOnPage[i].startBtn?.element.click();
+      eventEmitter.emit('startRace', {});
+    }
   };
 
   // useful methods
@@ -195,6 +206,14 @@ export default class GaragePage extends BaseComponent<'section'> {
 
     eventEmitter.on('deleteCar', (data: DataParams): void => {
       this.deleteRaceTracks(data);
+    });
+
+    eventEmitter.on('waitingToStart', (): void => {
+      this.disableBtnsWhileDriving();
+    });
+
+    eventEmitter.on('stopDriving', (): void => {
+      this.activateBtnsAfterDriving();
     });
   }
 
@@ -216,6 +235,21 @@ export default class GaragePage extends BaseComponent<'section'> {
     this.updateInputText.element.setAttribute('disabled', '');
     this.updateInputColor.element.setAttribute('disabled', '');
     this.updateBtn.element.setAttribute('disabled', '');
+  }
+
+  private disableBtnsWhileDriving(): void {
+    this.raceBtn?.element.setAttribute('disabled', '');
+    this.generateBtn?.element.setAttribute('disabled', '');
+  }
+
+  private activateBtnsAfterDriving(): void {
+    this.raceBtn?.element.removeAttribute('disabled');
+    this.generateBtn?.element.removeAttribute('disabled');
+  }
+
+  private setUpdateElementsToDefault(): void {
+    this.updateInputText.element.value = '';
+    this.updateInputColor.element.value = '#000000';
   }
 
   // server-related functions
@@ -258,7 +292,7 @@ export default class GaragePage extends BaseComponent<'section'> {
 
   private createRaceTrack(car: CarType): void {
     const track: RaceTrack = new RaceTrack(car);
-    this.currentTracks.push(track);
+    this.tracksOnPage.push(track);
     track.element.setAttribute('id', `${car.id}`);
     this.raceField?.element.append(track.element);
   }

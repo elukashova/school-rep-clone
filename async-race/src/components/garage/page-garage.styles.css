@@ -1,9 +1,60 @@
-.garage__race_cars-limit {
-  font-weight: 600;
+.garage__settings {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+}
+
+.settings__left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.5em;
+}
+
+.settings__left_top {
+  display: flex;
+  gap: 1em;
+  align-items: center;
+}
+
+.settings__cars-limit {
+  font-weight: 300;
   text-transform: uppercase;
-  font-size: calc(.8em + 1vw);
-  color: #252339;
+  font-size: calc(.2em + 1vw);
+  color: #437399;
   letter-spacing: 0.1em;
+}
+
+.settings__generate_btn {
+  background-color: #7db1dc;
+  cursor: pointer;
+  color: #E2EFF8;
+  text-transform: uppercase;
+  border-radius: 0.5rem;
+  font-size: calc(.74em + 0.1vw);
+  transition: background-color .3s;
+  height: 2em;
+  width: 7em;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+}
+
+.settings__left_bottom {
+  display: flex;
+  gap: 1em;
+  align-items: center;
+}
+
+.settings__btn-left,
+.settings__btn-right {
+  height: 1.5em;
+  width: 1em;
+}
+
+.settings__center {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  align-items: center;
 }
 
 .settings__create_input-text,
@@ -47,7 +98,7 @@
 
 .settings__create_btn,
 .settings__update_btn {
-  background-color: #0E5276;
+  background-color: #7db1dc;
   cursor: pointer;
   color: #E2EFF8;
   text-transform: uppercase;
@@ -56,37 +107,24 @@
   border-radius: 0.5rem;
   font-size: calc(.74em + 0.1vw);
   transition: background-color .3s;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 }
 
 .settings__create_btn:disabled,
-.settings__update_btn:disabled {
-  opacity: 50%;
+.settings__update_btn:disabled,
+.settings__reset_btn {
+  opacity: 40%;
   pointer-events: none;
 }
 
 .settings__create_btn:hover,
 .settings__update_btn:hover {
-  background-color: #213B54;
+  background-color: #62a4d9;
 }
 
 .settings__create_btn:active,
 .settings__update_btn:active {
-  background-color: #252339;
-}
-
-.garage__settings {
-  width: 100%;
-  display: flex;
-  gap: 0.5em;
-  justify-content: space-between;
-}
-
-.settings__cars {
-  width: 60%;
-  display: flex;
-  justify-content: left;
-  flex-direction: column;
-  gap: 1em;
+  background-color: #067A9F;
 }
 
 .settings__create-wrapper,
@@ -96,13 +134,37 @@
   gap: 0.5rem;
 }
 
-.settings__btns-wrapper {
+.settings__right{
   display: flex;
   flex-direction: column;
-  width: 40%;
-  justify-content: right;
-  gap: 0.5rem;
-  align-items: center;
+  gap: 1em;
+  align-items: flex-end;
+}
+
+.settings__race_btn,
+.settings__reset_btn {
+  background-color: #7db1dc;
+  cursor: pointer;
+  color: #E2EFF8;
+  text-transform: uppercase;
+  width: 7em;
+  height: 2em;
+  border-radius: 0.5rem;
+  font-size: calc(.74em + 0.1vw);
+  transition: background-color .3s;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+}
+
+.settings__race_btn:hover,
+.settings__reset_btn:hover,
+.settings__generate_btn:hover {
+  background-color: #62a4d9;
+}
+
+.settings__race_btn:active,
+.settings__reset_btn:active,
+.settings__generate_btn:active {
+  background-color: #067A9F;
 }
 
 .garage__race-wrapper {

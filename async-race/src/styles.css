@@ -56,10 +56,8 @@ img {
 html,
 .root {
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
   margin: 0;
   padding: 0;
   overflow-x: hidden;
@@ -75,7 +73,7 @@ html,
 }
 
 .main {
-  padding: 0rem 5rem;
+  padding: 0rem calc(.1em + 7vw);
   width: 100%;
 }
 

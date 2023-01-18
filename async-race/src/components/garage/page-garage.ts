@@ -36,6 +36,10 @@ export default class GaragePage extends BaseComponent<'section'> {
 
   private currentPageElement: BaseComponent<'span'> | null = null;
 
+  private leftArrowBtn: SVGElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+
+  private rightArrowBtn: SVGElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+
   private carData: CarType = {
     name: '',
     color: '',
@@ -51,6 +55,8 @@ export default class GaragePage extends BaseComponent<'section'> {
   private carsLimit: number = 4;
 
   private currentPage: number = 1;
+
+  private totalPages: number = 1;
 
   private tracksOnPage: RaceTrack[] = [];
 
@@ -68,12 +74,6 @@ export default class GaragePage extends BaseComponent<'section'> {
 
   private render(): void {
     GaragePage.getCars(this.currentPageStatus).then((cars: CarsData) => {
-      this.carsLimitElement = new BaseComponent(
-        'span',
-        this.element,
-        'garage__race_cars-limit',
-        `Garage (${cars.length})`,
-      );
       this.renderSettingsBlock();
       this.raceFieldWrapper = new BaseComponent('div', this.element, 'garage__race-wrapper');
       this.renderRaceBlock(cars);
@@ -84,27 +84,47 @@ export default class GaragePage extends BaseComponent<'section'> {
   // eslint-disable-next-line max-lines-per-function
   private renderSettingsBlock(): void {
     const settingsWrapper: BaseComponent<'div'> = new BaseComponent('div', this.element, 'garage__settings settings');
-    const carsSettingsWrapper: BaseComponent<'div'> = new BaseComponent(
-      'div',
-      settingsWrapper.element,
-      'settings__cars',
-    );
+    const leftBlock: BaseComponent<'div'> = new BaseComponent('div', settingsWrapper.element, 'settings__left');
+    const leftBlockTop: BaseComponent<'div'> = new BaseComponent('div', leftBlock.element, 'settings__left_top');
+    const leftBlockBottom: BaseComponent<'div'> = new BaseComponent('div', leftBlock.element, 'settings__left_bottom');
+    const centerBlock: BaseComponent<'div'> = new BaseComponent('div', settingsWrapper.element, 'settings__center');
+    const rightBlock: BaseComponent<'div'> = new BaseComponent('div', settingsWrapper.element, 'settings__right');
     const createSettingWrapper: BaseComponent<'div'> = new BaseComponent(
       'div',
-      carsSettingsWrapper.element,
+      centerBlock.element,
       'settings__create-wrapper',
     );
     const updateSettingWrapper: BaseComponent<'div'> = new BaseComponent(
       'div',
-      carsSettingsWrapper.element,
+      centerBlock.element,
       'settings__update-wrapper',
     );
-    const btnsWrapper: BaseComponent<'div'> = new BaseComponent(
-      'div',
-      settingsWrapper.element,
-      'settings__btns-wrapper',
-    );
 
+    this.carsLimitElement = new BaseComponent(
+      'span',
+      leftBlockTop.element,
+      'settings__cars-limit',
+      `Garage: ${this.carsLimit}`,
+    );
+    this.generateBtn = GaragePage.createSettingsBtn({
+      parent: leftBlockBottom,
+      name: 'generate',
+      type: 'submit',
+    });
+    const arrowLeftSource = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+    arrowLeftSource.setAttribute('href', 'assets/sprite.svg#left-arrow');
+    leftBlockBottom.element.append(this.leftArrowBtn);
+    this.leftArrowBtn.append(arrowLeftSource);
+    this.currentPageElement = new BaseComponent(
+      'span',
+      leftBlockBottom.element,
+      'garage__race_current-page',
+      `${this.currentPage} / ${this.totalPages}`,
+    );
+    const arrowRightSource = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+    arrowRightSource.setAttribute('href', 'assets/sprite.svg#right-arrow');
+    leftBlockBottom.element.append(this.rightArrowBtn);
+    this.rightArrowBtn.append(arrowRightSource);
     this.createInputText = GaragePage.createSettingsInput({
       parent: createSettingWrapper,
       name: 'create',
@@ -127,15 +147,13 @@ export default class GaragePage extends BaseComponent<'section'> {
       type: 'color',
     });
     this.updateBtn = GaragePage.createSettingsBtn({ parent: updateSettingWrapper, name: 'update', type: 'submit' });
-    this.raceBtn = GaragePage.createSettingsBtn({ parent: btnsWrapper, name: 'race', type: 'submit' });
-    this.resetBtn = GaragePage.createSettingsBtn({ parent: btnsWrapper, name: 'reset', type: 'reset' });
-    this.generateBtn = GaragePage.createSettingsBtn({
-      parent: btnsWrapper,
-      name: 'generate snowmobiles',
-      type: 'submit',
-    });
+    this.raceBtn = GaragePage.createSettingsBtn({ parent: rightBlock, name: 'race', type: 'submit' });
+    this.resetBtn = GaragePage.createSettingsBtn({ parent: rightBlock, name: 'reset', type: 'reset' });
 
     this.createInputText.element.placeholder = 'Enter name here';
+    this.generateBtn.element.textContent = 'ADD 100';
+    this.leftArrowBtn.classList.add('settings__btn-left');
+    this.rightArrowBtn.classList.add('settings__btn-right');
 
     this.createInputText.element.addEventListener('input', this.createTextInputCallback);
     this.createInputColor.element.addEventListener('input', this.createColorInputCallback);
@@ -148,7 +166,7 @@ export default class GaragePage extends BaseComponent<'section'> {
 
   private updateGarageNumber(data: DataParams): void {
     if (this.carsLimitElement?.element) {
-      this.carsLimitElement.element.textContent = `Garage (${data.id})`;
+      this.carsLimitElement.element.textContent = `Garage: ${data.id})`;
     }
   }
 
@@ -365,12 +383,6 @@ export default class GaragePage extends BaseComponent<'section'> {
 
   // creating block with race
   private renderRaceBlock(cars: CarType[]): void {
-    this.currentPageElement = new BaseComponent(
-      'span',
-      this.raceFieldWrapper?.element,
-      'garage__race_current-page',
-      `Page #${this.currentPage}`,
-    );
     this.raceField = new BaseComponent('div', this.raceFieldWrapper?.element, 'garage__race-field race');
 
     cars.forEach((car) => {

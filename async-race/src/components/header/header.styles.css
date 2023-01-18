@@ -2,7 +2,7 @@
   flex: 0 0 auto;
   width: 100%;
   height: 7rem;
-  padding: 0rem 5rem;
+  padding: 0rem calc(.1em + 7vw);
 }
 
 .header__container {
@@ -27,8 +27,8 @@
 .nav__garage-btn,
 .nav__winners-btn {
   cursor: pointer;
-  background-color: #0E5276;
-  color: #E2EFF8;
+  background-color: #dce9f6;
+  color: #7db1dc;
   text-transform: uppercase;
   width: 7em;
   height: 2em;
@@ -40,7 +40,7 @@
 
 .nav__garage-btn:hover,
 .nav__winners-btn:hover {
-  background-color: #213B54;
+  background-color: #FFF;
 }
 
 .nav__garage-btn:active,

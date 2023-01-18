@@ -70,7 +70,6 @@ export default class Engine {
         fill: 'forwards',
       },
     );
-    this.animation.addEventListener('finish', this.animationCallback);
   }
 
   public stopAnimation(): void {
@@ -82,6 +81,10 @@ export default class Engine {
 
   public removeEventListener(): void {
     this.animation.removeEventListener('finish', this.animationCallback);
+  }
+
+  public addEventListener(): void {
+    this.animation.addEventListener('finish', this.animationCallback);
   }
 
   public animationCallback = (): void => {

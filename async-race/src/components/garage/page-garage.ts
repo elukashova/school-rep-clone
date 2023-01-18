@@ -4,10 +4,12 @@ import RaceTrack from './race-track/race-track';
 import { PageStatus } from './page-garage.types';
 // eslint-disable-next-line object-curly-newline
 import { CarType, CarsData, Settings } from './race-track/race-track.types';
-import { DataParams } from '../../controller/loader.types';
+import { DataParams, EngineResp } from '../../controller/loader.types';
 import Loader from '../../controller/loader';
 import eventEmitter from '../../utils/event-emitter';
 import { turnEngineOnOff } from '../../utils/engine';
+import createRandomCarName from '../../utils/cars-randomizer';
+import createRandomColor from '../../utils/color-randomizer';
 
 export default class GaragePage extends BaseComponent<'section'> {
   private createInputText: BaseComponent<'input'> | null = null;
@@ -28,7 +30,7 @@ export default class GaragePage extends BaseComponent<'section'> {
 
   private generateBtn: BaseComponent<'button'> | null = null;
 
-  private carsLimitElement: BaseComponent<'span'> | null = null;
+  private totalCarsElement: BaseComponent<'span'> | null = null;
 
   private raceFieldWrapper: BaseComponent<'div'> | null = null;
 
@@ -100,12 +102,7 @@ export default class GaragePage extends BaseComponent<'section'> {
       'settings__update-wrapper',
     );
 
-    this.carsLimitElement = new BaseComponent(
-      'span',
-      leftBlockTop.element,
-      'settings__cars-limit',
-      `Garage: ${this.carsLimit}`,
-    );
+    this.totalCarsElement = new BaseComponent('span', leftBlockTop.element, 'settings__cars-limit');
     this.generateBtn = GaragePage.createSettingsBtn({
       parent: leftBlockBottom,
       name: 'generate',
@@ -150,23 +147,27 @@ export default class GaragePage extends BaseComponent<'section'> {
     this.raceBtn = GaragePage.createSettingsBtn({ parent: rightBlock, name: 'race', type: 'submit' });
     this.resetBtn = GaragePage.createSettingsBtn({ parent: rightBlock, name: 'reset', type: 'reset' });
 
-    this.createInputText.element.placeholder = 'Enter name here';
     this.generateBtn.element.textContent = 'ADD 100';
     this.leftArrowBtn.classList.add('settings__btn-left');
     this.rightArrowBtn.classList.add('settings__btn-right');
+    this.createInputColor.element.value = '#6395BD';
+    this.createInputText.element.placeholder = 'Enter name here';
+    this.createInputText.element.setAttribute('required', '');
+    this.updateInputColor.element.value = '#6395BD';
 
     this.createInputText.element.addEventListener('input', this.createTextInputCallback);
     this.createInputColor.element.addEventListener('input', this.createColorInputCallback);
     this.createBtn.element.addEventListener('click', this.createBtnCallback);
     this.raceBtn.element.addEventListener('click', this.raceBtnCallback);
     this.resetBtn.element.addEventListener('click', this.resetBtnCallback);
+    this.generateBtn.element.addEventListener('click', this.generateBtnCallback);
     this.disableResetBtn();
     this.disableUpdateElements();
   }
 
-  private updateGarageNumber(data: DataParams): void {
-    if (this.carsLimitElement?.element) {
-      this.carsLimitElement.element.textContent = `Garage: ${data.id})`;
+  private updateGarageNumber(num: number): void {
+    if (this.totalCarsElement?.element) {
+      this.totalCarsElement.element.textContent = `Garage: ${num}`;
     }
   }
 
@@ -202,6 +203,7 @@ export default class GaragePage extends BaseComponent<'section'> {
     if (!this.updateInputText.element.value) {
       this.disableUpdateElements();
     }
+    this.carData.name = this.updateInputText.element.value;
   };
 
   private updateColorInputCallback = (): void => {
@@ -210,7 +212,7 @@ export default class GaragePage extends BaseComponent<'section'> {
 
   private updateBtnCallback = async (): Promise<void> => {
     const data: DataParams = await this.updateCar(this.carData);
-    eventEmitter.emit('changeColor', data);
+    eventEmitter.emit('updateCar', data);
     this.disableUpdateElements();
     this.setUpdateElementsToDefault();
   };
@@ -224,6 +226,7 @@ export default class GaragePage extends BaseComponent<'section'> {
     for (let i: number = 0; i < results.length; i += 1) {
       this.tracksOnPage[i].engine.startAnimation(results[i]);
       this.tracksOnPage[i].engine.switchToDrivingMode();
+      this.tracksOnPage[i].engine.addEventListener();
     }
     eventEmitter.emit('startRace', {});
     this.disableCreateElements();
@@ -248,13 +251,31 @@ export default class GaragePage extends BaseComponent<'section'> {
   // reset callback
   private resetBtnCallback = async (): Promise<void> => {
     this.tracksOnPage.forEach((track) => track.engine.setStatusToStopped());
-    // eslint-disable-next-line max-len
-    const requests = this.tracksOnPage.map(async (track) => turnEngineOnOff(track.engine.EngineState));
+    // eslint-disable-next-line max-len, prettier/prettier
+    const requests: Promise<EngineResp>[] = this.tracksOnPage.map(async (track) => turnEngineOnOff(track.engine.EngineState));
     await Promise.all(requests).then(() => {
       this.tracksOnPage.forEach((track) => track.engine.stopAnimation());
     });
     eventEmitter.emit('stopDriving', {});
     this.disableResetBtn();
+  };
+
+  // generate 100 cars callback
+  private generateBtnCallback = async (): Promise<void> => {
+    const carsNumber: number = 100;
+    const new100Cars: CarType[] = [];
+    for (let i: number = 0; i < carsNumber; i += 1) {
+      const newCarData: CarType = {
+        name: '',
+        color: '',
+      };
+      newCarData.name = createRandomCarName();
+      newCarData.color = createRandomColor();
+      new100Cars.push(newCarData);
+    }
+    const requests: Promise<CarType>[] = new100Cars.map(async (car) => GaragePage.createCar(car));
+    const cars: CarType[] = await Promise.all(requests);
+    cars.forEach((car) => this.createRaceTrack(car));
   };
 
   // useful methods
@@ -395,6 +416,7 @@ export default class GaragePage extends BaseComponent<'section'> {
     this.tracksOnPage.push(track);
     track.element.setAttribute('id', `${car.id}`);
     this.raceField?.element.append(track.element);
+    this.updateGarageNumber(this.tracksOnPage.length);
   }
 
   private deleteRaceTracks = (data: DataParams): void => {
@@ -406,7 +428,7 @@ export default class GaragePage extends BaseComponent<'section'> {
       }
       this.updateCurrentTrackArray({ id: data.id });
       const length: number = Number(this.raceField.element.children.length);
-      this.updateGarageNumber({ num: length });
+      this.updateGarageNumber(length);
     }
   };
 }

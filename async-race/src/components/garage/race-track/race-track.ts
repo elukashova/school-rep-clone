@@ -120,9 +120,10 @@ export default class RaceTrack extends BaseComponent<'div'> {
   }
 
   private subscribeToEvents(): void {
-    eventEmitter.on('changeColor', (data: DataParams): void => {
+    eventEmitter.on('updateCar', (data: DataParams): void => {
       if (data.id === this.id) {
         this.updateColor(String(data.color));
+        this.updateName(String(data.name));
       }
     });
 
@@ -151,6 +152,12 @@ export default class RaceTrack extends BaseComponent<'div'> {
 
   private updateColor(color: string): void {
     this.car.setAttribute('fill', `${color}`);
+  }
+
+  private updateName(name: string): void {
+    if (this.carNameElemenet) {
+      this.carNameElemenet.element.textContent = `${name}`;
+    }
   }
 
   private activateStopBtn(): void {

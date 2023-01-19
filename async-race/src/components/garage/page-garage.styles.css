@@ -44,28 +44,6 @@
   align-items: center;
 }
 
-.settings__btn-left,
-.settings__btn-right,
-.settings__btn-left_svg,
-.settings__btn-right_svg {
-  height: 1.5em;
-  width: 1em;
-}
-
-.settings__btn-left,
-.settings__btn-right {
-  background: none;
-  appearance: none;
-  --webkit-appearance: none;
-  outline: none;
-}
-
-.settings__btn-left:disabled,
-.settings__btn-right:disabled {
-  opacity: 40%;
-  pointer-events: none;
-}
-
 .settings__center {
   display: flex;
   flex-direction: column;

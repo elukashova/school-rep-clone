@@ -2,7 +2,6 @@ import './page-garage.styles.css';
 import BaseComponent from '../base-component';
 import RaceTrack from './race-track/race-track';
 import { PageStatus } from './page-garage.types';
-// eslint-disable-next-line object-curly-newline
 import { CarsData, CarType, Settings } from './race-track/race-track.types';
 import { DataParams, EngineResp, PageType } from '../../controller/loader.types';
 import Loader from '../../controller/loader';
@@ -10,6 +9,7 @@ import eventEmitter from '../../utils/event-emitter';
 import { turnEngineOnOff } from '../../utils/engine';
 import createRandomCarName from '../../utils/cars-randomizer';
 import createRandomColor from '../../utils/color-randomizer';
+import Pagination from '../pagination/pagination';
 
 export default class GaragePage extends BaseComponent<'section'> {
   private createInputText: BaseComponent<'input'> | null = null;
@@ -38,9 +38,7 @@ export default class GaragePage extends BaseComponent<'section'> {
 
   private currentPageElement: BaseComponent<'span'> | null = null;
 
-  private leftArrowBtn: BaseComponent<'button'> | null = null;
-
-  private rightArrowBtn: BaseComponent<'button'> | null = null;
+  private pagination!: Pagination;
 
   private carData: CarType = {
     name: '',
@@ -85,9 +83,8 @@ export default class GaragePage extends BaseComponent<'section'> {
 
   private render = async (): Promise<void> => {
     await GaragePage.getCars(this.currentPageStatus).then((cars: PageType<CarType>) => {
-      this.totalPages = this.calculateTotalPages(cars.total);
-      this.renderSettingsBlock();
       this.totalCars = cars.total;
+      this.renderSettingsBlock();
       this.raceFieldWrapper = new BaseComponent('div', this.element, 'garage__race-wrapper');
       this.renderRaceBlock(cars.data);
     });
@@ -112,10 +109,6 @@ export default class GaragePage extends BaseComponent<'section'> {
       centerBlock.element,
       'settings__update-wrapper',
     );
-    const leftArrowBtnSVG: SVGElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    const rightArrowBtnSVG: SVGElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    const arrowLeftSource = document.createElementNS('http://www.w3.org/2000/svg', 'use');
-    const arrowRightSource = document.createElementNS('http://www.w3.org/2000/svg', 'use');
 
     this.totalCarsElement = new BaseComponent('span', leftBlockTop.element, 'settings__cars-limit');
     this.generateBtn = GaragePage.createSettingsBtn({
@@ -123,14 +116,7 @@ export default class GaragePage extends BaseComponent<'section'> {
       name: 'generate',
       type: 'submit',
     });
-    this.leftArrowBtn = new BaseComponent('button', leftBlockBottom.element, 'settings__btn-left');
-    this.currentPageElement = new BaseComponent(
-      'span',
-      leftBlockBottom.element,
-      'garage__race_current-page',
-      `${this.currentPageStatus.page} / ${this.totalPages}`,
-    );
-    this.rightArrowBtn = new BaseComponent('button', leftBlockBottom.element, 'settings__btn-right');
+    this.pagination = new Pagination(leftBlockBottom, 'settings', this.currentPageStatus, this.totalPages);
     this.createInputText = GaragePage.createSettingsInput({
       parent: createSettingWrapper,
       name: 'create',
@@ -156,22 +142,16 @@ export default class GaragePage extends BaseComponent<'section'> {
     this.raceBtn = GaragePage.createSettingsBtn({ parent: rightBlock, name: 'race', type: 'submit' });
     this.resetBtn = GaragePage.createSettingsBtn({ parent: rightBlock, name: 'reset', type: 'reset' });
 
-    this.leftArrowBtn.element.append(leftArrowBtnSVG);
-    this.rightArrowBtn.element.append(rightArrowBtnSVG);
-    leftArrowBtnSVG.append(arrowLeftSource);
-    rightArrowBtnSVG.append(arrowRightSource);
     this.generateBtn.element.textContent = 'ADD 100';
     this.createInputColor.element.value = '#6395BD';
     this.updateInputColor.element.value = '#6395BD';
     this.createInputText.element.placeholder = 'Enter name here';
     this.createInputText.element.setAttribute('required', '');
-    arrowLeftSource.setAttribute('href', 'assets/sprite.svg#left-arrow');
-    arrowRightSource.setAttribute('href', 'assets/sprite.svg#right-arrow');
-    rightArrowBtnSVG.classList.add('settings__btn-right_svg');
-    leftArrowBtnSVG.classList.add('settings__btn-left_svg');
 
     this.addListenersFirstLoad();
     this.disableElementsFirstLoad();
+    this.totalPages = this.pagination.calculateTotalPages(this.totalCars);
+    this.pagination.updateTotalPages(this.totalPages);
   }
 
   private addListenersFirstLoad(): void {
@@ -181,14 +161,13 @@ export default class GaragePage extends BaseComponent<'section'> {
     this.raceBtn?.element.addEventListener('click', this.raceBtnCallback);
     this.resetBtn?.element.addEventListener('click', this.resetBtnCallback);
     this.generateBtn?.element.addEventListener('click', this.generateBtnCallback);
-    this.rightArrowBtn?.element.addEventListener('click', this.rightArrowBtnCallback);
-    this.leftArrowBtn?.element.addEventListener('click', this.leftArrowBtnCallback);
+    this.pagination.rightArrowBtn?.element.addEventListener('click', this.rightArrowBtnCallback);
+    this.pagination.leftArrowBtn?.element.addEventListener('click', this.leftArrowBtnCallback);
   }
 
   private disableElementsFirstLoad(): void {
     this.disableResetBtn();
     this.disableUpdateElements();
-    this.disableArrowsFirstLastPage(this.currentPageStatus.page);
   }
 
   private updateGarageNumber(num: number): void {
@@ -215,9 +194,9 @@ export default class GaragePage extends BaseComponent<'section'> {
     this.isNewCar = true;
     this.createRaceTrack(newCar);
     this.totalCars += 1;
-    this.totalPages = this.calculateTotalPages(this.totalCars);
+    this.totalPages = this.pagination.calculateTotalPages(this.totalCars);
     this.updateGarageNumber(this.totalCars);
-    this.updateTotalPagesNumber(this.totalPages);
+    this.pagination.updateTotalPages(this.totalPages);
     this.isNewCar = false;
   };
 
@@ -242,24 +221,24 @@ export default class GaragePage extends BaseComponent<'section'> {
 
   // pagination callbacks
   private rightArrowBtnCallback = (): void => {
-    this.activateLeftArrowBtn();
+    this.pagination.activateLeftArrowBtn();
     this.currentPageStatus.page += 1;
-    this.updateCurrentPageNumber(this.currentPageStatus.page);
+    this.pagination.updateCurrentPage(this.currentPageStatus.page);
     this.deleteAllRaceTracks();
     this.createTracksOnNextPrevPage();
-    this.disableArrowsFirstLastPage(this.currentPageStatus.page);
+    this.pagination.disableArrowsFirstLastPage(this.currentPageStatus.page);
   };
 
   private leftArrowBtnCallback = (): void => {
     this.isSlideBack = true;
     if (this.currentPageStatus.page === this.totalPages) {
-      this.activateRightArrowBtn();
+      this.pagination.activateRightArrowBtn();
     }
     this.currentPageStatus.page -= 1;
-    this.updateCurrentPageNumber(this.currentPageStatus.page);
+    this.pagination.updateCurrentPage(this.currentPageStatus.page);
     this.deleteAllRaceTracks();
     this.createTracksOnNextPrevPage();
-    this.disableArrowsFirstLastPage(this.currentPageStatus.page);
+    this.pagination.disableArrowsFirstLastPage(this.currentPageStatus.page);
   };
 
   // race methods
@@ -323,10 +302,10 @@ export default class GaragePage extends BaseComponent<'section'> {
     const cars: CarType[] = await Promise.all(requests);
     cars.forEach((car) => this.createRaceTrack(car));
     this.totalCars += carsNumber;
-    this.totalPages = this.calculateTotalPages(this.totalCars);
+    this.totalPages = this.pagination.calculateTotalPages(this.totalCars);
     this.updateGarageNumber(this.totalCars);
-    this.updateTotalPagesNumber(this.totalPages);
-    this.activateRightArrowBtn();
+    this.pagination.updateTotalPages(this.totalPages);
+    this.pagination.activateRightArrowBtn();
     this.isNewCar = false;
   };
 
@@ -503,8 +482,8 @@ export default class GaragePage extends BaseComponent<'section'> {
       if (this.currentPageStatus.page !== this.totalPages) {
         this.recreateRaceTrackAfterDeletion();
       }
-      this.totalPages = this.calculateTotalPages(this.totalCars);
-      this.updateTotalPagesNumber(this.totalPages);
+      this.totalPages = this.pagination.calculateTotalPages(this.totalCars);
+      this.pagination.updateTotalPages(this.totalPages);
       this.checkIfZero();
     }
   }
@@ -512,7 +491,7 @@ export default class GaragePage extends BaseComponent<'section'> {
   private checkIfZero(): void {
     if (this.tracksOnPage.length === 0) {
       this.currentPageStatus.page -= 1;
-      this.updateCurrentPageNumber(this.currentPageStatus.page);
+      this.pagination.updateCurrentPage(this.currentPageStatus.page);
       this.isUpdatePage = true;
       this.createTracksOnNextPrevPage();
     }
@@ -570,41 +549,5 @@ export default class GaragePage extends BaseComponent<'section'> {
       this.raceField?.element.append(track.element);
       this.tracksOnPage.push(track);
     });
-  }
-
-  private updateTotalPagesNumber(num: number): void {
-    if (this.currentPageElement) {
-      this.currentPageElement.element.textContent = `${this.currentPageStatus.page} / ${num}`;
-    }
-  }
-
-  private updateCurrentPageNumber(num: number): void {
-    if (this.currentPageElement) {
-      this.currentPageElement.element.textContent = `${num} / ${this.totalPages}`;
-    }
-  }
-
-  private calculateTotalPages(num: number): number {
-    return Math.ceil(num / this.currentPageStatus.limit);
-  }
-
-  private disableArrowsFirstLastPage(num: number): void {
-    if (num === 1) {
-      this.leftArrowBtn?.element.setAttribute('disabled', '');
-    } else if (num === this.totalPages) {
-      this.rightArrowBtn?.element.setAttribute('disabled', '');
-    }
-  }
-
-  private activateRightArrowBtn(): void {
-    if (this.rightArrowBtn?.element.hasAttribute('disabled')) {
-      this.rightArrowBtn.element.removeAttribute('disabled');
-    }
-  }
-
-  private activateLeftArrowBtn(): void {
-    if (this.leftArrowBtn?.element.hasAttribute('disabled')) {
-      this.leftArrowBtn.element.removeAttribute('disabled');
-    }
   }
 }

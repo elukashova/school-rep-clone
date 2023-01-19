@@ -1,9 +1,6 @@
-import { Observer } from '../controller/loader.types';
 import BaseComponent from './base-component';
 
 export default class WinnersPage extends BaseComponent<'section'> {
-  private observers: Observer[] = [];
-
   constructor() {
     super('section', undefined, 'section winners');
     WinnersPage.render();

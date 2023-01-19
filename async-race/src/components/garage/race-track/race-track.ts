@@ -17,7 +17,7 @@ export default class RaceTrack extends BaseComponent<'div'> {
 
   private deleteBtn: BaseComponent<'button'> | null = null;
 
-  private carNameElemenet: BaseComponent<'span'> | null = null;
+  private carNameElement: BaseComponent<'span'> | null = null;
 
   public startBtn: BaseComponent<'button'> | null = null;
 
@@ -67,7 +67,7 @@ export default class RaceTrack extends BaseComponent<'div'> {
 
     this.selectBtn = RaceTrack.createBtn({ parent: topLinePart, name: 'select', type: 'submit' });
     this.deleteBtn = RaceTrack.createBtn({ parent: topLinePart, name: 'delete', type: 'submit' });
-    this.carNameElemenet = new BaseComponent('span', topLinePart.element, 'race__car-name', `${this.carData.name}`);
+    this.carNameElement = new BaseComponent('span', topLinePart.element, 'race__car-name', `${this.carData.name}`);
     this.startBtn = RaceTrack.createBtn({ parent: btnsWrapper, name: 'start', type: 'submit' });
     this.stopBtn = RaceTrack.createBtn({ parent: btnsWrapper, name: 'stop', type: 'submit' });
 
@@ -155,8 +155,8 @@ export default class RaceTrack extends BaseComponent<'div'> {
   }
 
   private updateName(name: string): void {
-    if (this.carNameElemenet) {
-      this.carNameElemenet.element.textContent = `${name}`;
+    if (this.carNameElement) {
+      this.carNameElement.element.textContent = `${name}`;
     }
   }
 

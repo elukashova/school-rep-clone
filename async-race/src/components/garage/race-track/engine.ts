@@ -104,8 +104,8 @@ export default class Engine {
   }
 
   // eslint-disable-next-line prettier/prettier
-  public static turnEngineOnOff = (status: EngineState): Promise<EngineResp> => Loader.getAndPatch('PATCH', 'engine', status);
+  public static turnEngineOnOff = (status: EngineState): Promise<EngineResp> => Loader.getAndPatchData('PATCH', 'engine', status);
 
   // eslint-disable-next-line prettier/prettier
-  public static startDriveMode = (status: EngineState): Promise<DataParams> => Loader.getAndPatch('PATCH', 'engine', status);
+  public static startDriveMode = (status: EngineState): Promise<DataParams> => Loader.getAndPatchData('PATCH', 'engine', status);
 }

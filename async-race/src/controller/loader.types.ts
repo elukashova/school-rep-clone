@@ -18,12 +18,7 @@ export enum Errors {
   Error500 = 'Internal Server Error',
 }
 
-export interface ObservedSubject {
-  attachObserver(observer: Observer): void;
-  removeObserver(observer: Observer): void;
-  notifyObserver(): Promise<void>;
-}
-
-export interface Observer {
-  update(subject: ObservedSubject): Promise<void>;
-}
+export type PageType<T> = {
+  data: T[];
+  total: number;
+};

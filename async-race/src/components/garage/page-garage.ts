@@ -3,8 +3,8 @@ import BaseComponent from '../base-component';
 import RaceTrack from './race-track/race-track';
 import { PageStatus } from './page-garage.types';
 // eslint-disable-next-line object-curly-newline
-import { CarType, CarsData, Settings } from './race-track/race-track.types';
-import { DataParams, EngineResp } from '../../controller/loader.types';
+import { CarsData, CarType, Settings } from './race-track/race-track.types';
+import { DataParams, EngineResp, PageType } from '../../controller/loader.types';
 import Loader from '../../controller/loader';
 import eventEmitter from '../../utils/event-emitter';
 import { turnEngineOnOff } from '../../utils/engine';
@@ -38,9 +38,9 @@ export default class GaragePage extends BaseComponent<'section'> {
 
   private currentPageElement: BaseComponent<'span'> | null = null;
 
-  private leftArrowBtn: SVGElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  private leftArrowBtn: BaseComponent<'button'> | null = null;
 
-  private rightArrowBtn: SVGElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  private rightArrowBtn: BaseComponent<'button'> | null = null;
 
   private carData: CarType = {
     name: '',
@@ -54,33 +54,44 @@ export default class GaragePage extends BaseComponent<'section'> {
     limit: 7,
   };
 
-  private carsLimit: number = 4;
-
-  private currentPage: number = 1;
-
   private totalPages: number = 1;
 
+  private totalCars: number = 0;
+
   private tracksOnPage: RaceTrack[] = [];
+
+  private allTracks: RaceTrack[] = [];
 
   private finishCounter: number = 0;
 
   private winnerCounter: number = 0;
 
-  private winnersRating: RaceTrack[] = [];
+  private isNewCar: boolean = false;
+
+  private isSlideBack: boolean = false;
+
+  private isUpdatePage: boolean = false;
+
+  private startIdx: number = 0;
+
+  private endIdx: number = 0;
 
   constructor() {
     super('section', undefined, 'section garage');
     this.render();
     this.subscribeToEvents();
+    this.createAllCarsBackup();
   }
 
-  private render(): void {
-    GaragePage.getCars(this.currentPageStatus).then((cars: CarsData) => {
+  private render = async (): Promise<void> => {
+    await GaragePage.getCars(this.currentPageStatus).then((cars: PageType<CarType>) => {
+      this.totalPages = this.calculateTotalPages(cars.total);
       this.renderSettingsBlock();
+      this.totalCars = cars.total;
       this.raceFieldWrapper = new BaseComponent('div', this.element, 'garage__race-wrapper');
-      this.renderRaceBlock(cars);
+      this.renderRaceBlock(cars.data);
     });
-  }
+  };
 
   // creating block with cars settings
   // eslint-disable-next-line max-lines-per-function
@@ -101,6 +112,10 @@ export default class GaragePage extends BaseComponent<'section'> {
       centerBlock.element,
       'settings__update-wrapper',
     );
+    const leftArrowBtnSVG: SVGElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    const rightArrowBtnSVG: SVGElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    const arrowLeftSource = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+    const arrowRightSource = document.createElementNS('http://www.w3.org/2000/svg', 'use');
 
     this.totalCarsElement = new BaseComponent('span', leftBlockTop.element, 'settings__cars-limit');
     this.generateBtn = GaragePage.createSettingsBtn({
@@ -108,20 +123,14 @@ export default class GaragePage extends BaseComponent<'section'> {
       name: 'generate',
       type: 'submit',
     });
-    const arrowLeftSource = document.createElementNS('http://www.w3.org/2000/svg', 'use');
-    arrowLeftSource.setAttribute('href', 'assets/sprite.svg#left-arrow');
-    leftBlockBottom.element.append(this.leftArrowBtn);
-    this.leftArrowBtn.append(arrowLeftSource);
+    this.leftArrowBtn = new BaseComponent('button', leftBlockBottom.element, 'settings__btn-left');
     this.currentPageElement = new BaseComponent(
       'span',
       leftBlockBottom.element,
       'garage__race_current-page',
-      `${this.currentPage} / ${this.totalPages}`,
+      `${this.currentPageStatus.page} / ${this.totalPages}`,
     );
-    const arrowRightSource = document.createElementNS('http://www.w3.org/2000/svg', 'use');
-    arrowRightSource.setAttribute('href', 'assets/sprite.svg#right-arrow');
-    leftBlockBottom.element.append(this.rightArrowBtn);
-    this.rightArrowBtn.append(arrowRightSource);
+    this.rightArrowBtn = new BaseComponent('button', leftBlockBottom.element, 'settings__btn-right');
     this.createInputText = GaragePage.createSettingsInput({
       parent: createSettingWrapper,
       name: 'create',
@@ -147,36 +156,44 @@ export default class GaragePage extends BaseComponent<'section'> {
     this.raceBtn = GaragePage.createSettingsBtn({ parent: rightBlock, name: 'race', type: 'submit' });
     this.resetBtn = GaragePage.createSettingsBtn({ parent: rightBlock, name: 'reset', type: 'reset' });
 
+    this.leftArrowBtn.element.append(leftArrowBtnSVG);
+    this.rightArrowBtn.element.append(rightArrowBtnSVG);
+    leftArrowBtnSVG.append(arrowLeftSource);
+    rightArrowBtnSVG.append(arrowRightSource);
     this.generateBtn.element.textContent = 'ADD 100';
-    this.leftArrowBtn.classList.add('settings__btn-left');
-    this.rightArrowBtn.classList.add('settings__btn-right');
     this.createInputColor.element.value = '#6395BD';
+    this.updateInputColor.element.value = '#6395BD';
     this.createInputText.element.placeholder = 'Enter name here';
     this.createInputText.element.setAttribute('required', '');
-    this.updateInputColor.element.value = '#6395BD';
+    arrowLeftSource.setAttribute('href', 'assets/sprite.svg#left-arrow');
+    arrowRightSource.setAttribute('href', 'assets/sprite.svg#right-arrow');
+    rightArrowBtnSVG.classList.add('settings__btn-right_svg');
+    leftArrowBtnSVG.classList.add('settings__btn-left_svg');
 
-    this.createInputText.element.addEventListener('input', this.createTextInputCallback);
-    this.createInputColor.element.addEventListener('input', this.createColorInputCallback);
-    this.createBtn.element.addEventListener('click', this.createBtnCallback);
-    this.raceBtn.element.addEventListener('click', this.raceBtnCallback);
-    this.resetBtn.element.addEventListener('click', this.resetBtnCallback);
-    this.generateBtn.element.addEventListener('click', this.generateBtnCallback);
+    this.addListenersFirstLoad();
+    this.disableElementsFirstLoad();
+  }
+
+  private addListenersFirstLoad(): void {
+    this.createInputText?.element.addEventListener('input', this.createTextInputCallback);
+    this.createInputColor?.element.addEventListener('input', this.createColorInputCallback);
+    this.createBtn?.element.addEventListener('click', this.createBtnCallback);
+    this.raceBtn?.element.addEventListener('click', this.raceBtnCallback);
+    this.resetBtn?.element.addEventListener('click', this.resetBtnCallback);
+    this.generateBtn?.element.addEventListener('click', this.generateBtnCallback);
+    this.rightArrowBtn?.element.addEventListener('click', this.rightArrowBtnCallback);
+    this.leftArrowBtn?.element.addEventListener('click', this.leftArrowBtnCallback);
+  }
+
+  private disableElementsFirstLoad(): void {
     this.disableResetBtn();
     this.disableUpdateElements();
+    this.disableArrowsFirstLastPage(this.currentPageStatus.page);
   }
 
   private updateGarageNumber(num: number): void {
     if (this.totalCarsElement?.element) {
       this.totalCarsElement.element.textContent = `Garage: ${num}`;
-    }
-  }
-
-  private updateCurrentTrackArray(data: DataParams): void {
-    for (let i: number = 0; i < this.tracksOnPage.length; i += 1) {
-      if (Number(this.tracksOnPage[i].element.id) === data.id) {
-        const idx: number = this.tracksOnPage.indexOf(this.tracksOnPage[i]);
-        this.tracksOnPage.splice(idx, 1);
-      }
     }
   }
 
@@ -195,7 +212,13 @@ export default class GaragePage extends BaseComponent<'section'> {
 
   private createBtnCallback = async (): Promise<void> => {
     const newCar: CarType = await GaragePage.createCar(this.carData);
+    this.isNewCar = true;
     this.createRaceTrack(newCar);
+    this.totalCars += 1;
+    this.totalPages = this.calculateTotalPages(this.totalCars);
+    this.updateGarageNumber(this.totalCars);
+    this.updateTotalPagesNumber(this.totalPages);
+    this.isNewCar = false;
   };
 
   // callbacks for updating the car
@@ -215,6 +238,28 @@ export default class GaragePage extends BaseComponent<'section'> {
     eventEmitter.emit('updateCar', data);
     this.disableUpdateElements();
     this.setUpdateElementsToDefault();
+  };
+
+  // pagination callbacks
+  private rightArrowBtnCallback = (): void => {
+    this.activateLeftArrowBtn();
+    this.currentPageStatus.page += 1;
+    this.updateCurrentPageNumber(this.currentPageStatus.page);
+    this.deleteAllRaceTracks();
+    this.createTracksOnNextPrevPage();
+    this.disableArrowsFirstLastPage(this.currentPageStatus.page);
+  };
+
+  private leftArrowBtnCallback = (): void => {
+    this.isSlideBack = true;
+    if (this.currentPageStatus.page === this.totalPages) {
+      this.activateRightArrowBtn();
+    }
+    this.currentPageStatus.page -= 1;
+    this.updateCurrentPageNumber(this.currentPageStatus.page);
+    this.deleteAllRaceTracks();
+    this.createTracksOnNextPrevPage();
+    this.disableArrowsFirstLastPage(this.currentPageStatus.page);
   };
 
   // race methods
@@ -262,6 +307,7 @@ export default class GaragePage extends BaseComponent<'section'> {
 
   // generate 100 cars callback
   private generateBtnCallback = async (): Promise<void> => {
+    this.isNewCar = true;
     const carsNumber: number = 100;
     const new100Cars: CarType[] = [];
     for (let i: number = 0; i < carsNumber; i += 1) {
@@ -276,6 +322,12 @@ export default class GaragePage extends BaseComponent<'section'> {
     const requests: Promise<CarType>[] = new100Cars.map(async (car) => GaragePage.createCar(car));
     const cars: CarType[] = await Promise.all(requests);
     cars.forEach((car) => this.createRaceTrack(car));
+    this.totalCars += carsNumber;
+    this.totalPages = this.calculateTotalPages(this.totalCars);
+    this.updateGarageNumber(this.totalCars);
+    this.updateTotalPagesNumber(this.totalPages);
+    this.activateRightArrowBtn();
+    this.isNewCar = false;
   };
 
   // useful methods
@@ -288,7 +340,9 @@ export default class GaragePage extends BaseComponent<'section'> {
     });
 
     eventEmitter.on('deleteCar', (data: DataParams): void => {
-      this.deleteRaceTracks(data);
+      this.totalCars -= 1;
+      this.updateGarageNumber(this.totalCars);
+      this.deleteOneRaceTrack(data);
     });
 
     eventEmitter.on('waitingToStart', (): void => {
@@ -379,13 +433,26 @@ export default class GaragePage extends BaseComponent<'section'> {
     this.resetBtn?.element.removeAttribute('disabled');
   }
 
-  // server-related functions
-  private static getCars = (params: DataParams): Promise<CarsData> => Loader.getAndPatch('GET', 'garage', params);
+  // eslint-disable-next-line prettier/prettier
+  private static getCars = (params: DataParams): Promise<PageType<CarType>> => Loader.getPageData('GET', 'garage', params);
+
+  private static getBackup = (params: DataParams): Promise<CarsData> => Loader.getAndPatchData('GET', 'garage', params);
 
   private static createCar = (params: DataParams): Promise<CarType> => Loader.postAndPutData('POST', 'garage', params);
 
   // eslint-disable-next-line prettier/prettier
   private updateCar = (data: DataParams): Promise<DataParams> => Loader.postAndPutData('PUT', `garage/${this.id}`, data);
+
+  private createAllCarsBackup = async (): Promise<void> => {
+    await GaragePage.getBackup(this.currentPageStatus).then((cars: CarsData) => {
+      cars.forEach((car) => {
+        const track: RaceTrack = new RaceTrack(car);
+        track.element.setAttribute('id', `${car.id}`);
+        this.allTracks.push(track);
+        this.totalCars = this.allTracks.length;
+      });
+    });
+  };
 
   // functions to render elements
   private static createSettingsInput(data: Settings): BaseComponent<'input'> {
@@ -413,22 +480,131 @@ export default class GaragePage extends BaseComponent<'section'> {
 
   private createRaceTrack(car: CarType): void {
     const track: RaceTrack = new RaceTrack(car);
-    this.tracksOnPage.push(track);
+    if (this.tracksOnPage.length < this.currentPageStatus.limit) {
+      this.raceField?.element.append(track.element);
+      this.tracksOnPage.push(track);
+    }
     track.element.setAttribute('id', `${car.id}`);
-    this.raceField?.element.append(track.element);
-    this.updateGarageNumber(this.tracksOnPage.length);
+    if (this.isNewCar === true) {
+      this.allTracks.push(track);
+    }
+    this.updateGarageNumber(this.totalCars);
   }
 
-  private deleteRaceTracks = (data: DataParams): void => {
+  private deleteOneRaceTrack(data: DataParams): void {
     if (this.raceField) {
       for (let i: number = 0; i < this.raceField.element.children.length; i += 1) {
         if (Number(this.raceField.element.children[i].id) === data.id) {
           this.raceField.element.removeChild(this.raceField.element.children[i]);
         }
       }
-      this.updateCurrentTrackArray({ id: data.id });
-      const length: number = Number(this.raceField.element.children.length);
-      this.updateGarageNumber(length);
+      this.updateCurrentTrackArray(String(data.id));
+      this.updateAllTracksArray(String(data.id));
+      if (this.currentPageStatus.page !== this.totalPages) {
+        this.recreateRaceTrackAfterDeletion();
+      }
+      this.totalPages = this.calculateTotalPages(this.totalCars);
+      this.updateTotalPagesNumber(this.totalPages);
+      this.checkIfZero();
     }
-  };
+  }
+
+  private checkIfZero(): void {
+    if (this.tracksOnPage.length === 0) {
+      this.currentPageStatus.page -= 1;
+      this.updateCurrentPageNumber(this.currentPageStatus.page);
+      this.isUpdatePage = true;
+      this.createTracksOnNextPrevPage();
+    }
+  }
+
+  private deleteAllRaceTracks(): void {
+    this.tracksOnPage = [];
+    if (this.raceField) {
+      let idx: number = this.raceField.element.children.length - 1;
+      while (this.raceField.element.children.length > 0 && idx >= 0) {
+        this.raceField.element.removeChild(this.raceField.element.children[idx]);
+        idx -= 1;
+      }
+    }
+  }
+
+  private updateCurrentTrackArray(id: string): void {
+    this.tracksOnPage = this.tracksOnPage.filter((track) => track.element.id !== id);
+  }
+
+  private updateAllTracksArray(id: string): void {
+    this.allTracks = this.allTracks.filter((track) => track.element.id !== id);
+  }
+
+  private recreateRaceTrackAfterDeletion(): void {
+    const idx: number = this.currentPageStatus.limit * this.currentPageStatus.page - 1;
+    const nextTrack: RaceTrack = this.allTracks[idx];
+    this.tracksOnPage.push(nextTrack);
+    this.raceField?.element.append(nextTrack.element);
+  }
+
+  private createTracksOnNextPrevPage(): void {
+    let nextPageTracks: RaceTrack[] = [];
+
+    if (this.isSlideBack === false && this.isUpdatePage === false) {
+      this.startIdx += this.currentPageStatus.limit;
+      this.endIdx = this.startIdx + this.currentPageStatus.limit;
+    } else if (this.isSlideBack === true) {
+      this.endIdx = this.startIdx;
+      this.startIdx -= this.currentPageStatus.limit;
+      this.isSlideBack = false;
+    } else if (this.isUpdatePage === true) {
+      this.startIdx = this.currentPageStatus.limit * (this.currentPageStatus.page - 1);
+      this.endIdx = this.startIdx + this.currentPageStatus.limit;
+      this.isUpdatePage = false;
+    }
+
+    if (this.allTracks.slice(this.startIdx).length <= this.currentPageStatus.limit) {
+      nextPageTracks = this.allTracks.slice(this.startIdx);
+    } else {
+      nextPageTracks = this.allTracks.slice(this.startIdx, this.endIdx);
+    }
+
+    nextPageTracks.forEach((track) => {
+      this.raceField?.element.append(track.element);
+      this.tracksOnPage.push(track);
+    });
+  }
+
+  private updateTotalPagesNumber(num: number): void {
+    if (this.currentPageElement) {
+      this.currentPageElement.element.textContent = `${this.currentPageStatus.page} / ${num}`;
+    }
+  }
+
+  private updateCurrentPageNumber(num: number): void {
+    if (this.currentPageElement) {
+      this.currentPageElement.element.textContent = `${num} / ${this.totalPages}`;
+    }
+  }
+
+  private calculateTotalPages(num: number): number {
+    return Math.ceil(num / this.currentPageStatus.limit);
+  }
+
+  private disableArrowsFirstLastPage(num: number): void {
+    if (num === 1) {
+      this.leftArrowBtn?.element.setAttribute('disabled', '');
+    } else if (num === this.totalPages) {
+      this.rightArrowBtn?.element.setAttribute('disabled', '');
+    }
+  }
+
+  private activateRightArrowBtn(): void {
+    if (this.rightArrowBtn?.element.hasAttribute('disabled')) {
+      this.rightArrowBtn.element.removeAttribute('disabled');
+    }
+  }
+
+  private activateLeftArrowBtn(): void {
+    if (this.leftArrowBtn?.element.hasAttribute('disabled')) {
+      this.leftArrowBtn.element.removeAttribute('disabled');
+    }
+  }
 }

@@ -61,6 +61,9 @@ export default class Pagination extends BaseComponent<'div'> {
   public updateTotalPages(num: number): void {
     this.totalPages = num;
     this.updatePages();
+    if (this.totalPages !== this.currentPage) {
+      this.activateRightArrowBtn();
+    }
   }
 
   private updatePages(): void {
@@ -72,7 +75,8 @@ export default class Pagination extends BaseComponent<'div'> {
   public disableArrowsFirstLastPage(num: number): void {
     if (num === 1) {
       this.leftArrowBtn?.element.setAttribute('disabled', '');
-    } else if (num === this.totalPages) {
+    }
+    if (num === this.totalPages) {
       this.rightArrowBtn?.element.setAttribute('disabled', '');
     }
   }

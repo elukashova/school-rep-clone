@@ -1,10 +1,11 @@
 import Loader from '../../../controller/loader';
-import { EngineResp, Errors, DataParams } from '../../../controller/loader.types';
+import { EngineResp, Errors, DataType } from '../../../controller/loader.types';
 import eventEmitter from '../../../utils/event-emitter';
+import Car from '../../car/car';
 import { EngineData, EngineState } from './race-track.types';
 
 export default class Engine {
-  private car: Element;
+  private car: Car;
 
   private parent: Element;
 
@@ -56,13 +57,13 @@ export default class Engine {
 
   public startAnimation(result: EngineResp): void {
     this.duration = result.distance / result.velocity;
-    this.animation = this.car.animate(
+    this.animation = this.car.svg.animate(
       [
         {
           transform: 'translateX(0)',
         },
         {
-          transform: `translateX(${this.parent.clientWidth - this.car.clientWidth}px)`,
+          transform: `translateX(${this.parent.clientWidth - this.car.svg.clientWidth}px)`,
         },
       ],
       {
@@ -107,5 +108,5 @@ export default class Engine {
   public static turnEngineOnOff = (status: EngineState): Promise<EngineResp> => Loader.getAndPatchData('PATCH', 'engine', status);
 
   // eslint-disable-next-line prettier/prettier
-  public static startDriveMode = (status: EngineState): Promise<DataParams> => Loader.getAndPatchData('PATCH', 'engine', status);
+  public static startDriveMode = (status: EngineState): Promise<DataType> => Loader.getAndPatchData('PATCH', 'engine', status);
 }

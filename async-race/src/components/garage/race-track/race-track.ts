@@ -4,10 +4,12 @@ import { Settings, CarType, EngineData } from './race-track.types';
 import Engine from './engine';
 import Loader from '../../../controller/loader';
 import eventEmitter from '../../../utils/event-emitter';
-import { DataParams } from '../../../controller/loader.types';
+import { DataType } from '../../../controller/loader.types';
+import Car from '../../car/car';
+import { deleteWinner } from '../../../controller/loader-functions';
 
 export default class RaceTrack extends BaseComponent<'div'> {
-  private car: SVGElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  public car: Car;
 
   private id!: number;
 
@@ -30,14 +32,17 @@ export default class RaceTrack extends BaseComponent<'div'> {
     color: '',
   };
 
-  public EngineData: EngineData = {
-    car: this.car,
-    parent: this.trackLine.element,
-    id: undefined,
-  };
+  public EngineData: EngineData;
 
   constructor(data: CarType) {
     super('div', undefined, 'race__track');
+    this.car = new Car();
+    this.EngineData = {
+      car: this.car,
+      parent: this.trackLine.element,
+      id: undefined,
+    };
+
     if (data.id) {
       this.id = data.id;
       this.EngineData.id = data.id;
@@ -61,9 +66,8 @@ export default class RaceTrack extends BaseComponent<'div'> {
       bottomLinePart.element,
       'race__track-bottom__btns',
     );
-    const carSource = document.createElementNS('http://www.w3.org/2000/svg', 'use');
     const finish: SVGElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    const finishSource = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+    const finishSource: SVGUseElement = document.createElementNS('http://www.w3.org/2000/svg', 'use');
 
     this.selectBtn = RaceTrack.createBtn({ parent: topLinePart, name: 'select', type: 'submit' });
     this.deleteBtn = RaceTrack.createBtn({ parent: topLinePart, name: 'delete', type: 'submit' });
@@ -71,19 +75,16 @@ export default class RaceTrack extends BaseComponent<'div'> {
     this.startBtn = RaceTrack.createBtn({ parent: btnsWrapper, name: 'start', type: 'submit' });
     this.stopBtn = RaceTrack.createBtn({ parent: btnsWrapper, name: 'stop', type: 'submit' });
 
-    carSource.setAttribute('href', 'assets/sprite.svg#snowmobile');
     finishSource.setAttribute('href', 'assets/sprite.svg#snowman');
     finish.classList.add('race__end');
     this.stopBtn.element.setAttribute('disabled', '');
-    this.car.classList.add('race__car');
 
     bottomLinePart.element.append(this.trackLine.element);
-    this.trackLine.element.append(this.car);
-    this.car.append(carSource);
+    this.car.appendSVG(this.trackLine.element);
     finish.append(finishSource);
     this.trackLine.element.append(finish);
 
-    this.updateColor(this.carData.color);
+    this.car.updateColor(this.carData.color);
     this.startBtn.element.addEventListener('click', this.startBtnCallback);
     this.stopBtn.element.addEventListener('click', this.stopBtnCallback);
     this.deleteBtn.element.addEventListener('click', this.deleteBtnCallback);
@@ -105,6 +106,7 @@ export default class RaceTrack extends BaseComponent<'div'> {
 
   private deleteBtnCallback = async (): Promise<void> => {
     if (this.id) {
+      await deleteWinner(this.id).catch(() => null);
       await RaceTrack.deleteCar(this.id).then(() => eventEmitter.emit('deleteCar', { id: this.id }));
     }
   };
@@ -120,9 +122,9 @@ export default class RaceTrack extends BaseComponent<'div'> {
   }
 
   private subscribeToEvents(): void {
-    eventEmitter.on('updateCar', (data: DataParams): void => {
+    eventEmitter.on('updateCar', (data: DataType): void => {
       if (data.id === this.id) {
-        this.updateColor(String(data.color));
+        this.car.updateColor(String(data.color));
         this.updateName(String(data.name));
       }
     });
@@ -148,10 +150,6 @@ export default class RaceTrack extends BaseComponent<'div'> {
     this.startBtn?.element.removeAttribute('disabled');
     this.selectBtn?.element.removeAttribute('disabled');
     this.deleteBtn?.element.removeAttribute('disabled');
-  }
-
-  private updateColor(color: string): void {
-    this.car.setAttribute('fill', `${color}`);
   }
 
   private updateName(name: string): void {

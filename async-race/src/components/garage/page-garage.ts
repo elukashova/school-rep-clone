@@ -3,13 +3,16 @@ import BaseComponent from '../base-component';
 import RaceTrack from './race-track/race-track';
 import { PageStatus } from './page-garage.types';
 import { CarsData, CarType, Settings } from './race-track/race-track.types';
-import { DataParams, EngineResp, PageType } from '../../controller/loader.types';
+import { DataType, EngineResp, PageType } from '../../controller/loader.types';
 import Loader from '../../controller/loader';
 import eventEmitter from '../../utils/event-emitter';
-import { turnEngineOnOff } from '../../utils/engine';
+// eslint-disable-next-line object-curly-newline
+import { createWinner, getWinner, turnEngineOnOff, updateWinner } from '../../controller/loader-functions';
 import createRandomCarName from '../../utils/cars-randomizer';
 import createRandomColor from '../../utils/color-randomizer';
 import Pagination from '../pagination/pagination';
+import { WinnerType } from '../winners/page-winners.types';
+// import { MissingWinnerInfo } from '../winners/page-winners.types';
 
 export default class GaragePage extends BaseComponent<'section'> {
   private createInputText: BaseComponent<'input'> | null = null;
@@ -35,8 +38,6 @@ export default class GaragePage extends BaseComponent<'section'> {
   private raceFieldWrapper: BaseComponent<'div'> | null = null;
 
   private raceField: BaseComponent<'div'> | null = null;
-
-  private currentPageElement: BaseComponent<'span'> | null = null;
 
   private pagination!: Pagination;
 
@@ -73,6 +74,12 @@ export default class GaragePage extends BaseComponent<'section'> {
   private startIdx: number = 0;
 
   private endIdx: number = 0;
+
+  private winner: WinnerType = {
+    id: 0,
+    wins: 0,
+    time: 0,
+  };
 
   constructor() {
     super('section', undefined, 'section garage');
@@ -213,7 +220,7 @@ export default class GaragePage extends BaseComponent<'section'> {
   };
 
   private updateBtnCallback = async (): Promise<void> => {
-    const data: DataParams = await this.updateCar(this.carData);
+    const data: DataType = await this.updateCar(this.carData);
     eventEmitter.emit('updateCar', data);
     this.disableUpdateElements();
     this.setUpdateElementsToDefault();
@@ -256,15 +263,33 @@ export default class GaragePage extends BaseComponent<'section'> {
     this.disableCreateElements();
   };
 
-  private announceWinner(data: DataParams): void {
+  private announceWinner = async (data: DataType): Promise<void> => {
+    let id: number = 0;
+    let time: string = '';
     for (let i: number = 0; i < this.tracksOnPage.length; i += 1) {
       if (Number(this.tracksOnPage[i].element.id) === data.id) {
-        // const { name } = this.tracksOnPage[i].carData;
-        const time: string = GaragePage.calculateTime(this.tracksOnPage[i].engine.duration);
+        time = GaragePage.calculateTime(this.tracksOnPage[i].engine.duration);
+        id = Number(this.tracksOnPage[i].element.id);
         this.tracksOnPage[i].showWinner(time);
       }
     }
-  }
+    try {
+      this.winner = await getWinner(id);
+      await updateWinner(
+        {
+          wins: (this.winner.wins += 1),
+          time: Math.min(Number(time), this.winner.time),
+        },
+        id,
+      );
+    } catch {
+      await createWinner({
+        id,
+        time,
+        wins: 1,
+      });
+    }
+  };
 
   private static calculateTime(num: number): string {
     const ms: number = 1000;
@@ -311,14 +336,14 @@ export default class GaragePage extends BaseComponent<'section'> {
 
   // useful methods
   private subscribeToEvents(): void {
-    eventEmitter.on('selectCar', (data: DataParams): void => {
+    eventEmitter.on('selectCar', (data: DataType): void => {
       this.activateUpdateElements();
       this.insertCarNameForChange(data);
       this.carData.name = String(data.name);
       this.id = Number(data.id);
     });
 
-    eventEmitter.on('deleteCar', (data: DataParams): void => {
+    eventEmitter.on('deleteCar', (data: DataType): void => {
       this.totalCars -= 1;
       this.updateGarageNumber(this.totalCars);
       this.deleteOneRaceTrack(data);
@@ -339,7 +364,7 @@ export default class GaragePage extends BaseComponent<'section'> {
       this.isRaceEnd();
     });
 
-    eventEmitter.on('animationFinished', (data: DataParams): void => {
+    eventEmitter.on('animationFinished', (data: DataType): void => {
       this.finishCounter += 1;
       this.winnerCounter += 1;
       if (this.winnerCounter === 1) {
@@ -357,7 +382,7 @@ export default class GaragePage extends BaseComponent<'section'> {
     }
   }
 
-  private insertCarNameForChange = (data: DataParams): void => {
+  private insertCarNameForChange = (data: DataType): void => {
     this.updateInputText.element.value = `${data.name}`;
   };
 
@@ -413,17 +438,18 @@ export default class GaragePage extends BaseComponent<'section'> {
   }
 
   // eslint-disable-next-line prettier/prettier
-  private static getCars = (params: DataParams): Promise<PageType<CarType>> => Loader.getPageData('GET', 'garage', params);
-
-  private static getBackup = (params: DataParams): Promise<CarsData> => Loader.getAndPatchData('GET', 'garage', params);
-
-  private static createCar = (params: DataParams): Promise<CarType> => Loader.postAndPutData('POST', 'garage', params);
+  private static getCars = (params: DataType): Promise<PageType<CarType>> => Loader.getPageData('GET', 'garage', params);
 
   // eslint-disable-next-line prettier/prettier
-  private updateCar = (data: DataParams): Promise<DataParams> => Loader.postAndPutData('PUT', `garage/${this.id}`, data);
+  private static getCarsBackup = (params: DataType): Promise<CarsData> => Loader.getAndPatchData('GET', 'garage', params);
+
+  private static createCar = (params: DataType): Promise<CarType> => Loader.postAndPutData('POST', 'garage', params);
+
+  // eslint-disable-next-line prettier/prettier
+  private updateCar = (data: DataType): Promise<DataType> => Loader.postAndPutData('PUT', `garage/${this.id}`, data);
 
   private createAllCarsBackup = async (): Promise<void> => {
-    await GaragePage.getBackup(this.currentPageStatus).then((cars: CarsData) => {
+    await GaragePage.getCarsBackup(this.currentPageStatus).then((cars: CarsData) => {
       cars.forEach((car) => {
         const track: RaceTrack = new RaceTrack(car);
         track.element.setAttribute('id', `${car.id}`);
@@ -470,7 +496,7 @@ export default class GaragePage extends BaseComponent<'section'> {
     this.updateGarageNumber(this.totalCars);
   }
 
-  private deleteOneRaceTrack(data: DataParams): void {
+  private deleteOneRaceTrack(data: DataType): void {
     if (this.raceField) {
       for (let i: number = 0; i < this.raceField.element.children.length; i += 1) {
         if (Number(this.raceField.element.children[i].id) === data.id) {

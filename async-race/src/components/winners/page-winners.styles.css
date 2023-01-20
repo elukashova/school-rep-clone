@@ -1,0 +1,35 @@
+.winners__results {
+  width: 100%;
+  border: 0.5px solid #dce9f6;
+}
+
+.table__th {
+  border: 0.5px solid #dce9f6;
+  color: #213B54;
+}
+
+.table__cell {
+  border: 0.5px solid #dce9f6;
+  text-align: center;
+}
+
+.results__table_th-n° {
+  width: 10%;
+}
+
+.results__table_th-car {
+  width: 20%;
+}
+
+.results__table_th-name {
+  width: 40%;
+}
+
+.results__table_th-wins {
+  width: 15%;
+}
+
+.results__table_th-time {
+  width: 15%;
+}
+

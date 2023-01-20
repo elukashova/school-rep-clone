@@ -1,11 +1,11 @@
-import { DataParams, PageType, UrlObj } from './loader.types';
+import { DataType, PageType, UrlObj } from './loader.types';
 
 export default class Loader {
   private static server: string = 'http://127.0.0.1:3000/';
 
   // constructor() {}
 
-  private static async load(url: URL, method: string, params?: DataParams): Promise<Response> {
+  private static async load(url: URL, method: string, params?: DataType): Promise<Response> {
     return fetch(url, {
       method,
       headers: {
@@ -16,7 +16,7 @@ export default class Loader {
   }
 
   // eslint-disable-next-line max-len
-  public static async getAndPatchData<T>(method: string, view: string, params?: DataParams): Promise<T> {
+  public static async getAndPatchData<T>(method: string, view: string, params?: DataType): Promise<T> {
     const url: URL = Loader.createURL(view);
 
     if (params) {
@@ -27,7 +27,7 @@ export default class Loader {
   }
 
   // eslint-disable-next-line max-len
-  public static async getPageData<T>(method: string, view: string, params?: DataParams): Promise<PageType<T>> {
+  public static async getPageData<T>(method: string, view: string, params?: DataType): Promise<PageType<T>> {
     const url: URL = Loader.createURL(view);
 
     if (params) {
@@ -50,7 +50,7 @@ export default class Loader {
   }
 
   // eslint-disable-next-line max-len
-  public static async postAndPutData<T>(method: string, view: string, params?: DataParams): Promise<T> {
+  public static async postAndPutData<T>(method: string, view: string, params?: DataType): Promise<T> {
     const url: URL = Loader.createURL(view);
 
     return this.load(url, method, params).then((res: Response) => res.json());
@@ -75,7 +75,7 @@ export default class Loader {
     return url;
   };
 
-  private static makeURLParams(par: DataParams, isUnderline?: boolean): UrlObj {
+  private static makeURLParams(par: DataType, isUnderline?: boolean): UrlObj {
     const result: UrlObj = Object.keys(par).reduce(
       (params: UrlObj, key: string) => ({
         ...params,

@@ -1,6 +1,6 @@
 import Header from '../components/header/header';
 import GaragePage from '../components/garage/page-garage';
-import WinnersPage from '../components/page-winners';
+import WinnersPage from '../components/winners/page-winners';
 import Footer from '../components/footer/footer';
 import BaseComponent from '../components/base-component';
 

@@ -49,10 +49,11 @@ export default class Engine {
   };
 
   public stopDriving = async (): Promise<void> => {
+    this.setStatusToStopped();
     eventEmitter.emit('stopDriving', this.EngineState);
-    this.setStatusToStarted();
     await Engine.turnEngineOnOff(this.EngineState);
     this.stopAnimation();
+    this.setStatusToStarted();
   };
 
   public startAnimation(result: EngineResp): void {
@@ -75,7 +76,7 @@ export default class Engine {
 
   public stopAnimation(): void {
     if (this.animation) {
-      this.animation.removeEventListener('finish', this.animationCallback);
+      this.removeEventListener();
       this.animation.cancel();
     }
   }

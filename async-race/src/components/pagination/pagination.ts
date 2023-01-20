@@ -72,12 +72,23 @@ export default class Pagination extends BaseComponent<'div'> {
     }
   }
 
+  public disableBothButtonsDuringRace(): void {
+    this.disableLeftArrowBtn();
+    this.disableRightArrowBtn();
+  }
+
+  public activateBothButtonsAfterRace(): void {
+    this.activateRightArrowBtn();
+    this.activateLeftArrowBtn();
+    this.disableArrowsFirstLastPage(this.currentPage);
+  }
+
   public disableArrowsFirstLastPage(num: number): void {
     if (num === 1) {
-      this.leftArrowBtn?.element.setAttribute('disabled', '');
+      this.disableLeftArrowBtn();
     }
     if (num === this.totalPages) {
-      this.rightArrowBtn?.element.setAttribute('disabled', '');
+      this.disableRightArrowBtn();
     }
   }
 
@@ -90,6 +101,18 @@ export default class Pagination extends BaseComponent<'div'> {
   public activateLeftArrowBtn(): void {
     if (this.leftArrowBtn?.element.hasAttribute('disabled')) {
       this.leftArrowBtn.element.removeAttribute('disabled');
+    }
+  }
+
+  public disableRightArrowBtn(): void {
+    if (!this.rightArrowBtn?.element.hasAttribute('disabled')) {
+      this.rightArrowBtn?.element.setAttribute('disabled', '');
+    }
+  }
+
+  public disableLeftArrowBtn(): void {
+    if (!this.leftArrowBtn?.element.hasAttribute('disabled')) {
+      this.leftArrowBtn?.element.setAttribute('disabled', '');
     }
   }
 

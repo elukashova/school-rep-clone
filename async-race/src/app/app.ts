@@ -31,8 +31,12 @@ export default class App {
       if (this.garagePage && this.garagePage.element.parentElement === this.main.element) {
         this.winnersPage = new WinnersPage();
         this.main.element.replaceChild(this.winnersPage.element, this.garagePage.element);
+        this.header.activateGarageBtn();
+        this.header.disableWinnersBtn();
       } else if (this.winnersPage && this.winnersPage.element.parentElement === this.main.element) {
         this.main.element.replaceChild(this.garagePage.element, this.winnersPage.element);
+        this.header.disableGarageBtn();
+        this.header.activateWinnersBtn();
       }
     }
   };

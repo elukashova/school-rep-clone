@@ -20,7 +20,7 @@ export const createWinner = (params: DataType): Promise<WinnerType> => Loader.po
 // eslint-disable-next-line prettier/prettier
 export const updateWinner = (params: DataType, id: number): Promise<WinnerType> => Loader.postAndPutData('PUT', `winners/${id}`, params);
 
-export const getWinner = (id: number): Promise<WinnerType> => Loader.getAndPatchData('PUT', `winners/${id}`);
+export const getWinner = (id: number): Promise<WinnerType> => Loader.getAndPatchData('GET', `winners/${id}`);
 
 export const deleteWinner = (id: number): Promise<WinnerType> => Loader.deleteData(`winners/${id}`);
 

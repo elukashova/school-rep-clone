@@ -25,6 +25,8 @@ export default class RaceTrack extends BaseComponent<'div'> {
 
   private stopBtn: BaseComponent<'button'> | null = null;
 
+  private modal: BaseComponent<'div'> | null = null;
+
   public engine: Engine;
 
   public carData: CarType = {
@@ -117,8 +119,14 @@ export default class RaceTrack extends BaseComponent<'div'> {
   };
 
   public showWinner(time: string): void {
-    const modal: BaseComponent<'div'> = new BaseComponent('div', this.element, 'winner-modal');
-    modal.element.textContent = `${this.carData.name} wins in ${time}s!`;
+    this.modal = new BaseComponent('div', this.element, 'winner-modal');
+    this.modal.element.textContent = `${this.carData.name} wins in ${time}s!`;
+  }
+
+  public hideModal(): void {
+    if (this.modal?.element.parentElement === this.element) {
+      this.element.removeChild(this.modal.element);
+    }
   }
 
   private subscribeToEvents(): void {
@@ -134,7 +142,7 @@ export default class RaceTrack extends BaseComponent<'div'> {
       this.disableStopBtn();
     });
 
-    eventEmitter.on('stopDriving', (): void => {
+    eventEmitter.on('stopRacing', (): void => {
       this.activateBtnsAfterDriving();
       this.disableStopBtn();
     });

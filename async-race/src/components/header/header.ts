@@ -9,6 +9,7 @@ export default class Header extends BaseComponent<'header'> {
   constructor(private root: HTMLElement, private callback: () => void) {
     super('header', root, 'header');
     this.render();
+    this.disableGarageBtn();
   }
 
   private render(): void {
@@ -29,4 +30,20 @@ export default class Header extends BaseComponent<'header'> {
   private navBtnCallback = (): void => {
     this.callback();
   };
+
+  public disableGarageBtn(): void {
+    this.garageBtn?.element.setAttribute('disabled', '');
+  }
+
+  public disableWinnersBtn(): void {
+    this.winnersBtn?.element.setAttribute('disabled', '');
+  }
+
+  public activateGarageBtn(): void {
+    this.garageBtn?.element.removeAttribute('disabled');
+  }
+
+  public activateWinnersBtn(): void {
+    this.winnersBtn?.element.removeAttribute('disabled');
+  }
 }

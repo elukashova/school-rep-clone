@@ -106,7 +106,9 @@
 
 .settings__create_btn:disabled,
 .settings__update_btn:disabled,
-.settings__reset_btn {
+.settings__reset_btn:disabled,
+.settings__race_btn:disabled,
+.settings__generate_btn:disabled {
   opacity: 40%;
   pointer-events: none;
 }

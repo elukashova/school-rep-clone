@@ -6,6 +6,7 @@ import { PageInfo, TableInfo, WinnersInfo, WinnerType } from './page-winners.typ
 import { getCar, getWinners } from '../../controller/loader-functions';
 import { CarType } from '../garage/race-track/race-track.types';
 import Car from '../car/car';
+import { PageLimit } from '../../controller/loader.types';
 
 export default class WinnersPage extends BaseComponent<'section'> {
   private totalWinners: number = 0;
@@ -15,11 +16,11 @@ export default class WinnersPage extends BaseComponent<'section'> {
   private currentPageStatus: PageInfo = {
     page: 1,
     limit: 10,
-    sort: 'id',
+    sort: 'wins',
     order: 'ASC',
   };
 
-  private totalPages: number = 1;
+  private totalPages: number = 0;
 
   private pagination!: Pagination;
 
@@ -43,11 +44,9 @@ export default class WinnersPage extends BaseComponent<'section'> {
     time: 0,
   };
 
-  private orderNum: number = 0;
+  private orderNum: number = 1;
 
   private winnersOnPage: WinnersInfo[] = [];
-
-  private winnersAll: WinnersInfo[] = [];
 
   constructor() {
     super('section', undefined, 'section winners');
@@ -55,7 +54,7 @@ export default class WinnersPage extends BaseComponent<'section'> {
     this.retrieveData();
   }
 
-  private renderWinnersTable(): void {
+  private renderWinnersTable = async (): Promise<void> => {
     const paginatWrapper: BaseComponent<'div'> = new BaseComponent('div', this.element, 'winners__pagination-wrapper');
     this.winnersResults = document.createElement('table');
     const resultsHead: HTMLTableSectionElement = this.winnersResults.createTHead();
@@ -74,20 +73,26 @@ export default class WinnersPage extends BaseComponent<'section'> {
 
     this.element.append(this.winnersResults);
     this.insertHeading(headings, resultsTr);
-  }
+
+    this.pagination.rightArrowBtn?.element.addEventListener('click', this.rightArrowBtnCallback);
+    this.pagination.leftArrowBtn?.element.addEventListener('click', this.leftArrowBtnCallback);
+  };
 
   private retrieveData = async (): Promise<void> => {
-    this.winners = (await getWinners(this.currentPageStatus)).data.slice();
+    await getWinners(this.currentPageStatus).then((winners: PageLimit<WinnerType>) => {
+      this.totalWinners = winners.total;
+      this.winners = winners.data.slice();
+    });
     // eslint-disable-next-line max-len
     this.winnersCars = (await Promise.all(this.winners.map((winner: WinnerType) => getCar(winner.id)))).slice();
     for (let i: number = 0; i < this.winners.length; i += 1) {
-      this.orderNum += 1;
       this.winnersOnPage.push({
         ...this.winners[i],
         ...this.winnersCars[i],
         car: new Car(),
         number: this.orderNum,
       });
+      this.orderNum += 1;
     }
     this.winnersOnPage.forEach((winner: WinnersInfo) => {
       this.winnersInfo.wins = winner.wins;
@@ -98,6 +103,9 @@ export default class WinnersPage extends BaseComponent<'section'> {
       this.color = winner.color;
       this.insertWinnersInfo(this.winnersInfo);
     });
+
+    this.updateTotalPagesData();
+    this.updateTotalWinnersNum();
   };
 
   private insertHeading(headings: string[], parent: HTMLTableRowElement): void {
@@ -108,12 +116,14 @@ export default class WinnersPage extends BaseComponent<'section'> {
         case 'wins':
           this.winsTH = new BaseComponent('th', parent, `results__table_th-${heading} table__th`);
           this.winsTH.element.classList.add('sortable');
-          this.winsTH.element.textContent = `${heading} ↓`;
+          this.winsTH.element.textContent = `${heading} ↑`;
+          this.winsTH.element.addEventListener('click', this.winsSortCallback);
           break;
         case 'time':
           this.timeTH = new BaseComponent('th', parent, `results__table_th-${heading} table__th`);
           this.timeTH.element.classList.add('sortable');
-          this.timeTH.element.textContent = `${heading} ↓`;
+          this.timeTH.element.textContent = `${heading} (s)`;
+          this.timeTH.element.addEventListener('click', this.timeSortCallback);
           break;
         default:
           th = new BaseComponent('th', parent, `results__table_th-${heading} table__th`);
@@ -136,6 +146,118 @@ export default class WinnersPage extends BaseComponent<'section'> {
         }
       });
     }
+  }
+
+  private rightArrowBtnCallback = (): void => {
+    this.pagination.activateLeftArrowBtn();
+    this.currentPageStatus.page += 1;
+    this.pagination.updateCurrentPage(this.currentPageStatus.page);
+    this.deleteRows();
+    this.pagination.disableArrowsFirstLastPage(this.currentPageStatus.page);
+  };
+
+  private leftArrowBtnCallback = (): void => {
+    this.pagination.activateRightArrowBtn();
+    this.currentPageStatus.page -= 1;
+    this.orderNum -= this.currentPageStatus.limit + this.winnersOnPage.length;
+    this.pagination.updateCurrentPage(this.currentPageStatus.page);
+    this.deleteRows();
+    this.pagination.disableArrowsFirstLastPage(this.currentPageStatus.page);
+  };
+
+  private winsSortCallback = (): void => {
+    this.currentPageStatus.sort = 'wins';
+    this.changeSortingOrder();
+    this.changeWinsSortingArrow();
+    this.hideTimeSortingArrow();
+    this.changeItemsOrder();
+    this.deleteRows();
+  };
+
+  private timeSortCallback = (): void => {
+    this.currentPageStatus.sort = 'time';
+    this.changeSortingOrder();
+    this.changeTimeSortingArrow();
+    this.hideWinsSortingArrow();
+    this.changeItemsOrder();
+    this.deleteRows();
+  };
+
+  private updateTotalPagesData(): void {
+    this.pagination.itemsPerPage = this.currentPageStatus.limit;
+    this.totalPages = this.pagination.calculateTotalPages(this.totalWinners);
+    this.pagination.updateTotalPages(this.totalPages);
+    this.pagination.disableArrowsFirstLastPage(this.currentPageStatus.page);
+  }
+
+  private updateTotalWinnersNum(): void {
+    if (this.totalWinnersElement) {
+      this.totalWinnersElement.element.textContent = `Winners: ${this.totalWinners}`;
+    }
+  }
+
+  private changeSortingOrder(): void {
+    if (this.currentPageStatus.order === 'ASC') {
+      this.currentPageStatus.order = 'DESC';
+    } else if (this.currentPageStatus.order === 'DESC') {
+      this.currentPageStatus.order = 'ASC';
+    }
+  }
+
+  private changeItemsOrder(): void {
+    if (this.currentPageStatus.page === 1) {
+      this.orderNum = this.currentPageStatus.page;
+    } else {
+      this.orderNum = this.currentPageStatus.limit * (this.currentPageStatus.page - 1) + 1;
+    }
+  }
+
+  private changeWinsSortingArrow(): void {
+    if (this.winsTH) {
+      if (this.currentPageStatus.order === 'ASC') {
+        this.winsTH.element.textContent = 'wins ↑';
+      } else if (this.currentPageStatus.order === 'DESC') {
+        this.winsTH.element.textContent = 'wins ↓';
+      }
+    }
+  }
+
+  private changeTimeSortingArrow(): void {
+    if (this.timeTH) {
+      if (this.currentPageStatus.order === 'ASC') {
+        this.timeTH.element.textContent = 'time (s) ↑';
+      } else if (this.currentPageStatus.order === 'DESC') {
+        this.timeTH.element.textContent = 'time (s) ↓';
+      }
+    }
+  }
+
+  private hideTimeSortingArrow(): void {
+    if (this.currentPageStatus.sort === 'wins') {
+      if (this.timeTH) {
+        this.timeTH.element.textContent = 'time';
+      }
+    }
+  }
+
+  private hideWinsSortingArrow(): void {
+    if (this.currentPageStatus.sort === 'time') {
+      if (this.winsTH) {
+        this.winsTH.element.textContent = 'wins';
+      }
+    }
+  }
+
+  private deleteRows(): void {
+    this.winnersOnPage = [];
+    if (this.winnersResults) {
+      let idx: number = this.winnersResults.rows.length - 1;
+      while (this.winnersResults.rows.length > 1 && idx > 0) {
+        this.winnersResults.deleteRow(idx);
+        idx -= 1;
+      }
+    }
+    this.retrieveData();
   }
 
   // private createAllCarsBackup = async (): Promise<void> => {

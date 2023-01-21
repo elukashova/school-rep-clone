@@ -1,3 +1,18 @@
+.winners__pagination-wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.winners__pagination_total-winners {
+  font-weight: 300;
+  text-transform: uppercase;
+  font-size: calc(.2em + 1vw);
+  color: #437399;
+  letter-spacing: 0.1em;
+}
+
 .winners__results {
   width: 100%;
   border: 0.5px solid #dce9f6;
@@ -6,11 +21,21 @@
 .table__th {
   border: 0.5px solid #dce9f6;
   color: #213B54;
+  font-size: calc(.2em + 1vw);
 }
 
 .table__cell {
   border: 0.5px solid #dce9f6;
   text-align: center;
+  font-size: calc(.2em + 1vw);
+  color: #437399;
+  font-weight: 500;
+  height: 4em;
+}
+
+.table__cell .race__car {
+  height: 3.5em;
+  padding-bottom: 0.4em;
 }
 
 .results__table_th-n° {
@@ -26,10 +51,23 @@
 }
 
 .results__table_th-wins {
-  width: 15%;
+  width: 10%;
 }
 
 .results__table_th-time {
-  width: 15%;
+  width: 20%;
+}
+
+.sortable {
+  cursor: pointer;
+  transition: color .3s;
+}
+
+.sortable:hover {
+  color: #62a4d9;
+}
+
+.sortable:active {
+  color: #067A9F;
 }
 

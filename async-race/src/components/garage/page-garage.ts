@@ -3,15 +3,14 @@ import BaseComponent from '../base-component';
 import RaceTrack from './race-track/race-track';
 import { PageStatus } from './page-garage.types';
 import { CarsData, CarType, Settings } from './race-track/race-track.types';
-import { DataType, EngineResp, PageType } from '../../controller/loader.types';
+import { DataType, EngineResp, PageLimit } from '../../controller/loader.types';
 import Loader from '../../controller/loader';
 import eventEmitter from '../../utils/event-emitter';
 // eslint-disable-next-line object-curly-newline
-import { createWinner, getWinner, turnEngineOnOff, updateWinner } from '../../controller/loader-functions';
+import { turnEngineOnOff } from '../../controller/loader-functions';
 import createRandomCarName from '../../utils/cars-randomizer';
 import createRandomColor from '../../utils/color-randomizer';
 import Pagination from '../pagination/pagination';
-import { WinnerType } from '../winners/page-winners.types';
 // import { MissingWinnerInfo } from '../winners/page-winners.types';
 
 export default class GaragePage extends BaseComponent<'section'> {
@@ -75,21 +74,15 @@ export default class GaragePage extends BaseComponent<'section'> {
 
   private endIdx: number = 0;
 
-  private winner: WinnerType = {
-    id: 0,
-    wins: 0,
-    time: 0,
-  };
-
   constructor() {
     super('section', undefined, 'section garage');
     this.render();
     this.subscribeToEvents();
-    this.createAllCarsBackup();
+    // this.createAllCarsBackup();
   }
 
   private render = async (): Promise<void> => {
-    await GaragePage.getCars(this.currentPageStatus).then((cars: PageType<CarType>) => {
+    await GaragePage.getCars(this.currentPageStatus).then((cars: PageLimit<CarType>) => {
       this.totalCars = cars.total;
       this.renderSettingsBlock();
       this.raceFieldWrapper = new BaseComponent('div', this.element, 'garage__race-wrapper');
@@ -117,7 +110,7 @@ export default class GaragePage extends BaseComponent<'section'> {
       'settings__update-wrapper',
     );
 
-    this.totalCarsElement = new BaseComponent('span', leftBlockTop.element, 'settings__cars-limit');
+    this.totalCarsElement = new BaseComponent('span', leftBlockTop.element, 'settings__cars-total');
     this.generateBtn = GaragePage.createSettingsBtn({
       parent: leftBlockBottom,
       name: 'generate',
@@ -199,6 +192,7 @@ export default class GaragePage extends BaseComponent<'section'> {
   private createBtnCallback = async (): Promise<void> => {
     if (this.createInputText && this.createInputText.element.value) {
       const newCar: CarType = await GaragePage.createCar(this.carData);
+      console.log(newCar);
       this.isNewCar = true;
       this.createRaceTrack(newCar);
       this.totalCars += 1;
@@ -210,7 +204,7 @@ export default class GaragePage extends BaseComponent<'section'> {
       if (this.createInputText) {
         this.createInputText.element.placeholder = 'Please insert name';
       }
-      setInterval(() => {
+      setTimeout(() => {
         if (this.createInputText) {
           this.createInputText.element.placeholder = 'Enter name here';
         }
@@ -296,33 +290,17 @@ export default class GaragePage extends BaseComponent<'section'> {
     return time;
   }
 
-  private announceWinner = async (data: DataType): Promise<void> => {
+  private announceWinner(data: DataType): void {
     let id: number = 0;
     let time: string = '';
     for (let i: number = 0; i < this.tracksOnPage.length; i += 1) {
       if (Number(this.tracksOnPage[i].element.id) === data.id) {
         time = GaragePage.calculateTime(this.tracksOnPage[i].engine.duration);
         id = Number(this.tracksOnPage[i].element.id);
-        this.tracksOnPage[i].showWinner(time);
+        this.tracksOnPage[i].showWinner(time, id);
       }
     }
-    try {
-      this.winner = await getWinner(id);
-      await updateWinner(
-        {
-          wins: this.winner.wins + 1,
-          time: Math.min(Number(time), this.winner.time),
-        },
-        id,
-      );
-    } catch {
-      await createWinner({
-        id,
-        time,
-        wins: 1,
-      });
-    }
-  };
+  }
 
   // reset callback
   private resetBtnCallback = async (): Promise<void> => {
@@ -372,6 +350,7 @@ export default class GaragePage extends BaseComponent<'section'> {
   };
 
   // useful methods
+  // eslint-disable-next-line max-lines-per-function
   private subscribeToEvents(): void {
     eventEmitter.on('selectCar', (data: DataType): void => {
       this.activateUpdateElements();
@@ -389,6 +368,11 @@ export default class GaragePage extends BaseComponent<'section'> {
     eventEmitter.on('waitingToStart', (): void => {
       this.disableBtnsWhileDriving();
       this.disableCreateElements();
+    });
+
+    eventEmitter.on('stopDriving', (): void => {
+      this.activateBtnsAfterDriving();
+      this.activateCreateElements();
     });
 
     eventEmitter.on('broken', (): void => {
@@ -473,7 +457,7 @@ export default class GaragePage extends BaseComponent<'section'> {
   }
 
   // eslint-disable-next-line prettier/prettier
-  private static getCars = (params: DataType): Promise<PageType<CarType>> => Loader.getPageData('GET', 'garage', params);
+  private static getCars = (params: DataType): Promise<PageLimit<CarType>> => Loader.getPageData('GET', 'garage', params);
 
   // eslint-disable-next-line prettier/prettier
   private static getCarsBackup = (params: DataType): Promise<CarsData> => Loader.getAndPatchData('GET', 'garage', params);
@@ -482,17 +466,6 @@ export default class GaragePage extends BaseComponent<'section'> {
 
   // eslint-disable-next-line prettier/prettier
   private updateCar = (data: DataType): Promise<DataType> => Loader.postAndPutData('PUT', `garage/${this.id}`, data);
-
-  private createAllCarsBackup = async (): Promise<void> => {
-    await GaragePage.getCarsBackup(this.currentPageStatus).then((cars: CarsData) => {
-      cars.forEach((car) => {
-        const track: RaceTrack = new RaceTrack(car);
-        track.element.setAttribute('id', `${car.id}`);
-        this.allTracks.push(track);
-        this.totalCars = this.allTracks.length;
-      });
-    });
-  };
 
   // functions to render elements
   private static createSettingsInput(data: Settings): BaseComponent<'input'> {
@@ -539,13 +512,13 @@ export default class GaragePage extends BaseComponent<'section'> {
         }
       }
       this.updateCurrentTrackArray(String(data.id));
-      this.updateAllTracksArray(String(data.id));
       if (this.currentPageStatus.page !== this.totalPages) {
         this.recreateRaceTrackAfterDeletion();
       }
       this.totalPages = this.pagination.calculateTotalPages(this.totalCars);
       this.pagination.updateTotalPages(this.totalPages);
       this.checkIfZero();
+      console.log(this.tracksOnPage.length);
     }
   }
 
@@ -573,42 +546,17 @@ export default class GaragePage extends BaseComponent<'section'> {
     this.tracksOnPage = this.tracksOnPage.filter((track) => track.element.id !== id);
   }
 
-  private updateAllTracksArray(id: string): void {
-    this.allTracks = this.allTracks.filter((track) => track.element.id !== id);
-  }
-
-  private recreateRaceTrackAfterDeletion(): void {
-    const idx: number = this.currentPageStatus.limit * this.currentPageStatus.page - 1;
-    const nextTrack: RaceTrack = this.allTracks[idx];
-    this.tracksOnPage.push(nextTrack);
-    this.raceField?.element.append(nextTrack.element);
-  }
-
-  private createTracksOnNextPrevPage(): void {
-    let nextPageTracks: RaceTrack[] = [];
-
-    if (this.isSlideBack === false && this.isUpdatePage === false) {
-      this.startIdx += this.currentPageStatus.limit;
-      this.endIdx = this.startIdx + this.currentPageStatus.limit;
-    } else if (this.isSlideBack === true) {
-      this.endIdx = this.startIdx;
-      this.startIdx -= this.currentPageStatus.limit;
-      this.isSlideBack = false;
-    } else if (this.isUpdatePage === true) {
-      this.startIdx = this.currentPageStatus.limit * (this.currentPageStatus.page - 1);
-      this.endIdx = this.startIdx + this.currentPageStatus.limit;
-      this.isUpdatePage = false;
-    }
-
-    if (this.allTracks.slice(this.startIdx).length <= this.currentPageStatus.limit) {
-      nextPageTracks = this.allTracks.slice(this.startIdx);
-    } else {
-      nextPageTracks = this.allTracks.slice(this.startIdx, this.endIdx);
-    }
-
-    nextPageTracks.forEach((track) => {
-      this.raceField?.element.append(track.element);
-      this.tracksOnPage.push(track);
+  private createTracksOnNextPrevPage = async (): Promise<void> => {
+    await GaragePage.getCars(this.currentPageStatus).then((cars: PageLimit<CarType>) => {
+      this.totalCars = cars.total;
+      this.renderRaceBlock(cars.data);
     });
-  }
+  };
+
+  private recreateRaceTrackAfterDeletion = async (): Promise<void> => {
+    await GaragePage.getCars(this.currentPageStatus).then((cars: PageLimit<CarType>) => {
+      const idx: number = this.currentPageStatus.limit - 1;
+      this.createRaceTrack(cars.data[idx]);
+    });
+  };
 }

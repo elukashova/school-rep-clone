@@ -7,6 +7,7 @@ import { getCar, getWinners } from '../../controller/loader-functions';
 import { CarType } from '../garage/race-track/race-track.types';
 import Car from '../car/car';
 import { PageLimit } from '../../controller/loader.types';
+import eventEmitter from '../../utils/event-emitter';
 
 export default class WinnersPage extends BaseComponent<'section'> {
   private totalWinners: number = 0;
@@ -52,6 +53,11 @@ export default class WinnersPage extends BaseComponent<'section'> {
     super('section', undefined, 'section winners');
     this.renderWinnersTable();
     this.retrieveData();
+    ['updateCar', 'deleteCar', 'isWinner'].forEach((event) => {
+      eventEmitter.on(`${event}`, (): void => {
+        this.updatePageViewState();
+      });
+    });
   }
 
   private renderWinnersTable = async (): Promise<void> => {
@@ -248,7 +254,7 @@ export default class WinnersPage extends BaseComponent<'section'> {
     }
   }
 
-  private deleteRows(): void {
+  public deleteRows(): void {
     this.winnersOnPage = [];
     if (this.winnersResults) {
       let idx: number = this.winnersResults.rows.length - 1;
@@ -260,21 +266,8 @@ export default class WinnersPage extends BaseComponent<'section'> {
     this.retrieveData();
   }
 
-  // private createAllCarsBackup = async (): Promise<void> => {
-  //   const params: DataType = {
-  //     sort: this.currentPageStatus.sort,
-  //     order: this.currentPageStatus.order,
-  //   };
-  //   await getWinBackup(params).then((winners: WinnerType[]) => {
-  //     winners.forEach((winner) => {
-  //       const row: HTMLTableRowElement = document.createElement('tr');
-  //       const cell: HTMLTableCellElement = row.insertCell();
-  //       cell.classList.add('table__cell');
-  //       // const track: RaceTrack = new RaceTrack(car);
-  //       // track.element.setAttribute('id', `${car.id}`);
-  //       // this.allTracks.push(track);
-  //       // this.totalCars = this.allTracks.length;
-  //     });
-  //   });
-  // };
+  public updatePageViewState(): void {
+    this.changeItemsOrder();
+    this.deleteRows();
+  }
 }

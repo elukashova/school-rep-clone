@@ -11,7 +11,7 @@ export default class App {
 
   private garagePage: GaragePage = new GaragePage();
 
-  private winnersPage: WinnersPage | null = null;
+  private winnersPage: WinnersPage = new WinnersPage();
 
   private footer: Footer = new Footer();
 
@@ -29,7 +29,6 @@ export default class App {
   public replaceMain = (): void => {
     if (this.main) {
       if (this.garagePage && this.garagePage.element.parentElement === this.main.element) {
-        this.winnersPage = new WinnersPage();
         this.main.element.replaceChild(this.winnersPage.element, this.garagePage.element);
         this.header.activateGarageBtn();
         this.header.disableWinnersBtn();

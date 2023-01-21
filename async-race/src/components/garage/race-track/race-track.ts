@@ -6,7 +6,9 @@ import Loader from '../../../controller/loader';
 import eventEmitter from '../../../utils/event-emitter';
 import { DataType } from '../../../controller/loader.types';
 import Car from '../../car/car';
-import { deleteWinner } from '../../../controller/loader-functions';
+// eslint-disable-next-line object-curly-newline
+import { createWinner, deleteWinner, getWinner, updateWinner } from '../../../controller/loader-functions';
+import { WinnerType } from '../../winners/page-winners.types';
 
 export default class RaceTrack extends BaseComponent<'div'> {
   public car: Car;
@@ -32,6 +34,12 @@ export default class RaceTrack extends BaseComponent<'div'> {
   public carData: CarType = {
     name: '',
     color: '',
+  };
+
+  private winner: WinnerType = {
+    id: 0,
+    wins: 0,
+    time: 0,
   };
 
   public EngineData: EngineData;
@@ -118,10 +126,31 @@ export default class RaceTrack extends BaseComponent<'div'> {
     eventEmitter.emit('selectCar', this.carData);
   };
 
-  public showWinner(time: string): void {
+  public showWinner(time: string, id: number): void {
+    this.registerWinner(time, id);
     this.modal = new BaseComponent('div', this.element, 'winner-modal');
     this.modal.element.textContent = `${this.carData.name} wins in ${time}s!`;
+    eventEmitter.emit('isWinner', {});
   }
+
+  private registerWinner = async (time: string, id: number): Promise<void> => {
+    try {
+      this.winner = await getWinner(id);
+      await updateWinner(
+        {
+          wins: this.winner.wins + 1,
+          time: Math.min(Number(time), this.winner.time),
+        },
+        id,
+      );
+    } catch {
+      await createWinner({
+        id,
+        time,
+        wins: 1,
+      });
+    }
+  };
 
   public hideModal(): void {
     if (this.modal?.element.parentElement === this.element) {

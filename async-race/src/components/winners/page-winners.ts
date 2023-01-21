@@ -259,7 +259,7 @@ export default class WinnersPage extends BaseComponent<'section'> {
   private hideTimeSortingArrow(): void {
     if (this.currentPageStatus.sort === 'wins') {
       if (this.timeTH) {
-        this.timeTH.element.textContent = 'time';
+        this.timeTH.element.textContent = 'time (s)';
       }
     }
   }

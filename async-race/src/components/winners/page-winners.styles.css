@@ -15,17 +15,17 @@
 
 .winners__results {
   width: 100%;
-  border: 0.5px solid #dce9f6;
+  border: 0.5px solid #6395BD;
 }
 
 .table__th {
-  border: 0.5px solid #dce9f6;
+  border: 0.5px solid #6395BD;
   color: #213B54;
   font-size: calc(.2em + 1vw);
 }
 
 .table__cell {
-  border: 0.5px solid #dce9f6;
+  border: 0.5px solid #6395BD;
   text-align: center;
   font-size: calc(.2em + 1vw);
   color: #437399;

@@ -1,0 +1,666 @@
+* {
+  padding: 0px;
+  margin: 0px;
+  border: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  font-family: 'Montserrat', sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+a,
+a:link,
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+aside,
+nav,
+footer,
+header,
+section,
+main {
+  display: block;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+ul,
+ul li {
+  list-style: none;
+}
+
+img {
+  vertical-align: top;
+}
+
+html,
+.root {
+  width: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+.root {
+  min-height: 100vh;
+  background-image: url(assets/images/background.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+}
+
+.main {
+  padding: 0rem calc(.1em + 7vw);
+  width: 100%;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (max-width: 640px) {
+  .root {
+    height: 100%;
+}
+}
+
+.header {
+  flex: 0 0 auto;
+  width: 100%;
+  height: 7em;
+  padding: 0rem calc(.1em + 7vw);
+}
+
+.header__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.logo__img {
+  width: calc(.9em + 15vw);
+  pointer-events: none;
+}
+
+.header__nav {
+  display: flex;
+  justify-content: center;
+  gap: 3em;
+}
+
+.nav__garage-btn,
+.nav__winners-btn {
+  cursor: pointer;
+  background-color: #dce9f6;
+  color: #7db1dc;
+  text-transform: uppercase;
+  width: 7em;
+  height: 2em;
+  border-radius: 0.15em;
+  font-size: calc(.5em + 0.8vw);
+  transition: background-color .3s;
+  transition: opacity .3s;
+  transition: color .3s;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+}
+
+.nav__garage-btn:hover,
+.nav__winners-btn:hover {
+  background-color: #FFF;
+}
+
+.nav__garage-btn:active,
+.nav__winners-btn:active {
+  color: #dce9f6;
+}
+
+.nav__garage-btn:disabled,
+.nav__winners-btn:disabled{
+  opacity: 50%;
+  pointer-events: none;
+}
+
+@media screen and (max-width: 1000px) {
+  .logo__img {
+    width: calc(.9em + 17vw);
+    pointer-events: none;
+  }
+}
+.garage__settings {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+}
+
+.settings__left {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1em;
+}
+
+.settings__cars-total {
+  font-weight: 300;
+  text-transform: uppercase;
+  font-size: calc(.2em + 1vw);
+  color: #437399;
+  letter-spacing: 0.1em;
+}
+
+.settings__generate_btn {
+  background-color: #7db1dc;
+  cursor: pointer;
+  color: #E2EFF8;
+  text-transform: uppercase;
+  border-radius: 0.5rem;
+  font-size: calc(.74em + 0.1vw);
+  transition: background-color .3s;
+  height: 2em;
+  width: 7em;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+}
+
+.settings__left_bottom {
+  display: flex;
+  gap: 1.5em;
+  align-items: center;
+  width: 100%;
+}
+
+.settings__center {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  align-items: center;
+}
+
+.settings__create-wrapper,
+.settings__update-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  gap: 0.5rem;
+}
+
+.settings__create_input-text,
+.settings__update_input-text {
+  border-radius: 0.5rem;
+  height: 2em;
+  text-align: center;
+  color: #0E5276;
+  width: 50%;
+}
+
+.settings__create_input-text:focus,
+.settings__update_input-text:focus {
+  outline: none;
+  border:1px solid #0E5276;
+}
+
+.settings__create_input-text::placeholder {
+  text-align: center;
+  color: #98C0E3;
+}
+
+.settings__create_input-color,
+.settings__update_input-color {
+  --webkit-appearance: none;
+  appearance: none;
+  border-radius: 0.5rem;
+  padding: 0.1em;
+  display: block;
+}
+
+.settings__create_input-color::-webkit-color-swatch-wrapper,
+.settings__update_input-color::-webkit-color-swatch-wrapper {
+  padding: 0.3em;
+}
+
+.settings__create_input-color::-webkit-color-swatch,
+.settings__update_input-color::-webkit-color-swatch {
+  border-radius: 0.3rem;
+}
+
+.settings__create_btn,
+.settings__update_btn {
+  background-color: #7db1dc;
+  cursor: pointer;
+  color: #E2EFF8;
+  text-transform: uppercase;
+  width: 7em;
+  height: 2em;
+  border-radius: 0.5rem;
+  font-size: calc(.74em + 0.1vw);
+  transition: background-color .3s;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+}
+
+.settings__create_btn:disabled,
+.settings__update_btn:disabled,
+.settings__reset_btn:disabled,
+.settings__race_btn:disabled,
+.settings__generate_btn:disabled {
+  opacity: 40%;
+  pointer-events: none;
+}
+
+.settings__create_btn:hover,
+.settings__update_btn:hover {
+  background-color: #62a4d9;
+}
+
+.settings__create_btn:active,
+.settings__update_btn:active {
+  background-color: #067A9F;
+}
+
+.settings__right{
+  display: flex;
+  flex-direction: column;
+  gap: 1.1em;
+  align-items: flex-end;
+  width: 100%;
+}
+
+.settings__race_btn,
+.settings__reset_btn {
+  background-color: #7db1dc;
+  cursor: pointer;
+  color: #E2EFF8;
+  text-transform: uppercase;
+  width: 7em;
+  height: 2em;
+  border-radius: 0.5rem;
+  font-size: calc(.74em + 0.1vw);
+  transition: background-color .3s;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+}
+
+.settings__race_btn:hover,
+.settings__reset_btn:hover,
+.settings__generate_btn:hover {
+  background-color: #62a4d9;
+}
+
+.settings__race_btn:active,
+.settings__reset_btn:active,
+.settings__generate_btn:active {
+  background-color: #067A9F;
+}
+
+.garage__race-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.garage__race-field {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+
+@media screen and (max-width: 1000px) {
+  .garage__settings {
+    grid-template-columns: 30% 50% 20%;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .garage__settings {
+    grid-template-columns: 33% 50% 17%;
+  }
+}
+
+@media screen and (max-width: 760px) {
+  .settings__generate_btn,
+  .settings__race_btn,
+  .settings__reset_btn,
+  .settings__create_btn,
+  .settings__update_btn {
+    width: 5em;
+    font-size: calc(.7em + 0.2vw);
+  }
+
+  .settings__create_input-text::placeholder {
+    font-size: calc(.74em + 0.2vw);
+  }
+
+  .settings__left_bottom {
+    gap: 1em;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .garage__settings {
+    grid-template-columns: 35% 50% 15%;
+  }
+
+  .settings__race_btn,
+  .settings__reset_btn {
+    width: 4em;
+  }
+}
+.race__track {
+  width: 100%;
+  display: flex;
+}
+
+.race__track-left {
+  display: flex;
+  width: 7em;
+}
+
+.race__track-bottom__btns {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  align-self: center;
+  justify-content: space-around;
+}
+
+.race__select_btn,
+.race__delete_btn,
+.race__start_btn,
+.race__stop_btn {
+  background-color: #E2EFF8;
+  opacity: 85%;
+  cursor: pointer;
+  color: #7db1dc;
+  text-transform: uppercase;
+  width: 7em;
+  height: 1.1em;
+  border-radius: 0.5rem;
+  font-size: calc(.74em + 0.1vw);
+  transition: box-shadow .3s;
+  transition: opacity .3s;
+  transition: background-color .3s;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+}
+
+.race__select_btn:hover,
+.race__delete_btn:hover,
+.race__start_btn:hover,
+.race__stop_btn:hover {
+  opacity: 100%;
+  background-color: #FFF;
+}
+
+.race__select_btn:active,
+.race__delete_btn:active,
+.race__start_btn:active,
+.race__stop_btn:active {
+  background-color: #dce9f6;
+}
+
+.race__select_btn:disabled,
+.race__delete_btn:disabled,
+.race__start_btn:disabled,
+.race__stop_btn:disabled {
+  opacity: 50%;
+  pointer-events: none;
+  box-shadow: none;
+}
+
+.race__track-right {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.race__track-top {
+  font-weight: 400;
+  font-size: calc(.2em + 0.7vw);
+  color: #437399;
+}
+
+.race__track-bottom {
+  display: flex;
+  width: 100%;
+}
+
+.race__track-line {
+  width: 100%;
+  border-bottom: 5px dashed white;
+  position: relative;
+  border-radius: 1em 1em 0em 0em ;
+  height: 4.5rem;
+}
+
+.race__car {
+  width: 4.5rem;
+  height: 3.8rem;
+  filter: drop-shadow(0.5px 0.5px 0.5px #62432C);
+  z-index: 1;
+  top: 0.45rem;
+  position: relative;
+}
+
+.race__end {
+  position: absolute;
+  right: 5rem;
+  bottom: 0rem;
+  height: 5.2rem;
+  width: 3.5rem;
+  z-index: -1;
+}
+
+.winner-modal {
+  margin-top: 2rem;
+  position: absolute;
+  margin-left: 37vw;
+  font-size: calc(.1em + 0.9vw);
+}
+
+@media screen and (max-width: 760px) {
+  .race__select_btn,
+  .race__delete_btn,
+  .race__start_btn,
+  .race__stop_btn {
+    width: 5em;
+  }
+
+  .race__track-line {
+    height: 3.5em;
+  }
+
+  .race__car {
+    width: 3.5rem;
+    height: 2.8rem;
+    top: 0.4rem;
+  }
+
+  .race__end {
+    right: 5rem;
+    bottom: -0.2rem;
+    height: 4.2rem;
+    width: 2.5rem;
+  }
+
+  .winner-modal {
+    margin-left: 35vw;
+    margin-top: 1rem;
+    font-size: calc(.5em + 0.9vw);
+  }
+}
+.settings__pagination,
+.winners__pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 30%;
+}
+
+.winners__pagination {
+  width: 10%;
+}
+
+.settings__current-page,
+.winners__current-page{
+  font-weight: 300;
+  text-transform: uppercase;
+  font-size: calc(.3em + 0.7vw);
+  color: #437399;
+  text-align: center;
+}
+
+.settings__btn-left,
+.settings__btn-right,
+.settings__btn-left_svg,
+.settings__btn-right_svg,
+.winners__btn-left,
+.winners__btn-right,
+.winners__btn-left_svg,
+.winners__btn-right_svg {
+  height: 2em;
+  width: 1em;
+  cursor: pointer;
+  transition: filter .3s;
+  transition: transform .3s;
+}
+
+.settings__btn-left:hover .settings__btn-left_svg,
+.settings__btn-right:hover .settings__btn-right_svg,
+.winners__btn-left:hover .winners__btn-left_svg,
+.winners__btn-right:hover .winners__btn-right_svg {
+  filter: drop-shadow(0.5px 0.5px 0.5px #62432C);
+  transform: scale(1.05);
+}
+
+.settings__btn-left,
+.settings__btn-right,
+.winners__btn-left,
+.winners__btn-right {
+  background: none;
+  appearance: none;
+  --webkit-appearance: none;
+  outline: none;
+}
+
+.settings__btn-left:disabled,
+.settings__btn-right:disabled,
+.winners__btn-left:disabled,
+.winners__btn-right:disabled {
+  opacity: 40%;
+  pointer-events: none;
+}
+
+@media screen and (max-width: 1240px) {
+  .settings__pagination {
+    width: 40%;
+  }
+
+  .settings__current-page,
+  .winners__current-page{
+  font-size: calc(.4em + 0.7vw);
+}
+}
+.winners__pagination-wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.winners__pagination_total-winners {
+  font-weight: 300;
+  text-transform: uppercase;
+  font-size: calc(.2em + 1vw);
+  color: #437399;
+  letter-spacing: 0.1em;
+}
+
+.winners__results {
+  width: 100%;
+  border: 0.5px solid #dce9f6;
+}
+
+.table__th {
+  border: 0.5px solid #dce9f6;
+  color: #213B54;
+  font-size: calc(.2em + 1vw);
+}
+
+.table__cell {
+  border: 0.5px solid #dce9f6;
+  text-align: center;
+  font-size: calc(.2em + 1vw);
+  color: #437399;
+  font-weight: 500;
+  height: 4em;
+}
+
+.table__cell .race__car {
+  height: 3.5em;
+  padding-bottom: 0.4em;
+}
+
+.results__table_th-n° {
+  width: 10%;
+}
+
+.results__table_th-car {
+  width: 20%;
+}
+
+.results__table_th-name {
+  width: 40%;
+}
+
+.results__table_th-wins {
+  width: 10%;
+}
+
+.results__table_th-time {
+  width: 20%;
+}
+
+.sortable {
+  cursor: pointer;
+  transition: color .3s;
+}
+
+.sortable:hover {
+  color: #62a4d9;
+}
+
+.sortable:active {
+  color: #067A9F;
+}
+
+
+.footer {
+  height: 8em;
+  width: 100%;
+}

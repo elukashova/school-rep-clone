@@ -3,26 +3,26 @@ import { DataType } from '../controller/loader.types';
 class EventEmitter {
   private events: Record<string, ((data: DataType) => void)[]> = {};
 
-  public on = (eventName: string, fn: (data: DataType) => void): void => {
-    if (!this.events[eventName]) {
-      this.events[eventName] = [];
+  public on = (event: string, fn: (data: DataType) => void): void => {
+    if (!this.events[event]) {
+      this.events[event] = [];
     }
 
-    this.events[eventName].push(fn);
+    this.events[event].push(fn);
   };
 
   // eslint-disable-next-line max-len
-  public unsubscribe = (eventName: string, fn: (data: DataType) => void): void => {
-    if (!this.events[eventName]) {
+  public unsubscribe = (event: string, fn: (data: DataType) => void): void => {
+    if (!this.events[event]) {
       return;
     }
-    this.events[eventName] = this.events[eventName].filter((eventFn) => fn !== eventFn);
+    this.events[event] = this.events[event].filter((eFn) => eFn.toString() !== fn.toString());
   };
 
-  public emit = (eventName: string, data: DataType): void => {
-    const event = this.events[eventName];
-    if (event) {
-      event.forEach((fn) => {
+  public emit = (event: string, data: DataType): void => {
+    const ev: ((data: DataType) => void)[] = this.events[event];
+    if (ev) {
+      ev.forEach((fn) => {
         fn.call(null, data);
       });
     }

@@ -276,11 +276,13 @@ export default class GaragePage extends BaseComponent<'section'> {
 
   // race methods
   private raceBtnCallback = async (): Promise<void> => {
+    eventEmitter.on('isWinner', (data): void => this.announceWinner(data));
     this.tracksOnPage.forEach((track) => track.engine.setStatusToStarted());
     // eslint-disable-next-line max-len, prettier/prettier
     const requests: Promise<EngineResp>[] = this.tracksOnPage.map(async (track) => turnEngineOnOff(track.engine.EngineState));
     const results: EngineResp[] = await Promise.all(requests);
     for (let i: number = 0; i < results.length; i += 1) {
+      this.tracksOnPage[i].engine.isRace = true;
       this.tracksOnPage[i].engine.startAnimation(results[i]);
       this.tracksOnPage[i].engine.switchToDrivingMode();
       this.tracksOnPage[i].engine.addEventListener();
@@ -297,11 +299,12 @@ export default class GaragePage extends BaseComponent<'section'> {
     return time;
   }
 
-  private announceWinner(data: DataType): void {
+  private announceWinner(winnerData: DataType): void {
+    eventEmitter.unsubscribe('isWinner', (data: DataType): void => this.announceWinner(data));
     let id: number = 0;
     let time: string = '';
     for (let i: number = 0; i < this.tracksOnPage.length; i += 1) {
-      if (Number(this.tracksOnPage[i].element.id) === data.id) {
+      if (Number(this.tracksOnPage[i].element.id) === winnerData.id) {
         time = GaragePage.calculateTime(this.tracksOnPage[i].engine.duration);
         id = Number(this.tracksOnPage[i].element.id);
         this.tracksOnPage[i].showWinner(time, id);
@@ -320,7 +323,6 @@ export default class GaragePage extends BaseComponent<'section'> {
 
   private resetGame = async (): Promise<void> => {
     this.finishCounter = 0;
-    this.winnerCounter = 0;
     this.tracksOnPage.forEach((track) => track.engine.setStatusToStopped());
     // eslint-disable-next-line max-len, prettier/prettier
     const requests: Promise<EngineResp>[] = this.tracksOnPage.map(async (track) => turnEngineOnOff(track.engine.EngineState));
@@ -389,12 +391,8 @@ export default class GaragePage extends BaseComponent<'section'> {
       }
     });
 
-    eventEmitter.on('animationFinished', (data: DataType): void => {
+    eventEmitter.on('animationFinished', (): void => {
       this.finishCounter += 1;
-      this.winnerCounter += 1;
-      if (this.winnerCounter === 1) {
-        this.announceWinner(data);
-      }
       if (this.finishCounter === this.tracksOnPage.length) {
         this.isRaceEnd();
       }

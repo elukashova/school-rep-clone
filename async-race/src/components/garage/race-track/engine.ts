@@ -20,6 +20,8 @@ export default class Engine {
 
   public duration: number = 0;
 
+  public isRace: boolean = false;
+
   constructor(data: EngineData) {
     this.car = data.car;
     this.EngineState.id = data.id;
@@ -37,7 +39,10 @@ export default class Engine {
   public switchToDrivingMode = async (): Promise<void> => {
     try {
       this.EngineState.status = 'drive';
-      await Engine.startDriveMode(this.EngineState);
+      const isSuccess: DataType = await Engine.startDriveMode(this.EngineState);
+      if (isSuccess && this.isRace === true) {
+        eventEmitter.emit('isWinner', this.EngineState);
+      }
     } catch (err) {
       if (err instanceof Error && err.message === Errors.Error500) {
         if (this.animation) {
@@ -46,6 +51,7 @@ export default class Engine {
         }
       }
     }
+    this.isRace = false;
   };
 
   public stopDriving = async (): Promise<void> => {

@@ -60,9 +60,6 @@ export default class RaceTrack extends BaseComponent<'div'> {
       this.EngineData.id = data.id;
     }
     this.carData.name = data.name;
-    if (this.carData.name === 'Mersedes') {
-      this.carData.name = 'Mercedes';
-    }
     this.carData.color = data.color;
     this.engine = new Engine(this.EngineData);
     this.render();
@@ -133,7 +130,6 @@ export default class RaceTrack extends BaseComponent<'div'> {
   private registerWinner = async (time: string, id: number): Promise<void> => {
     try {
       this.winner = await getWinner(id);
-      eventEmitter.emit('isWinner', {});
       const minTime: number = Math.min(Number(time), this.winner.time);
       await updateWinner(
         {

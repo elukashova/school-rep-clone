@@ -16,7 +16,7 @@ export default class Header extends BaseComponent<'header'> {
     const container: BaseComponent<'div'> = new BaseComponent('div', this.element, 'header__container');
     const logoLink: BaseComponent<'a'> = new BaseComponent('a', container.element, 'header__logo logo');
     const logoImg: BaseComponent<'img'> = new BaseComponent('img', undefined, 'logo__img', '', {
-      src: 'assets/logo.png',
+      src: './assets/logo.png',
     });
     logoLink.element.append(logoImg.element);
     const nav: BaseComponent<'nav'> = new BaseComponent('nav', container.element, 'header__nav nav');

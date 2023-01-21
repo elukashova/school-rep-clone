@@ -191,6 +191,7 @@ export default class GaragePage extends BaseComponent<'section'> {
 
   private createBtnCallback = async (): Promise<void> => {
     if (this.createInputText && this.createInputText.element.value) {
+      this.createColorInputCallback();
       const newCar: CarType = await GaragePage.createCar(this.carData);
       this.isNewCar = true;
       this.createRaceTrack(newCar);
@@ -199,6 +200,10 @@ export default class GaragePage extends BaseComponent<'section'> {
       this.updateGarageNumber(this.totalCars);
       this.pagination.updateTotalPages(this.totalPages);
       this.isNewCar = false;
+      this.createInputText.element.value = '';
+      if (this.createInputColor) {
+        this.createInputColor.element.value = '#6395BD';
+      }
     } else {
       if (this.createInputText) {
         this.createInputText.element.placeholder = 'Please insert name';
@@ -224,10 +229,15 @@ export default class GaragePage extends BaseComponent<'section'> {
   };
 
   private updateBtnCallback = async (): Promise<void> => {
+    this.updateColorInputCallback();
     const data: DataType = await this.updateCar(this.carData);
     eventEmitter.emit('updateCar', data);
     this.disableUpdateElements();
     this.setUpdateElementsToDefault();
+    this.updateInputText.element.value = '';
+    if (this.updateInputColor) {
+      this.updateInputColor.element.value = '#6395BD';
+    }
   };
 
   // pagination callbacks

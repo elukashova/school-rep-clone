@@ -15,7 +15,7 @@ export default class RaceTrack extends BaseComponent<'div'> {
 
   private id!: number;
 
-  private trackLine: BaseComponent<'div'> = new BaseComponent('div', undefined, 'race__track-line');
+  public trackLine: BaseComponent<'div'> = new BaseComponent('div', undefined, 'race__track-line');
 
   private selectBtn: BaseComponent<'button'> | null = null;
 
@@ -30,6 +30,8 @@ export default class RaceTrack extends BaseComponent<'div'> {
   private modal: BaseComponent<'div'> | null = null;
 
   public engine: Engine;
+
+  public finishSVG: SVGElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
 
   public carData: CarType = {
     name: '',
@@ -67,32 +69,28 @@ export default class RaceTrack extends BaseComponent<'div'> {
     this.subscribeToEvents();
   }
 
-  // eslint-disable-next-line max-lines-per-function
   private render(): void {
-    const topLinePart: BaseComponent<'div'> = new BaseComponent('div', this.element, 'race__track-top');
-    const bottomLinePart: BaseComponent<'div'> = new BaseComponent('div', this.element, 'race__track-bottom');
-    const btnsWrapper: BaseComponent<'div'> = new BaseComponent(
-      'div',
-      bottomLinePart.element,
-      'race__track-bottom__btns',
-    );
-    const finish: SVGElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    const leftPart: BaseComponent<'div'> = new BaseComponent('div', this.element, 'race__track-left');
+    const rightPart: BaseComponent<'div'> = new BaseComponent('div', this.element, 'race__track-right');
+    const topLinePart: BaseComponent<'div'> = new BaseComponent('div', rightPart.element, 'race__track-top');
+    const bottomLinePart: BaseComponent<'div'> = new BaseComponent('div', rightPart.element, 'race__track-bottom');
+    const btnsWrapper: BaseComponent<'div'> = new BaseComponent('div', leftPart.element, 'race__track-bottom__btns');
     const finishSource: SVGUseElement = document.createElementNS('http://www.w3.org/2000/svg', 'use');
 
-    this.selectBtn = RaceTrack.createBtn({ parent: topLinePart, name: 'select', type: 'submit' });
-    this.deleteBtn = RaceTrack.createBtn({ parent: topLinePart, name: 'delete', type: 'submit' });
+    this.selectBtn = RaceTrack.createBtn({ parent: btnsWrapper, name: 'select', type: 'submit' });
+    this.deleteBtn = RaceTrack.createBtn({ parent: btnsWrapper, name: 'delete', type: 'submit' });
     this.carNameElement = new BaseComponent('span', topLinePart.element, 'race__car-name', `${this.carData.name}`);
     this.startBtn = RaceTrack.createBtn({ parent: btnsWrapper, name: 'start', type: 'submit' });
     this.stopBtn = RaceTrack.createBtn({ parent: btnsWrapper, name: 'stop', type: 'submit' });
 
     finishSource.setAttribute('href', 'assets/sprite.svg#snowman');
-    finish.classList.add('race__end');
+    this.finishSVG.classList.add('race__end');
     this.stopBtn.element.setAttribute('disabled', '');
 
     bottomLinePart.element.append(this.trackLine.element);
     this.car.appendSVG(this.trackLine.element);
-    finish.append(finishSource);
-    this.trackLine.element.append(finish);
+    this.finishSVG.append(finishSource);
+    this.trackLine.element.append(this.finishSVG);
 
     this.car.updateColor(this.carData.color);
     this.startBtn.element.addEventListener('click', this.startBtnCallback);
@@ -130,25 +128,26 @@ export default class RaceTrack extends BaseComponent<'div'> {
     this.registerWinner(time, id);
     this.modal = new BaseComponent('div', this.element, 'winner-modal');
     this.modal.element.textContent = `${this.carData.name} wins in ${time}s!`;
-    eventEmitter.emit('isWinner', {});
   }
 
   private registerWinner = async (time: string, id: number): Promise<void> => {
     try {
       this.winner = await getWinner(id);
+      eventEmitter.emit('isWinner', {});
+      const minTime: number = Math.min(Number(time), this.winner.time);
       await updateWinner(
         {
           wins: this.winner.wins + 1,
-          time: Math.min(Number(time), this.winner.time),
+          time: minTime,
         },
         id,
       );
     } catch {
-      await createWinner({
-        id,
-        time,
-        wins: 1,
-      });
+      this.winner.id = id;
+      this.winner.time = Number(time);
+      this.winner.wins = 1;
+      await createWinner(this.winner);
+      eventEmitter.emit('isWinner', {});
     }
   };
 
@@ -189,7 +188,7 @@ export default class RaceTrack extends BaseComponent<'div'> {
     this.deleteBtn?.element.removeAttribute('disabled');
   }
 
-  private updateName(name: string): void {
+  public updateName(name: string): void {
     if (this.carNameElement) {
       this.carNameElement.element.textContent = `${name}`;
     }

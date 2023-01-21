@@ -12,4 +12,12 @@ export default class Car {
   public updateColor(color: string): void {
     this.svg.setAttribute('fill', `${color}`);
   }
+
+  public replaceSVG(parent: Element, child: Element): void {
+    const carSource: SVGUseElement = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+    carSource.setAttribute('href', 'assets/sprite.svg#snowmobile');
+    this.svg.classList.add('race__car');
+    this.svg.append(carSource);
+    parent.replaceChild(this.svg, child);
+  }
 }

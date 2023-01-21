@@ -37,6 +37,8 @@ export default class WinnersPage extends BaseComponent<'section'> {
 
   private color: string = '';
 
+  private rows: HTMLTableRowElement[] = [];
+
   private winnersInfo: TableInfo = {
     number: 0,
     car: undefined,
@@ -52,7 +54,7 @@ export default class WinnersPage extends BaseComponent<'section'> {
   constructor() {
     super('section', undefined, 'section winners');
     this.renderWinnersTable();
-    this.retrieveData();
+    this.fillWinnersPage();
     ['updateCar', 'deleteCar', 'isWinner'].forEach((event) => {
       eventEmitter.on(`${event}`, (): void => {
         this.updatePageViewState();
@@ -84,6 +86,13 @@ export default class WinnersPage extends BaseComponent<'section'> {
     this.pagination.leftArrowBtn?.element.addEventListener('click', this.leftArrowBtnCallback);
   };
 
+  private fillWinnersPage = async (): Promise<void> => {
+    await this.retrieveData();
+    this.createRows();
+    this.updateTotalPagesData();
+    this.updateTotalWinnersNum();
+  };
+
   private retrieveData = async (): Promise<void> => {
     await getWinners(this.currentPageStatus).then((winners: PageLimit<WinnerType>) => {
       this.totalWinners = winners.total;
@@ -100,6 +109,9 @@ export default class WinnersPage extends BaseComponent<'section'> {
       });
       this.orderNum += 1;
     }
+  };
+
+  private createRows(): void {
     this.winnersOnPage.forEach((winner: WinnersInfo) => {
       this.winnersInfo.wins = winner.wins;
       this.winnersInfo.time = winner.time;
@@ -109,10 +121,7 @@ export default class WinnersPage extends BaseComponent<'section'> {
       this.color = winner.color;
       this.insertWinnersInfo(this.winnersInfo);
     });
-
-    this.updateTotalPagesData();
-    this.updateTotalWinnersNum();
-  };
+  }
 
   private insertHeading(headings: string[], parent: HTMLTableRowElement): void {
     for (let i: number = 0; i < headings.length; i += 1) {
@@ -196,6 +205,15 @@ export default class WinnersPage extends BaseComponent<'section'> {
     this.pagination.disableArrowsFirstLastPage(this.currentPageStatus.page);
   }
 
+  // private updateWinnersNextPrevPage(): void {
+  //   this.retrieveData();
+  //   for (let i: number = 0; i < this.rows.length; i += 1) {
+  //     Object.values(this.winnersOnPage[i]).forEach((value) => {
+  //       this.rows[i].cells.item[] = String(value);
+  //     });
+  //   }
+  // }
+
   private updateTotalWinnersNum(): void {
     if (this.totalWinnersElement) {
       this.totalWinnersElement.element.textContent = `Winners: ${this.totalWinners}`;
@@ -255,7 +273,6 @@ export default class WinnersPage extends BaseComponent<'section'> {
   }
 
   public deleteRows(): void {
-    this.winnersOnPage = [];
     if (this.winnersResults) {
       let idx: number = this.winnersResults.rows.length - 1;
       while (this.winnersResults.rows.length > 1 && idx > 0) {
@@ -263,7 +280,8 @@ export default class WinnersPage extends BaseComponent<'section'> {
         idx -= 1;
       }
     }
-    this.retrieveData();
+    this.winnersOnPage = [];
+    this.fillWinnersPage();
   }
 
   public updatePageViewState(): void {

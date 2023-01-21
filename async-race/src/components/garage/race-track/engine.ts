@@ -5,7 +5,7 @@ import Car from '../../car/car';
 import { EngineData, EngineState } from './race-track.types';
 
 export default class Engine {
-  private car: Car;
+  public car: Car;
 
   private parent: Element;
 

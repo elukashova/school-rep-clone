@@ -1,4 +1,4 @@
-import { DataType, PageType, UrlObj } from './loader.types';
+import { DataType, PageLimit, UrlObj } from './loader.types';
 
 export default class Loader {
   private static server: string = 'http://127.0.0.1:3000/';
@@ -27,7 +27,18 @@ export default class Loader {
   }
 
   // eslint-disable-next-line max-len
-  public static async getPageData<T>(method: string, view: string, params?: DataType): Promise<PageType<T>> {
+  public static async getData<T>(method: string, view: string, params?: DataType): Promise<T> {
+    const url: URL = Loader.createURL(view);
+
+    if (params) {
+      const paramsString: UrlObj = Loader.makeURLParams(params);
+      url.search = new URLSearchParams(paramsString).toString();
+    }
+    return this.load(url, method).then((res: Response) => res.json());
+  }
+
+  // eslint-disable-next-line max-len
+  public static async getPageData<T>(method: string, view: string, params?: DataType): Promise<PageLimit<T>> {
     const url: URL = Loader.createURL(view);
 
     if (params) {
@@ -40,7 +51,7 @@ export default class Loader {
       res.json().then((data: T[]) => {
         const totalCount = res.headers.get('X-Total-Count');
         // console.log(res.headers);
-        const result: PageType<T> = {
+        const result: PageLimit<T> = {
           data,
           total: totalCount ? Number(totalCount) : 0,
         };

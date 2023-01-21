@@ -18,7 +18,7 @@ export enum Errors {
   Error500 = 'Internal Server Error',
 }
 
-export type PageType<T> = {
+export type PageLimit<T> = {
   data: T[];
   total: number;
 };

@@ -7,13 +7,7 @@
 .settings__left {
   display: flex;
   flex-direction: column;
-  gap: 1em;
-}
-
-.settings__left_top {
-  display: flex;
-  gap: 1em;
-  align-items: center;
+  gap: 1.1em;
 }
 
 .settings__cars-total {
@@ -39,8 +33,9 @@
 
 .settings__left_bottom {
   display: flex;
-  gap: 1em;
+  gap: 1.5em;
   align-items: center;
+  width: 100%;
 }
 
 .settings__center {
@@ -50,13 +45,21 @@
   align-items: center;
 }
 
+.settings__create-wrapper,
+.settings__update-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  gap: 0.5rem;
+}
+
 .settings__create_input-text,
 .settings__update_input-text {
   border-radius: 0.5rem;
-  width: 20em;
   height: 2em;
   text-align: center;
   color: #0E5276;
+  width: 50%;
 }
 
 .settings__create_input-text:focus,
@@ -122,18 +125,12 @@
   background-color: #067A9F;
 }
 
-.settings__create-wrapper,
-.settings__update-wrapper {
-  display: flex;
-  justify-content: left;
-  gap: 0.5rem;
-}
-
 .settings__right{
   display: flex;
   flex-direction: column;
-  gap: 1em;
+  gap: 1.1em;
   align-items: flex-end;
+  width: 100%;
 }
 
 .settings__race_btn,
@@ -174,4 +171,46 @@
   display: flex;
   flex-direction: column;
   gap: 0.5em;
+}
+
+@media screen and (max-width: 1000px) {
+  .garage__settings {
+    grid-template-columns: 30% 50% 20%;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .garage__settings {
+    grid-template-columns: 33% 50% 17%;
+  }
+}
+
+@media screen and (max-width: 760px) {
+  .settings__generate_btn,
+  .settings__race_btn,
+  .settings__reset_btn,
+  .settings__create_btn,
+  .settings__update_btn {
+    width: 5em;
+    font-size: calc(.7em + 0.2vw);
+  }
+
+  .settings__create_input-text::placeholder {
+    font-size: calc(.74em + 0.2vw);
+  }
+
+  .settings__left_bottom {
+    gap: 1em;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .garage__settings {
+    grid-template-columns: 35% 50% 15%;
+  }
+
+  .settings__race_btn,
+  .settings__reset_btn {
+    width: 4em;
+  }
 }

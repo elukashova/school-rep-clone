@@ -109,3 +109,35 @@
   margin-left: 37vw;
   font-size: calc(.1em + 0.9vw);
 }
+
+@media screen and (max-width: 760px) {
+  .race__select_btn,
+  .race__delete_btn,
+  .race__start_btn,
+  .race__stop_btn {
+    width: 5em;
+  }
+
+  .race__track-line {
+    height: 3.5em;
+  }
+
+  .race__car {
+    width: 3.5rem;
+    height: 2.8rem;
+    top: 0.4rem;
+  }
+
+  .race__end {
+    right: 5rem;
+    bottom: -0.2rem;
+    height: 4.2rem;
+    width: 2.5rem;
+  }
+
+  .winner-modal {
+    margin-left: 35vw;
+    margin-top: 1rem;
+    font-size: calc(.5em + 0.9vw);
+  }
+}

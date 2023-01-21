@@ -69,6 +69,15 @@ export default class Pagination extends BaseComponent<'div'> {
   private updatePages(): void {
     if (this.currentPageElement) {
       this.currentPageElement.element.textContent = `${this.currentPage} / ${this.totalPages}`;
+      this.adjustWidth();
+    }
+  }
+
+  private adjustWidth(): void {
+    if (this.currentPage >= 100 && this.totalPages >= 100) {
+      if (this.currentPageElement) {
+        this.currentPageElement.element.style.width = '7.5em';
+      }
     }
   }
 

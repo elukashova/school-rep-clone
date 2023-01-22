@@ -7,9 +7,13 @@ import { EngineData, EngineState } from './race-track.types';
 export default class Engine {
   public car: Car;
 
+  private finishSVG: Element;
+
   private parent: Element;
 
-  public animation!: Animation;
+  public carAnimation!: Animation;
+
+  private finishSVGAnimation!: Animation;
 
   public drive: EngineResp | undefined;
 
@@ -22,17 +26,18 @@ export default class Engine {
 
   public isRace: boolean = false;
 
-  constructor(data: EngineData) {
+  constructor(data: EngineData, finishSVG: Element) {
     this.car = data.car;
     this.EngineState.id = data.id;
     this.parent = data.parent;
+    this.finishSVG = finishSVG;
   }
 
   public startDriving = async (): Promise<void> => {
     this.setStatusToStarted();
 
     await Engine.turnEngineOnOff(this.EngineState)
-      .then((result: EngineResp) => this.startAnimation(result))
+      .then((result: EngineResp) => this.startCarAnimation(result))
       .then(() => this.switchToDrivingMode());
   };
 
@@ -42,11 +47,12 @@ export default class Engine {
       const isSuccess: DataType = await Engine.startDriveMode(this.EngineState);
       if (isSuccess && this.isRace === true) {
         eventEmitter.emit('isWinner', this.EngineState);
+        this.startSnowmanAnimation();
       }
     } catch (err) {
       if (err instanceof Error && err.message === Errors.Error500) {
-        if (this.animation) {
-          this.animation?.pause();
+        if (this.carAnimation) {
+          this.carAnimation?.pause();
           eventEmitter.emit('broken', {});
         }
       }
@@ -58,13 +64,13 @@ export default class Engine {
     this.setStatusToStopped();
     eventEmitter.emit('stopDriving', this.EngineState);
     await Engine.turnEngineOnOff(this.EngineState);
-    this.stopAnimation();
+    this.stopCarAnimation();
     this.setStatusToStarted();
   };
 
-  public startAnimation(result: EngineResp): void {
+  public startCarAnimation(result: EngineResp): void {
     this.duration = result.distance / result.velocity;
-    this.animation = this.car.svg.animate(
+    this.carAnimation = this.car.svg.animate(
       [
         {
           transform: 'translateX(0)',
@@ -80,23 +86,41 @@ export default class Engine {
     );
   }
 
-  public stopAnimation(): void {
-    if (this.animation) {
+  public startSnowmanAnimation(): void {
+    this.finishSVGAnimation = this.finishSVG.animate(
+      [
+        {
+          transform: 'rotate(-15deg)',
+        },
+        {
+          transform: 'rotate(15deg)',
+        },
+      ],
+      {
+        duration: 500,
+        direction: 'alternate',
+        iterations: 4,
+      },
+    );
+  }
+
+  public stopCarAnimation(): void {
+    if (this.carAnimation) {
       this.removeEventListener();
-      this.animation.cancel();
+      this.carAnimation.cancel();
     }
   }
 
   public removeEventListener(): void {
-    this.animation.removeEventListener('finish', this.animationCallback);
+    this.carAnimation.removeEventListener('finish', this.carAnimationCallback);
   }
 
   public addEventListener(): void {
-    this.animation.addEventListener('finish', this.animationCallback);
+    this.carAnimation.addEventListener('finish', this.carAnimationCallback);
   }
 
-  public animationCallback = (): void => {
-    eventEmitter.emit('animationFinished', this.EngineState);
+  public carAnimationCallback = (): void => {
+    eventEmitter.emit('carAnimationFinished', this.EngineState);
   };
 
   public setStatusToStarted(): void {

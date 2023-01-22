@@ -61,7 +61,7 @@ export default class RaceTrack extends BaseComponent<'div'> {
     }
     this.carData.name = data.name;
     this.carData.color = data.color;
-    this.engine = new Engine(this.EngineData);
+    this.engine = new Engine(this.EngineData, this.finishSVG);
     this.render();
     this.subscribeToEvents();
   }

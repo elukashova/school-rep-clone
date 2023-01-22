@@ -283,7 +283,7 @@ export default class GaragePage extends BaseComponent<'section'> {
     const results: EngineResp[] = await Promise.all(requests);
     for (let i: number = 0; i < results.length; i += 1) {
       this.tracksOnPage[i].engine.isRace = true;
-      this.tracksOnPage[i].engine.startAnimation(results[i]);
+      this.tracksOnPage[i].engine.startCarAnimation(results[i]);
       this.tracksOnPage[i].engine.switchToDrivingMode();
       this.tracksOnPage[i].engine.addEventListener();
     }
@@ -328,7 +328,7 @@ export default class GaragePage extends BaseComponent<'section'> {
     const requests: Promise<EngineResp>[] = this.tracksOnPage.map(async (track) => turnEngineOnOff(track.engine.EngineState));
     const results: EngineResp[] = await Promise.all(requests);
     for (let i: number = 0; i < results.length; i += 1) {
-      this.tracksOnPage[i].engine.stopAnimation();
+      this.tracksOnPage[i].engine.stopCarAnimation();
     }
     this.removeWinnerAnnouncement();
   };
@@ -364,6 +364,7 @@ export default class GaragePage extends BaseComponent<'section'> {
     eventEmitter.on('selectCar', (data: DataType): void => {
       this.activateUpdateElements();
       this.insertCarNameForChange(data);
+      this.insertCarColorForChange(data);
       this.carData.name = String(data.name);
       this.id = Number(data.id);
     });
@@ -413,6 +414,10 @@ export default class GaragePage extends BaseComponent<'section'> {
 
   private insertCarNameForChange = (data: DataType): void => {
     this.updateInputText.element.value = `${data.name}`;
+  };
+
+  private insertCarColorForChange = (data: DataType): void => {
+    this.updateInputColor.element.value = `${data.color}`;
   };
 
   private setUpdateElementsToDefault(): void {

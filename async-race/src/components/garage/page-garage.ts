@@ -405,7 +405,6 @@ export default class GaragePage extends BaseComponent<'section'> {
       track.engine.removeEventListener();
     });
     this.finishCounter = 0;
-    this.winnerCounter = 0;
     this.activateCreateElements();
     this.generateBtn?.element.removeAttribute('disabled');
     this.activateResetBtn();

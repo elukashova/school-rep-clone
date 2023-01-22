@@ -120,7 +120,7 @@ export default class Engine {
   }
 
   public carAnimationCallback = (): void => {
-    eventEmitter.emit('carAnimationFinished', this.EngineState);
+    eventEmitter.emit('animationFinished', this.EngineState);
   };
 
   public setStatusToStarted(): void {

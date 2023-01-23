@@ -72,11 +72,19 @@ export default class Loader {
     return url;
   };
 
+<<<<<<< HEAD
   private static makeURLParams(data: DataType, isUnderscore?: boolean): UrlObj {
     const result: UrlObj = Object.keys(data).reduce(
       (newObj: UrlObj, key: string) => ({
         ...newObj,
         [isUnderscore ? `_${key}` : key]: data[key].toString(),
+=======
+  private static makeURLParams(data: DataType, underscore?: boolean): UrlObj {
+    const result: UrlObj = Object.keys(data).reduce(
+      (newObj: UrlObj, key: string) => ({
+        ...newObj,
+        [underscore ? `_${key}` : key]: data[key].toString(),
+>>>>>>> 9ff38c6 (refactor: implement clean code rules)
       }),
       {},
     );

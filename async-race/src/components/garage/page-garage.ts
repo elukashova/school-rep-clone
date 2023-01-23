@@ -290,7 +290,10 @@ export default class GaragePage extends BaseComponent<'section'> {
   }
 
   private announceWinner(winnerData: DataType): void {
+<<<<<<< HEAD
     eventEmitter.emit('isWinner', {});
+=======
+>>>>>>> 9ff38c6 (refactor: implement clean code rules)
     let id: number = 0;
     let time: string = '';
     for (let i: number = 0; i < this.tracksOnPage.length; i += 1) {

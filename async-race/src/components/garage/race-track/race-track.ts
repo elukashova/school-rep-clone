@@ -139,8 +139,13 @@ export default class RaceTrack extends BaseComponent<'div'> {
       this.winner.time = Number(time);
       this.winner.wins = 1;
       await createWinner(this.winner);
+<<<<<<< HEAD
       eventEmitter.emit('isWinner', {});
     }
+=======
+    }
+    eventEmitter.emit('isWinner', {});
+>>>>>>> 9ff38c6 (refactor: implement clean code rules)
   };
 
   public hideModal(): void {

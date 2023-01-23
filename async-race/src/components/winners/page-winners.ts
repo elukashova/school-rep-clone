@@ -48,13 +48,15 @@ export default class WinnersPage extends BaseComponent<'section'> {
 
   private winnersOnPage: WinnersInfo[] = [];
 
-  private isWinner: boolean = false;
-
   constructor() {
     super('section', undefined, 'section winners');
     this.renderWinnersTable();
     this.fillWinnersPage();
-    this.subscribeToEvents();
+    ['updateCar', 'deleteCar', 'isWinner'].forEach((event) => {
+      eventEmitter.on(`${event}`, (): void => {
+        this.updatePageViewState();
+      });
+    });
   }
 
   private renderWinnersTable = async (): Promise<void> => {
@@ -105,28 +107,6 @@ export default class WinnersPage extends BaseComponent<'section'> {
       this.orderNum += 1;
     }
   };
-
-  private subscribeToEvents(): void {
-    ['updateCar', 'deleteCar'].forEach((event) => {
-      eventEmitter.on(`${event}`, (): void => {
-        this.updatePageViewState();
-      });
-    });
-
-    eventEmitter.on('isWinner', (): void => this.winnerEventCallback());
-
-    eventEmitter.on('startRace', (): void => {
-      this.isWinner = false;
-    });
-  }
-
-  private winnerEventCallback(): void {
-    console.log(this.isWinner);
-    if (this.isWinner === false) {
-      this.isWinner = true;
-      this.updatePageViewState();
-    }
-  }
 
   private createRows(): void {
     this.winnersOnPage.forEach((winner: WinnersInfo) => {

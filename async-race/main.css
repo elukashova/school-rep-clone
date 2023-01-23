@@ -477,11 +477,10 @@ html,
 }
 
 .winner-modal {
-  margin-top: 1.9rem;
+  margin-top: 1.8rem;
   position: absolute;
-  margin-left: 35vw;
-  font-size: calc(.1em + 1vw);
-  text-transform: uppercase;
+  margin-left: 36vw;
+  font-size: calc(.2em + 1vw);
   font-weight: 500;
   pointer-events: none;
   color: #213B54;

@@ -1,9 +1,15 @@
+/* eslint-disable max-len */
 import { DataType, PageLimit, UrlObj } from './loader.types';
 
 export default class Loader {
   private static server: string = 'http://127.0.0.1:3000/';
 
-  // constructor() {}
+  private static errorHandler(res: Response): Response {
+    if (!res.ok) {
+      throw new Error(res.statusText);
+    }
+    return res;
+  }
 
   private static async load(url: URL, method: string, params?: DataType): Promise<Response> {
     return fetch(url, {
@@ -15,7 +21,6 @@ export default class Loader {
     }).then((res: Response) => this.errorHandler(res));
   }
 
-  // eslint-disable-next-line max-len
   public static async getAndPatchData<T>(method: string, view: string, params?: DataType): Promise<T> {
     const url: URL = Loader.createURL(view);
 
@@ -23,21 +28,10 @@ export default class Loader {
       const paramsString: UrlObj = Loader.makeURLParams(params);
       url.search = new URLSearchParams(paramsString).toString();
     }
+
     return this.load(url, method).then((res: Response) => res.json());
   }
 
-  // eslint-disable-next-line max-len
-  public static async getData<T>(method: string, view: string, params?: DataType): Promise<T> {
-    const url: URL = Loader.createURL(view);
-
-    if (params) {
-      const paramsString: UrlObj = Loader.makeURLParams(params);
-      url.search = new URLSearchParams(paramsString).toString();
-    }
-    return this.load(url, method).then((res: Response) => res.json());
-  }
-
-  // eslint-disable-next-line max-len
   public static async getPageData<T>(method: string, view: string, params?: DataType): Promise<PageLimit<T>> {
     const url: URL = Loader.createURL(view);
 
@@ -47,20 +41,20 @@ export default class Loader {
     }
 
     return this.load(url, method).then((res: Response) =>
-      // eslint-disable-next-line implicit-arrow-linebreak
-      res.json().then((data: T[]) => {
-        const totalCount = res.headers.get('X-Total-Count');
-        // console.log(res.headers);
-        const result: PageLimit<T> = {
-          data,
-          total: totalCount ? Number(totalCount) : 0,
-        };
-        return result;
-        // eslint-disable-next-line prettier/prettier
-      }));
+      // eslint-disable-next-line implicit-arrow-linebreak, prettier/prettier
+      res.json().then((data: T[]) => this.elaborateResponse(res, data)));
   }
 
-  // eslint-disable-next-line max-len
+  private static elaborateResponse = async <T>(res: Response, data: T[]): Promise<PageLimit<T>> => {
+    const totalCount: string | null = res.headers.get('X-Total-Count');
+    const result: PageLimit<T> = {
+      data,
+      total: totalCount ? Number(totalCount) : 0,
+    };
+
+    return result;
+  };
+
   public static async postAndPutData<T>(method: string, view: string, params?: DataType): Promise<T> {
     const url: URL = Loader.createURL(view);
 
@@ -73,27 +67,20 @@ export default class Loader {
     return this.load(url, 'DELETE').then((res: Response) => res.json());
   }
 
-  // TODO: export utilities to a separate file?
-  private static errorHandler(res: Response): Response {
-    if (!res.ok) {
-      throw new Error(res.statusText);
-    }
-    return res;
-  }
-
   private static createURL = (view: string): URL => {
     const url: URL = new URL(view, Loader.server);
     return url;
   };
 
-  private static makeURLParams(par: DataType, isUnderline?: boolean): UrlObj {
-    const result: UrlObj = Object.keys(par).reduce(
-      (params: UrlObj, key: string) => ({
-        ...params,
-        [isUnderline ? `_${key}` : key]: par[key].toString(),
+  private static makeURLParams(data: DataType, isUnderscore?: boolean): UrlObj {
+    const result: UrlObj = Object.keys(data).reduce(
+      (newObj: UrlObj, key: string) => ({
+        ...newObj,
+        [isUnderscore ? `_${key}` : key]: data[key].toString(),
       }),
       {},
     );
+
     return result;
   }
 }

@@ -4,15 +4,11 @@ import RaceTrack from './race-track/race-track';
 import { PageStatus } from './page-garage.types';
 import { CarType, Settings } from './race-track/race-track.types';
 import { DataType, EngineResp, PageLimit } from '../../controller/loader.types';
-import Loader from '../../controller/loader';
 import eventEmitter from '../../utils/event-emitter';
-// eslint-disable-next-line object-curly-newline
-import { turnEngineOnOff } from '../../controller/loader-functions';
+import { turnEngineOnOff, getCars, createCar, updateCar } from '../../controller/controller';
 import createRandomCarName from '../../utils/cars-randomizer';
 import createRandomColor from '../../utils/color-randomizer';
 import Pagination from '../pagination/pagination';
-// import Car from '../car/car';
-// import { MissingWinnerInfo } from '../winners/page-winners.types';
 
 export default class GaragePage extends BaseComponent<'section'> {
   private createInputText: BaseComponent<'input'> | null = null;
@@ -59,56 +55,39 @@ export default class GaragePage extends BaseComponent<'section'> {
 
   private tracksOnPage: RaceTrack[] = [];
 
-  private allTracks: RaceTrack[] = [];
-
   private finishCounter: number = 0;
 
   private winnerCounter: number = 0;
 
-  private isNewCar: boolean = false;
-
-  private isSlideBack: boolean = false;
-
-  private isUpdatePage: boolean = false;
-
-  private startIdx: number = 0;
-
-  private endIdx: number = 0;
-
   constructor() {
     super('section', undefined, 'section garage');
-    this.render();
-    this.subscribeToEvents();
-  }
 
-  private render = async (): Promise<void> => {
-    await GaragePage.getCars(this.currentPageStatus).then((cars: PageLimit<CarType>) => {
+    getCars(this.currentPageStatus).then((cars: PageLimit<CarType>) => {
       this.totalCars = cars.total;
-      this.renderSettingsBlock();
+      this.render();
       this.raceFieldWrapper = new BaseComponent('div', this.element, 'garage__race-wrapper');
       this.renderRaceBlock(cars.data);
     });
-  };
 
-  // creating block with cars settings
-  // eslint-disable-next-line max-lines-per-function
-  private renderSettingsBlock(): void {
+    this.subscribeToEvents();
+  }
+
+  private render(): void {
     const settingsWrapper: BaseComponent<'div'> = new BaseComponent('div', this.element, 'garage__settings settings');
     const leftBlock: BaseComponent<'div'> = new BaseComponent('div', settingsWrapper.element, 'settings__left');
-    const leftBlockTop: BaseComponent<'div'> = new BaseComponent('div', leftBlock.element, 'settings__left_top');
-    const leftBlockBottom: BaseComponent<'div'> = new BaseComponent('div', leftBlock.element, 'settings__left_bottom');
     const centerBlock: BaseComponent<'div'> = new BaseComponent('div', settingsWrapper.element, 'settings__center');
     const rightBlock: BaseComponent<'div'> = new BaseComponent('div', settingsWrapper.element, 'settings__right');
-    const createSettingWrapper: BaseComponent<'div'> = new BaseComponent(
-      'div',
-      centerBlock.element,
-      'settings__create-wrapper',
-    );
-    const updateSettingWrapper: BaseComponent<'div'> = new BaseComponent(
-      'div',
-      centerBlock.element,
-      'settings__update-wrapper',
-    );
+
+    this.renderLeftSettingsPart(leftBlock);
+    this.renderCenterSettingsPart(centerBlock);
+    this.renderRightSettingsPart(rightBlock);
+    this.addListenersFirstLoad();
+    this.disableElementsFirstLoad();
+  }
+
+  private renderLeftSettingsPart(parent: BaseComponent<'div'>): void {
+    const leftBlockTop: BaseComponent<'div'> = new BaseComponent('div', parent.element, 'settings__left_top');
+    const leftBlockBottom: BaseComponent<'div'> = new BaseComponent('div', parent.element, 'settings__left_bottom');
 
     this.totalCarsElement = new BaseComponent('span', leftBlockTop.element, 'settings__cars-total');
     this.generateBtn = GaragePage.createSettingsBtn({
@@ -117,6 +96,25 @@ export default class GaragePage extends BaseComponent<'section'> {
       type: 'submit',
     });
     this.pagination = new Pagination(leftBlockBottom, 'settings', this.currentPageStatus, this.totalPages);
+
+    this.generateBtn.element.textContent = 'ADD 100';
+
+    this.totalPages = this.pagination.calculateTotalPages(this.totalCars);
+    this.pagination.updateTotalPages(this.totalPages);
+  }
+
+  private renderCenterSettingsPart(parent: BaseComponent<'div'>): void {
+    const createSettingWrapper: BaseComponent<'div'> = new BaseComponent(
+      'div',
+      parent.element,
+      'settings__create-wrapper',
+    );
+    const updateSettingWrapper: BaseComponent<'div'> = new BaseComponent(
+      'div',
+      parent.element,
+      'settings__update-wrapper',
+    );
+
     this.createInputText = GaragePage.createSettingsInput({
       parent: createSettingWrapper,
       name: 'create',
@@ -139,19 +137,16 @@ export default class GaragePage extends BaseComponent<'section'> {
       type: 'color',
     });
     this.updateBtn = GaragePage.createSettingsBtn({ parent: updateSettingWrapper, name: 'update', type: 'submit' });
-    this.raceBtn = GaragePage.createSettingsBtn({ parent: rightBlock, name: 'race', type: 'submit' });
-    this.resetBtn = GaragePage.createSettingsBtn({ parent: rightBlock, name: 'reset', type: 'reset' });
 
-    this.generateBtn.element.textContent = 'ADD 100';
     this.createInputColor.element.value = '#6395BD';
-    this.updateInputColor.element.value = '#6395BD';
     this.createInputText.element.placeholder = 'Enter name here';
     this.createInputText.element.setAttribute('required', '');
+    this.updateInputColor.element.value = '#6395BD';
+  }
 
-    this.addListenersFirstLoad();
-    this.disableElementsFirstLoad();
-    this.totalPages = this.pagination.calculateTotalPages(this.totalCars);
-    this.pagination.updateTotalPages(this.totalPages);
+  private renderRightSettingsPart(parentElement: BaseComponent<'div'>): void {
+    this.raceBtn = GaragePage.createSettingsBtn({ parent: parentElement, name: 'race', type: 'submit' });
+    this.resetBtn = GaragePage.createSettingsBtn({ parent: parentElement, name: 'reset', type: 'reset' });
   }
 
   private addListenersFirstLoad(): void {
@@ -192,14 +187,12 @@ export default class GaragePage extends BaseComponent<'section'> {
   private createBtnCallback = async (): Promise<void> => {
     if (this.createInputText && this.createInputText.element.value) {
       this.createColorInputCallback();
-      const newCar: CarType = await GaragePage.createCar(this.carData);
-      this.isNewCar = true;
+      const newCar: CarType = await createCar(this.carData);
       this.createRaceTrack(newCar);
       this.totalCars += 1;
       this.totalPages = this.pagination.calculateTotalPages(this.totalCars);
       this.updateGarageNumber(this.totalCars);
       this.pagination.updateTotalPages(this.totalPages);
-      this.isNewCar = false;
       this.createInputText.element.value = '';
       if (this.createInputColor) {
         this.createInputColor.element.value = '#6395BD';
@@ -230,7 +223,7 @@ export default class GaragePage extends BaseComponent<'section'> {
 
   private updateBtnCallback = async (): Promise<void> => {
     this.updateColorInputCallback();
-    const data: DataType = await this.updateCar(this.carData);
+    const data: DataType = await updateCar(this.carData, this.id);
     eventEmitter.emit('updateCar', data);
     this.disableUpdateElements();
     this.setUpdateElementsToDefault();
@@ -241,14 +234,14 @@ export default class GaragePage extends BaseComponent<'section'> {
   };
 
   // pagination callbacks
-  private rightArrowBtnCallback = async (): Promise<void> => {
+  private rightArrowBtnCallback = (): void => {
     if (this.raceBtn?.element.hasAttribute('disabled')) {
-      this.activateBtnsAfterDriving();
-      this.activateCreateElements();
+      this.enableBtnsAfterDriving();
+      this.enableCreateElements();
       this.disableResetBtn();
       this.removeWinnerAnnouncement();
     }
-    this.pagination.activateLeftArrowBtn();
+    this.pagination.enableLeftArrowBtn();
     this.currentPageStatus.page += 1;
     this.pagination.updateCurrentPage(this.currentPageStatus.page);
     this.deleteAllRaceTracks();
@@ -256,16 +249,15 @@ export default class GaragePage extends BaseComponent<'section'> {
     this.pagination.disableArrowsFirstLastPage(this.currentPageStatus.page);
   };
 
-  private leftArrowBtnCallback = async (): Promise<void> => {
+  private leftArrowBtnCallback = (): void => {
     if (this.raceBtn?.element.hasAttribute('disabled')) {
-      this.activateBtnsAfterDriving();
-      this.activateCreateElements();
+      this.enableBtnsAfterDriving();
+      this.enableCreateElements();
       this.disableResetBtn();
       this.removeWinnerAnnouncement();
     }
-    // this.isSlideBack = true;
     if (this.currentPageStatus.page === this.totalPages) {
-      this.pagination.activateRightArrowBtn();
+      this.pagination.enableRightArrowBtn();
     }
     this.currentPageStatus.page -= 1;
     this.pagination.updateCurrentPage(this.currentPageStatus.page);
@@ -276,13 +268,11 @@ export default class GaragePage extends BaseComponent<'section'> {
 
   // race methods
   private raceBtnCallback = async (): Promise<void> => {
-    eventEmitter.on('isWinner', (data): void => this.announceWinner(data));
     this.tracksOnPage.forEach((track) => track.engine.setStatusToStarted());
     // eslint-disable-next-line max-len, prettier/prettier
     const requests: Promise<EngineResp>[] = this.tracksOnPage.map(async (track) => turnEngineOnOff(track.engine.EngineState));
     const results: EngineResp[] = await Promise.all(requests);
     for (let i: number = 0; i < results.length; i += 1) {
-      this.tracksOnPage[i].engine.isRace = true;
       this.tracksOnPage[i].engine.startCarAnimation(results[i]);
       this.tracksOnPage[i].engine.switchToDrivingMode();
       this.tracksOnPage[i].engine.addEventListener();
@@ -300,7 +290,7 @@ export default class GaragePage extends BaseComponent<'section'> {
   }
 
   private announceWinner(winnerData: DataType): void {
-    eventEmitter.unsubscribe('isWinner', (data: DataType): void => this.announceWinner(data));
+    eventEmitter.emit('isWinner', {});
     let id: number = 0;
     let time: string = '';
     for (let i: number = 0; i < this.tracksOnPage.length; i += 1) {
@@ -315,9 +305,9 @@ export default class GaragePage extends BaseComponent<'section'> {
   // reset callback
   private resetBtnCallback = async (): Promise<void> => {
     await this.resetGame();
-    eventEmitter.emit('stopRacing', {});
-    this.activateBtnsAfterDriving();
-    this.activateCreateElements();
+    eventEmitter.emit('resetAfterRace', {});
+    this.enableBtnsAfterDriving();
+    this.enableCreateElements();
     this.disableResetBtn();
   };
 
@@ -335,7 +325,6 @@ export default class GaragePage extends BaseComponent<'section'> {
 
   // generate 100 cars callback
   private generateBtnCallback = async (): Promise<void> => {
-    this.isNewCar = true;
     const carsNumber: number = 100;
     const new100Cars: CarType[] = [];
     for (let i: number = 0; i < carsNumber; i += 1) {
@@ -347,26 +336,20 @@ export default class GaragePage extends BaseComponent<'section'> {
       newCarData.color = createRandomColor();
       new100Cars.push(newCarData);
     }
-    const requests: Promise<CarType>[] = new100Cars.map(async (car) => GaragePage.createCar(car));
+    const requests: Promise<CarType>[] = new100Cars.map(async (car) => createCar(car));
     const cars: CarType[] = await Promise.all(requests);
     cars.forEach((car) => this.createRaceTrack(car));
     this.totalCars += carsNumber;
     this.totalPages = this.pagination.calculateTotalPages(this.totalCars);
     this.updateGarageNumber(this.totalCars);
     this.pagination.updateTotalPages(this.totalPages);
-    this.pagination.activateRightArrowBtn();
-    this.isNewCar = false;
+    this.pagination.enableRightArrowBtn();
   };
 
   // useful methods
-  // eslint-disable-next-line max-lines-per-function
   private subscribeToEvents(): void {
     eventEmitter.on('selectCar', (data: DataType): void => {
-      this.activateUpdateElements();
-      this.insertCarNameForChange(data);
-      this.insertCarColorForChange(data);
-      this.carData.name = String(data.name);
-      this.id = Number(data.id);
+      this.selectCarEventCallback(data);
     });
 
     eventEmitter.on('deleteCar', (data: DataType): void => {
@@ -381,8 +364,8 @@ export default class GaragePage extends BaseComponent<'section'> {
     });
 
     eventEmitter.on('stopDriving', (): void => {
-      this.activateBtnsAfterDriving();
-      this.activateCreateElements();
+      this.enableBtnsAfterDriving();
+      this.enableCreateElements();
     });
 
     eventEmitter.on('broken', (): void => {
@@ -392,23 +375,36 @@ export default class GaragePage extends BaseComponent<'section'> {
       }
     });
 
-    eventEmitter.on('animationFinished', (): void => {
+    eventEmitter.on('animationFinished', (data: DataType): void => {
+      this.winnerCounter += 1;
       this.finishCounter += 1;
+      if (this.winnerCounter === 1) {
+        this.announceWinner(data);
+      }
       if (this.finishCounter === this.tracksOnPage.length) {
         this.isRaceEnd();
       }
     });
   }
 
+  private selectCarEventCallback = (data: DataType): void => {
+    this.enableUpdateElements();
+    this.insertCarNameForChange(data);
+    this.insertCarColorForChange(data);
+    this.carData.name = String(data.name);
+    this.id = Number(data.id);
+  };
+
   private isRaceEnd(): void {
     this.tracksOnPage.forEach((track) => {
       track.engine.removeEventListener();
     });
     this.finishCounter = 0;
-    this.activateCreateElements();
+    this.winnerCounter = 0;
+    this.enableCreateElements();
     this.generateBtn?.element.removeAttribute('disabled');
-    this.activateResetBtn();
-    this.pagination.activateBothButtonsAfterRace();
+    this.enableResetBtn();
+    this.pagination.enableBothButtonsAfterRace();
   }
 
   private insertCarNameForChange = (data: DataType): void => {
@@ -424,7 +420,7 @@ export default class GaragePage extends BaseComponent<'section'> {
     this.updateInputColor.element.value = '#000000';
   }
 
-  private activateCreateElements(): void {
+  private enableCreateElements(): void {
     this.createInputText?.element.removeAttribute('disabled');
     this.createInputColor?.element.removeAttribute('disabled');
     this.createBtn?.element.removeAttribute('disabled');
@@ -436,7 +432,7 @@ export default class GaragePage extends BaseComponent<'section'> {
     this.createBtn?.element.setAttribute('disabled', '');
   }
 
-  private activateUpdateElements(): void {
+  private enableUpdateElements(): void {
     this.updateInputText.element.removeAttribute('disabled');
     this.updateInputColor.element.removeAttribute('disabled');
     this.updateBtn.element.removeAttribute('disabled');
@@ -457,7 +453,7 @@ export default class GaragePage extends BaseComponent<'section'> {
     this.generateBtn?.element.setAttribute('disabled', '');
   }
 
-  private activateBtnsAfterDriving(): void {
+  private enableBtnsAfterDriving(): void {
     this.raceBtn?.element.removeAttribute('disabled');
     this.generateBtn?.element.removeAttribute('disabled');
   }
@@ -466,17 +462,9 @@ export default class GaragePage extends BaseComponent<'section'> {
     this.resetBtn?.element.setAttribute('disabled', '');
   }
 
-  private activateResetBtn(): void {
+  private enableResetBtn(): void {
     this.resetBtn?.element.removeAttribute('disabled');
   }
-
-  // eslint-disable-next-line prettier/prettier
-  private static getCars = (params: DataType): Promise<PageLimit<CarType>> => Loader.getPageData('GET', 'garage', params);
-
-  private static createCar = (params: DataType): Promise<CarType> => Loader.postAndPutData('POST', 'garage', params);
-
-  // eslint-disable-next-line prettier/prettier
-  private updateCar = (data: DataType): Promise<DataType> => Loader.postAndPutData('PUT', `garage/${this.id}`, data);
 
   // functions to render elements
   private static createSettingsInput(data: Settings): BaseComponent<'input'> {
@@ -553,16 +541,16 @@ export default class GaragePage extends BaseComponent<'section'> {
     }
   }
 
-  private createTracksOnNextPrevPage = async (): Promise<void> => {
-    await GaragePage.getCars(this.currentPageStatus).then((cars: PageLimit<CarType>) => {
+  private createTracksOnNextPrevPage = (): void => {
+    getCars(this.currentPageStatus).then((cars: PageLimit<CarType>) => {
       cars.data.forEach((car) => {
         this.createRaceTrack(car);
       });
     });
   };
 
-  private recreateRaceTrackAfterDeletion = async (): Promise<void> => {
-    await GaragePage.getCars(this.currentPageStatus).then((cars: PageLimit<CarType>) => {
+  private recreateRaceTrackAfterDeletion = (): void => {
+    getCars(this.currentPageStatus).then((cars: PageLimit<CarType>) => {
       const idx: number = this.currentPageStatus.limit - 1;
       this.createRaceTrack(cars.data[idx]);
     });

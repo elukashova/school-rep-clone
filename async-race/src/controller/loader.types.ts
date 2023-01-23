@@ -1,5 +1,5 @@
 export type DataType = {
-  [key: string]: string | number | boolean | number[] | Element;
+  [key: string]: string | number | boolean | Element;
 };
 
 export type UrlObj = {

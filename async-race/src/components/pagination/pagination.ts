@@ -62,7 +62,7 @@ export default class Pagination extends BaseComponent<'div'> {
     this.totalPages = num;
     this.updatePages();
     if (this.totalPages !== this.currentPage) {
-      this.activateRightArrowBtn();
+      this.enableRightArrowBtn();
     }
   }
 
@@ -71,6 +71,10 @@ export default class Pagination extends BaseComponent<'div'> {
       this.currentPageElement.element.textContent = `${this.currentPage} / ${this.totalPages}`;
       this.adjustWidth();
     }
+  }
+
+  public calculateTotalPages(totalItems: number): number {
+    return Math.ceil(totalItems / this.itemsPerPage);
   }
 
   private adjustWidth(): void {
@@ -86,9 +90,9 @@ export default class Pagination extends BaseComponent<'div'> {
     this.disableRightArrowBtn();
   }
 
-  public activateBothButtonsAfterRace(): void {
-    this.activateRightArrowBtn();
-    this.activateLeftArrowBtn();
+  public enableBothButtonsAfterRace(): void {
+    this.enableRightArrowBtn();
+    this.enableLeftArrowBtn();
     this.disableArrowsFirstLastPage(this.currentPage);
   }
 
@@ -101,13 +105,13 @@ export default class Pagination extends BaseComponent<'div'> {
     }
   }
 
-  public activateRightArrowBtn(): void {
+  public enableRightArrowBtn(): void {
     if (this.rightArrowBtn?.element.hasAttribute('disabled')) {
       this.rightArrowBtn.element.removeAttribute('disabled');
     }
   }
 
-  public activateLeftArrowBtn(): void {
+  public enableLeftArrowBtn(): void {
     if (this.leftArrowBtn?.element.hasAttribute('disabled')) {
       this.leftArrowBtn.element.removeAttribute('disabled');
     }
@@ -123,9 +127,5 @@ export default class Pagination extends BaseComponent<'div'> {
     if (!this.leftArrowBtn?.element.hasAttribute('disabled')) {
       this.leftArrowBtn?.element.setAttribute('disabled', '');
     }
-  }
-
-  public calculateTotalPages(totalItems: number): number {
-    return Math.ceil(totalItems / this.itemsPerPage);
   }
 }

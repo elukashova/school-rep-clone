@@ -2,12 +2,10 @@ import './race-track.styles.css';
 import BaseComponent from '../../base-component';
 import { Settings, CarType, EngineData } from './race-track.types';
 import Engine from './engine';
-import Loader from '../../../controller/loader';
 import eventEmitter from '../../../utils/event-emitter';
 import { DataType } from '../../../controller/loader.types';
 import Car from '../../car/car';
-// eslint-disable-next-line object-curly-newline
-import { createWinner, deleteWinner, getWinner, updateWinner } from '../../../controller/loader-functions';
+import { createWinner, deleteWinner, getWinner, updateWinner, deleteCar } from '../../../controller/controller';
 import { WinnerType } from '../../winners/page-winners.types';
 
 export default class RaceTrack extends BaseComponent<'div'> {
@@ -48,21 +46,20 @@ export default class RaceTrack extends BaseComponent<'div'> {
 
   constructor(data: CarType) {
     super('div', undefined, 'race__track');
+
     this.car = new Car();
+    this.carData.name = data.name;
+    this.carData.color = data.color;
+    this.id = Number(data.id);
     this.EngineData = {
       car: this.car,
       parent: this.trackLine.element,
-      id: undefined,
+      id: data.id ? data.id : undefined,
     };
+    this.engine = new Engine(this.EngineData);
 
-    if (data.id) {
-      this.id = data.id;
-      this.EngineData.id = data.id;
-    }
-    this.carData.name = data.name;
-    this.carData.color = data.color;
-    this.engine = new Engine(this.EngineData, this.finishSVG);
     this.render();
+    this.car.updateColor(this.carData.color);
     this.subscribeToEvents();
   }
 
@@ -89,30 +86,29 @@ export default class RaceTrack extends BaseComponent<'div'> {
     this.finishSVG.append(finishSource);
     this.trackLine.element.append(this.finishSVG);
 
-    this.car.updateColor(this.carData.color);
     this.startBtn.element.addEventListener('click', this.startBtnCallback);
     this.stopBtn.element.addEventListener('click', this.stopBtnCallback);
     this.deleteBtn.element.addEventListener('click', this.deleteBtnCallback);
     this.selectBtn.element.addEventListener('click', this.selectBtnCallback);
   }
 
-  private startBtnCallback = async (): Promise<void> => {
+  private startBtnCallback = (): void => {
     eventEmitter.emit('waitingToStart', {});
     this.disableBtnsWhileDriving();
-    this.activateStopBtn();
-    await this.engine.startDriving();
+    this.enableStopBtn();
+    this.engine.startDriving();
   };
 
-  private stopBtnCallback = async (): Promise<void> => {
-    this.activateBtnsAfterDriving();
+  private stopBtnCallback = (): void => {
+    this.enableBtnsAfterDriving();
     this.disableStopBtn();
-    await this.engine.stopDriving();
+    this.engine.stopDriving();
   };
 
   private deleteBtnCallback = async (): Promise<void> => {
     if (this.id) {
       await deleteWinner(this.id).catch(() => null);
-      await RaceTrack.deleteCar(this.id).then(() => eventEmitter.emit('deleteCar', { id: this.id }));
+      deleteCar(this.id).then(() => eventEmitter.emit('deleteCar', { id: this.id }));
     }
   };
 
@@ -166,8 +162,8 @@ export default class RaceTrack extends BaseComponent<'div'> {
       this.disableStopBtn();
     });
 
-    eventEmitter.on('stopRacing', (): void => {
-      this.activateBtnsAfterDriving();
+    eventEmitter.on('resetAfterRace', (): void => {
+      this.enableBtnsAfterDriving();
       this.disableStopBtn();
     });
   }
@@ -178,7 +174,7 @@ export default class RaceTrack extends BaseComponent<'div'> {
     this.deleteBtn?.element.setAttribute('disabled', '');
   }
 
-  private activateBtnsAfterDriving(): void {
+  private enableBtnsAfterDriving(): void {
     this.startBtn?.element.removeAttribute('disabled');
     this.selectBtn?.element.removeAttribute('disabled');
     this.deleteBtn?.element.removeAttribute('disabled');
@@ -190,7 +186,7 @@ export default class RaceTrack extends BaseComponent<'div'> {
     }
   }
 
-  private activateStopBtn(): void {
+  private enableStopBtn(): void {
     this.stopBtn?.element.removeAttribute('disabled');
   }
 
@@ -204,7 +200,4 @@ export default class RaceTrack extends BaseComponent<'div'> {
     });
     return button;
   }
-
-  // server-related functions
-  private static deleteCar = (id: number): Promise<void> => Loader.deleteData(`garage/${id}`);
 }

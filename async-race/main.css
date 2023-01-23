@@ -394,7 +394,7 @@ html,
 .race__delete_btn,
 .race__start_btn,
 .race__stop_btn {
-  background-color: #E2EFF8;
+  background-color: #f8f8f8;
   opacity: 85%;
   cursor: pointer;
   color: #7db1dc;
@@ -479,7 +479,7 @@ html,
 .winner-modal {
   margin-top: 1.9rem;
   position: absolute;
-  margin-left: 37vw;
+  margin-left: 35vw;
   font-size: calc(.1em + 1vw);
   text-transform: uppercase;
   font-weight: 500;

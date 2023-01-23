@@ -299,6 +299,7 @@ export default class GaragePage extends BaseComponent<'section'> {
         this.tracksOnPage[i].showWinner(time, id);
       }
     }
+    this.enableResetBtn();
   }
 
   // reset callback
@@ -402,7 +403,6 @@ export default class GaragePage extends BaseComponent<'section'> {
     this.winnerCounter = 0;
     this.enableCreateElements();
     this.generateBtn?.element.removeAttribute('disabled');
-    this.enableResetBtn();
     this.pagination.enableBothButtonsAfterRace();
   }
 

@@ -38,10 +38,8 @@ export default class Engine {
       await startDriveMode(this.EngineState);
     } catch (err) {
       if (err instanceof Error && err.message === Errors.Error500) {
-        if (this.carAnimation) {
-          this.carAnimation?.pause();
-          eventEmitter.emit('broken', {});
-        }
+        this.carAnimation.pause();
+        eventEmitter.emit('broken', {});
       }
     }
   };
@@ -73,10 +71,8 @@ export default class Engine {
   }
 
   public stopCarAnimation(): void {
-    if (this.carAnimation) {
-      this.removeEventListener();
-      this.carAnimation.cancel();
-    }
+    this.removeEventListener();
+    this.carAnimation.cancel();
   }
 
   public removeEventListener(): void {

@@ -307,8 +307,8 @@ export default class GaragePage extends BaseComponent<'section'> {
     await this.resetGame();
     eventEmitter.emit('resetAfterRace', {});
     this.enableBtnsAfterDriving();
-    this.enableCreateElements();
     this.disableResetBtn();
+    this.isRaceEnd();
   };
 
   private resetGame = async (): Promise<void> => {
@@ -403,6 +403,7 @@ export default class GaragePage extends BaseComponent<'section'> {
     this.winnerCounter = 0;
     this.enableCreateElements();
     this.generateBtn?.element.removeAttribute('disabled');
+    this.enableResetBtn();
     this.pagination.enableBothButtonsAfterRace();
   }
 

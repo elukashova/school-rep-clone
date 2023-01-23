@@ -106,6 +106,12 @@ export default class WinnersPage extends BaseComponent<'section'> {
       });
       this.orderNum += 1;
     }
+    if (this.winnersOnPage.length === 0 && this.currentPageStatus.page > 1) {
+      this.currentPageStatus.page -= 1;
+      this.changeItemsOrder();
+      this.fillWinnersPage();
+      this.pagination.updateCurrentPage(this.currentPageStatus.page);
+    }
   };
 
   private createRows(): void {

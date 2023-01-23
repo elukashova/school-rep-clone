@@ -60,10 +60,13 @@ export default class Pagination extends BaseComponent<'div'> {
 
   public updateTotalPages(num: number): void {
     this.totalPages = num;
-    this.updatePages();
     if (this.totalPages !== this.currentPage) {
       this.enableRightArrowBtn();
     }
+    if (this.totalPages === 0) {
+      this.totalPages = 1;
+    }
+    this.updatePages();
   }
 
   private updatePages(): void {

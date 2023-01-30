@@ -1,0 +1,3 @@
+- [Link](https://www.youtube.com/watch?v=u0hi_PipOPA) to YouTube video
+- [Link](https://elukashova-presentation.netlify.app/) to Reveal presentation
+- [Link](https://docs.google.com/document/d/1_nJ8LpfZzpuULkpPteBzgVOPxP2fOX3KRq83vNpv0cI/edit) to the transcript
